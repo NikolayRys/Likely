@@ -18,9 +18,6 @@
 	var protocol = location.protocol === 'https:' ? 'https:' : 'http:';
 
 
-	/**
-	 * Buttons
-	 */
 	var services = {
 		facebook: {
 			// https://developers.facebook.com/docs/reference/fql/link_stat/
@@ -48,21 +45,6 @@
 				return true;
 			}
 		},
-		/*
-		mailru: {
-			counterUrl: protocol + '//connect.mail.ru/share_count?url_list={url}&callback=1&func=?',
-			convertNumber: function(data) {
-				for (var url in data) {
-					if (data.hasOwnProperty(url)) {
-						return data[url].shares;
-					}
-				}
-			},
-			popupUrl: protocol + '//connect.mail.ru/share?share_url={url}&title={title}',
-			popupWidth: 550,
-			popupHeight: 360
-		},
-		*/
 		vk: {
 			svgi: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><path d="M8.932 7.008c.19-.15.283-.393.283-.73 0-.186-.032-.34-.094-.46s-.146-.213-.25-.28c-.106-.067-.226-.114-.363-.14-.136-.027-.277-.04-.424-.04h-1.36v1.874H8.21c.292 0 .533-.075.722-.224zm-.598 1.425h-1.61v2.198h1.58c.16 0 .314-.016.46-.05.148-.033.277-.09.39-.168.11-.078.2-.185.266-.32.067-.134.1-.306.1-.516 0-.41-.108-.704-.325-.88-.218-.175-.504-.263-.86-.263zM12 1H4C2 1 1 2 1 4v8c0 2 1 3 3 3h8c2 0 3-1 3-3V4c0-2-1-3-3-3zm-.967 9.727c-.146.295-.344.537-.592.724-.247.187-.53.326-.848.416-.317.09-.644.134-.98.134H5V4h3.508c.356 0 .682.023.975.09.293.068.544.18.754.332.21.153.372.357.487.61.115.255.173.57.173.943 0 .403-.085.74-.256 1.01-.17.268-.423.49-.76.66.462.144.806.393 1.033.747.227.355.34.784.34 1.285 0 .405-.073.755-.22 1.05z"/></svg>',
 			counterUrl: protocol + '//vk.com/share.php?act=count&url={url}&index={index}',
@@ -87,29 +69,6 @@
 			popupWidth: 550,
 			popupHeight: 330
 		},
-		/*
-		odnoklassniki: {
-			counterUrl: protocol + '//www.ok.ru/dk/?st.cmd=extLike&ref={url}&uid={index}',
-			counter: function(jsonUrl, deferred) {
-				var options = services.odnoklassniki;
-				if (!options._) {
-					options._ = [];
-					if (!window.ODKL) window.ODKL = {};
-					window.ODKL.updateCount = function(idx, number) {
-						options._[idx].resolve(number);
-					};
-				}
-
-				var index = options._.length;
-				options._.push(deferred);
-				$.getScript(makeUrl(jsonUrl, {index: index}))
-					.fail(deferred.reject);
-			},
-			popupUrl: 'http://www.ok.ru/dk/?st.cmd=addShare&st._surl={url}',
-			popupWidth: 550,
-			popupHeight: 360
-		},
-		*/
 		gplus: {
 			svgi: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><path d="M15 7h-2V5h-1v2h-2v1h2v2h1V8h2z"/><path d="M4.604 14.352c-1.227-.01-2.164-.28-2.783-.808C1.19 13.05.867 12.44.867 11.73c0-.34.104-.724.31-1.136.2-.42.567-.79 1.086-1.098.564-.325 1.168-.546 1.795-.656.458-.067.846-.11 1.177-.135-.052-.084-.1-.17-.146-.26-.124-.193-.19-.442-.19-.73 0-.175.026-.32.08-.447v-.005c-.092.006-.18.008-.267.008-.958-.01-1.702-.322-2.21-.922-.522-.547-.79-1.202-.79-1.94 0-.886.375-1.698 1.113-2.415.512-.426 1.047-.703 1.593-.832.52-.106 1.022-.16 1.49-.16H10l-1.65.967-.627.017c.133.144.257.306.38.498.12.19.23.42.328.686.084.272.125.587.125.937-.01.65-.158 1.18-.437 1.573-.132.185-.272.354-.42.51-.163.162-.333.313-.512.47-.08.086-.167.196-.247.318-.084.116-.122.235-.122.38 0 .13.036.235.106.312.092.116.172.206.25.286l.563.46c.367.303.695.64.97 1.006.28.394.425.905.437 1.522 0 .88-.388 1.668-1.154 2.342-.785.687-1.923 1.046-3.382 1.067h-.004zm.975-4.826c-.113 0-.3.013-.562.038-.334.047-.686.127-1.04.236-.074.027-.19.075-.343.14-.14.065-.288.16-.435.28-.134.12-.252.274-.35.458-.11.193-.164.42-.164.693 0 .54.24.975.73 1.33.478.36 1.15.55 2 .56.748-.01 1.324-.175 1.71-.488.366-.304.544-.684.544-1.16 0-.382-.126-.72-.375-1.005-.28-.288-.74-.656-1.36-1.09l-.356.01zm-.724-7.583c-.404.012-.732.172-1.002.49-.227.337-.335.713-.324 1.14 0 .586.173 1.204.515 1.84.16.287.37.532.624.73.24.19.518.286.825.286.394-.017.716-.156.98-.428.11-.17.192-.37.226-.567.024-.205.036-.392.036-.54 0-.64-.166-1.296-.494-1.948-.147-.3-.343-.55-.58-.734-.23-.166-.5-.258-.806-.27z"/></svg>',
 			// HTTPS not supported yet: http://clubs.ya.ru/share/1499
@@ -147,6 +106,42 @@
 			popupWidth: 630,
 			popupHeight: 270
 		}
+		/*
+		mailru: {
+			counterUrl: protocol + '//connect.mail.ru/share_count?url_list={url}&callback=1&func=?',
+			convertNumber: function(data) {
+				for (var url in data) {
+					if (data.hasOwnProperty(url)) {
+						return data[url].shares;
+					}
+				}
+			},
+			popupUrl: protocol + '//connect.mail.ru/share?share_url={url}&title={title}',
+			popupWidth: 550,
+			popupHeight: 360
+		},
+		odnoklassniki: {
+			counterUrl: protocol + '//www.ok.ru/dk/?st.cmd=extLike&ref={url}&uid={index}',
+			counter: function(jsonUrl, deferred) {
+				var options = services.odnoklassniki;
+				if (!options._) {
+					options._ = [];
+					if (!window.ODKL) window.ODKL = {};
+					window.ODKL.updateCount = function(idx, number) {
+						options._[idx].resolve(number);
+					};
+				}
+
+				var index = options._.length;
+				options._.push(deferred);
+				$.getScript(makeUrl(jsonUrl, {index: index}))
+					.fail(deferred.reject);
+			},
+			popupUrl: 'http://www.ok.ru/dk/?st.cmd=addShare&st._surl={url}',
+			popupWidth: 550,
+			popupHeight: 360
+		},
+		*/
 	};
 
 
@@ -421,7 +416,7 @@
 
 			// Icon
 //			button.prepend($('<span>', {'class': this.getElementClassNames('icon')}));
-			button.prepend($('<span>'+options.svgi+'</span>', {'class': this.getElementClassNames('icon')}));
+			button.prepend($('<span class="likely__icon">'+options.svgi+'</span>', {'class': this.getElementClassNames('icon')}));
 
 			widget.empty().append(button);
 			this.button = button;

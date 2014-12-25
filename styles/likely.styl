@@ -2,195 +2,212 @@
 // Birman skin
 // Design: Ilya Birman, http://ilyabirman.net/
 
-margin=6px;
-link-base() {
-	&,
-	&:link,
-	&:visited {
-		{block}
-	}
-}
-
-
-link-hovers() {
-	&:hover,
-	&:active,
-	&:focus {
-		{block}
-	}
-}
 
 .likely,
 .likely__widget {
-	-webkit-font-smoothing:antialiased;
-	-moz-osx-font-smoothing:grayscale;
-	display:inline-block;
-	margin:0;
-	padding:0;
-	vertical-align:middle !important;
-	text-indent:0 !important;
-	word-spacing:0 !important;
-	text-indent:0 !important;
-	list-style:none !important;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	display: inline-block;
+	margin: 0;
+	padding: 0;
+	vertical-align: middle !important;
+	text-indent: 0 !important;
+	word-spacing: 0 !important;
+	text-indent: 0 !important;
+	list-style: none !important;
 }
 
 // Hide buttons until they are loaded
 .likely {
-	opacity:0;
+	opacity: 0;
 }
 .likely_visible {
-	opacity:1;
-	transition:opacity .1s ease-in;
+	opacity: 1;
+	transition: opacity .1s ease-in;
 }
 .likely > * {
-	display:inline-block;
-	visibility:hidden;
+	display: inline-block;
+	visibility: hidden;
 }
 .likely_visible > * {
-	visibility:inherit;
+	visibility: inherit;
 }
 
 .likely {
-	svg {
-	  position: relative;
-	  top: 3px;
-	  margin-right: 4px;
-  }
 	&__widget {
-		display:inline-block;
-		position:relative;
-		white-space:nowrap;
-		// overflow:hidden;
-		&:before,
-		&:after {
-			display:none !important;  // Remove nice bullets
-		}
+		display: inline-block;
+		position: relative;
+		white-space: nowrap;
+		// overflow: hidden;
 	}
 
 	&__button,
 	&__counter {
-		text-decoration:none;
-		text-rendering:optimizeLegibility;
-	}
-
-	&__button,
-	&__counter {
-		display:inline-block;
-		margin:0;
-		outline:0;
+		text-decoration: none;
+		text-rendering: optimizeLegibility;
+		display: inline-block;
+		margin: 0;
+		outline: 0;
 	}
 
 	&__button {
-		position:relative;
-		cursor:pointer;
-		user-select:none;
-		
-		// Prevent layout breaking without labels
-		&:before {
-			content:"";
-			display:inline-block;
-		}
+		position: relative;
+		cursor: pointer;
+		user-select: none;
 	}
 
 	&__counter {
-		display:none;
-		position:relative;
-		font-weight:normal;
+		display: none;
+		position: relative;
+		font-weight: normal;
 	}
+
 	&_ready &__counter,
 	&__counter_single {
-		display:inline-block;
+		display: inline-block;
 	}
+
 	&_ready &__counter_empty {
-		display:none;
+		display: none;
 	}
 	
+}
+
+
+.likely {
+	
+	&__icon {
+	  position: relative;
+	  vertical-align: top;
+	  display: inline-block;
+	}
+
+	svg {
+		position: absolute;
+	  top: 2px;
+  }
+
+	&__widget {
+		
+    transition: background .33s ease-out, color .33s ease-out, fill .33s ease-out;
+
+		line-height: inherit;
+
+  	&:hover, &:active, &:focus {
+			transition: none;
+ 			cursor: pointer;
+ 		}
+ 		
+	}
+
+	&__button,
+	&__counter {
+		padding: 1px 4px 1px 4px;
+		vertical-align: middle;
+		font-weight: normal;
+		font-family: "Helvetica Neue", Arial, sans-serif;
+		font-size: inherit;
+		line-height: inherit;
+		cursor: inherit;
+	}
+
+	&__button {
+		border-right: 0;
+	}
+
+	&__counter {
+		min-width: 12px;
+		text-align: center;
+	}
+
+}
+
+/* Style options */
+
+.likely {
+	.likely__widget {
+		color: #000;
+		background: rgb(240,240,240);
+  	&:hover, &:active, &:focus {
+			color: #fff;
+ 		}
+  }	
+  .likely__counter {
+		border-left: 1px solid rgb(224,224,224);
+	}
+}
+.likely-light {
+	.likely__widget {
+		color: #fff;
+		background: rgba(240,240,240,.12);
+  	&:hover, &:active, &:focus {
+			color: #fff;
+ 		}
+  }
+  .likely__counter {
+		border-left: 1px solid rgba(224,224,224,.12);
+  }
+}
+
+
+/* Size options */
+
+.likely {
+	font-size: 14px;
+	line-height: 20px;
+	.likely__widget {
+		border-radius: 3px;
+		margin-right: 8px;
+	}	
+	.likely__icon {
+	  width: 16px; height: 0;
+	  margin-right: 4px;
+	}
+	svg {
+	  width: 16px; height: 16px;
+  }
+}
+
+.likely-big {
+	font-size: 18px;
+	line-height: 28px;
+	.likely__widget {
+		border-radius: 4px;
+		margin-right: 12px;
+	}	
+	.likely__icon {
+		width: 24px; height: 0;
+	  margin-right: 4px;
+	}
+	svg {
+		width: 24px; height: 24px;
+	}
+}
+
+.likely-small {
+	font-size: 12px;
+	line-height: 16px;
+	.likely__widget {
+		border-radius: 2px;
+		margin-right: 6px;
+	}	
+	.likely__icon {
+		width: 12px; height: 0;
+	  margin-right: 2px;
+	}
+	svg {
+		width: 12px; height: 12px;
+	}
 }
 
 
 hover-button(button, color, text=null) {
 	.likely__widget_{button} {
     fill: color;
-		+link-hovers() {
+  	&:hover, &:active, &:focus {
 			background: alpha(color,0.5);
 			fill: rgba(255,255,255,1);
 			fill: text if text;
-		}
-	}
-}
-
-.likely {
-	font-size:13px;
-	line-height:20px;
-	min-height:36px;
-	margin:(-(margin));
-	
-	&,
-	&_single-w {
-		line-height:19px;
-	}
-
-	&__widget {
-		margin:margin;
-		color:#fff;
-		background: rgba(232,232,232,.1);
-    transition: background .33s ease-out, color .33s ease-out, fill .33s ease-out;
-		border-radius:3px;
-		line-height:19px;
-
-		+link-hovers() {
-			transition: none;
-			color:#fff;
- 			cursor:pointer;
- 		}
-	}
-
-	&__button,
-	&__counter {
-		vertical-align:middle;
-		font-family:"Helvetica Neue", Arial, sans-serif;
-		font-size:inherit;
-		line-height:inherit;
-		cursor:inherit;
-	}
-
-	&__button {
-		padding:1px 4px 1px 4px;
-		font-weight:normal;
-		border-right:0;
-	}
-
-	&__counter {
-		min-width:12px;
-		padding:1px 4px 1px;
-		font-weight:normal;
-		text-align:center;
-		&:before {
-			content:"";
-			position:absolute;
-			top:0;
-			bottom:0;
-			left:-1px;
-			// Color: text color with 40% opacity
-			border-left:1px solid rgba(255,255,255,.2);
-			opacity:.4;
-		}
-	}
-
-	&__widget:hover > &__counter,
-	&__widget:focus > &__counter,
-	&__widget:active > &__counter,
-	&__widget_active > &__counter {
-		position:relative;
-		&:before {
-			content:"";
-			position:absolute;
-			top:0;
-			bottom:0;
-			left:-1px;
-			// Color: text color with 40% opacity
-			border-left:1px solid rgba(255,255,255,.2);
-			opacity:.4;
 		}
 	}
 }
