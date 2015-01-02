@@ -17,3 +17,4 @@ xcuserdata
 .svn
 CVS
 node_modules/*
+bg/*

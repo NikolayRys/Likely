@@ -6,7 +6,8 @@
 var gulp = require ('gulp')
 var stylus = require ('gulp-stylus') // https://www.npmjs.com/package/gulp-stylus/
 var uglify = require ('gulp-uglify')
-var svgo = require ('gulp-svgo');
+var svgo = require ('gulp-svgo')
+var csso = require ('gulp-csso')
 
 /*
 var replace = require ('gulp-replace')  // https://www.npmjs.com/package/gulp-replace/
@@ -54,6 +55,7 @@ gulp.task ('uglify', function () {
 gulp.task ('stylus', function () {
   gulp.src (['styles/likely.styl'])
     .pipe (stylus ())
+    .pipe (csso ())
     .pipe (gulp.dest ('.'))
     .pipe (gulp.dest ('../release/'))
 })
