@@ -125,13 +125,7 @@
   .likely__widget {
     color: #000;
     background: rgba(236,236,236,1);
-    &:hover, &:active, &:focus {
-      color: #fff;
-      fill: #fff;
-      .likely__counter {
-        background-image: linear-gradient(to right, rgba(224,224,224,.4) 0, rgba(224,224,224,0) .5px, rgba(224,224,224,0) 100%)
-      }
-    }
+    background: rgba(231,231,231,.8);
   } 
   .likely__counter {
     background-size: 1px 1px;
@@ -144,10 +138,7 @@
     color: #fff;
     fill: #fff;
     background: rgba(236,236,236,.16);
-    text-shadow: rgba(0,0,0,.18) 0 0 .33em;
-    &:hover, &:active, &:focus {
-      color: #fff;
-    }
+    text-shadow: rgba(0,0,0,.33) 0 0 .33em;
   }
   .likely__counter {
     background-image: linear-gradient(to right, rgba(255,255,255,.4) 0, rgba(255,255,255,0) .5px, rgba(255,255,255,0) 100%)
@@ -158,7 +149,7 @@ colorize(button, color) {
   .likely__widget_{button} {
     fill: color;
     &:hover, &:active, &:focus {
-      background: color;
+      background: alpha(mix(#fff,color,75%),.8);
     }
   }
   .likely-light {
