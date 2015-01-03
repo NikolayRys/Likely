@@ -75,6 +75,7 @@
   
   &__icon {
     position: relative;
+    text-align: left;
     vertical-align: top;
     display: inline-block;
   }
@@ -138,7 +139,7 @@
     color: #fff;
     fill: #fff;
     background: rgba(236,236,236,.16);
-    text-shadow: rgba(0,0,0,.33) 0 0 .33em;
+    text-shadow: rgba(0,0,0,.2) 0 0 .33em;
   }
   .likely__counter {
     background-image: linear-gradient(to right, rgba(255,255,255,.4) 0, rgba(255,255,255,0) .5px, rgba(255,255,255,0) 100%)
@@ -179,14 +180,20 @@ colorize('pinterest', rgb(204,0,43)) // #cc002b
   line-height: 20px;
   .likely__widget {
     border-radius: 3px;
+    height: 22px;
   } 
   .likely__widget+.likely__widget {
     margin-left: 14px;
   }
+  .likely__button {
+    padding: 1px 4px 1px 3px;
+  }
+  .likely__counter {
+    padding: 1px 4px;
+  }
   .likely__icon {
     width: 16px; height: 0;
-    margin-right: 3px;
-    text-align: left;
+    margin-right: 4px;
   }
   svg {
     width: 16px; height: 16px;
@@ -198,13 +205,20 @@ colorize('pinterest', rgb(204,0,43)) // #cc002b
   line-height: 28px;
   .likely__widget {
     border-radius: 4px;
+    height: 32px;
   } 
   .likely__widget+.likely__widget {
     margin-left: 18px;
   }
+  .likely__button {
+    padding: 2px 6px 2px 4px;
+  }
+  .likely__counter {
+    padding: 2px 6px;
+  }
   .likely__icon {
     width: 24px; height: 0;
-    margin-right: 4px;
+    margin-right: 6px;
   }
   svg {
     width: 24px; height: 24px;
@@ -213,18 +227,26 @@ colorize('pinterest', rgb(204,0,43)) // #cc002b
 
 .likely-small {
   font-size: 12px;
-  line-height: 16px;
+  line-height: 14px;
   .likely__widget {
     border-radius: 2px;
+    height: 16px;
   } 
   .likely__widget+.likely__widget {
     margin-left: 12px;
   }
+  .likely__button {
+    padding: 2px 3px 2px 2px;
+  }
+  .likely__counter {
+    padding: 2px 3px;
+  }
   .likely__icon {
     width: 12px; height: 0;
-    margin-right: 2px;
+    margin-right: 3px;
   }
   svg {
+    top: 0;
     width: 12px; height: 12px;
   }
 }

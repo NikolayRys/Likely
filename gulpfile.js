@@ -8,6 +8,7 @@ var stylus = require ('gulp-stylus') // https://www.npmjs.com/package/gulp-stylu
 var uglify = require ('gulp-uglify')
 var svgo = require ('gulp-svgo')
 var csso = require ('gulp-csso')
+var zip = require ('gulp-zip')
 
 /*
 var replace = require ('gulp-replace')  // https://www.npmjs.com/package/gulp-replace/
@@ -60,9 +61,15 @@ gulp.task ('stylus', function () {
     .pipe (gulp.dest ('../release/'))
 })
 
+gulp.task ('zip', function () {
+  gulp.src (['../release/*'])
+    .pipe (zip ('ilya-birman-likely-1.0.zip'))
+    .pipe (gulp.dest ('../release/'))
+})
 
-gulp.task ('default', ['stylus','uglify','svgo'], function () {
-  gulp.watch ('likely.js', ['uglify'])
-  gulp.watch ('styles/*.styl', ['stylus'])
+
+gulp.task ('default', ['stylus', 'uglify', 'svgo', 'zip'], function () {
+  gulp.watch ('likely.js', ['uglify', 'zip'])
+  gulp.watch ('styles/*.styl', ['stylus', 'zip'])
   gulp.watch ('icons_svg/*', ['svgo'])
 })
