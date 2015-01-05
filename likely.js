@@ -393,10 +393,10 @@
 			var widget = this.widget;
 
 			// Old initialization HTML
-			var a = widget.find('a');
-			if (a.length) {
-				this.cloneDataAttrs(a, widget);
-			}
+			// var a = widget.find('a');
+			// if (a.length) {
+			// 	this.cloneDataAttrs(a, widget);
+			// }
 
 			// Button
 			var button = $('<span>', {
@@ -425,9 +425,11 @@
 			console.log(options)
 
 			// Icon
-			button.prepend($('<span class="likely__icon">'+svgiB+options.svgi+svgiE+'</span>', {'class': this.getElementClassNames('icon')}));
+			var icon = $('<span class="likely__icon">'+svgiB+options.svgi+svgiE+'</span>', {'class': this.getElementClassNames('icon')})
+			// button.prepend(icon);
+			// if (widget.text () == '') button = icon
 
-			widget.empty().append(button);
+			widget.empty().append(icon).append(button);
 			this.button = button;
 		},
 
