@@ -31,7 +31,13 @@ gulp.task ('stylus', function () {
 })
 
 gulp.task ('zip', function () {
-  gulp.src (['../release/*'])
+  gulp.src (
+    [
+      '../release/license.txt',
+      '../release/likely.css',
+      '../release/likely.js',
+    ]
+  )
     .pipe (zip ('ilya-birman-likely-0.9.zip'))
     .pipe (gulp.dest ('../release/'))
 })

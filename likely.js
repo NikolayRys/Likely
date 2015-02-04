@@ -422,7 +422,7 @@
 			widget.removeClass(this.service);
 			widget.addClass(this.getElementClassNames('widget'));
 
-			console.log(options)
+			// console.log(options)
 
 			// Icon
 			var icon = $('<span class="likely__icon">'+svgiB+options.svgi+svgiE+'</span>', {'class': this.getElementClassNames('icon')})
