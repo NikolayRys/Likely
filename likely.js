@@ -1,4 +1,4 @@
-//! Likely v0.9 by Ilya Birman - http://ilyabirman.net/projects/likely/
+//! Likely v0.91 by Ilya Birman - http://ilyabirman.net/projects/likely/
 //! Based on Social Likes v3.0.10 by Artem Sapegin - http://sapegin.github.com/social-likes - Licensed MIT
 /*global define:false, socialLikesButtons:false */
 
@@ -115,22 +115,9 @@
 			popupUrl: protocol + '//pinterest.com/pin/create/button/?url={url}&description={title}',
 			popupWidth: 630,
 			popupHeight: 270
-		}
-		/*
-		mailru: {
-			counterUrl: protocol + '//connect.mail.ru/share_count?url_list={url}&callback=1&func=?',
-			convertNumber: function(data) {
-				for (var url in data) {
-					if (data.hasOwnProperty(url)) {
-						return data[url].shares;
-					}
-				}
-			},
-			popupUrl: protocol + '//connect.mail.ru/share?share_url={url}&title={title}',
-			popupWidth: 550,
-			popupHeight: 360
 		},
 		odnoklassniki: {
+			svgi: '8 6.107c.888 0 1.607-.72 1.607-1.607 0-.888-.72-1.607-1.607-1.607s-1.607.72-1.607 1.607c0 .888.72 1.607 1.607 1.607zM13 0H3C1 0 0 1 0 3v10c0 2 1 3 3 3h10c2 0 3-1 3-3V3c0-2-1-3-3-3zM8 .75c2.07 0 3.75 1.68 3.75 3.75 0 2.07-1.68 3.75-3.75 3.75S4.25 6.57 4.25 4.5C4.25 2.43 5.93.75 8 .75zm3.826 12.634c.42.42.42 1.097 0 1.515-.21.208-.483.313-.758.313-.274 0-.548-.105-.758-.314L8 12.59 5.69 14.9c-.42.418-1.098.418-1.516 0s-.42-1.098 0-1.516L6.357 11.2c-1.303-.386-2.288-1.073-2.337-1.11-.473-.354-.57-1.025-.214-1.5.354-.47 1.022-.567 1.496-.216.03.022 1.4.946 2.698.946 1.31 0 2.682-.934 2.693-.943.474-.355 1.146-.258 1.5.213.355.474.26 1.146-.214 1.5-.05.036-1.035.723-2.338 1.11l2.184 2.184',
 			counterUrl: protocol + '//www.ok.ru/dk/?st.cmd=extLike&ref={url}&uid={index}',
 			counter: function(jsonUrl, deferred) {
 				var options = services.odnoklassniki;
@@ -150,7 +137,21 @@
 			popupUrl: 'http://www.ok.ru/dk/?st.cmd=addShare&st._surl={url}',
 			popupWidth: 550,
 			popupHeight: 360
+		}		/*
+		mailru: {
+			counterUrl: protocol + '//connect.mail.ru/share_count?url_list={url}&callback=1&func=?',
+			convertNumber: function(data) {
+				for (var url in data) {
+					if (data.hasOwnProperty(url)) {
+						return data[url].shares;
+					}
+				}
+			},
+			popupUrl: protocol + '//connect.mail.ru/share?share_url={url}&title={title}',
+			popupWidth: 550,
+			popupHeight: 360
 		},
+
 		*/
 	};
 

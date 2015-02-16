@@ -38,7 +38,7 @@ gulp.task ('zip', function () {
       '../release/likely.js',
     ]
   )
-    .pipe (zip ('ilya-birman-likely-0.9.zip'))
+    .pipe (zip ('ilya-birman-likely-0.91.zip'))
     .pipe (gulp.dest ('../release/'))
 })
 
