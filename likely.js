@@ -1,4 +1,4 @@
-//! Likely v0.92 by Ilya Birman - http://ilyabirman.net/projects/likely/
+//! Likely v0.93 by Ilya Birman - http://ilyabirman.net/projects/likely/
 //! Based on Social Likes v3.0.10 by Artem Sapegin - http://sapegin.github.com/social-likes - Licensed MIT
 /*global define:false, socialLikesButtons:false */
 
