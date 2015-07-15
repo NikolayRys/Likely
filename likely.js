@@ -1,8 +1,8 @@
 //! Likely v0.93 by Ilya Birman - http://ilyabirman.net/projects/likely/
-//! Based on Social Likes v3.0.11 by Artem Sapegin - http://sapegin.github.com/social-likes - Licensed MIT
+//! Based on Social Likes v3.0.14 by Artem Sapegin - http://sapegin.github.com/social-likes - Licensed MIT
 /*global define:false, socialLikesButtons:false */
 
-// v3.0.11
+// v3.0.14
 
 (function(factory) {  // Try to register as an anonymous AMD module
 	if (typeof define === 'function' && define.amd) {
@@ -49,7 +49,7 @@
 			popupHeight: 450,
 			click: function() {
 				// Add colon to improve readability
-				if (!/[\.:\-–—]\s*$/.test(this.options.title)) this.options.title += ':';
+				if (!/[\.\?:\-–—]\s*$/.test(this.options.title)) this.options.title += ':';
 				return true;
 			}
 		},
@@ -81,12 +81,30 @@
 		gplus: {
 			// svgi: '15 7h-2V5h-1v2h-2v1h2v2h1V8h2z"/><path d="M4.604 14.352c-1.227-.01-2.164-.28-2.783-.808C1.19 13.05.867 12.44.867 11.73c0-.34.104-.724.31-1.136.2-.42.567-.79 1.086-1.098.564-.325 1.168-.546 1.795-.656.458-.067.846-.11 1.177-.135-.052-.084-.1-.17-.146-.26-.124-.193-.19-.442-.19-.73 0-.175.026-.32.08-.447v-.005c-.092.006-.18.008-.267.008-.958-.01-1.702-.322-2.21-.922-.522-.547-.79-1.202-.79-1.94 0-.886.375-1.698 1.113-2.415.512-.426 1.047-.703 1.593-.832.52-.106 1.022-.16 1.49-.16H10l-1.65.967-.627.017c.133.144.257.306.38.498.12.19.23.42.328.686.084.272.125.587.125.937-.01.65-.158 1.18-.437 1.573-.132.185-.272.354-.42.51-.163.162-.333.313-.512.47-.08.086-.167.196-.247.318-.084.116-.122.235-.122.38 0 .13.036.235.106.312.092.116.172.206.25.286l.563.46c.367.303.695.64.97 1.006.28.394.425.905.437 1.522 0 .88-.388 1.668-1.154 2.342-.785.687-1.923 1.046-3.382 1.067h-.004zm.975-4.826c-.113 0-.3.013-.562.038-.334.047-.686.127-1.04.236-.074.027-.19.075-.343.14-.14.065-.288.16-.435.28-.134.12-.252.274-.35.458-.11.193-.164.42-.164.693 0 .54.24.975.73 1.33.478.36 1.15.55 2 .56.748-.01 1.324-.175 1.71-.488.366-.304.544-.684.544-1.16 0-.382-.126-.72-.375-1.005-.28-.288-.74-.656-1.36-1.09l-.356.01zm-.724-7.583c-.404.012-.732.172-1.002.49-.227.337-.335.713-.324 1.14 0 .586.173 1.204.515 1.84.16.287.37.532.624.73.24.19.518.286.825.286.394-.017.716-.156.98-.428.11-.17.192-.37.226-.567.024-.205.036-.392.036-.54 0-.64-.166-1.296-.494-1.948-.147-.3-.343-.55-.58-.734-.23-.166-.5-.258-.806-.27',
 			svgi: '16 7h-2V5h-1v2h-2v1h2v2h1V8h2z"/><path d="M5.334 16c-1.47-.012-2.593-.337-3.335-.968C1.24 14.44.853 13.71.853 12.86c0-.41.125-.87.37-1.363.242-.502.68-.947 1.302-1.315.676-.39 1.4-.654 2.152-.786.55-.08 1.014-.133 1.41-.16-.062-.102-.12-.206-.174-.31-.148-.236-.227-.534-.227-.878 0-.21.03-.385.093-.537l.002-.005c-.11.007-.217.01-.32.01-1.15-.015-2.04-.387-2.65-1.107-.625-.655-.945-1.44-.945-2.326 0-1.06.45-2.034 1.334-2.893C3.814.68 4.455.347 5.11.192 5.733.063 6.334 0 6.895 0H11.8L9.82 1.16l-.75.02c.16.172.31.366.456.597.145.228.278.504.394.82.1.327.148.704.148 1.124-.013.78-.19 1.414-.523 1.886-.16.222-.326.424-.503.612-.196.193-.4.374-.614.563-.096.104-.2.235-.295.38-.1.14-.145.283-.145.456 0 .156.043.282.127.374.11.14.206.247.3.343l.674.552c.44.362.83.765 1.163 1.204.334.47.508 1.084.522 1.824 0 1.056-.465 2-1.383 2.806-.94.824-2.305 1.254-4.054 1.28h-.004zm1.168-5.782c-.135 0-.36.015-.672.046-.4.056-.822.152-1.246.282-.09.033-.23.09-.41.17-.17.076-.346.188-.522.334-.16.143-.302.33-.42.55-.132.23-.196.5-.196.83 0 .645.286 1.167.875 1.592.574.433 1.38.66 2.397.673.898-.014 1.588-.21 2.05-.586.44-.365.652-.82.652-1.39 0-.46-.152-.864-.45-1.205-.336-.345-.887-.786-1.63-1.307l-.428.01zM5.636 1.13c-.485.015-.878.206-1.2.587-.273.403-.403.854-.39 1.366 0 .703.21 1.444.618 2.205.193.345.444.64.747.875.29.227.623.343.992.343.472-.02.858-.187 1.175-.512.132-.204.23-.445.27-.68.027-.246.042-.47.042-.648 0-.767-.2-1.552-.593-2.334-.177-.36-.41-.656-.695-.88-.275-.197-.6-.307-.966-.32',
-			counterUrl: 'https://share.yandex.net/counter/gpp/?url={url}&callback=?',
-			convertNumber: function(number) {
-				if (typeof number === 'string') {
-					number = number.replace(/\D/g, '');
-				}
-				return parseInt(number, 10);
+			// HTTPS not supported yet: http://clubs.ya.ru/share/1499
+			counterUrl: isHttps ? undefined : 'http://share.yandex.ru/gpp.xml?url={url}',
+			counter: function(jsonUrl, deferred) {
+				var options = services.plusone;
+				if (options._) {
+					// Reject all counters except the first because Yandex Share counter doesn’t return URL
+					deferred.reject();
+					return;
+ 				}
+
+				if (!window.services) window.services = {};
+				window.services.gplus = {
+					cb: function(number) {
+						if (typeof number === 'string') {
+							number = number.replace(/\D/g, '');
+						}
+						options._.resolve(parseInt(number, 10));
+					}
+				};
+
+				options._ = deferred;
+				$.getScript(makeUrl(jsonUrl))
+					.fail(deferred.reject);
+
  			},
  			popupUrl: 'https://plus.google.com/share?url={url}',
 			popupWidth: 700,
@@ -105,22 +123,21 @@
 		},
 		odnoklassniki: {
 			svgi: '8 6.107c.888 0 1.607-.72 1.607-1.607 0-.888-.72-1.607-1.607-1.607s-1.607.72-1.607 1.607c0 .888.72 1.607 1.607 1.607zM13 0H3C1 0 0 1 0 3v10c0 2 1 3 3 3h10c2 0 3-1 3-3V3c0-2-1-3-3-3zM8 .75c2.07 0 3.75 1.68 3.75 3.75 0 2.07-1.68 3.75-3.75 3.75S4.25 6.57 4.25 4.5C4.25 2.43 5.93.75 8 .75zm3.826 12.634c.42.42.42 1.097 0 1.515-.21.208-.483.313-.758.313-.274 0-.548-.105-.758-.314L8 12.59 5.69 14.9c-.42.418-1.098.418-1.516 0s-.42-1.098 0-1.516L6.357 11.2c-1.303-.386-2.288-1.073-2.337-1.11-.473-.354-.57-1.025-.214-1.5.354-.47 1.022-.567 1.496-.216.03.022 1.4.946 2.698.946 1.31 0 2.682-.934 2.693-.943.474-.355 1.146-.258 1.5.213.355.474.26 1.146-.214 1.5-.05.036-1.035.723-2.338 1.11l2.184 2.184',
-			counterUrl: 'https://share.yandex.net/counter/odnoklassniki/?url={url}',
+			// HTTPS not supported
+			counterUrl: isHttps ? undefined : 'http://connect.ok.ru/dk?st.cmd=extLike&ref={url}&uid={index}',
 			counter: function(jsonUrl, deferred) {
 				var options = services.odnoklassniki;
-				if (options._) {
-					// Reject all counters except the first because this counter doesn’t neither return URL nor accept callback
-					deferred.reject();
-					return;
-				}
+				if (!options._) {
+					options._ = [];
+					if (!window.ODKL) window.ODKL = {};
+					window.ODKL.updateCount = function(idx, number) {
+						options._[idx].resolve(number);
+					};
+ 				}
 
-				if (!window.ODKL) window.ODKL = {};
-				window.ODKL.updateCount = function(idx, number) {
-					deferred.resolve(number);
-				};
-
-				options._ = deferred;
-				$.getScript(makeUrl(jsonUrl))
+				var index = options._.length;
+				options._.push(deferred);
+				$.getScript(makeUrl(jsonUrl, {index: index}))
  					.fail(deferred.reject);
 
 			},
@@ -217,8 +234,8 @@
 		title: document.title,
 		counters: true,
 		zeroes: false,
-		wait: 1000,
-		popupCheckInterval: 500,
+		wait: 1000, // Show buttons only after counters are ready or after this amount of time
+		timeout: 4000,  // Show counters after this amount of time even if they aren’t ready		popupCheckInterval: 500,
 		//singleTitle: 'Share'
 	};
 
@@ -254,6 +271,7 @@
 
 			if (this.options.counters) {
 				this.timer = setTimeout($.proxy(this.appear, this), this.options.wait);
+				this.timeout = setTimeout($.proxy(this.ready, this, true), this.options.timeout);
 			}
 			else {
 				this.appear();
@@ -293,12 +311,20 @@
 			this.countersLeft--;
 			if (this.countersLeft === 0) {
 				this.appear();
-				this.container.addClass(prefix + '_ready');
-				this.container.trigger('ready.' + prefix, this.number);
+				this.ready();
 			}
 		},
 		appear: function() {
 			this.container.addClass(prefix + '_visible');
+		},
+		ready: function(silent) {
+			if (this.timeout) {
+				clearTimeout(this.timeout);
+			}
+			this.container.addClass(prefix + '_ready');
+			if (!silent) {
+				this.container.trigger('ready.' + prefix, this.number);
+			}
 		},
 		getCounterElem: function() {
 			var counterElem = this.widget.find('.' + classPrefix + 'counter_single');
