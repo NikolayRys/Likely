@@ -1,4 +1,4 @@
-//! Likely v0.93 by Ilya Birman - http://ilyabirman.net/projects/likely/
+//! Likely v0.94 by Ilya Birman - http://ilyabirman.net/projects/likely/
 //! Based on Social Likes v3.0.14 by Artem Sapegin - http://sapegin.github.com/social-likes - Licensed MIT
 /*global define:false, socialLikesButtons:false */
 
@@ -84,7 +84,7 @@
 			// HTTPS not supported yet: http://clubs.ya.ru/share/1499
 			counterUrl: isHttps ? undefined : 'http://share.yandex.ru/gpp.xml?url={url}',
 			counter: function(jsonUrl, deferred) {
-				var options = services.plusone;
+				var options = services.gplus;
 				if (options._) {
 					// Reject all counters except the first because Yandex Share counter doesn’t return URL
 					deferred.reject();
