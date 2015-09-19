@@ -1,51 +1,46 @@
-    // "autoprefixer-core": "^4.0.0",
-    // "gulp-postcss": "^3.0.0",
-    // "gulp-sass": "^1.1.0",
-    // "postcss-assets": "^0.9.0"
+// "autoprefixer-core": "^4.0.0",
+// "gulp-postcss": "^3.0.0",
+// "gulp-sass": "^1.1.0",
+// "postcss-assets": "^0.9.0"
 
 var gulp = require ('gulp')
-var stylus = require ('gulp-stylus') // https://www.npmjs.com/package/gulp-stylus/
+var browserify = require ('gulp-browserify')
 var uglify = require ('gulp-uglify')
-var svgo = require ('gulp-svgo')
+var insert = require ('gulp-insert')
+var stylus = require ('gulp-stylus') // https://www.npmjs.com/package/gulp-stylus/
 var csso = require ('gulp-csso')
 var zip = require ('gulp-zip')
 
-gulp.task ('svgo', function () {
-  gulp.src (['icons_svg/*'])
-    .pipe (svgo ())
-    .pipe (gulp.dest ('icons_svgo/'))
-})
+var comment = require('fs').readFileSync('./source/header.js')
 
-gulp.task ('uglify', function () {
-  gulp.src (['likely.js'])
-    .pipe (uglify ({preserveComments: 'some'}))
+gulp.task ('js', function () {
+  gulp.src ('./source/likely.js')
+    .pipe (browserify ())
+    .pipe (uglify ())
+    .pipe (insert.prepend (comment))
     .pipe (gulp.dest ('../release/'))
 })
 
-gulp.task ('stylus', function () {
-  gulp.src (['styles/likely.styl'])
+gulp.task('css', function () {
+  gulp.src('./styles/likely.styl')
     .pipe (stylus ())
     .pipe (csso ())
-    .pipe (gulp.dest ('.'))
+    .pipe (insert.prepend (comment))
     .pipe (gulp.dest ('../release/'))
 })
 
-gulp.task ('zip', function () {
-  gulp.src (
-    [
-      '../release/license.txt',
-      '../release/likely.css',
-      '../release/likely.js',
-    ]
-  )
-    .pipe (zip ('ilya-birman-likely-0.94.zip'))
+gulp.task ('zip', ['js', 'css'], function () {
+  gulp.src([
+    '../release/license.txt',
+    '../release/likely.css',
+    '../release/likely.js',
+  ])
+    .pipe (zip ('ilya-birman-likely-2.0.zip'))
     .pipe (gulp.dest ('../release/'))
 })
 
-
-gulp.task ('default', ['stylus', 'uglify', 'svgo', 'zip'], function () {
-  gulp.watch ('likely.js', ['uglify', 'zip'])
-  gulp.watch ('styles/*.styl', ['stylus', 'zip'])
+gulp.task('default', ['js', 'css', 'zip'], function () {
+  gulp.watch ('source/*.js', ['js', 'zip'])
+  gulp.watch ('styles/*.styl', ['css', 'zip'])
   gulp.watch ('../release/license.txt', ['zip'])
-  gulp.watch ('icons_svg/*', ['svgo'])
 })
