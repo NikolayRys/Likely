@@ -25,12 +25,12 @@ gulp.task('css', function () {
   gulp.src('./styles/likely.styl')
     .pipe (stylus ())
     .pipe (csso ())
-    .pipe (insert.prepend (comment))
+    // .pipe (insert.prepend (comment))
     .pipe (gulp.dest ('../release/'))
 })
 
 gulp.task ('zip', ['js', 'css'], function () {
-  gulp.src([
+  gulp.src ([
     '../release/license.txt',
     '../release/likely.css',
     '../release/likely.js',
