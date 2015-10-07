@@ -39,6 +39,7 @@ likely.defaults = {
 };
 
 window.likely = likely;
+
 window.addEventListener('load', function () {
     var widgets = dom.findAll('.' + config.name);
     
