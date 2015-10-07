@@ -47,7 +47,7 @@ Likely.prototype = {
      * @param {Node} node
      */
     addButton: function (node) {
-        var button = new Button(node, this.options);
+        var button = new Button(node, this, this.options);
         
         this.buttons.push(button);
         
@@ -89,19 +89,20 @@ Likely.prototype = {
     /**
      * Update counter
      * 
-     * @param {jQuery.Event} t
-     * @param {String} e
-     * @param {Number} i
+     * @param {Event} e
+     * @param {String} service
+     * @param {Number} counter
      */
-    updateCounter: function (t, e, i) {
-        if (i) {
-            this.number += i; 
-            this.countersLeft--;
-            
-            if (this.countersLeft === 0) {
-                this.appear();
-                this.ready();
-            }
+    updateCounter: function (e, service, counter) {
+        if (counter) {
+            this.number += counter; 
+        }
+        
+        this.countersLeft--;
+        
+        if (this.countersLeft === 0) {
+            this.appear();
+            this.ready();
         }
     },
     

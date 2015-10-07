@@ -14,11 +14,13 @@ var html = {
 /**
  * Separate social link widget
  * 
- * @param {jQuery} widget
+ * @param {Node} widget
+ * @param {Likely} likely
  * @param {Object} options
  */
-function LikelyButton (widget, options) {
+function LikelyButton (widget, likely, options) {
     this.widget  = widget;
+    this.likely  = likely;
     this.options = utils.merge(options); 
     
     this.init();
@@ -211,6 +213,8 @@ LikelyButton.prototype = {
         this.widget.appendChild(
             dom.createNode(utils.template(html.span, options))
         );
+        
+        this.likely.updateCounter(null, this.service, counter);
     },
     
     /**

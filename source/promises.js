@@ -33,5 +33,5 @@ module.exports = function (service, url, options) {
     
     services[service].counter(href, counter, url);
     
-    return factories[url] = counter;
+    return counters[url] = counter;
 };
