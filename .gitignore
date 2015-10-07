@@ -17,4 +17,5 @@ xcuserdata
 .svn
 CVS
 node_modules/*
+npm-debug.log
 bg/*

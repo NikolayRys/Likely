@@ -18,10 +18,10 @@ var promises = {
             this.promises[service] = {};
         }
         
-        var promise = this.promises[service];
+        var promises = this.promises[service];
         
-        if (!options.forceUpdate && promise[url]) {
-            return promise[url];
+        if (!options.forceUpdate && promises[url]) {
+            return promises[url];
         }
         
         var options = utils.merge(services[service], options),
@@ -40,7 +40,7 @@ var promises = {
             promise.reject();
         }
         
-        return promise[url] = promise;
+        return promises[url] = promise;
     },
     
     /**
@@ -58,7 +58,8 @@ var promises = {
                 }
                 
                 promise.resolve(count);
-            } catch (e) {
+            } 
+            catch (e) {
                 promise.reject();
             }
         });

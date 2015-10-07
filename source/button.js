@@ -4,10 +4,12 @@ var promises = require('./promises'),
     utils    = require('./utils'),
     dom      = require('./dom');
 
-var winOptions = 'left={left},top={top},width={width},height={height},'
-               + 'personalbar=0,toolbar=0,scrollbars=1,resizable=1'
-    spanHTML   = '<span class="{className}">{content}</span>',
-    linkHTML   = '<a href="{href}"></a>';
+var html = {
+    options: 'left={left},top={top},width={width},height={height},'
+           + 'personalbar=0,toolbar=0,scrollbars=1,resizable=1',
+    span:    '<span class="{className}">{content}</span>',
+    link:    '<a href="{href}"></a>'
+};
 
 /**
  * Separate social link widget
@@ -75,7 +77,7 @@ LikelyButton.prototype = {
     },
     
     /**
-     * Merge params from jQuery.data into options hash map
+     * Merge params from node.dataset into options hash map
      */
     detectParams: function () {
         var data = this.widget.dataset;
@@ -115,12 +117,12 @@ LikelyButton.prototype = {
         widget.classList.remove(this.service)
         widget.className += (" " + this.getElementClassNames("widget"));
         
-        var button = utils.template(spanHTML, {
+        var button = utils.template(html.span, {
             className: this.getElementClassNames("button"),
             content:   text
         });
         
-        var icon = utils.template(spanHTML, {
+        var icon = utils.template(html.span, {
             className: this.getElementClassNames("icon"),
             content:   dom.wrapSVG(options.svgi)
         });
@@ -130,11 +132,11 @@ LikelyButton.prototype = {
     
     createLink: function (widget, options) {
         var url = utils.makeUrl(options.clickUrl, {
-            url: options.url,
-            title: options.title
+            title: options.title,
+            url:   options.url
         });
         
-        var link = dom.createNode(utils.template(linkHTML, {
+        var link = dom.createNode(utils.template(span.link, {
             href: url
         }));
         
@@ -158,11 +160,10 @@ LikelyButton.prototype = {
                     this.service, 
                     this.options.url,
                     {
-                        counterUrl: this.options.counterUrl,
+                        counterUrl:  this.options.counterUrl,
                         forceUpdate: this.options.forceUpdate
                     }
-                )
-                .always(this.updateCounter.bind(this))
+                ).always(this.updateCounter.bind(this))
         }
     },
     
@@ -198,21 +199,19 @@ LikelyButton.prototype = {
     updateCounter: function (counter) {
         counter = parseInt(counter, 10) || 0;
         
-        var i = {
+        var options = {
             className: this.getElementClassNames("counter"),
             content:   counter
         };
         
         if (!counter && !this.options.zeroes) {
-            i.className += " " + config.prefix + "counter_empty";
-            i.content = "";
+            options.className += " " + config.prefix + "counter_empty";
+            options.content = "";
         }
         
         this.widget.appendChild(
-            dom.createNode(utils.template(spanHTML, i))
+            dom.createNode(utils.template(html.span, options))
         );
-        
-        // this.widget.trigger("counter." + config.name, [this.service, e]);
     },
     
     /**
@@ -248,7 +247,9 @@ LikelyButton.prototype = {
         var parameters = utils.query(utils.merge(this.widget.dataset, this.options.data)),
             delimeter  = url.indexOf("?") === -1 ? "?" : "&";
         
-        if (parameters  === '') return url;
+        if (parameters  === '') {
+            return url;
+        }
         
         return url + delimeter + parameters;
     },
@@ -267,7 +268,7 @@ LikelyButton.prototype = {
             top = Math.round(screen.height / 3 - options.height / 2);
         }
         
-        var win = window.open(url, "sl_" + this.service, utils.template(winOptions, {
+        var win = window.open(url, "sl_" + this.service, utils.template(html.options, {
             height: options.height,
             width:  options.width,
             left:   left,
@@ -294,17 +295,7 @@ LikelyButton.prototype = {
             return;
         }
         
-        var callback = function () {
-            if (win.closed) {
-                // this.widget.trigger("popup_closed." + config.name, this.service);
-                clearInterval(timer);
-            }
-        }
-        
         win.focus();
-        
-        // this.widget.trigger("popup_opened." + config.name, [this.service, win]);
-        var timer = setInterval(callback.bind(this), this.options.popupCheckInterval);
     }
 };
 

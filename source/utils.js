@@ -1,7 +1,8 @@
 var config = require('./config');
 
-var bool = {yes: true, no: false},
-    rUrl = /(https?|ftp):\/\/[^\s\/$.?#].[^\s]*/gi;
+var utils = {},
+    bool  = {yes: true, no: false},
+    rUrl  = /(https?|ftp):\/\/[^\s\/$.?#].[^\s]*/gi;
 
 /**
  * Simple $.each, only for objects
@@ -9,7 +10,7 @@ var bool = {yes: true, no: false},
  * @param {Object} object
  * @param {Function} callback
  */
-var each = function (object, callback) {
+utils.each = function (object, callback) {
     for (var key in object) {
         if (object.hasOwnProperty(key)) {
             callback(object[key], key);
@@ -23,9 +24,9 @@ var each = function (object, callback) {
  * @param {Object} arrayLike
  * @return {Array}
  */
-function toArray (arrayLike) {
+utils.toArray = function (arrayLike) {
     return Array.prototype.slice.call(arrayLike);
-}
+};
 
 /**
  * Merge given dictionaries (objects) into one object
@@ -33,7 +34,7 @@ function toArray (arrayLike) {
  * @param {Object} ...objects
  * @return {Object}
  */
-function merge () {
+utils.merge = function () {
     var result = {};
     
     for (var i = 0; i < arguments.length; i ++) {
@@ -47,7 +48,7 @@ function merge () {
     }
     
     return result;
-}
+};
 
 /**
  * Extend one (target) object by other (subject)
@@ -55,18 +56,18 @@ function merge () {
  * @param {Object} target
  * @param {Object} subject
  */
-function extend (target, subject) {
+utils.extend = function (target, subject) {
     for (var key in subject) {
         target[key] = subject[key];
     }
-}
+};
 
 /**
  * Convert "yes" and "no" to true and false.
  * 
- * @param {jQuery} node
+ * @param {Node} node
  */
-function bools (node) {
+utils.bools = function (node) {
     var result = {},
         data   = node.dataset;
     
@@ -77,7 +78,7 @@ function bools (node) {
     }
     
     return result;
-}
+};
 
 /**
  * Map object keys in string to its values
@@ -86,11 +87,11 @@ function bools (node) {
  * @param {Object} data
  * @return {String}
  */
-function template (text, data) {
+utils.template = function (text, data) {
     return text.replace(/\{([^\}]+)\}/g, function (value, key) {
         return key in data ? data[key] : value;
     });
-}
+};
 
 /**
  * Map object keys in URL to its values
@@ -99,13 +100,13 @@ function template (text, data) {
  * @param {Object} data
  * @return {String}
  */
-function makeUrl (text, data) {
+utils.makeUrl = function (text, data) {
     for (var key in data) {
         data[key] = encodeURIComponent(data[key]);
     }
     
-    return template(text, data);
-}
+    return utils.template(text, data);
+};
 
 /**
  * Construct a CSS class
@@ -114,11 +115,11 @@ function makeUrl (text, data) {
  * @param {String} service
  * @return {String}
  */
-function likelyClass (type, service) {
+utils.likelyClass = function (type, service) {
     var fullClass = config.prefix + type;
     
     return fullClass + " " + fullClass + "_" + service;
-}
+};
 
 /**
  * Create query string out of data
@@ -126,7 +127,7 @@ function likelyClass (type, service) {
  * @param {Object} data
  * @return {String}
  */
-function query (data) {
+utils.query = function (data) {
     var filter = encodeURIComponent,
         query  = [];
     
@@ -137,14 +138,14 @@ function query (data) {
     }
     
     return query.join('&');
-}
+};
 
 /**
  * Get URL of invoked script from Stack error 
  * 
  * @return {String}
  */
-function getStackURL () {
+utils.getStackURL = function () {
     try {
         throw new Error;
     }
@@ -155,22 +156,60 @@ function getStackURL () {
         
         return url;
     }
-}
-
-function getURL (url) {
-    return decodeURIComponent(url.match(/url=([^&]+)/).pop());
-}
-
-module.exports = {
-    likelyClass: likelyClass,
-    getStackURL: getStackURL,
-    template:    template,
-    makeUrl:     makeUrl,
-    toArray:     toArray,
-    getURL:      getURL,
-    extend:      extend,
-    merge:       merge,
-    bools:       bools,
-    query:       query,
-    each:        each,
 };
+
+/**
+ * Get URL from URL (Yo dawg, I heard you like URLs)
+ * 
+ * @param {String} url
+ * @return {String}
+ */
+utils.getURL = function (url) {
+    return decodeURIComponent(url.match(/url=([^&]+)/).pop());
+};
+
+/**
+ * Set value in object using dot-notation
+ * 
+ * @param {Object} object
+ * @param {String} key
+ * @param {Object} value
+ */
+utils.set = function (object, key, value) {
+    var frags = key.split('.'),
+        last  = null;
+    
+    frags.forEach(function (key, index) {
+        if (typeof object[key] === 'undefined') {
+            object[key] = {};
+        }
+        
+        if (index !== frags.length - 1) {
+            object = object[key];
+        }
+        
+        last = key;
+    });
+    
+    object[last] = value;
+};
+
+utils.get = function (object, key) {
+    var frags = key.split('.');
+    
+    for (var i = 0; i < frags.length; i ++) {
+        var key = frags[i];
+        
+        if (!key in object) {
+            object = null;
+            
+            break;
+        }
+        
+        object = object[key];
+    }
+    
+    return object;
+};
+
+module.exports = utils; 

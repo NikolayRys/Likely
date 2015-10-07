@@ -22,9 +22,7 @@ Likely.prototype = {
      * Initiate the social buttons widget
      */
     init: function () {
-        this.container.classList.add(config.name);
-        // $(this.container).on("counter." + config.name, this.updateCounter.bind(this));
-        
+        this.container.classList.add(config.name);   
         this.initUserButtons();
         
         this.countersLeft = 0;
@@ -122,7 +120,6 @@ Likely.prototype = {
             clearTimeout(this.timeout);
             
             this.container.classList.add(config.name + "_ready");
-            // $(this.container).trigger("ready." + config.name, this.number);
         }
     }
 };

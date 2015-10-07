@@ -9,7 +9,7 @@ var Likely = require('./widget'),
  * @param {Node} node
  * @param {Object} options
  */
-window.socialLikes = function (node, options) {
+var likely = function (node, options) {
     options = options || {};
     
     var likely = node[config.name];
@@ -19,16 +19,16 @@ window.socialLikes = function (node, options) {
     }
     else {
         node[config.name] = new Likely(node, utils.merge(
-            {}, socialLikes.defaults, 
+            {}, window.likely.defaults, 
             options, utils.bools(node)
         ));
     }
 }
 
 /**
- * Defaults options for socialLikes 
+ * Defaults options for likely 
  */
-window.socialLikes.defaults = {
+likely.defaults = {
     popupCheckInterval: 0.15e3,
     counters: true,
     timeout:  1e3,
@@ -38,9 +38,10 @@ window.socialLikes.defaults = {
     url:      window.location.href.replace(window.location.hash, '')
 };
 
+window.likely = likely;
 window.addEventListener('load', function () {
     var widgets = dom.findAll('.' + config.name);
     
     utils.toArray(widgets)
-         .forEach(socialLikes);
+         .forEach(likely);
 });

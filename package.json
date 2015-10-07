@@ -1,4 +1,12 @@
 {
+  "name": "likely.js",
+  "description": "The social sharing buttons that aren’t shabby",
+  "version": "2.0.0",
+  "repository": {
+     "type": "git",
+     "url": "https://github.com/ilyabirman/Likely.git" 
+  },
+  "license": "MIT",
   "devDependencies": {
     "gulp": "*",
     "gulp-zip": "^2.0.2",

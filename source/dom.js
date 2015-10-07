@@ -1,12 +1,13 @@
 var div = document.createElement('div'),
-    gid = 0;
+    gid = 0,
+    dom = {};
 
 /**
  * Wrap SVG coords from data object into SVG tag
  * 
  * @param {String} coords
  */
-function wrapSVG (coords) {
+dom.wrapSVG = function (coords) {
     return '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" ' 
         + 'viewBox="0 0 16 16"><path d="M' 
         + coords 
@@ -18,7 +19,7 @@ function wrapSVG (coords) {
  * 
  * @param {String} html
  */
-function createNode (html) {
+dom.createNode = function (html) {
     div.innerHTML = html;
     
     return div.children[0];
@@ -29,7 +30,7 @@ function createNode (html) {
  * 
  * @param {String} url
  */
-function getScript (url) {
+dom.getScript = function (url) {
     var script = document.createElement('script');
     
     script.type = 'text/javascript';
@@ -45,14 +46,14 @@ function getScript (url) {
  * @param {String} url
  * @param {Function} callback
  */
-function getJSON (url, callback) {
+dom.getJSON = function (url, callback) {
     var name = 'random_fun_' + Date.now() + '_' + (++gid);
     
     url = url.replace(/callback=(\?)/, 'callback=' + encodeURIComponent(name));
     
     window[name] = callback;
     
-    getScript(url);
+    dom.getScript(url);
 }
 
 /**
@@ -62,7 +63,7 @@ function getJSON (url, callback) {
  * @param {Node} node
  * @return {Node}
  */
-function find (selector, node) {
+dom.find = function (selector, node) {
     node = node || document;
     
     return node.querySelector(selector);
@@ -75,18 +76,10 @@ function find (selector, node) {
  * @param {Node} node
  * @return {NodeList}
  */
-function findAll (selector, node) {
+dom.findAll = function (selector, node) {
     node = node || document;
     
     return node.querySelectorAll(selector);
 }
 
-module.exports = {
-    createNode:  createNode,
-    getScript:   getScript,
-    wrapSVG:     wrapSVG,
-    getJSON:     getJSON,
-    
-    find:    find,
-    findAll: findAll
-};
+module.exports = dom;
