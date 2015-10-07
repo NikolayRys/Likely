@@ -3,62 +3,35 @@ var services = require('./services'),
     utils    = require('./utils'),
     dom      = require('./dom');
 
-var promises = {
-    promises: {},
-    /**
-     * Fetch data
-     * 
-     * @param {String} service
-     * @param {String} url
-     * @param {Object} options
-     * @return {Promise}
-     */
-    fetch: function (service, url, options) {
-        if (!this.promises[service]) {
-            this.promises[service] = {};
-        }
-        
-        var promises = this.promises[service];
-        
-        if (!options.forceUpdate && promises[url]) {
-            return promises[url];
-        }
-        
-        var options = utils.merge(services[service], options),
-            promise = Factory(),
-            href    = options.counterUrl && utils.makeUrl(options.counterUrl, {
-                url: url
-            });
-        
-        if (href && typeof options.counter === 'function') {
-            options.counter(href, promise, url);
-        }
-        else if (options.counterUrl) {
-            this.getJSON(href, promise, options);
-        }
-        
-        return promises[url] = promise;
-    },
-    
-    /**
-     * Deliver JSON
-     * 
-     * @param {String} url
-     * @param {Promise} promise
-     * @param {Object} options 
-     */
-    getJSON: function (url, promise, options) {
-        dom.getJSON(url, function (count) {
-            try {
-                if (typeof options.convertNumber === 'function') {
-                    count = options.convertNumber(count);
-                }
-                
-                promise(count);
-            } 
-            catch (e) {}
-        });
-    }
-};
+var factories = {};
 
-module.exports = promises;
+/**
+ * Fetch data
+ * 
+ * @param {String} service
+ * @param {String} url
+ * @param {Object} options
+ * @return {Promise}
+ */
+module.exports = function (service, url, options) {
+    if (!factories[service]) {
+        factories[service] = {};
+    }
+    
+    var counters = factories[service],
+        counter  = counters[url];
+    
+    if (!options.forceUpdate && counter) {
+        return counters[url];
+    }
+    
+    counter = Factory();
+    
+    var href = utils.makeUrl(options.counterUrl, {
+        url: url
+    });
+    
+    services[service].counter(href, counter, url);
+    
+    return factories[url] = counter;
+};

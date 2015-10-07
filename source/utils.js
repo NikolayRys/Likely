@@ -150,11 +150,7 @@ utils.getStackURL = function () {
         throw new Error;
     }
     catch (e) {
-        var stack = e.stack, 
-            url   = stack.match(rUrl).pop()
-                         .replace(/:\d+:\d+$/, '');;
-        
-        return url;
+        return e.stack.match(rUrl).pop().replace(/:\d+:\d+$/, '');
     }
 };
 
@@ -194,6 +190,13 @@ utils.set = function (object, key, value) {
     object[last] = value;
 };
 
+/**
+ * Get a value from multidimensional object
+ * 
+ * @param {Object} object
+ * @param {String} key
+ * @return {Object}
+ */
 utils.get = function (object, key) {
     var frags = key.split('.');
     

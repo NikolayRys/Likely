@@ -5,6 +5,8 @@
 var utils = require('../utils'),
     svg   = require('../svg.json');
 
+var Service = require('../service');
+
 var services = {
     odnoklassniki: require('./odnoklassniki'),
     vkontakte:     require('./vk'),
@@ -14,8 +16,10 @@ var services = {
     gplus:         require('./gplus')
 };
 
-utils.each(services, function (_, key) {
-    services[key].svgi = svg[key];
+utils.each(services, function (service, key) {
+    services[key] = Service(service);
+    service.svgi = svg[key];
+    service.name = key;
 });
 
 module.exports = services;

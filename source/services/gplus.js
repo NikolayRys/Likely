@@ -7,21 +7,20 @@ var config = require('../config'),
     dom    = require('../dom');
 
 var gplus = {
-    gid: 0,
     counterUrl: config.secure 
         ? undefined 
         : "http://share.yandex.ru/gpp.xml?gid={gid}&url={url}",
     counter: function (url, promise, id) {
-        var gp  = gplus,
-            gid = (++gp.gid);
+        var gid = this.gid++;
         
-        gp._[gid + '_' + id] = promise;
+        this.promises[gid + '_' + id] = promise;
         
         dom.getScript(utils.makeUrl(url, {
             gid: gid
         }));
     },
-    _: {},
+    gid: 0,
+    promises: {},
     popupUrl: "https://plus.google.com/share?url={url}",
     popupWidth: 700,
     popupHeight: 500
@@ -34,7 +33,7 @@ var gplus = {
  * has few limitations: 
  * 
  * 1. it can be used only once on the page
- * 2. if amount of +'s are more than 10k, they're rounded to 10k
+ * 2. if the amount of +'s are more than 10k, they're rounded to 10k
  * 
  * First limitation is solved by following hack:
  * get URL of requested page by throwing the error and gettin google+ API
@@ -52,7 +51,7 @@ utils.set(window, 'services.gplus.cb', function (counter) {
         id  = utils.getURL(url),
         gid = url.match(/gid=(\d+)/).pop();
     
-    gplus._[gid + '_' + id](parseInt(counter, 10));
+    gplus.promises[gid + '_' + id](counter);
 });
 
 module.exports = gplus;

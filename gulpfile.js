@@ -14,7 +14,7 @@ var zip = require ('gulp-zip')
 gulp.task ('js', function () {
   return gulp.src ('./source/likely.js')
     .pipe (browserify ())
-    .pipe (uglify ())
+    //.pipe (uglify ())
     .pipe (insert.prepend (require('fs').readFileSync ('./source/header.js') + '\n'))
     .pipe (gulp.dest ('../release/'))
 })

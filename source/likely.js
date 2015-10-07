@@ -26,6 +26,16 @@ var likely = function (node, options) {
 }
 
 /**
+ * Initiate Likely buttons on load
+ */
+likely.initate = function () {
+    var widgets = dom.findAll('.' + config.name);
+    
+    utils.toArray(widgets)
+         .forEach(likely);
+}
+
+/**
  * Defaults options for likely 
  */
 likely.defaults = {
@@ -39,10 +49,4 @@ likely.defaults = {
 };
 
 window.likely = likely;
-
-window.addEventListener('load', function () {
-    var widgets = dom.findAll('.' + config.name);
-    
-    utils.toArray(widgets)
-         .forEach(likely);
-});
+window.addEventListener('load', likely.initate);

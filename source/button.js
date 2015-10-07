@@ -1,4 +1,4 @@
-var promises = require('./promises'),
+var fetch    = require('./promises'),
     services = require('./services'),
     config   = require('./config'),
     utils    = require('./utils'),
@@ -77,7 +77,7 @@ LikelyButton.prototype = {
     },
     
     /**
-     * Merge params from node.dataset into options hash map
+     * Merge params from data-* attributes into options hash map
      */
     detectParams: function () {
         var data = this.widget.dataset;
@@ -155,15 +155,14 @@ LikelyButton.prototype = {
             this.updateCounter(this.options.counterNumber);
         }
         else {
-            promises
-                .fetch(
-                    this.service, 
-                    this.options.url,
-                    {
-                        counterUrl:  this.options.counterUrl,
-                        forceUpdate: this.options.forceUpdate
-                    }
-                )(this.updateCounter.bind(this))
+            fetch(
+                this.service, 
+                this.options.url,
+                {
+                    counterUrl:  this.options.counterUrl,
+                    forceUpdate: this.options.forceUpdate
+                }
+            )(this.updateCounter.bind(this))
         }
     },
     
@@ -268,7 +267,7 @@ LikelyButton.prototype = {
             top = Math.round(screen.height / 3 - options.height / 2);
         }
         
-        var win = window.open(url, "sl_" + this.service, utils.template(html.options, {
+        var win = window.open(url, "l_" + this.service, utils.template(html.options, {
             height: options.height,
             width:  options.width,
             left:   left,
@@ -277,22 +276,6 @@ LikelyButton.prototype = {
         
         if (!win) {
             return location.href = url;
-        }
-        
-        this.watchWindow(win);
-    },
-    
-    /**
-     * Poll the state of the window.
-     * 
-     * On open, trigger popup open event. 
-     * On close, trigger popup event event. 
-     * 
-     * @param {Window} win
-     */
-    watchWindow: function (win) {
-        if (!win) {
-            return;
         }
         
         win.focus();
