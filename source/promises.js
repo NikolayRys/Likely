@@ -1,5 +1,5 @@
 var services = require('./services'),
-    Promise  = require('./promise'),
+    Factory  = require('./factory'),
     utils    = require('./utils'),
     dom      = require('./dom');
 
@@ -25,7 +25,7 @@ var promises = {
         }
         
         var options = utils.merge(services[service], options),
-            promise = Promise.make(),
+            promise = Factory(),
             href    = options.counterUrl && utils.makeUrl(options.counterUrl, {
                 url: url
             });
@@ -35,9 +35,6 @@ var promises = {
         }
         else if (options.counterUrl) {
             this.getJSON(href, promise, options);
-        }
-        else {
-            promise.reject();
         }
         
         return promises[url] = promise;
@@ -57,11 +54,9 @@ var promises = {
                     count = options.convertNumber(count);
                 }
                 
-                promise.resolve(count);
+                promise(count);
             } 
-            catch (e) {
-                promise.reject();
-            }
+            catch (e) {}
         });
     }
 };

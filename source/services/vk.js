@@ -22,7 +22,7 @@ var vkontakte = {
 };
 
 utils.set(window, 'VK.Share.count', function (index, count) {
-    vkontakte._[index].resolve(count);
+    vkontakte._[index](count);
 });
 
 module.exports = vkontakte;

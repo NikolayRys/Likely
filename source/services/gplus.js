@@ -52,7 +52,7 @@ utils.set(window, 'services.gplus.cb', function (counter) {
         id  = utils.getURL(url),
         gid = url.match(/gid=(\d+)/).pop();
     
-    gplus._[gid + '_' + id].resolve(parseInt(counter, 10));
+    gplus._[gid + '_' + id](parseInt(counter, 10));
 });
 
 module.exports = gplus;

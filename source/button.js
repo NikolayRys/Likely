@@ -163,7 +163,7 @@ LikelyButton.prototype = {
                         counterUrl:  this.options.counterUrl,
                         forceUpdate: this.options.forceUpdate
                     }
-                ).always(this.updateCounter.bind(this))
+                )(this.updateCounter.bind(this))
         }
     },
     

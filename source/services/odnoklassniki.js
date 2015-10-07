@@ -25,7 +25,7 @@ var odnoklassniki = {
 };
 
 utils.set(window, 'ODKL.updateCount', function (index, counter) {
-    odnoklassniki._[index].resolve(counter);
+    odnoklassniki._[index](counter);
 });
 
 module.exports = odnoklassniki;
