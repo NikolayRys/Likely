@@ -57,10 +57,11 @@ LikelyButton.prototype = {
      * Get the config.name of service and its options
      */
     detectService: function () {
-        var service = this.widget.dataset.service;
+        var widget  = this.widget,
+            service = widget.dataset.service;
         
         if (!service) {
-            var classes = this.widget.className.split(" ");
+            var classes = widget.className.split(" ");
             
             for (var i = 0; i < classes.length; i++) {
                 if (classes[i] in services) break;
@@ -82,7 +83,6 @@ LikelyButton.prototype = {
     detectParams: function () {
         var options = this.options,
             data    = this.widget.dataset;
-            
         
         if (data.counter) {
             var counter = parseInt(data.counter, 10);
@@ -95,15 +95,13 @@ LikelyButton.prototype = {
             }
         }
         
-        if (data.title) {
-            options.title = data.title;
-        }
-        
-        if (data.url) {
-            options.url = data.url;
-        }
+        options.title = data.title || options.title;
+        options.url   = data.url || options.url;
     },
     
+    /**
+     * Inititate button's HTML
+     */
     initHtml: function () {
         var options = this.options,
             widget  = this.widget,
@@ -132,23 +130,6 @@ LikelyButton.prototype = {
         widget.innerHTML = icon + button;
     },
     
-    createLink: function (widget, options) {
-        var url = utils.makeUrl(options.clickUrl, {
-            title: options.title,
-            url:   options.url
-        });
-        
-        var link = dom.createNode(utils.template(span.link, {
-            href: url
-        }));
-        
-        this.cloneDataAttrs(widget, link); 
-        
-        widget.parentNode.replaceChild(link, widget);
-        
-        return link;
-    },
-    
     /**
      * Fetch or get cached counter value and update the counter
      */
@@ -165,16 +146,6 @@ LikelyButton.prototype = {
                 options
             )(this.updateCounter.bind(this))
         }
-    },
-    
-    /**
-     * Clone data attributes from one node to another
-     * 
-     * @param {Node} a
-     * @param {Node} b
-     */
-    cloneDataAttrs: function (a, b) {
-        utils.extend(b.dataset, a.dataset);
     },
     
     /**
@@ -217,12 +188,12 @@ LikelyButton.prototype = {
     },
     
     /**
-     * @param {Event} e
+     * Click event listener
      */
-    click: function (e) {
+    click: function () {
         var options = this.options;
         
-        if (options.click.call(this, e)) {
+        if (options.click.call(this)) {
             var url = utils.makeUrl(options.popupUrl, {
                 url:   options.url,
                 title: options.title
