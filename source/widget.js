@@ -22,9 +22,6 @@ Likely.prototype = {
      * Initiate the social buttons widget
      */
     init: function () {
-        this.container.classList.add(config.name);   
-        this.initUserButtons();
-        
         this.countersLeft = 0;
         this.buttons = [];
         this.number = 0;
@@ -54,17 +51,6 @@ Likely.prototype = {
         if (button.options.counterUrl) {
             this.countersLeft++;
         }
-    },
-    
-    /**
-     * Inject global defined social buttons
-     */
-    initUserButtons: function () {
-        if (!this.userButtonInited && window.socialLikesButtons) {
-            utils.extend(services, socialLikesButtons);
-        }
-        
-        this.userButtonInited = true;
     },
     
     /**

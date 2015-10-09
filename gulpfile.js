@@ -15,7 +15,7 @@ gulp.task ('js', function () {
   return gulp.src ('./source/likely.js')
     .pipe (browserify ())
     .pipe (uglify ())
-    .pipe (insert.prepend (require('fs').readFileSync ('./source/header.js') + '\n'))
+    .pipe (insert.prepend (require ('fs').readFileSync ('./source/header.js') + '\n'))
     .pipe (gulp.dest ('../release/'))
 })
 
@@ -37,6 +37,8 @@ gulp.task ('zip', ['js', 'css'], function () {
     .pipe (zip ('ilya-birman-likely-' + version + 'zip'))
     .pipe (gulp.dest ('../release/'))
 })
+
+gulp.task ('build', ['js', 'css'])
 
 gulp.task ('default', ['js', 'css', 'zip'], function () {
   gulp.watch ('source/*.js', ['zip'])

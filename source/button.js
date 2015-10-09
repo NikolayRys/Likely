@@ -1,14 +1,12 @@
-var fetch    = require('./promises'),
-    services = require('./services'),
+var services = require('./services'),
     config   = require('./config'),
+    fetch    = require('./fetch'),
     utils    = require('./utils'),
     dom      = require('./dom');
 
 var html = {
-    options: 'left={left},top={top},width={width},height={height},'
-           + 'personalbar=0,toolbar=0,scrollbars=1,resizable=1',
-    span:    '<span class="{className}">{content}</span>',
-    link:    '<a href="{href}"></a>'
+    span: '<span class="{className}">{content}</span>',
+    link: '<a href="{href}"></a>'
 };
 
 /**
@@ -82,25 +80,27 @@ LikelyButton.prototype = {
      * Merge params from data-* attributes into options hash map
      */
     detectParams: function () {
-        var data = this.widget.dataset;
+        var options = this.options,
+            data    = this.widget.dataset;
+            
         
         if (data.counter) {
             var counter = parseInt(data.counter, 10);
             
             if (isNaN(counter)) {
-                this.options.counterUrl = data.counter;
+                options.counterUrl = data.counter;
             }
             else {
-                this.options.counterNumber = counter;
+                options.counterNumber = counter;
             }
         }
         
         if (data.title) {
-            this.options.title = data.title;
+            options.title = data.title;
         }
         
         if (data.url) {
-            this.options.url = data.url;
+            options.url = data.url;
         }
     },
     
@@ -117,15 +117,15 @@ LikelyButton.prototype = {
         }
         
         widget.classList.remove(this.service)
-        widget.className += (" " + this.getElementClassNames("widget"));
+        widget.className += (" " + this.className("widget"));
         
         var button = utils.template(html.span, {
-            className: this.getElementClassNames("button"),
+            className: this.className("button"),
             content:   text
         });
         
         var icon = utils.template(html.span, {
-            className: this.getElementClassNames("icon"),
+            className: this.className("icon"),
             content:   dom.wrapSVG(options.svgi)
         });
         
@@ -153,17 +153,16 @@ LikelyButton.prototype = {
      * Fetch or get cached counter value and update the counter
      */
     initCounter: function () {
-        if (this.options.counters && this.options.counterNumber) {
-            this.updateCounter(this.options.counterNumber);
+        var options = this.options;
+        
+        if (options.counters && options.counterNumber) {
+            this.updateCounter(options.counterNumber);
         }
         else {
             fetch(
                 this.service, 
-                this.options.url,
-                {
-                    counterUrl:  this.options.counterUrl,
-                    forceUpdate: this.options.forceUpdate
-                }
+                options.url,
+                options
             )(this.updateCounter.bind(this))
         }
     },
@@ -175,20 +174,14 @@ LikelyButton.prototype = {
      * @param {Node} b
      */
     cloneDataAttrs: function (a, b) {
-        var data = a.dataset;
-        
-        for (var i in a) {
-            if (data.hasOwnProperty(i)) {
-                b.dataset[i] = a[i];
-            }
-        }
+        utils.extend(b.dataset, a.dataset);
     },
     
     /**
      * @param {String} className
      * @return {String}
      */
-    getElementClassNames: function (className) {
+    className: function (className) {
         return utils.likelyClass(className, this.service);
     },
     
@@ -200,8 +193,14 @@ LikelyButton.prototype = {
     updateCounter: function (counter) {
         counter = parseInt(counter, 10) || 0;
         
+        var counterElement = dom.find('.likely__counter', this.widget);
+        
+        if (counterElement) {
+            counterElement.parentNode.removeChild(counterElement);
+        }
+        
         var options = {
-            className: this.getElementClassNames("counter"),
+            className: this.className("counter"),
             content:   counter
         };
         
@@ -221,21 +220,20 @@ LikelyButton.prototype = {
      * @param {Event} e
      */
     click: function (e) {
-        var options = this.options,
-            click   = typeof options.click === "function" 
-                ? options.click.call(this, e) 
-                : true;
+        var options = this.options;
         
-        if (click) {
+        if (options.click.call(this, e)) {
             var url = utils.makeUrl(options.popupUrl, {
                 url:   options.url,
                 title: options.title
             });
             
-            this.openPopup(this.addAdditionalParamsToUrl(url), {
-                width:  options.popupWidth,
-                height: options.popupHeight
-            });
+            dom.openPopup(
+                this.addAdditionalParamsToUrl(url), 
+                config.prefix + this.service,
+                options.popupWidth, 
+                options.popupHeight
+            );
         }
         
         return false;
@@ -247,42 +245,15 @@ LikelyButton.prototype = {
      * @param {String} url
      */
     addAdditionalParamsToUrl: function (url) {
-        var parameters = utils.query(utils.merge(this.widget.dataset, this.options.data)),
-            delimeter  = url.indexOf("?") === -1 ? "?" : "&";
+        var parameters = utils.query(utils.merge(
+                this.widget.dataset, 
+                this.options.data
+            )),
+            delimeter = url.indexOf("?") === -1 ? "?" : "&";
         
-        if (parameters  === '') {
-            return url;
-        }
-        
-        return url + delimeter + parameters;
-    },
-    
-    /**
-     * Open the popup
-     * 
-     * @param {String} url
-     * @param {Object} options
-     */
-    openPopup: function (url, options) {
-        var left = Math.round(screen.width / 2 - options.width / 2),
-            top  = 0;
-        
-        if (screen.height > options.height) {
-            top = Math.round(screen.height / 3 - options.height / 2);
-        }
-        
-        var win = window.open(url, "l_" + this.service, utils.template(html.options, {
-            height: options.height,
-            width:  options.width,
-            left:   left,
-            top:    top
-        }));
-        
-        if (!win) {
-            return location.href = url;
-        }
-        
-        win.focus();
+        return parameters === '' 
+            ? url 
+            : url + delimeter + parameters;
     }
 };
 

@@ -15,33 +15,21 @@
 module.exports = function (value) {
     var listeners = [];
     
-    var listen = function (listener) {
-        listeners.push(listener);
-    };
-    
-    var set = function (newValue) {
-        value = newValue;
-        
-        listeners.forEach(function (listener) {
-            listener(newValue);
-        });
-    };
-    
-    var get = function () {
-        return value;
-    };
-    
     return function (argument) {
         var type = typeof argument;
         
         if (type == 'undefined') {
-            return get();
+            return value;
         }
         else if (type == 'function') {
-            listen(argument);
+            listeners.push(argument);
         }
         else {
-            set(argument);
+            value = argument;
+            
+            listeners.forEach(function (listener) {
+                listener(argument);
+            });
         }
     };
 };

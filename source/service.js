@@ -15,6 +15,7 @@ var counter = function (url, promise) {
 
 module.exports = function (options) {
     options.counter = options.counter || counter;
+    options.click   = options.click   || function () { return true; };
     
     return options;
 };
