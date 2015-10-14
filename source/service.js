@@ -1,4 +1,4 @@
-var dom = require('./dom.js');
+var dom = require('./dom');
 
 var counter = function (url, promise) {
     var self = this;

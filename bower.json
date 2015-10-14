@@ -1,0 +1,15 @@
+{
+  "name": "Likely",
+  "version": "2.0.0",
+  "homepage": "http://ilyabirman.ru/projects/likely",
+  "authors": [
+    "Ilya Birman <ilyabirman@ilyabirman.ru>",
+    "Evgeny Steblinsky <volter925@gmail.com>"
+  ],
+  "description": "The social sharing buttons that aren’t shabby",
+  "keywords": [
+    "social",
+    "buttons"
+  ],
+  "license": "MIT"
+}
