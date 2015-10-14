@@ -1,3 +1,5 @@
+var dom = require('./dom.js');
+
 var counter = function (url, promise) {
     var self = this;
     

@@ -3,7 +3,7 @@
  */
 
 var config = require('../config'),
-    utils  = require('../utils')
+    utils  = require('../utils'),
     dom    = require('../dom');
 
 var vkontakte = {
