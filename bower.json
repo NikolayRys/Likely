@@ -6,6 +6,7 @@
     "Ilya Birman <ilyabirman@ilyabirman.ru>",
     "Evgeny Steblinsky <volter925@gmail.com>"
   ],
+  "main": "source/likely.js",
   "description": "The social sharing buttons that aren’t shabby",
   "keywords": [
     "social",
