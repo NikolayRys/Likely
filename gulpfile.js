@@ -14,7 +14,7 @@ var zip = require ('gulp-zip')
 var release = './release/'
 
 gulp.task ('js', function () {
-  return gulp.src ('./source/likely.js')
+  return gulp.src ('./source/load.js')
     .pipe (browserify ())
     .pipe (uglify ())
     .pipe (insert.prepend (require ('fs').readFileSync ('./source/header.js') + '\n'))

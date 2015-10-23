@@ -12,17 +12,19 @@ var Likely = require('./widget'),
 var likely = function (node, options) {
     options = options || {};
     
-    var likely = node[config.name];
+    var widget = node[config.name];
     
-    if (likely) {
-        likely.update(options);
+    if (widget) {
+        widget.update(options);
     }
     else {
         node[config.name] = new Likely(node, utils.merge(
-            {}, window.likely.defaults, 
+            {}, likely.defaults, 
             options, utils.bools(node)
         ));
     }
+    
+    return widget;
 }
 
 /**
@@ -48,5 +50,4 @@ likely.defaults = {
     url:      window.location.href.replace(window.location.hash, '')
 };
 
-window.likely = likely;
-window.addEventListener('load', likely.initate);
+module.exports = likely;
