@@ -58,7 +58,7 @@ LikelyButton.prototype = {
      */
     detectService: function () {
         var widget  = this.widget,
-            service = widget.dataset.service;
+            service = utils.getDataset(widget).service;
         
         if (!service) {
             var classes = widget.className.split(" ");
@@ -82,7 +82,7 @@ LikelyButton.prototype = {
      */
     detectParams: function () {
         var options = this.options,
-            data    = this.widget.dataset;
+            data    = utils.getDataset(this.widget);
         
         if (data.counter) {
             var counter = parseInt(data.counter, 10);

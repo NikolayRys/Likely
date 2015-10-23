@@ -63,13 +63,46 @@ var utils = {
     },
 
     /**
+     * Return node.dataset or plain object for IE 10without setters
+     * based on https://gist.github.com/brettz9/4093766#file_html5_dataset.js
+     *
+     * @param {Node} node
+     */
+    getDataset: function (node) {
+        if (typeof node.dataset === 'object') {
+            return node.dataset;
+        }
+
+        var i,
+            dataset = {},
+            attributes = node.attributes,
+            attribute,
+            attributeName;
+
+        var toUpperCase = function (n0) {
+            return n0.charAt(1).toUpperCase();
+        };
+
+        for (i = attributes.length - 1; i >= 0; i--) {
+            attribute = attributes[i];
+            if (attribute && attribute.name &&
+                (/^data-\w[\w\-]*$/).test(attribute.name)) {
+                    attributeName = attribute.name.substr(5).replace(/-./g, toUpperCase);
+                    dataset[attributeName] = attribute.value
+                }
+        }
+
+        return dataset;
+    },
+
+    /**
      * Convert "yes" and "no" to true and false.
      * 
      * @param {Node} node
      */
     bools: function (node) {
         var result = {},
-            data   = node.dataset;
+            data   = utils.getDataset(node);
     
         for (var key in data) {
             var value = data[key];
@@ -88,7 +121,7 @@ var utils = {
      * @return {String}
      */
     template: function (text, data) {
-        return text.replace(/\{([^\}]+)\}/g, function (value, key) {
+        return !text ? '' : text.replace(/\{([^\}]+)\}/g, function (value, key) {
             return key in data ? data[key] : value;
         });
     },
