@@ -150,7 +150,9 @@ var utils = {
             throw new Error;
         }
         catch (e) {
-            return e.stack.match(rUrl).pop().replace(/:\d+:\d+$/, '');
+            // IE add ')' to the end of url like this:
+            // http://share.yandex.ru/gpp.xml?gid=0&url=http%3A%2F%2Filyabirman.ru%2F:1:1)
+            return e.stack.match(rUrl).pop().replace(/:\d+:\d+\)?$/, '');
         }
     },
 
