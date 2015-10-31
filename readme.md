@@ -15,3 +15,7 @@ Install via bower:
 ```sh
 bower install ilyabirman-likely
 ```
+
+## Demo
+
+You can see Likely in action on its [homepages](http://ilyabirman.ru/projects/likely/).
