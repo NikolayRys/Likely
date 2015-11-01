@@ -18,4 +18,4 @@ bower install ilyabirman-likely
 
 ## Demo
 
-You can see Likely in action on its [homepage](http://ilyabirman.ru/projects/likely/).
+You can see Likely in action on its [homepage](http://ilyabirman.net/projects/likely/).
