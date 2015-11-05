@@ -2,10 +2,9 @@
  * Social network services
  */
 
-var utils = require('../utils'),
-    svg   = require('../svg.json');
-
-var Service = require('../service');
+var Service = require('../service'),
+    utils   = require('../utils'),
+    svg     = require('../svg.json');
 
 var services = {
     odnoklassniki: require('./odnoklassniki'),

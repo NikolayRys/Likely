@@ -22,7 +22,7 @@ module.exports = function (service, url, options) {
         counter  = counters[url];
     
     if (!options.forceUpdate && counter) {
-        return counters[url];
+        return counter;
     }
     
     counter = Factory();

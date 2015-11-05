@@ -4,10 +4,7 @@ var services = require('./services'),
     utils    = require('./utils'),
     dom      = require('./dom');
 
-var html = {
-    span: '<span class="{className}">{content}</span>',
-    link: '<a href="{href}"></a>'
-};
+var htmlSpan = '<span class="{className}">{content}</span>';
 
 /**
  * Separate social link widget
@@ -117,12 +114,12 @@ LikelyButton.prototype = {
         widget.classList.remove(this.service)
         widget.className += (" " + this.className("widget"));
         
-        var button = utils.template(html.span, {
+        var button = utils.template(htmlSpan, {
             className: this.className("button"),
             content:   text
         });
         
-        var icon = utils.template(html.span, {
+        var icon = utils.template(htmlSpan, {
             className: this.className("icon"),
             content:   dom.wrapSVG(options.svgi)
         });
@@ -181,10 +178,10 @@ LikelyButton.prototype = {
         }
         
         this.widget.appendChild(
-            dom.createNode(utils.template(html.span, options))
+            dom.createNode(utils.template(htmlSpan, options))
         );
         
-        this.likely.updateCounter(null, this.service, counter);
+        this.likely.updateCounter(this.service, counter);
     },
     
     /**

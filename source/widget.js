@@ -75,11 +75,10 @@ Likely.prototype = {
     /**
      * Update counter
      * 
-     * @param {Event} e
      * @param {String} service
      * @param {Number} counter
      */
-    updateCounter: function (e, service, counter) {
+    updateCounter: function (service, counter) {
         if (counter) {
             this.number += counter; 
         }
