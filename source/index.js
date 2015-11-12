@@ -30,7 +30,7 @@ var likely = function (node, options) {
 /**
  * Initiate Likely buttons on load
  */
-likely.initate = function () {
+likely.initiate = function () {
     var widgets = dom.findAll('.' + config.name);
     
     utils.toArray(widgets)
