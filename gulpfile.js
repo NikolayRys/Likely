@@ -7,7 +7,7 @@ var gulp = require ('gulp')
 var browserify = require ('gulp-browserify')
 var uglify = require ('gulp-uglify')
 var insert = require ('gulp-insert')
-var stylus = require ('gulp-stylus') // https://www.npmjs.com/package/gulp-stylus/
+var stylus = require ('gulp-stylus')
 var csso = require ('gulp-csso')
 var zip = require ('gulp-zip')
 

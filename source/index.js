@@ -30,18 +30,17 @@ var likely = function (node, options) {
 /**
  * Initiate Likely buttons on load
  */
-likely.initate = function () {
+likely.initiate = likely.initate = function () {
     var widgets = dom.findAll('.' + config.name);
     
     utils.toArray(widgets)
          .forEach(likely);
-}
+};
 
 /**
  * Defaults options for likely 
  */
 likely.defaults = {
-    popupCheckInterval: 0.15e3,
     counters: true,
     timeout:  1e3,
     zeroes:   false,
