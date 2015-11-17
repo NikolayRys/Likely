@@ -12,7 +12,11 @@ var services = require('./services'),
  */
 function Likely (container, options) {
     this.container = container;
-    this.options = options; 
+    this.options   = options; 
+    
+    this.countersLeft = 0;
+    this.buttons      = [];
+    this.number       = 0;
     
     this.init();
 }
@@ -22,10 +26,6 @@ Likely.prototype = {
      * Initiate the social buttons widget
      */
     init: function () {
-        this.countersLeft = 0;
-        this.buttons = [];
-        this.number = 0;
-        
         utils.toArray(this.container.children)
              .forEach(this.addButton.bind(this));
         
@@ -95,7 +95,7 @@ Likely.prototype = {
      * Show the buttons with smooth animation
      */
     appear: function () {
-        this.container.classList.add(config.name + "_visible");
+        this.container.classList.add(config.name + '_visible');
     },
     
     /**
@@ -105,7 +105,7 @@ Likely.prototype = {
         if (this.timeout) {
             clearTimeout(this.timeout);
             
-            this.container.classList.add(config.name + "_ready");
+            this.container.classList.add(config.name + '_ready');
         }
     }
 };

@@ -93,7 +93,7 @@ LikelyButton.prototype = {
         }
         
         options.title = data.title || options.title;
-        options.url   = data.url || options.url;
+        options.url   = data.url   || options.url;
     },
     
     /**
@@ -104,13 +104,7 @@ LikelyButton.prototype = {
             widget  = this.widget,
             text    = widget.innerHTML;
         
-        if (options.clickUrl) {
-            this.widget = widget = this.createLink(widget, options);
-        } 
-        else {
-            widget.addEventListener("click", this.click.bind(this));
-        }
-        
+        widget.addEventListener("click", this.click.bind(this));
         widget.classList.remove(this.service)
         widget.className += (" " + this.className("widget"));
         
@@ -150,7 +144,9 @@ LikelyButton.prototype = {
      * @return {String}
      */
     className: function (className) {
-        return utils.likelyClass(className, this.service);
+        var fullClass = config.prefix + className;
+    
+        return fullClass + ' ' + fullClass + '_' + this.service;
     },
     
     /**
@@ -161,7 +157,7 @@ LikelyButton.prototype = {
     updateCounter: function (counter) {
         counter = parseInt(counter, 10) || 0;
         
-        var counterElement = dom.find('.likely__counter', this.widget);
+        var counterElement = dom.find('.' + config.name + '__counter', this.widget);
         
         if (counterElement) {
             counterElement.parentNode.removeChild(counterElement);

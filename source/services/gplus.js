@@ -48,8 +48,8 @@ utils.set(window, 'services.gplus.cb', function (counter) {
     }
     
     var url = utils.getStackURL(),
-        id  = utils.getURL(url),
-        gid = url.match(/gid=(\d+)/).pop();
+        gid = url.match(/gid=(\d+)/).pop(),
+        id  = utils.getURL(url);
     
     gplus.promises[gid + '_' + id](counter);
 });

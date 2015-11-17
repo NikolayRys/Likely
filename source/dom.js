@@ -35,7 +35,7 @@ var dom = module.exports = {
             head   = document.head;
     
         script.type = 'text/javascript';
-        script.src = url;
+        script.src  = url;
         
         head.appendChild(script);
         head.removeChild(script);
@@ -68,9 +68,7 @@ var dom = module.exports = {
      * @return {Node}
      */
     find: function (selector, node) {
-        node = node || document;
-    
-        return node.querySelector(selector);
+        return (node || document).querySelector(selector);
     },
 
     /**
@@ -81,9 +79,7 @@ var dom = module.exports = {
      * @return {NodeList}
      */
     findAll: function (selector, node) {
-        node = node || document;
-    
-        return node.querySelectorAll(selector);
+        return (node || document).querySelectorAll(selector);
     },
     
     /**

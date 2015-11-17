@@ -16,7 +16,8 @@ var services = {
 };
 
 utils.each(services, function (service, key) {
-    services[key] = Service(service);
+    Service(service);
+    
     service.svgi = svg[key];
     service.name = key;
 });

@@ -1,6 +1,10 @@
 var dom = require('./dom');
 
-var counter = function (url, promise) {
+/**
+ * @param {String} url
+ * @param {Function} factory
+ */
+var counter = function (url, factory) {
     var self = this;
     
     dom.getJSON(url, function (count) {
@@ -9,15 +13,16 @@ var counter = function (url, promise) {
                 count = self.convertNumber(count);
             }
             
-            promise(count);
+            factory(count);
         } 
         catch (e) {}
     });
 };
 
+/**
+ * @param {Object} options
+ */
 module.exports = function (options) {
     options.counter = options.counter || counter;
     options.click   = options.click   || function () { return true; };
-    
-    return options;
 };

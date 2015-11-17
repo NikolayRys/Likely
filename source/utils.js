@@ -1,8 +1,9 @@
-var config = require('./config');
+var bool = {yes: true, no: false},
+    rUrl = /(https?|ftp):\/\/[^\s\/$.?#].[^\s]*/gi;
 
-var bool  = {yes: true, no: false},
-    rUrl  = /(https?|ftp):\/\/[^\s\/$.?#].[^\s]*/gi;
-
+/** 
+ * @internal
+ */
 var utils = {
     /**
      * Simple $.each, only for objects
@@ -67,22 +68,23 @@ var utils = {
      * based on https://gist.github.com/brettz9/4093766#file_html5_dataset.js
      *
      * @param {Node} node
+     * @return {Object}
      */
     getDataset: function (node) {
         if (typeof node.dataset === 'object') {
             return node.dataset;
         }
-
+        
         var i,
             dataset = {},
             attributes = node.attributes,
             attribute,
             attributeName;
-
+        
         var toUpperCase = function (n0) {
             return n0.charAt(1).toUpperCase();
         };
-
+        
         for (i = attributes.length - 1; i >= 0; i--) {
             attribute = attributes[i];
             if (attribute && attribute.name &&
@@ -91,7 +93,7 @@ var utils = {
                     dataset[attributeName] = attribute.value
                 }
         }
-
+        
         return dataset;
     },
 
@@ -139,19 +141,6 @@ var utils = {
         }
     
         return utils.template(text, data);
-    },
-
-    /**
-     * Construct a CSS class
-     * 
-     * @param {String} type
-     * @param {String} service
-     * @return {String}
-     */
-    likelyClass: function (type, service) {
-        var fullClass = config.prefix + type;
-    
-        return fullClass + " " + fullClass + "_" + service;
     },
 
     /**
@@ -223,31 +212,6 @@ var utils = {
         });
     
         object[last] = value;
-    },
-
-    /**
-     * Get a value from multidimensional object
-     * 
-     * @param {Object} object
-     * @param {String} key
-     * @return {Object}
-     */
-    get: function (object, key) {
-        var frags = key.split('.');
-    
-        for (var i = 0; i < frags.length; i ++) {
-            var key = frags[i];
-        
-            if (!key in object) {
-                object = null;
-            
-                break;
-            }
-        
-            object = object[key];
-        }
-    
-        return object;
     }
 };
 
