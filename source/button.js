@@ -28,9 +28,12 @@ LikelyButton.prototype = {
     init: function () {
         this.detectService();
         this.detectParams();
-        this.initHtml();
+        
+        if (this.service) {
+            this.initHtml();
     
-        setTimeout(this.initCounter.bind(this), 0);
+            setTimeout(this.initCounter.bind(this), 0);
+        }
     },
     
     /**

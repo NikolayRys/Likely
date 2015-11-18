@@ -20,7 +20,7 @@ module.exports = function (service, url, options) {
     
     var counters = factories[service],
         counter  = counters[url];
-    
+        
     if (!options.forceUpdate && counter) {
         return counter;
     }

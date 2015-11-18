@@ -13,11 +13,19 @@ var zip = require ('gulp-zip')
 
 var release = './release/'
 
+function comment (version) {
+    return require ('fs').readFileSync ('./source/header.js')
+                         .toString ()
+                         .replace (/\$version/g, version)
+}
+
 gulp.task ('js', function () {
+  var version = require ('./package.json').version
+  
   return gulp.src ('./source/likely.js')
     .pipe (browserify ())
     .pipe (uglify ())
-    .pipe (insert.prepend (require ('fs').readFileSync ('./source/header.js')))
+    .pipe (insert.prepend (comment (version)))
     .pipe (gulp.dest (release))
 })
 
@@ -29,7 +37,7 @@ gulp.task ('css', function () {
 })
 
 gulp.task ('zip', ['js', 'css'], function () {
-  var version = require('./package.json').version;
+  var version = require ('./package.json').version
   
   return gulp.src ([
     release + 'license.txt',
