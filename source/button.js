@@ -42,7 +42,7 @@ LikelyButton.prototype = {
      * @param {Object} options
      */
     update: function (options) {
-        var className = "." + config.prefix + "counter";
+        var className = '.' + config.prefix + 'counter';
             counters  = dom.findAll(className, this.widget);
         
         utils.extend(this.options, utils.merge({forceUpdate: false}, options));
@@ -61,7 +61,7 @@ LikelyButton.prototype = {
             service = utils.getDataset(widget).service;
         
         if (!service) {
-            var classes = widget.className.split(" ");
+            var classes = widget.className.split(' ');
             
             for (var i = 0; i < classes.length; i++) {
                 if (classes[i] in services) break;
@@ -107,17 +107,17 @@ LikelyButton.prototype = {
             widget  = this.widget,
             text    = widget.innerHTML;
         
-        widget.addEventListener("click", this.click.bind(this));
+        widget.addEventListener('click', this.click.bind(this));
         widget.classList.remove(this.service)
-        widget.className += (" " + this.className("widget"));
+        widget.className += (' ' + this.className('widget'));
         
         var button = utils.template(htmlSpan, {
-            className: this.className("button"),
+            className: this.className('button'),
             content:   text
         });
         
         var icon = utils.template(htmlSpan, {
-            className: this.className("icon"),
+            className: this.className('icon'),
             content:   dom.wrapSVG(options.svgi)
         });
         
@@ -133,7 +133,9 @@ LikelyButton.prototype = {
         if (options.counters && options.counterNumber) {
             this.updateCounter(options.counterNumber);
         }
-        else {
+        else if (options.counterUrl) {
+            this.service == 'twitter' && console.log(options);
+            
             fetch(
                 this.service, 
                 options.url,
@@ -167,13 +169,13 @@ LikelyButton.prototype = {
         }
         
         var options = {
-            className: this.className("counter"),
+            className: this.className('counter'),
             content:   counter
         };
         
         if (!counter && !this.options.zeroes) {
-            options.className += " " + config.prefix + "counter_empty";
-            options.content = "";
+            options.className += ' ' + config.prefix + 'counter_empty';
+            options.content = '';
         }
         
         this.widget.appendChild(
@@ -216,7 +218,7 @@ LikelyButton.prototype = {
                 this.widget.dataset, 
                 this.options.data
             )),
-            delimeter = url.indexOf("?") === -1 ? "?" : "&";
+            delimeter = url.indexOf('?') === -1 ? '?' : '&';
         
         return parameters === '' 
             ? url 
