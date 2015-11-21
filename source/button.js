@@ -134,8 +134,6 @@ LikelyButton.prototype = {
             this.updateCounter(options.counterNumber);
         }
         else if (options.counterUrl) {
-            this.service == 'twitter' && console.log(options);
-            
             fetch(
                 this.service, 
                 options.url,
