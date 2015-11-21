@@ -7,7 +7,7 @@ var config = require('../config'),
     dom    = require('../dom');
 
 var vkontakte = {
-    counterUrl: "https://vk.com/share.php?act=count&url={url}&index={index}",
+    counterUrl: 'https://vk.com/share.php?act=count&url={url}&index={index}',
     counter: function (url, promise) {
         this.promises.push(promise);
         
@@ -16,7 +16,7 @@ var vkontakte = {
         }));
     },
     promises: [],
-    popupUrl: config.protocol + "//vk.com/share.php?url={url}&title={title}",
+    popupUrl: config.protocol + '//vk.com/share.php?url={url}&title={title}',
     popupWidth: 550,
     popupHeight: 330
 };

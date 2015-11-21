@@ -9,7 +9,7 @@ var config = require('../config'),
 var gplus = {
     counterUrl: config.secure 
         ? undefined 
-        : "http://share.yandex.ru/gpp.xml?gid={gid}&url={url}",
+        : 'http://share.yandex.ru/gpp.xml?gid={gid}&url={url}',
     counter: function (url, promise, id) {
         var gid = this.gid++;
         
@@ -21,7 +21,7 @@ var gplus = {
     },
     gid: 0,
     promises: {},
-    popupUrl: "https://plus.google.com/share?url={url}",
+    popupUrl: 'https://plus.google.com/share?url={url}',
     popupWidth: 700,
     popupHeight: 500
 };
@@ -43,8 +43,8 @@ var gplus = {
  * @param {Number} counter
  */
 utils.set(window, 'services.gplus.cb', function (counter) {
-    if (typeof counter === "string") {
-        counter = counter.replace(/\D/g, "");
+    if (typeof counter === 'string') {
+        counter = counter.replace(/\D/g, '');
     }
     
     var url = utils.getStackURL(),

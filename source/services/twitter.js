@@ -3,11 +3,11 @@
  */
 
 module.exports = {
-    counterUrl: "https://cdn.api.twitter.com/1/urls/count.json?url={url}&callback=?",
+    counterUrl: 'https://cdn.api.twitter.com/1/urls/count.json?url={url}&callback=?',
     convertNumber: function (counter) {
         return counter.count;
     },
-    popupUrl: "https://twitter.com/intent/tweet?url={url}&text={title}",
+    popupUrl: 'https://twitter.com/intent/tweet?url={url}&text={title}',
     popupWidth: 600,
     popupHeight: 450,
     click: function () {
