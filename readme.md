@@ -19,6 +19,19 @@ bower install ilyabirman-likely
 Or download this repository and move files `release/likely.js` and 
 `release/likely.css` to desired directory.
 
+## Using with webpack
+
+First, make sure that you install webpack's [json-loader](https://github.com/webpack/json-loader).
+
+Next install **likely** via npm.
+
+Then, initiate Likely:
+
+```js
+// on document ready or in the end
+require('ilyabirman-likely').initiate();
+```
+
 ## Setup
 
 After you've installed Likely, you need to setup Likely. First, you need to 
