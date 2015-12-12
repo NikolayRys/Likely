@@ -32,6 +32,8 @@ Then, initiate Likely:
 require('ilyabirman-likely').initiate();
 ```
 
+Instruction for using with webpack provided by @Corey-Maler.
+
 ## Setup
 
 After you've installed Likely, you need to setup Likely. First, you need to 
