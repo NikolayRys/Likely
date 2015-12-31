@@ -163,32 +163,6 @@ var utils = {
     },
 
     /**
-     * Get URL of invoked script from Stack error 
-     * 
-     * @return {String}
-     */
-    getStackURL: function () {
-        try {
-            throw new Error;
-        }
-        catch (e) {
-            // IE add ')' to the end of url like this:
-            // http://share.yandex.ru/gpp.xml?gid=0&url=http%3A%2F%2Filyabirman.ru%2F:1:1)
-            return e.stack.match(rUrl).pop().replace(/:\d+:\d+\)?$/, '');
-        }
-    },
-
-    /**
-     * Get URL from URL (Yo dawg, I heard you like URLs)
-     * 
-     * @param {String} url
-     * @return {String}
-     */
-    getURL: function (url) {
-        return decodeURIComponent(url.match(/url=([^&]+)/).pop());
-    },
-
-    /**
      * Set value in object using dot-notation
      * 
      * @param {Object} object
