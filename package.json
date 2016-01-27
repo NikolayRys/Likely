@@ -1,10 +1,10 @@
 {
   "name": "ilyabirman-likely",
   "description": "The social sharing buttons that aren’t shabby",
-  "version": "2.0.8",
+  "version": "2.0.9",
   "repository": {
      "type": "git",
-     "url": "https://github.com/ilyabirman/Likely.git" 
+     "url": "https://github.com/ilyabirman/Likely.git"
   },
   "author": "Ilya Birman",
   "license": "MIT",
