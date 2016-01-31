@@ -9,7 +9,7 @@ module.exports = {
     convertNumber: function (counter) {
         return counter.count;
     },
-    popupUrl: config.protocol + '://www.linkedin.com/shareArticle?url={url}&mini=true&title={title}',
+    popupUrl: config.protocol + '//www.linkedin.com/shareArticle?url={url}&mini=true&title={title}',
     popupWidth: 600,
     popupHeight: 500
 };
