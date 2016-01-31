@@ -1,5 +1,5 @@
 /**
- * Facebook service provider 
+ * Facebook service provider
  */
 
 module.exports = {
