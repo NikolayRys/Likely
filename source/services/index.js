@@ -12,7 +12,8 @@ var services = {
     pinterest:     require('./pinterest'),
     facebook:      require('./facebook'),
     twitter:       require('./twitter'),
-    gplus:         require('./gplus')
+    gplus:         require('./gplus'),
+    linkedin:      require('./linkedin')
 };
 
 utils.each(services, function (service, key) {
