@@ -7,9 +7,7 @@ var config = require('../config'),
     dom    = require('../dom');
 
 var odnoklassniki = {
-    counterUrl: config.secure 
-        ? undefined 
-        : 'http://connect.ok.ru/dk?st.cmd=extLike&ref={url}&uid={index}',
+    counterUrl: config.protocol + '//connect.ok.ru/dk?st.cmd=extLike&ref={url}&uid={index}',
     counter: function (url, promise) {
         this.promises.push(promise);
         
@@ -18,7 +16,7 @@ var odnoklassniki = {
         }));
     },
     promises: [],
-    popupUrl: 'http://connect.ok.ru/dk?st.cmd=WidgetSharePreview&service=odnoklassniki&st.shareUrl={url}',
+    popupUrl: config.protocol + '//connect.ok.ru/dk?st.cmd=WidgetSharePreview&service=odnoklassniki&st.shareUrl={url}',
     popupWidth: 640,
     popupHeight: 400
 };
