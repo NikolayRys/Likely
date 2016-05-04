@@ -7,7 +7,7 @@ var config = require('../config'),
     dom    = require('../dom');
 
 var odnoklassniki = {
-    counterUrl: config.protocol + '://connect.ok.ru/dk?st.cmd=extLike&ref={url}&uid={index}',
+    counterUrl: config.protocol + '//connect.ok.ru/dk?st.cmd=extLike&ref={url}&uid={index}',
     counter: function (url, promise) {
         this.promises.push(promise);
         
