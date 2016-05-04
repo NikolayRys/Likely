@@ -3,19 +3,23 @@
   "description": "The social sharing buttons that aren’t shabby",
   "version": "2.0.8",
   "repository": {
-     "type": "git",
-     "url": "https://github.com/ilyabirman/Likely.git" 
+    "type": "git",
+    "url": "https://github.com/ilyabirman/Likely.git"
   },
   "author": "Ilya Birman",
   "license": "MIT",
   "main": "source/index.js",
+  "scripts": {
+    "codestyle": "./node_modules/.bin/eslint source --fix"
+  },
   "devDependencies": {
+    "eslint": "^2.9.0",
     "gulp": "*",
-    "gulp-zip": "^2.0.2",
+    "gulp-browserify": "*",
     "gulp-csso": "^1.0.0",
+    "gulp-insert": "*",
     "gulp-stylus": "~1.3.4",
     "gulp-uglify": "~1.0.2",
-    "gulp-insert": "*",
-    "gulp-browserify": "*"
+    "gulp-zip": "^2.0.2"
   }
 }
