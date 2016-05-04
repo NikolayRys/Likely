@@ -16,7 +16,7 @@ var odnoklassniki = {
         }));
     },
     promises: [],
-    popupUrl: config.protocol + '://connect.ok.ru/dk?st.cmd=WidgetSharePreview&service=odnoklassniki&st.shareUrl={url}',
+    popupUrl: config.protocol + '//connect.ok.ru/dk?st.cmd=WidgetSharePreview&service=odnoklassniki&st.shareUrl={url}',
     popupWidth: 640,
     popupHeight: 400
 };
