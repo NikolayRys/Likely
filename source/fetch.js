@@ -1,37 +1,39 @@
-var services = require('./services'),
-    Factory  = require('./factory'),
-    utils    = require('./utils'),
-    dom      = require('./dom');
+'use strict';
+
+var services = require('./services');
+var Factory = require('./factory');
+var utils = require('./utils');
 
 var factories = {};
 
 /**
  * Fetch data
- * 
+ *
  * @param {String} service
  * @param {String} url
  * @param {Object} options
- * @return {Promise}
+ * @returns {Promise}
  */
 module.exports = function (service, url, options) {
     if (!factories[service]) {
         factories[service] = {};
     }
-    
-    var counters = factories[service],
-        counter  = counters[url];
-        
+
+    var counters = factories[service];
+    var counter = counters[url];
+
     if (!options.forceUpdate && counter) {
         return counter;
     }
-    
+
     counter = Factory();
-    
+
     var href = utils.makeUrl(options.counterUrl, {
-        url: url
+        url: url,
     });
-    
+
     services[service].counter(href, counter, url);
-    
-    return counters[url] = counter;
+
+    counters[url] = counter;
+    return counter;
 };

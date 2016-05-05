@@ -1,5 +1,7 @@
+'use strict';
+
 /**
- * Facebook service provider 
+ * Facebook service provider
  */
 
 module.exports = {
@@ -9,5 +11,5 @@ module.exports = {
     },
     popupUrl: 'https://www.facebook.com/sharer/sharer.php?u={url}',
     popupWidth: 600,
-    popupHeight: 500
+    popupHeight: 500,
 };

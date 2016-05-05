@@ -1,3 +1,5 @@
+'use strict';
+
 var likely = require('./index.js');
 
 window.likely = likely;
