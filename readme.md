@@ -74,6 +74,7 @@ social networks in child divs:
     <div class="vkontakte">Share</div>
     <div class="pinterest">Pin</div>
     <div class="odnoklassniki">Share</div>
+    <div class="telegram">Share</div>
 </div>
 ```
 
@@ -85,6 +86,7 @@ Likely supports following social networks:
 * `vkontakte` – VK
 * `pinterest` – Pinterest
 * `odnoklassniki` – Odnoklassniki
+* `telegram` – Telegram
 
 Also, you can have several Likely button sets on the page. Just create another 
 container and set needed options.
