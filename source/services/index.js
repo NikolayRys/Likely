@@ -16,7 +16,7 @@ var services = {
     facebook: require('./facebook'),
     twitter: require('./twitter'),
     gplus: require('./gplus'),
-    telegram:      require('./telegram')
+    telegram: require('./telegram'),
 };
 /* eslint-enable global-require */
 
