@@ -14,7 +14,6 @@ module.exports = {
             "error",
             "stroustrup"
         ],
-        "callback-return": "error",
         "camelcase": "error",
         "comma-dangle": [
             "error",
@@ -167,7 +166,10 @@ module.exports = {
             "always"
         ],
         "object-shorthand": "off",
-        "one-var": "off",
+        "one-var": [
+            "error",
+            "never"
+        ],
         "one-var-declaration-per-line": "error",
         "operator-assignment": "off",
         "operator-linebreak": "error",

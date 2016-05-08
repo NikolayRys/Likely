@@ -1,3 +1,5 @@
+'use strict';
+
 var dom = require('./dom');
 
 /**
@@ -6,15 +8,12 @@ var dom = require('./dom');
  */
 var counter = function (url, factory) {
     var self = this;
-    
+
     dom.getJSON(url, function (count) {
         try {
-            if (typeof self.convertNumber === 'function') {
-                count = self.convertNumber(count);
-            }
-            
-            factory(count);
-        } 
+            var convertedNumber = typeof self.convertNumber === 'function' ? self.convertNumber(count) : count;
+            factory(convertedNumber);
+        }
         catch (e) {}
     });
 };
@@ -24,5 +23,7 @@ var counter = function (url, factory) {
  */
 module.exports = function (options) {
     options.counter = options.counter || counter;
-    options.click   = options.click   || function () { return true; };
+    options.click = options.click || function () {
+        return true;
+    };
 };

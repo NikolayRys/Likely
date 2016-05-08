@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * Twitter service provider
  */
@@ -10,7 +12,7 @@ module.exports = {
         if (!/[\.\?:\-–—]\s*$/.test(this.options.title)) {
             this.options.title += ':';
         }
-        
+
         return true;
-    }
+    },
 };
