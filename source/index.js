@@ -47,7 +47,7 @@ likely.defaults = {
     zeroes: false,
     title: document.title,
     wait: 0.5e3,
-    url: window.location.href.replace(window.location.hash, ''),
+    url: utils.getDefaultUrl(),
 };
 
 module.exports = likely;

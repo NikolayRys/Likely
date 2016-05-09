@@ -199,6 +199,22 @@ var utils = {
 
         object[last] = value;
     },
+
+    /**
+     * Returns default url for likely.
+     * It could be href from <link rel='canonical'>
+     * if presents in the document, or the current url of the page otherwise
+     *
+     * @returns {String}
+     */
+    getDefaultUrl: function () {
+        var link = document.querySelector('link[rel="canonical"]');
+
+        if (link) {
+            return link.href;
+        }
+        return window.location.href.replace(window.location.hash, '');
+    },
 };
 
 module.exports = utils;
