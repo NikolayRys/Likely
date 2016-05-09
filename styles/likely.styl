@@ -75,12 +75,17 @@
 
   &__widget {
   
-    transition: background .33s ease-out, color .33s ease-out, fill .33s ease-out;
+    transition: widget-transition = background .33s ease-out, color .33s ease-out, fill .33s ease-out;
     line-height: inherit;
   
     &:hover, &:active, &:focus {
       transition: none;
       cursor: pointer;
+
+      @media (hover: none) {
+        transition: widget-transition;
+        cursor: unset;
+      }
     }
     
   }
@@ -112,11 +117,14 @@
 }
 
 /* Style options */
+likely-background = rgba(231,231,231,.8);
+likely-light-background = rgba(236,236,236,.16);
+likely-light-box-shadow = rgba(0,0,0,.2) 0 0 .33em;
 
 .likely {
   .likely__widget {
     color: #000;
-    background: rgba(231,231,231,.8);
+    background: likely-background;
   } 
   .likely__counter {
     background-size: 1px 1px;
@@ -128,8 +136,8 @@
   .likely__widget {
     color: #fff;
     fill: #fff;
-    background: rgba(236,236,236,.16);
-    text-shadow: rgba(0,0,0,.2) 0 0 .33em;
+    background: likely-light-background;
+    text-shadow: likely-light-box-shadow;
   }
   .likely__counter {
     background-image: linear-gradient(to right, rgba(255,255,255,.4) 0, rgba(255,255,255,0) .5px, rgba(255,255,255,0) 100%)
@@ -141,6 +149,10 @@ colorize(button, color) {
     fill: color;
     &:hover, &:active, &:focus {
       background: alpha(mix(#fff,color,75%),.8);
+
+      @media (hover: none) {
+        background: likely-background;
+      }
     }
   }
   .likely-light {
@@ -148,6 +160,11 @@ colorize(button, color) {
       &:hover, &:active, &:focus {
         text-shadow: color 0 0 .25em;
         background: alpha(color,0.7);
+
+        @media (hover: none) {
+          text-shadow: likely-light-box-shadow;
+          background: likely-light-background;
+        }
       }
     }
   }
