@@ -35,7 +35,9 @@ likely.initiate = likely.initate = function () {
     var widgets = dom.findAll('.' + config.name);
 
     utils.toArray(widgets)
-        .forEach(likely);
+        .forEach(function (widget) {
+            likely(widget);
+        });
 };
 
 /**
@@ -47,7 +49,7 @@ likely.defaults = {
     zeroes: false,
     title: document.title,
     wait: 0.5e3,
-    url: window.location.href.replace(window.location.hash, ''),
+    url: utils.getDefaultUrl(),
 };
 
 module.exports = likely;
