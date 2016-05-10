@@ -2,6 +2,8 @@
 
 > The social sharing buttons that aren’t shabby
 
+![Likely screenshot](http://i.imgur.com/KvMkD6R.png)
+
 ## Install
 
 Install with npm:
