@@ -10,7 +10,9 @@
   "license": "MIT",
   "main": "source/index.js",
   "scripts": {
-    "codestyle": "./node_modules/.bin/eslint source --fix"
+    "build": "gulp build",
+    "test": "npm run-script codestyle",
+    "codestyle": "eslint source --fix"
   },
   "devDependencies": {
     "eslint": "^2.9.0",
