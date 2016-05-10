@@ -118,6 +118,10 @@ It is suppose to be a URL to media file:
 <div class="pinterest" data-media="https://placekitten.com/200/400">Pin</div>
 ```
 
+## Supported browsers
+
+We support IE 10+, Safari 9+ and the latest versions of Chrome, Firefox and Edge. Likely could work in the older versions too, but we don’t do anything specific to maintain its compatibility with them and don’t test it there. 
+
 ## Demo
 
 You can see Likely in action on its [homepage](http://ilyabirman.net/projects/likely/).
