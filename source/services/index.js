@@ -6,7 +6,7 @@
 
 var Service = require('../service');
 var utils = require('../utils');
-var svg = require('../svg.json');
+var svg = require('../svg.js');
 
 /* eslint-disable global-require */
 var services = {
