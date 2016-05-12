@@ -2,7 +2,7 @@
 
 The social sharing buttons that aren’t shabby
 
-![Likely screenshot](http://i.imgur.com/KvMkD6R.png)
+[![Likely screenshot](http://i.imgur.com/Duv5ST5.png)](http://ilyabirman.net/projects/likely/)
 
 ## Take a look
 
