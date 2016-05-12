@@ -1,31 +1,34 @@
 # Likely
 
-> The social sharing buttons that aren’t shabby
+The social sharing buttons that aren’t shabby
 
 ![Likely screenshot](http://i.imgur.com/KvMkD6R.png)
 
-## Install
+## Get
 
-Install with npm:
+[Download the repository code](https://github.com/ilyabirman/Likely/archive/master.zip) and move `release/likely.js` and 
+`release/likely.css` to the desired directory.
+
+Or use NPM or Bower:
 
 ```sh
 $ npm install ilyabirman-likely --save
-```
-
-Install with bower:
-
-```sh
 $ bower install ilyabirman-likely --save
 ```
 
-Or [download the repository code](https://github.com/ilyabirman/Likely/archive/master.zip) and move `release/likely.js` and 
-`release/likely.css` to the desired directory.
-
 ## Setup
 
-First, include the compiled sources.
+Link the files `likely.css` and `likely.js` from the compiled sources.
 
-With npm:
+If downloaded directly:
+```html
+<!-- Head -->
+<link href="path/to/likely.css" rel="stylesheet">
+<!-- End of body -->
+<script src="path/to/likely.js" type="text/javascript"></script>
+```
+
+If installed with NPM:
 
 ```html
 <!-- Head -->
@@ -36,7 +39,7 @@ With npm:
         type="text/javascript"></script>
 ```
 
-With bower:
+If installed with Bower:
 
 ```html
 <!-- Head -->
@@ -47,9 +50,7 @@ With bower:
         type="text/javascript"></script>
 ```
 
-Or, if you downloaded the repository code, just include the files called `likely.css` and `likely.js`.
-
-Then, create a `div` with the `likely` class and list necessary social networks in child `div`s:
+Then, create a `div` with the class `likely` and list necessary social networks in child `div`s:
 
 ```html
 <div class="likely">
@@ -62,7 +63,6 @@ Then, create a `div` with the `likely` class and list necessary social networks 
     <div class="telegram">Share</div>
 </div>
 ```
-
 Likely supports following social networks:
 
 * `facebook` – Facebook
@@ -73,7 +73,7 @@ Likely supports following social networks:
 * `odnoklassniki` – Odnoklassniki
 * `telegram` – Telegram
 
-If you need several Likely widgets on the page, just create another `div` with the `likely` class and list the social networks in it.
+If you need several Likely widgets on the page, just create another `div` with the class `likely` and list the social networks in it.
 
 ### Usage with webpack
 
