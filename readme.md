@@ -13,7 +13,7 @@ See Likely in action on its [homepage](http://ilyabirman.net/projects/likely/).
 [Download the repository code](https://github.com/ilyabirman/Likely/archive/master.zip) and move `release/likely.js` and 
 `release/likely.css` to the desired directory.
 
-Or use NPM or Bower:
+Or use npm or Bower:
 
 ```sh
 $ npm install ilyabirman-likely --save
@@ -32,7 +32,7 @@ If downloaded directly:
 <script src="path/to/likely.js" type="text/javascript"></script>
 ```
 
-If installed with NPM:
+If installed with npm:
 
 ```html
 <!-- Head -->
