@@ -10,7 +10,7 @@ See Likely in action on its [homepage](http://ilyabirman.net/projects/likely/).
 
 ## Get
 
-[Download the repository code](https://github.com/ilyabirman/Likely/archive/master.zip) and move `release/likely.js` and 
+[Download the repository code](https://github.com/ilyabirman/Likely/archive/master.zip) and move `release/likely.js` and
 `release/likely.css` to the desired directory.
 
 Or use npm or Bower:
@@ -36,10 +36,10 @@ If installed with npm:
 
 ```html
 <!-- Head -->
-<link href="node_modules/ilyabirman-likely/release/likely.css" 
+<link href="node_modules/ilyabirman-likely/release/likely.css"
       rel="stylesheet">
 <!-- End of body -->
-<script src="node_modules/ilyabirman-likely/release/likely.js" 
+<script src="node_modules/ilyabirman-likely/release/likely.js"
         type="text/javascript"></script>
 ```
 
@@ -47,10 +47,10 @@ If installed with Bower:
 
 ```html
 <!-- Head -->
-<link href="bower_components/Likely/release/likely.css" 
+<link href="bower_components/Likely/release/likely.css"
       rel="stylesheet">
 <!-- End of body -->
-<script src="bower_components/Likely/release/likely.js" 
+<script src="bower_components/Likely/release/likely.js"
         type="text/javascript"></script>
 ```
 
@@ -123,7 +123,7 @@ You can set `data-via` attribute to mention a specific user in the tweet:
 <div class="twitter" data-via="ilyabirman">Tweet</div>
 ```
 
-With `data-via="ilyabirman"`, the tweet text will include “via @ilyabirman”. Read more about the `via` parameter [in the Twitter documentation](https://dev.twitter.com/web/tweet-button#component-via). 
+With `data-via="ilyabirman"`, the tweet text will include “via @ilyabirman”. Read more about the `via` parameter [in the Twitter documentation](https://dev.twitter.com/web/tweet-button#component-via).
 
 ### Pinterest
 
@@ -138,4 +138,4 @@ Read more about the `media` parameter in the [in the Pinterest documentation](ht
 
 ## Supported browsers
 
-We support IE 10+, Safari 9+ and the latest versions of Chrome, Firefox and Edge. Likely could work in the older versions too, but we don’t do anything specific to maintain its compatibility with them and don’t test it there. 
+We support IE 10+, Safari 9+ and the latest versions of Chrome, Firefox and Edge. Likely could work in the older versions too, but we don’t do anything specific to maintain its compatibility with them and don’t test it there.
