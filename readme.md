@@ -79,42 +79,24 @@ Likely supports following social networks:
 
 If you need several Likely widgets on the page, just create another `div` with the class `likely` and list the social networks in it.
 
-### Usage with webpack
+### Using as a Commonjs module
 
-First, install webpack’s [`json-loader`](https://github.com/webpack/json-loader) and add it to your `webpack.config.js`:
+Likely can be used as a CommonJS module, so you can use it within webpack or browserify build systems.
 
-```sh
-$ npm install json-loader --save-dev
-```
-
-```js
-// webpack.config.js
-module.exports = {
-    module: {
-        loaders: [
-            { test: /\.json/, loader: 'json-loader' }
-        ]
-    }
-}
-```
-
-Then, install `likely` with npm:
+First, install Likely using npm:
 
 ```sh
-$ npm install likely --save
+$ npm install ilyabirman-likely --save
 ```
 
-Then, initiate Likely:
+Then, use it as Commonjs module somewhere in your program:
 
 ```js
 var likely = require('ilyabirman-likely');
 
+// Finds all the widgets in the DOM and initialize them
 likely.initiate();
 ```
-
-This will find all Likely widgets in the document and initialize them.
-
-_Thanks to [Corey Maler](https://github.com/Corey-Maler) for the instructions._
 
 ## Options
 
