@@ -63,7 +63,7 @@ Then, create a `div` with the class `likely` and list necessary social networks 
     <div class="gplus">+1</div>
     <div class="vkontakte">Share</div>
     <div class="pinterest">Pin</div>
-    <div class="odnoklassniki">Share</div>
+    <div class="odnoklassniki">Like</div>
     <div class="telegram">Share</div>
 </div>
 ```
