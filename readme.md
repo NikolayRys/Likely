@@ -64,7 +64,7 @@ Then, create a `div` with the class `likely` and list necessary social networks 
     <div class="vkontakte">Share</div>
     <div class="pinterest">Pin</div>
     <div class="odnoklassniki">Like</div>
-    <div class="telegram">Share</div>
+    <div class="telegram">Send</div>
 </div>
 ```
 Likely supports following social networks:
