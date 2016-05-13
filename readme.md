@@ -136,6 +136,14 @@ The attribute should be an image URL:
 
 Read more about the `media` parameter in the [in the Pinterest documentation](https://developers.pinterest.com/docs/widgets/pin-it/#source-settings).
 
+### Telegram
+
+You can set `data-text` attribute to define a text of the message.
+
+```html
+<div class="telegram" data-text="Ilya Birman’s website">Send</div>
+```
+
 ## Supported browsers
 
 We support IE 10+, Safari 9+ and the latest versions of Chrome, Firefox and Edge. Likely could work in the older versions too, but we don’t do anything specific to maintain its compatibility with them and don’t test it there.
