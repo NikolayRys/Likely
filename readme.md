@@ -2,55 +2,37 @@
 
 The social sharing buttons that aren’t shabby
 
-## Install
+[![Likely screenshot](http://i.imgur.com/ipqE5Tu.png)](http://ilyabirman.net/projects/likely/)
 
-Install via npm:
+## Take a look
+
+See Likely in action on its [homepage](http://ilyabirman.net/projects/likely/).
+
+## Get
+
+[Download the repository code](https://github.com/ilyabirman/Likely/archive/master.zip) and move `release/likely.js` and 
+`release/likely.css` to the desired directory.
+
+Or use npm or Bower:
 
 ```sh
-npm install ilyabirman-likely
+$ npm install ilyabirman-likely --save
+$ bower install ilyabirman-likely --save
 ```
-
-Install via bower:
-
-```sh
-bower install ilyabirman-likely
-```
-
-Or download this repository and move files `release/likely.js` and 
-`release/likely.css` to desired directory.
-
-## Using with webpack
-
-First, make sure that you install webpack's [json-loader](https://github.com/webpack/json-loader).
-
-Next install **likely** via npm.
-
-Then, initiate Likely:
-
-```js
-// on document ready or in the end
-require('ilyabirman-likely').initiate();
-```
-
-Instruction for using with webpack provided by @Corey-Maler.
 
 ## Setup
 
-After you've installed Likely, you need to setup Likely. First, you need to 
-include compiled sources.
+Link the files `likely.css` and `likely.js` from the compiled sources.
 
-With bower:
-
+If downloaded directly:
 ```html
 <!-- Head -->
-<link href="bower_components/Likely/release/likely.css" 
-      rel="stylesheet">
+<link href="path/to/likely.css" rel="stylesheet">
 <!-- End of body -->
-<script src="bower_components/Likely/release/likely.js" 
-        type="text/javascript"></script>
+<script src="path/to/likely.js" type="text/javascript"></script>
 ```
 
-With npm:
+If installed with npm:
 
 ```html
 <!-- Head -->
@@ -61,10 +43,18 @@ With npm:
         type="text/javascript"></script>
 ```
 
-Or just include files named `likely.css` and `likely.js`.
+If installed with Bower:
 
-Then you'll need to create HTML container with `likely` class and list desired 
-social networks in child divs:
+```html
+<!-- Head -->
+<link href="bower_components/Likely/release/likely.css" 
+      rel="stylesheet">
+<!-- End of body -->
+<script src="bower_components/Likely/release/likely.js" 
+        type="text/javascript"></script>
+```
+
+Then, create a `div` with the class `likely` and list necessary social networks in child `div`s:
 
 ```html
 <div class="likely">
@@ -73,11 +63,10 @@ social networks in child divs:
     <div class="gplus">+1</div>
     <div class="vkontakte">Share</div>
     <div class="pinterest">Pin</div>
-    <div class="odnoklassniki">Share</div>
+    <div class="odnoklassniki">Like</div>
     <div class="telegram">Share</div>
 </div>
 ```
-
 Likely supports following social networks:
 
 * `facebook` – Facebook
@@ -88,36 +77,83 @@ Likely supports following social networks:
 * `odnoklassniki` – Odnoklassniki
 * `telegram` – Telegram
 
-Also, you can have several Likely button sets on the page. Just create another 
-container and set needed options.
+If you need several Likely widgets on the page, just create another `div` with the class `likely` and list the social networks in it.
+
+### Usage with webpack
+
+First, install webpack’s [`json-loader`](https://github.com/webpack/json-loader) and add it to your `webpack.config.js`:
+
+```sh
+$ npm install json-loader --save-dev
+```
+
+```js
+// webpack.config.js
+module.exports = {
+    module: {
+        loaders: [
+            { test: /\.json/, loader: 'json-loader' }
+        ]
+    }
+}
+```
+
+Then, install `likely` with npm:
+
+```sh
+$ npm install likely --save
+```
+
+Then, initiate Likely:
+
+```js
+var likely = require('ilyabirman-likely');
+
+likely.initiate();
+```
+
+This will find all Likely widgets in the document and initialize them.
+
+_Thanks to [Corey Maler](https://github.com/Corey-Maler) for the instructions._
 
 ## Options
 
-You can set some options on Likely button set via `data-*` attributes:
+You can configure Likely by specifying `data-*` attributes on a button group or on a button.
+
+### Common options
+
+These options should be specified on the `div` with the `likely` class.
 
 * `data-url` – URL to share and load counters for
 * `data-title` – Page title
 
-There's also social network specific options.
+```html
+<div class="likely" data-url="https://github.com/ilyabirman/Likely">
+    <!-- ... -->
+</div>
+```
 
 ### Twitter
 
-You can set `data-via` attribute on Twitter button to insert username mention 
-of this user:
+You can set `data-via` attribute to mention a specific user in the tweet:
 
 ```html
 <div class="twitter" data-via="ilyabirman">Tweet</div>
 ```
 
+With `data-via="ilyabirman"`, the tweet text will include “via @ilyabirman”. Read more about the `via` parameter [in the Twitter documentation](https://dev.twitter.com/web/tweet-button#component-via). 
+
 ### Pinterest
 
-You can set `data-media` attribute include some media file to share on pinterest.
-It is suppose to be a URL to media file:
+You can set `data-media` attribute to override a default image and substitute a different one in the Pin Create form.
+The attribute should be an image URL:
 
 ```html
 <div class="pinterest" data-media="https://placekitten.com/200/400">Pin</div>
 ```
 
-## Demo
+Read more about the `media` parameter in the [in the Pinterest documentation](https://developers.pinterest.com/docs/widgets/pin-it/#source-settings).
 
-You can see Likely in action on its [homepage](http://ilyabirman.net/projects/likely/).
+## Supported browsers
+
+We support IE 10+, Safari 9+ and the latest versions of Chrome, Firefox and Edge. Likely could work in the older versions too, but we don’t do anything specific to maintain its compatibility with them and don’t test it there. 
