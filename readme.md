@@ -79,7 +79,7 @@ Likely supports following social networks:
 
 If you need several Likely widgets on the page, just create another `div` with the class `likely` and list the social networks in it.
 
-### Using as a Commonjs module
+### Using as a CommonJS module
 
 Likely can be used as a CommonJS module, so you can use it within webpack or browserify build systems.
 
@@ -89,12 +89,12 @@ First, install Likely using npm:
 $ npm install ilyabirman-likely --save
 ```
 
-Then, use it as Commonjs module somewhere in your program:
+Then, use it as CommonJS module somewhere in your program:
 
 ```js
 var likely = require('ilyabirman-likely');
 
-// Finds all the widgets in the DOM and initialize them
+// Finds all the widgets in the DOM and initializes them
 likely.initiate();
 ```
 
