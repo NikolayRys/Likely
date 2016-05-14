@@ -125,6 +125,14 @@ You can set `data-via` attribute to mention a specific user in the tweet:
 
 With `data-via="ilyabirman"`, the tweet text will include “via @ilyabirman”. Read more about the `via` parameter [in the Twitter documentation](https://dev.twitter.com/web/tweet-button#component-via).
 
+### Telegram
+
+You can set `data-text` attribute to define a text of the message.
+
+```html
+<div class="telegram" data-text="Check this out">Send</div>
+```
+
 ### Pinterest
 
 You can set `data-media` attribute to override a default image and substitute a different one in the Pin Create form.
@@ -135,14 +143,6 @@ The attribute should be an image URL:
 ```
 
 Read more about the `media` parameter in the [in the Pinterest documentation](https://developers.pinterest.com/docs/widgets/pin-it/#source-settings).
-
-### Telegram
-
-You can set `data-text` attribute to define a text of the message.
-
-```html
-<div class="telegram" data-text="Ilya Birman’s website">Send</div>
-```
 
 ## Supported browsers
 
