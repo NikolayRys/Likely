@@ -4,12 +4,11 @@
 // "postcss-assets": "^0.9.0"
 
 var gulp = require ('gulp')
-var browserify = require ('gulp-browserify')
-var uglify = require ('gulp-uglify')
 var insert = require ('gulp-insert')
 var stylus = require ('gulp-stylus')
 var csso = require ('gulp-csso')
 var zip = require ('gulp-zip')
+var webpack = require ('webpack-stream')
 
 var release = './release/'
 
@@ -23,8 +22,7 @@ gulp.task ('js', function () {
   var version = require ('./package.json').version
   
   return gulp.src ('./source/likely.js')
-    .pipe (browserify ())
-    .pipe (uglify ())
+    .pipe (webpack (require ('./webpack.config.js')))
     .pipe (insert.prepend (comment (version)))
     .pipe (gulp.dest (release))
 })
