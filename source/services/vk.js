@@ -4,7 +4,6 @@
  * Vkontakte service provider
  */
 
-var config = require('../config');
 var utils = require('../utils');
 var dom = require('../dom');
 
@@ -18,7 +17,7 @@ var vkontakte = {
         }));
     },
     promises: [],
-    popupUrl: config.protocol + '//vk.com/share.php?url={url}&title={title}',
+    popupUrl: 'https://vk.com/share.php?url={url}&title={title}',
     popupWidth: 550,
     popupHeight: 330,
 };

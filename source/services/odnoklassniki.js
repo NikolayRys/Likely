@@ -4,12 +4,11 @@
  * Odnoklassniki service provider
  */
 
-var config = require('../config');
 var utils = require('../utils');
 var dom = require('../dom');
 
 var odnoklassniki = {
-    counterUrl: config.protocol + '//connect.ok.ru/dk?st.cmd=extLike&ref={url}&uid={index}',
+    counterUrl: 'https://connect.ok.ru/dk?st.cmd=extLike&ref={url}&uid={index}',
     counter: function (url, promise) {
         this.promises.push(promise);
 
@@ -18,7 +17,7 @@ var odnoklassniki = {
         }));
     },
     promises: [],
-    popupUrl: config.protocol + '//connect.ok.ru/dk?st.cmd=WidgetSharePreview&service=odnoklassniki&st.shareUrl={url}',
+    popupUrl: 'https://connect.ok.ru/dk?st.cmd=WidgetSharePreview&service=odnoklassniki&st.shareUrl={url}',
     popupWidth: 640,
     popupHeight: 400,
 };
