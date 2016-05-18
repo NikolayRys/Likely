@@ -1,0 +1,54 @@
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>Likely test page - 1</title>
+    <link rel="stylesheet" href="../release/likely.css"/>
+    <script src="../release/likely.js"></script>
+    <style>
+        body {
+            text-align: center;
+            padding: 0;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <button class="js-page" data-page="1">1 page</button>
+    <button class="js-page" data-page="2">2 page</button>
+    <div style="padding: 60px">
+        <div class="likely likely-big" data-title="Best share buttons in the world">
+            <div class="twitter" data-via="ilyabirman">Tweet</div>
+            <div class="facebook">Share</div>
+            <div class="gplus">+1</div>
+            <div class="vkontakte">Share</div>
+            <div class="odnoklassniki">Like</div>
+            <div class="pinterest">Pin</div>
+            <div class="telegram" data-text="Ilya Birman">Send</div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        window.addEventListener('popstate', function(e) {
+            setTitle((e.state) ? e.state.page : 1);
+        });
+
+        window.addEventListener('load', function() {
+            var buttons = [].slice.call(document.querySelectorAll('.js-page'), 0);
+
+            buttons.forEach(function(button) {
+                button.addEventListener('click', function() {
+                    moveToPage(Number(this.getAttribute('data-page')));
+                });
+            });
+        });
+
+        function setTitle(page) {
+            document.title = 'Likely test page - ' + page;
+        }
+
+        function moveToPage(page) {
+            window.history.pushState({ page: page }, '', 'test-history-api.html?p=' + page);
+            setTitle(page);
+        }
+    </script>
+</body>
+</html>

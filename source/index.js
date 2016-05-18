@@ -30,13 +30,14 @@ var likely = function (node, options) {
 
 /**
  * Initiate Likely buttons on load
+ * @param {Object} [options] additional options for each widget
  */
-likely.initiate = likely.initate = function () {
+likely.initiate = likely.initate = function (options) {
     var widgets = dom.findAll('.' + config.name);
 
     utils.toArray(widgets)
         .forEach(function (widget) {
-            likely(widget);
+            likely(widget, options);
         });
 };
 
