@@ -6,7 +6,6 @@
 'use strict';
 
 var gulp = require('gulp');
-var fs = require('fs');
 var browserify = require('gulp-browserify');
 var uglify = require('gulp-uglify');
 var insert = require('gulp-insert');
@@ -19,11 +18,12 @@ var packageJson = require('./package.json');
 var release = './release/';
 
 function comment(version) {
-    /* eslint-disable no-sync */
-    return fs.readFileSync('./source/header.js')
-                         .toString()
-                         .replace(/\$version/g, version);
-    /* eslint-enable no-sync */
+    return [
+        '//! Likely $version by Ilya Birman (ilyabirman.net)',
+        '//! Rewritten sans jQuery by Evgeny Steblinsky (volter9.github.io)',
+        '//! Supported by Ivan Akulov (iamakulov.com), Viktor Karpov (vitkarpov.com), and contributors',
+        '//! Inspired by Social Likes by Artem Sapegin (sapegin.me)',
+    ].join('\n').replace(/\$version/g, version);
 }
 
 gulp.task('js', function () {
@@ -32,7 +32,7 @@ gulp.task('js', function () {
     return gulp.src('./source/likely.js')
     .pipe(browserify())
     .pipe(uglify())
-    .pipe(insert.prepend(comment(version)))
+    .pipe(insert.prepend(comment(version) + '\n'))
     .pipe(gulp.dest(release));
 });
 
