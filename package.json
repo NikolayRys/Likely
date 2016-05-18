@@ -12,8 +12,8 @@
   "scripts": {
     "build": "gulp build",
     "test": "npm run-script check-codestyle",
-    "check-codestyle": "eslint source",
-    "fix-codestyle": "eslint source --fix"
+    "check-codestyle": "eslint ./",
+    "fix-codestyle": "eslint ./ --fix"
   },
   "devDependencies": {
     "eslint": "^2.9.0",
