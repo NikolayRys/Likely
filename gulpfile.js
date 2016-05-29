@@ -5,13 +5,12 @@
 
 'use strict';
 
-var gulp = require('gulp');
-var browserify = require('gulp-browserify');
-var uglify = require('gulp-uglify');
-var insert = require('gulp-insert');
-var stylus = require('gulp-stylus');
-var csso = require('gulp-csso');
-var zip = require('gulp-zip');
+var gulp = require ('gulp');
+var insert = require ('gulp-insert');
+var stylus = require ('gulp-stylus');
+var csso = require ('gulp-csso');
+var zip = require ('gulp-zip');
+var webpack = require ('webpack-stream');
 
 var packageJson = require('./package.json');
 
@@ -30,17 +29,16 @@ gulp.task('js', function () {
     var version = packageJson.version;
 
     return gulp.src('./source/likely.js')
-    .pipe(browserify())
-    .pipe(uglify())
-    .pipe(insert.prepend(comment(version) + '\n'))
-    .pipe(gulp.dest(release));
+        .pipe (webpack (require ('./webpack.config.js')))
+        .pipe(insert.prepend(comment(version) + '\n'))
+        .pipe(gulp.dest(release));
 });
 
 gulp.task('css', function () {
     return gulp.src('./styles/likely.styl')
-    .pipe(stylus())
-    .pipe(csso())
-    .pipe(gulp.dest(release));
+        .pipe(stylus())
+        .pipe(csso())
+        .pipe(gulp.dest(release));
 });
 
 gulp.task('zip', ['js', 'css'], function () {
@@ -51,8 +49,8 @@ gulp.task('zip', ['js', 'css'], function () {
         release + 'likely.css',
         release + 'likely.js',
     ])
-    .pipe(zip('ilya-birman-likely-' + version + '.zip'))
-    .pipe(gulp.dest(release));
+        .pipe(zip('ilya-birman-likely-' + version + '.zip'))
+        .pipe(gulp.dest(release));
 });
 
 gulp.task('build', ['js', 'css']);
