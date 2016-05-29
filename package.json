@@ -8,7 +8,7 @@
   },
   "author": "Ilya Birman",
   "license": "MIT",
-  "main": "source/index.js",
+  "main": "release/likely-commonjs.js",
   "scripts": {
     "build": "gulp build",
     "test": "npm run-script check-codestyle",

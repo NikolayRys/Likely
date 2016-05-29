@@ -1,9 +1,13 @@
 var webpack = require ('webpack')
 
 module.exports = {
-    entry: './source/likely.js',
+    entry: {
+        'likely': './source/likely.js',
+        // [] is a workaround, see https://github.com/webpack/webpack/issues/300
+        'likely-commonjs': ['./source/index.js'],
+    },
     output: {
-        filename: 'likely.js',
+        filename: '[name].js',
         library: 'likely',
         libraryTarget: 'umd',
     },
