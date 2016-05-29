@@ -5,14 +5,15 @@
 
 'use strict';
 
-var gulp = require ('gulp');
-var insert = require ('gulp-insert');
-var stylus = require ('gulp-stylus');
-var csso = require ('gulp-csso');
-var zip = require ('gulp-zip');
-var webpack = require ('webpack-stream');
+var gulp = require('gulp');
+var insert = require('gulp-insert');
+var stylus = require('gulp-stylus');
+var csso = require('gulp-csso');
+var zip = require('gulp-zip');
+var webpack = require('webpack-stream');
 
 var packageJson = require('./package.json');
+var webpackConfig = require('./webpack.config.js');
 
 var release = './release/';
 
@@ -29,7 +30,7 @@ gulp.task('js', function () {
     var version = packageJson.version;
 
     return gulp.src('./source/likely.js')
-        .pipe (webpack (require ('./webpack.config.js')))
+        .pipe(webpack(webpackConfig))
         .pipe(insert.prepend(comment(version) + '\n'))
         .pipe(gulp.dest(release));
 });

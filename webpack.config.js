@@ -1,8 +1,10 @@
-var webpack = require ('webpack')
+'use strict';
+
+var webpack = require('webpack');
 
 module.exports = {
     entry: {
-        'likely': './source/likely.js',
+        likely: './source/likely.js',
         // [] is a workaround, see https://github.com/webpack/webpack/issues/300
         'likely-commonjs': ['./source/index.js'],
     },
@@ -16,6 +18,7 @@ module.exports = {
         new webpack.optimize.DedupePlugin(),
         new webpack.optimize.UglifyJsPlugin({
             compressor: {
+                // eslint-disable-next-line camelcase
                 screw_ie8: true,
             },
         }),
