@@ -12,6 +12,13 @@ describe('Likely', function () {
         it('should fetch the counters for Odnoklassniki');
         it('should fetch the counters for Pinterest');
         it('should fetch the counters for VK');
+        it('should open the sharing dialog for Facebook');
+        it('should open the sharing dialog for Google+');
+        it('should open the sharing dialog for Odnoklassniki');
+        it('should open the sharing dialog for Pinterest');
+        it('should open the sharing dialog for Telegram');
+        it('should open the sharing dialog for Twitter');
+        it('should open the sharing dialog for VK');
     });
 
     describe('configuration', function () {
