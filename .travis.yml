@@ -2,3 +2,8 @@ language: node_js
 before_script: npm run-script build
 node_js:
   - "node"
+addons:
+  sauce_connect:
+    username: "iamakulov"
+    access_key:
+      secure: "DRODflNIywZ+ChmXWuHJePlI2FybtwuNUB+vgZ7kud0LuUCsVWmW7VLGvuGeEiR+3yJhy7dVwszCJg70KaVccwgj3IYxstSkIR+IT7FTRTHCfJFmzQbpHKJT6yBf0Hiec5QZjsJO1klFx6ZHOp5mI2R7gfPznlLKZQs3DgZRni6rPb+m1CITmrr8/24uVGaFTUk3wMKHIlSxJNMqEdjjdnqbVZ1hwsNpmH3hixX3xQHiMHdXa+vL9MOWCJqVFfxiYBLM/8Z8UL4mbD5J33n+6LUZ4byhdQ4zROGHj1Gg1h5Js7SpiwSDY4zmEdvn5pGFZKQ+Iap4aNemp8LDNIb6jSyHKfufkSUcdIn1qPICHKHP9EBbQPY12kZMJBuum8B3Z5bHKhlz7rQ2Db4CV+02ZJ77jWwk/nhitbqlcSxClbZ4WMrPVsXJ66agidZfa+pOCy/oCgEy3Pp8FEl/5YFy4MISBR8Lx/tHVrQtQGq8E5u2S3PY65H4yRy4w28v+Tuc/BFHz2zP9SGH+dtx5SpoAOt+ScGBawcHm8WcCkII7k0VR0ixnqOxENgYeRPYZYtSopDT4NEXw3xbLmMmp3Yn0im3BOh3C4+PZnGFneKQepvKcQozmia8+qT8mYLj8Vae46xXni7oSp3AVkYS3flr5/nJyHk+S/9pwFoEyXVDdgc="
