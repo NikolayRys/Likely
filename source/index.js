@@ -12,7 +12,14 @@ var dom = require('./dom');
  */
 var likely = function (node, options) {
     var fullOptions = options || {};
-
+    var defaults = {
+        counters: true,
+        timeout: 1e3,
+        zeroes: false,
+        title: document.title,
+        wait: 0.5e3,
+        url: utils.getDefaultUrl(),
+    };
     var widget = node[config.name];
 
     if (widget) {
@@ -20,7 +27,7 @@ var likely = function (node, options) {
     }
     else {
         node[config.name] = new Likely(node, utils.merge(
-            {}, likely.defaults,
+            {}, defaults,
             fullOptions, utils.bools(node)
         ));
     }
@@ -39,18 +46,6 @@ likely.initiate = likely.initate = function (options) {
         .forEach(function (widget) {
             likely(widget, options);
         });
-};
-
-/**
- * Defaults options for likely
- */
-likely.defaults = {
-    counters: true,
-    timeout: 1e3,
-    zeroes: false,
-    title: document.title,
-    wait: 0.5e3,
-    url: utils.getDefaultUrl(),
 };
 
 module.exports = likely;
