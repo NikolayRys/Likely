@@ -34,4 +34,8 @@ describe('Likely', function () {
         it('should change the shared URL when history.pushState() is called');
         it('should change the shared URL when history.replaceState() is called');
     });
+
+    describe('bugs', function () {
+        it('should get a correct title when the script is placed before the title element [#67]');
+    });
 });
