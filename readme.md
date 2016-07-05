@@ -24,6 +24,24 @@ $ bower install ilyabirman-likely --save
 
 Link the files `likely.css` and `likely.js` from the compiled sources.
 
+You can use Likely from CDN:
+
+```html
+<!-- Head -->
+<link href="//npmcdn.com/ilyabirman-likely/release/likely.css" rel="stylesheet">
+<!-- End of body -->
+<script src="//npmcdn.com/ilyabirman-likely/release/likely.js" type="text/javascript"></script>
+```
+
+If you want specific version from CDN:
+
+```html
+<!-- Head -->
+<link href="//npmcdn.com/ilyabirman-likely@2.1.0/release/likely.css" rel="stylesheet">
+<!-- End of body -->
+<script src="//npmcdn.com/ilyabirman-likely@2.1.0/release/likely.js" type="text/javascript"></script>
+```
+
 If downloaded directly:
 ```html
 <!-- Head -->
