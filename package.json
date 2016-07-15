@@ -11,6 +11,7 @@
   "main": "release/likely-commonjs.js",
   "scripts": {
     "build": "gulp build",
+    "zip": "gulp zip",
     "test": "npm run-script check-codestyle",
     "check-codestyle": "eslint ./",
     "fix-codestyle": "eslint ./ --fix"
