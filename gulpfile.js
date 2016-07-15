@@ -1,7 +1,6 @@
 'use strict';
 
 var gulp = require('gulp');
-var insert = require('gulp-insert');
 var stylus = require('gulp-stylus');
 var csso = require('gulp-csso');
 var zip = require('gulp-zip');
@@ -12,21 +11,9 @@ var webpackConfig = require('./webpack.config.js');
 
 var release = './release/';
 
-function comment(version) {
-    return [
-        '//! Likely $version by Ilya Birman (ilyabirman.net)',
-        '//! Rewritten sans jQuery by Evgeny Steblinsky (volter9.github.io)',
-        '//! Supported by Ivan Akulov (iamakulov.com), Viktor Karpov (vitkarpov.com), and contributors',
-        '//! Inspired by Social Likes by Artem Sapegin (sapegin.me)',
-    ].join('\n').replace(/\$version/g, version);
-}
-
 gulp.task('js', function () {
-    var version = packageJson.version;
-
     return gulp.src('./source/likely.js')
         .pipe(webpack(webpackConfig))
-        .pipe(insert.prepend(comment(version) + '\n'))
         .pipe(gulp.dest(release));
 });
 
