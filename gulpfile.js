@@ -1,8 +1,3 @@
-// "autoprefixer-core": "^4.0.0",
-// "gulp-postcss": "^3.0.0",
-// "gulp-sass": "^1.1.0",
-// "postcss-assets": "^0.9.0"
-
 'use strict';
 
 var gulp = require('gulp');
