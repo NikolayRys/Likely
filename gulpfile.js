@@ -5,16 +5,32 @@ var stylus = require('gulp-stylus');
 var csso = require('gulp-csso');
 var zip = require('gulp-zip');
 var webpack = require('webpack-stream');
+var env = require('gulp-env');
 
 var packageJson = require('./package.json');
-var webpackConfig = require('./webpack.config.js');
 
 var release = './release/';
 
-gulp.task('js', function () {
+function runJsTaskWithEnv(environment) {
+    var envs = env.set({
+        NODE_ENV: environment,
+    });
+
     return gulp.src('./source/likely.js')
-        .pipe(webpack(webpackConfig))
+        .pipe(envs)
+        // Local `require` is used to require the config with the previously set NODE_ENV
+        // eslint-disable-next-line global-require
+        .pipe(webpack(require('./webpack.config.js')))
+        .pipe(envs.reset)
         .pipe(gulp.dest(release));
+}
+
+gulp.task('js-dev', function () {
+    return runJsTaskWithEnv('development');
+});
+
+gulp.task('js-prod', function () {
+    return runJsTaskWithEnv('production');
 });
 
 gulp.task('css', function () {
@@ -24,7 +40,7 @@ gulp.task('css', function () {
         .pipe(gulp.dest(release));
 });
 
-gulp.task('zip', ['js', 'css'], function () {
+gulp.task('zip', ['js-prod', 'css'], function () {
     var version = packageJson.version;
 
     return gulp.src([
@@ -36,11 +52,11 @@ gulp.task('zip', ['js', 'css'], function () {
         .pipe(gulp.dest(release));
 });
 
-gulp.task('build', ['js', 'css']);
+gulp.task('build', ['js-prod', 'css']);
 
-gulp.task('default', ['js', 'css', 'zip'], function () {
-    gulp.watch('source/*.js', ['zip']);
-    gulp.watch('source/services/*.js', ['zip']);
-    gulp.watch('styles/*.styl', ['zip']);
-    gulp.watch('license.txt', ['zip']);
+gulp.task('dev', ['js-dev', 'css'], function () {
+    gulp.watch('source/**/*.styl', ['css']);
+    // JS is watched by Webpack in `webpack.config.js`
 });
+
+gulp.task('default', ['build', 'zip']);

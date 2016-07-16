@@ -21,6 +21,7 @@ bower_components/*
 npm-debug.log
 bg/*
 release/*.zip
+release/*.map
 
 # JetBrains
 .idea
