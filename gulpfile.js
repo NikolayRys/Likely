@@ -1,17 +1,15 @@
 /* eslint-env node */
 
-'use strict';
+const gulp = require('gulp');
+const stylus = require('gulp-stylus');
+const csso = require('gulp-csso');
+const zip = require('gulp-zip');
+const webpack = require('webpack-stream');
+const env = require('gulp-env');
 
-var gulp = require('gulp');
-var stylus = require('gulp-stylus');
-var csso = require('gulp-csso');
-var zip = require('gulp-zip');
-var webpack = require('webpack-stream');
-var env = require('gulp-env');
+const packageJson = require('./package.json');
 
-var packageJson = require('./package.json');
-
-var release = './release/';
+const release = './release/';
 
 function runJsTaskWithEnv(environment) {
     var envs = env.set({

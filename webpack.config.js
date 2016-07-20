@@ -1,11 +1,9 @@
 /* eslint-env node */
 
-'use strict';
+const webpack = require('webpack');
+const packageJson = require('./package.json');
 
-var webpack = require('webpack');
-var packageJson = require('./package.json');
-
-var isProduction = process.env.NODE_ENV === 'production';
+const isProduction = process.env.NODE_ENV === 'production';
 
 function getLicenseComment(version) {
     return [
