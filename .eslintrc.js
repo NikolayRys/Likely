@@ -1,9 +1,14 @@
 module.exports = {
+    "extends": "eslint:recommended",
+    "parserOptions": {
+        "ecmaVersion": 6,
+        "sourceType": "module"
+    },
     "env": {
         "browser": true,
-        "commonjs": true
+        "commonjs": true,
+        "es6": true
     },
-    "extends": "eslint:recommended",
     "rules": {
         "block-scoped-var": "error",
         "block-spacing": [
