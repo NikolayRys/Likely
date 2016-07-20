@@ -17,8 +17,6 @@ import utils from '../utils';
 
 import vkontakte from './vk';
 
-
-/* eslint-disable global-require */
 var services = {
     odnoklassniki,
     vkontakte,
@@ -28,7 +26,6 @@ var services = {
     gplus,
     telegram,
 };
-/* eslint-enable global-require */
 
 utils.each(services, (service, key) => {
     Service(service);

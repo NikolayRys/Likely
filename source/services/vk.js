@@ -5,7 +5,7 @@
 import dom from '../dom';
 import utils from '../utils';
 
-var vkontakte = {
+const vkontakte = {
     counterUrl: 'https://vk.com/share.php?act=count&url={url}&index={index}',
     counter(url, promise) {
         this.promises.push(promise);

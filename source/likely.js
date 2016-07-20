@@ -1,11 +1,9 @@
-'use strict';
+import history from './history';
+import likely from './index.js';
 
-var likely = require('./index.js');
-var history = require('./history');
-
-window.addEventListener('load', function () {
+window.addEventListener('load', () => {
     likely.initiate();
     history.init();
 });
 
-module.exports = likely;
+export default likely;

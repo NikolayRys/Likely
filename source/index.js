@@ -1,18 +1,16 @@
-'use strict';
-
-var Likely = require('./widget');
-var config = require('./config');
-var utils = require('./utils');
-var dom = require('./dom');
+import Likely from './widget';
+import config from './config';
+import dom from './dom';
+import utils from './utils';
 
 /**
  * @param {Node} node
  * @param {Object} options
  * @returns {Likely}
  */
-var likely = function (node, options) {
-    var fullOptions = options || {};
-    var defaults = {
+const likely = (node, options) => {
+    const fullOptions = options || {};
+    const defaults = {
         counters: true,
         timeout: 1e3,
         zeroes: false,
@@ -20,7 +18,7 @@ var likely = function (node, options) {
         wait: 0.5e3,
         url: utils.getDefaultUrl(),
     };
-    var widget = node[config.name];
+    const widget = node[config.name];
 
     if (widget) {
         widget.update(fullOptions);
@@ -39,13 +37,13 @@ var likely = function (node, options) {
  * Initiate Likely buttons on load
  * @param {Object} [options] additional options for each widget
  */
-likely.initiate = likely.initate = function (options) {
-    var widgets = dom.findAll('.' + config.name);
+likely.initiate = likely.initate = options => {
+    const widgets = dom.findAll(`.${config.name}`);
 
     utils.toArray(widgets)
-        .forEach(function (widget) {
+        .forEach(widget => {
             likely(widget, options);
         });
 };
 
-module.exports = likely;
+export default likely;

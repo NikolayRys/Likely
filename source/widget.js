@@ -1,9 +1,7 @@
-'use strict';
+import Button from './button';
 
-var Button = require('./button');
-
-var config = require('./config');
-var utils = require('./utils');
+import config from './config';
+import utils from './utils';
 
 /**
  * Main widget view
@@ -11,22 +9,22 @@ var utils = require('./utils');
  * @param {Node} container
  * @param {Object} options
  */
-function Likely(container, options) {
-    this.container = container;
-    this.options = options;
+class Likely {
+    constructor(container, options) {
+        this.container = container;
+        this.options = options;
 
-    this.countersLeft = 0;
-    this.buttons = [];
-    this.number = 0;
+        this.countersLeft = 0;
+        this.buttons = [];
+        this.number = 0;
 
-    this.init();
-}
+        this.init();
+    }
 
-Likely.prototype = {
     /**
      * Initiate the social buttons widget
      */
-    init: function () {
+    init() {
         utils.toArray(this.container.children)
              .forEach(this.addButton.bind(this));
 
@@ -37,29 +35,29 @@ Likely.prototype = {
         else {
             this.appear();
         }
-    },
+    }
 
     /**
      * Add a button
      *
      * @param {Node} node
      */
-    addButton: function (node) {
-        var button = new Button(node, this, this.options);
+    addButton(node) {
+        const button = new Button(node, this, this.options);
 
         this.buttons.push(button);
 
         if (button.options.counterUrl) {
             this.countersLeft++;
         }
-    },
+    }
 
     /**
      * Update the timer with URL
      *
      * @param {Object} options
      */
-    update: function (options) {
+    update(options) {
         if (
             options.forceUpdate ||
             options.url !== this.options.url
@@ -67,11 +65,11 @@ Likely.prototype = {
             this.countersLeft = this.buttons.length;
             this.number = 0;
 
-            this.buttons.forEach(function (button) {
+            this.buttons.forEach(button => {
                 button.update(options);
             });
         }
-    },
+    }
 
     /**
      * Update counter
@@ -79,7 +77,7 @@ Likely.prototype = {
      * @param {String} service
      * @param {Number} counter
      */
-    updateCounter: function (service, counter) {
+    updateCounter(service, counter) {
         if (counter) {
             this.number += counter;
         }
@@ -90,25 +88,25 @@ Likely.prototype = {
             this.appear();
             this.ready();
         }
-    },
+    }
 
     /**
      * Show the buttons with smooth animation
      */
-    appear: function () {
-        this.container.classList.add(config.name + '_visible');
-    },
+    appear() {
+        this.container.classList.add(`${config.name}_visible`);
+    }
 
     /**
      * Get. Set. Ready.
      */
-    ready: function () {
+    ready() {
         if (this.timeout) {
             clearTimeout(this.timeout);
 
-            this.container.classList.add(config.name + '_ready');
+            this.container.classList.add(`${config.name}_ready`);
         }
-    },
-};
+    }
+}
 
-module.exports = Likely;
+export default Likely;

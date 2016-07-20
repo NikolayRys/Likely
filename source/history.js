@@ -1,19 +1,17 @@
-'use strict';
-
-var likely = require('./index.js');
-var utils = require('./utils');
+import likely from './index.js';
+import utils from './utils';
 
 /**
  * History
  * @type {Object}
  */
-var history = {
+const history = {
     /**
      * Called everytime the page url's been changed.
      * Reinits all widgets with the new page url.
      * @type {Function}
      */
-    onUrlChange: function () {
+    onUrlChange() {
         likely.initiate({
             forceUpdate: true,
             url: utils.getDefaultUrl(),
@@ -23,15 +21,15 @@ var history = {
      * Inits pust/pop state events listeners
      * @type {Function}
      */
-    init: function () {
-        var pushState = window.history.pushState;
+    init() {
+        const pushState = window.history.pushState;
         window.history.pushState = function () {
             // browser should change the url first
             setTimeout(this.onUrlChange.bind(this), 0);
             return pushState.apply(window.history, arguments);
         }.bind(this);
 
-        var replaceState = window.history.replaceState;
+        const replaceState = window.history.replaceState;
         window.history.replaceState = function () {
             setTimeout(this.onUrlChange.bind(this), 0);
             return replaceState.apply(window.history, arguments);
@@ -41,4 +39,4 @@ var history = {
     },
 };
 
-module.exports = history;
+export default history;

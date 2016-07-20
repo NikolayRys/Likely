@@ -1,10 +1,8 @@
-'use strict';
+import Factory from './factory';
+import services from './services';
+import utils from './utils';
 
-var services = require('./services');
-var Factory = require('./factory');
-var utils = require('./utils');
-
-var factories = {};
+const factories = {};
 
 /**
  * Fetch data
@@ -14,13 +12,13 @@ var factories = {};
  * @param {Object} options
  * @returns {Promise}
  */
-module.exports = function (service, url, options) {
+export default (service, url, options) => {
     if (!factories[service]) {
         factories[service] = {};
     }
 
-    var counters = factories[service];
-    var counter = counters[url];
+    const counters = factories[service];
+    let counter = counters[url];
 
     if (!options.forceUpdate && counter) {
         return counter;
@@ -28,8 +26,8 @@ module.exports = function (service, url, options) {
 
     counter = Factory();
 
-    var href = utils.makeUrl(options.counterUrl, {
-        url: url,
+    const href = utils.makeUrl(options.counterUrl, {
+        url,
     });
 
     services[service].counter(href, counter, url);

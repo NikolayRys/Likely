@@ -1,17 +1,13 @@
-'use strict';
-
-var dom = require('./dom');
+import dom from './dom';
 
 /**
  * @param {String} url
  * @param {Function} factory
  */
-var counter = function (url, factory) {
-    var self = this;
-
-    dom.getJSON(url, function (count) {
+const counter = function (url, factory) {
+    dom.getJSON(url, count => {
         try {
-            var convertedNumber = typeof self.convertNumber === 'function' ? self.convertNumber(count) : count;
+            const convertedNumber = typeof this.convertNumber === 'function' ? this.convertNumber(count) : count;
             factory(convertedNumber);
         }
         catch (e) {}
@@ -21,9 +17,7 @@ var counter = function (url, factory) {
 /**
  * @param {Object} options
  */
-module.exports = function (options) {
+export default options => {
     options.counter = options.counter || counter;
-    options.click = options.click || function () {
-        return true;
-    };
+    options.click = options.click || (() => true);
 };

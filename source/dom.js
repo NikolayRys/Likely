@@ -1,16 +1,14 @@
-'use strict';
+const div = document.createElement('div');
+let gid = 0;
 
-var div = document.createElement('div');
-var gid = 0;
-
-var dom = module.exports = {
+const dom = {
     /**
      * Wrap SVG coords from data object into SVG tag
      *
      * @param {String} coords
      * @returns {String}
      */
-    wrapSVG: function (coords) {
+    wrapSVG(coords) {
         return '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" ' +
             'viewBox="0 0 16 16"><path d="M' +
             coords +
@@ -23,7 +21,7 @@ var dom = module.exports = {
      * @param {String} html
      * @returns {Node}
      */
-    createNode: function (html) {
+    createNode(html) {
         div.innerHTML = html;
 
         return div.children[0];
@@ -34,9 +32,9 @@ var dom = module.exports = {
      *
      * @param {String} url
      */
-    getScript: function (url) {
-        var script = document.createElement('script');
-        var head = document.head;
+    getScript(url) {
+        const script = document.createElement('script');
+        const head = document.head;
 
         script.type = 'text/javascript';
         script.src = url;
@@ -51,12 +49,12 @@ var dom = module.exports = {
      * @param {String} url
      * @param {Function} callback
      */
-    getJSON: function (url, callback) {
-        var name = encodeURIComponent('random_fun_' + (++gid));
+    getJSON(url, callback) {
+        const name = encodeURIComponent(`random_fun_${++gid}`);
 
-        var concreteUrl = url.replace(
+        const concreteUrl = url.replace(
             /callback=(\?)/,
-            'callback=' + name
+            `callback=${name}`
         );
 
         window[name] = callback;
@@ -71,7 +69,7 @@ var dom = module.exports = {
      * @param {Node} node
      * @returns {Node}
      */
-    find: function (selector, node) {
+    find(selector, node) {
         return (node || document).querySelector(selector);
     },
 
@@ -82,7 +80,7 @@ var dom = module.exports = {
      * @param {Node} node
      * @returns {NodeList}
      */
-    findAll: function (selector, node) {
+    findAll(selector, node) {
         return (node || document).querySelectorAll(selector);
     },
 
@@ -95,21 +93,21 @@ var dom = module.exports = {
      * @param {Number} height
      * @returns {Object|null}
      */
-    openPopup: function (url, winId, width, height) {
-        var left = Math.round(screen.width / 2 - width / 2);
-        var top = 0;
+    openPopup(url, winId, width, height) {
+        const left = Math.round(screen.width / 2 - width / 2);
+        let top = 0;
 
         if (screen.height > height) {
             top = Math.round(screen.height / 3 - height / 2);
         }
 
-        var options = 'left=' + left +
+        const options = 'left=' + left +
             ',top=' + top +
             ',width=' + width +
             ',height=' + height +
             ',personalbar=0,toolbar=0,scrollbars=1,resizable=1';
 
-        var win = window.open(url, winId, options);
+        const win = window.open(url, winId, options);
 
         if (!win) {
             location.href = url;
@@ -121,3 +119,5 @@ var dom = module.exports = {
         return win;
     },
 };
+
+export default dom;

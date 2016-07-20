@@ -1,19 +1,17 @@
-'use strict';
-
-var bool = { yes: true, no: false };
+const bool = { yes: true, no: false };
 
 /**
  * @internal
  */
-var utils = {
+const utils = {
     /**
      * Simple $.each, only for objects
      *
      * @param {Object} object
      * @param {Function} callback
      */
-    each: function (object, callback) {
-        for (var key in object) {
+    each(object, callback) {
+        for (const key in object) {
             if (object.hasOwnProperty(key)) {
                 callback(object[key], key);
             }
@@ -26,7 +24,7 @@ var utils = {
      * @param {Object} arrayLike
      * @returns {Array}
      */
-    toArray: function (arrayLike) {
+    toArray(arrayLike) {
         return Array.prototype.slice.call(arrayLike);
     },
 
@@ -36,14 +34,14 @@ var utils = {
      * @param {...Object} object
      * @returns {Object}
      */
-    merge: function () {      // eslint-disable-line no-unused-vars
-        var result = {};
+    merge() {      // eslint-disable-line no-unused-vars
+        const result = {};
 
-        for (var i = 0; i < arguments.length; i++) {
-            var arg = arguments[i];
+        for (let i = 0; i < arguments.length; i++) {
+            const arg = arguments[i];
 
             if (arg) {
-                for (var key in arg) {
+                for (const key in arg) {
                     if (arg.hasOwnProperty(key)) {
                         result[key] = arg[key];
                     }
@@ -60,8 +58,8 @@ var utils = {
      * @param {Object} target
      * @param {Object} subject
      */
-    extend: function (target, subject) {
-        for (var key in subject) {
+    extend(target, subject) {
+        for (const key in subject) {
             if (subject.hasOwnProperty(key)) {
                 target[key] = subject[key];
             }
@@ -75,20 +73,18 @@ var utils = {
      * @param {Node} node
      * @returns {Object}
      */
-    getDataset: function (node) {
+    getDataset(node) {
         if (typeof node.dataset === 'object') {
             return node.dataset;
         }
 
-        var i;
-        var dataset = {};
-        var attributes = node.attributes;
-        var attribute;
-        var attributeName;
+        let i;
+        const dataset = {};
+        const attributes = node.attributes;
+        let attribute;
+        let attributeName;
 
-        var toUpperCase = function (n0) {
-            return n0.charAt(1).toUpperCase();
-        };
+        const toUpperCase = n0 => n0.charAt(1).toUpperCase();
 
         for (i = attributes.length - 1; i >= 0; i--) {
             attribute = attributes[i];
@@ -108,13 +104,13 @@ var utils = {
      * @param {Node} node
      * @returns {Object}
      */
-    bools: function (node) {
-        var result = {};
-        var data = utils.getDataset(node);
+    bools(node) {
+        const result = {};
+        const data = utils.getDataset(node);
 
-        for (var key in data) {
+        for (const key in data) {
             if (data.hasOwnProperty(key)) {
-                var value = data[key];
+                const value = data[key];
 
                 result[key] = bool[value] || value;
             }
@@ -130,7 +126,7 @@ var utils = {
      * @param {Object} data
      * @returns {String}
      */
-    template: function (text, data) {
+    template(text, data) {
         return text ? text.replace(/\{([^\}]+)\}/g, function (value, key) {
             return key in data ? data[key] : value;
         }) : '';
@@ -143,8 +139,8 @@ var utils = {
      * @param {Object} data
      * @returns {String}
      */
-    makeUrl: function (text, data) {
-        for (var key in data) {
+    makeUrl(text, data) {
+        for (const key in data) {
             if (data.hasOwnProperty(key)) {
                 data[key] = encodeURIComponent(data[key]);
             }
@@ -159,16 +155,16 @@ var utils = {
      * @param {Object} data
      * @returns {String}
      */
-    query: function (data) {
-        var filter = encodeURIComponent;
-        var query = [];
+    query(data) {
+        const filter = encodeURIComponent;
+        const query = [];
 
-        for (var key in data) {
+        for (const key in data) {
             if (typeof data[key] === 'object') {
                 continue;
             }
 
-            query.push(filter(key) + '=' + filter(data[key]));
+            query.push(`${filter(key)}=${filter(data[key])}`);
         }
 
         return query.join('&');
@@ -181,11 +177,11 @@ var utils = {
      * @param {String} key
      * @param {Object} value
      */
-    set: function (object, key, value) {
-        var frags = key.split('.');
-        var last = null;
+    set(object, key, value) {
+        const frags = key.split('.');
+        let last = null;
 
-        frags.forEach(function (key, index) {
+        frags.forEach((key, index) => {
             if (typeof object[key] === 'undefined') {
                 object[key] = {};
             }
@@ -207,8 +203,8 @@ var utils = {
      *
      * @returns {String}
      */
-    getDefaultUrl: function () {
-        var link = document.querySelector('link[rel="canonical"]');
+    getDefaultUrl() {
+        const link = document.querySelector('link[rel="canonical"]');
 
         if (link) {
             return link.href;
@@ -217,4 +213,4 @@ var utils = {
     },
 };
 
-module.exports = utils;
+export default utils;
