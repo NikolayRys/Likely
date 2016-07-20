@@ -20,6 +20,12 @@ $ npm install ilyabirman-likely --save
 $ bower install ilyabirman-likely --save
 ```
 
+Also you can use Likely from CDN:
+
+https://npmcdn.com/ilyabirman-likely@2/release/likely.css
+<br>
+https://npmcdn.com/ilyabirman-likely@2/release/likely.js
+
 ## Setup
 
 Link the files `likely.css` and `likely.js` from the compiled sources.
