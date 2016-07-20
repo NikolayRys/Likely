@@ -1,15 +1,13 @@
-'use strict';
-
 /**
  * Odnoklassniki service provider
  */
 
-var utils = require('../utils');
-var dom = require('../dom');
+import dom from '../dom';
+import utils from '../utils';
 
-var odnoklassniki = {
+const odnoklassniki = {
     counterUrl: 'https://connect.ok.ru/dk?st.cmd=extLike&ref={url}&uid={index}',
-    counter: function (url, promise) {
+    counter(url, promise) {
         this.promises.push(promise);
 
         dom.getScript(utils.makeUrl(url, {
@@ -22,8 +20,8 @@ var odnoklassniki = {
     popupHeight: 400,
 };
 
-utils.set(window, 'ODKL.updateCount', function (index, counter) {
+utils.set(window, 'ODKL.updateCount', (index, counter) => {
     odnoklassniki.promises[index](counter);
 });
 
-module.exports = odnoklassniki;
+export default odnoklassniki;

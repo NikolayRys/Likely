@@ -1,30 +1,40 @@
-'use strict';
-
 /**
  * Social network services
  */
+import Service from '../service';
 
-var Service = require('../service');
-var utils = require('../utils');
-var svg = require('../svg.js');
+import facebook from './facebook';
+import gplus from './gplus';
+import odnoklassniki from './odnoklassniki';
+import pinterest from './pinterest';
+
+import svg from '../svg.js';
+
+import telegram from './telegram';
+import twitter from './twitter';
+
+import utils from '../utils';
+
+import vkontakte from './vk';
+
 
 /* eslint-disable global-require */
 var services = {
-    odnoklassniki: require('./odnoklassniki'),
-    vkontakte: require('./vk'),
-    pinterest: require('./pinterest'),
-    facebook: require('./facebook'),
-    twitter: require('./twitter'),
-    gplus: require('./gplus'),
-    telegram: require('./telegram'),
+    odnoklassniki,
+    vkontakte,
+    pinterest,
+    facebook,
+    twitter,
+    gplus,
+    telegram,
 };
 /* eslint-enable global-require */
 
-utils.each(services, function (service, key) {
+utils.each(services, (service, key) => {
     Service(service);
 
     service.svgi = svg[key];
     service.name = key;
 });
 
-module.exports = services;
+export default services;
