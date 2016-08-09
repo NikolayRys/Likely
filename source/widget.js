@@ -62,7 +62,7 @@ Likely.prototype = {
     update: function (options) {
         if (
             options.forceUpdate ||
-            options.url !== this.options.url
+            options.url && options.url !== this.options.url
         ) {
             this.countersLeft = this.buttons.length;
             this.number = 0;
