@@ -1,6 +1,20 @@
+/* eslint-env node */
+
 'use strict';
 
 var webpack = require('webpack');
+var packageJson = require('./package.json');
+
+var isProduction = process.env.NODE_ENV === 'production';
+
+function getLicenseComment(version) {
+    return [
+        'Likely $version by Ilya Birman (ilyabirman.net)',
+        'Rewritten sans jQuery by Evgeny Steblinsky (volter9.github.io)',
+        'Supported by Ivan Akulov (iamakulov.com), Viktor Karpov (vitkarpov.com), and contributors',
+        'Inspired by Social Likes by Artem Sapegin (sapegin.me)',
+    ].join('\n').replace(/\$version/g, version);
+}
 
 module.exports = {
     entry: {
@@ -13,7 +27,9 @@ module.exports = {
         library: 'likely',
         libraryTarget: 'umd',
     },
-    plugins: [
+    devtool: isProduction ? 'eval' : 'source-map',
+    watch: !isProduction,
+    plugins: isProduction ? [
         new webpack.optimize.OccurrenceOrderPlugin(),
         new webpack.optimize.DedupePlugin(),
         new webpack.optimize.UglifyJsPlugin({
@@ -22,5 +38,6 @@ module.exports = {
                 screw_ie8: true,
             },
         }),
-    ],
+        new webpack.BannerPlugin(getLicenseComment(packageJson.version)),
+    ] : [],
 };

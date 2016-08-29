@@ -65,7 +65,7 @@
   &_ready &__counter_empty {
     display: none;
   }
-    
+
   &__widget,
   &__icon,
   &__button,
@@ -74,10 +74,9 @@
   }
 
   &__widget {
-  
+
     transition: widget-transition = background .33s ease-out, color .33s ease-out, fill .33s ease-out;
-    line-height: inherit;
-  
+
     &:hover, &:active, &:focus {
       transition: none;
       cursor: pointer;
@@ -87,7 +86,7 @@
         cursor: unset;
       }
     }
-    
+
   }
 
   &__icon {
@@ -125,10 +124,10 @@ likely-light-box-shadow = rgba(0,0,0,.2) 0 0 .33em;
   .likely__widget {
     color: #000;
     background: likely-background;
-  } 
+  }
   .likely__counter {
     background-size: 1px 1px;
-    background-repeat: repeat-y;           
+    background-repeat: repeat-y;
     background-image: linear-gradient(to right, rgba(0,0,0,.2) 0, rgba(0,0,0,0) .5px, rgba(0,0,0,0) 100%)
   }
 }
@@ -184,14 +183,14 @@ colorize('telegram',      #34abde);
 /* Size options */
 
 .likely {
-  line-height: 20px;
   margin: 0 -5px -10px;
   .likely__widget {
+    line-height: 20px;
     font-size: 14px;
     border-radius: 3px;
     height: 22px;
     margin: 0 5px 10px;
-  } 
+  }
   .likely__icon {
     width: 22px; height: 22px;
   }
@@ -210,14 +209,14 @@ colorize('telegram',      #34abde);
 }
 
 .likely-big {
-  line-height: 28px;
   margin: 0 -6px -12px;
   .likely__widget {
+    line-height: 28px;
     font-size: 18px;
     border-radius: 4px;
     height: 32px;
     margin: 0 6px 12px;
-  } 
+  }
   .likely__icon {
     width: 32px; height: 32px;
   }
@@ -236,14 +235,14 @@ colorize('telegram',      #34abde);
 }
 
 .likely-small {
-  line-height: 14px;
   margin: 0 -4px -8px;
   .likely__widget {
+    line-height: 14px;
     font-size: 12px;
     border-radius: 2px;
     height: 18px;
     margin: 0 4px 8px;
-  } 
+  }
   .likely__icon {
     width: 18px; height: 18px;
   }

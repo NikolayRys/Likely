@@ -56,10 +56,7 @@ module.exports = {
                 "before": true
             }
         ],
-        "linebreak-style": [
-            "error",
-            "unix"
-        ],
+        "linebreak-style": "off",
         "lines-around-comment": "off",
         "max-depth": "error",
         "max-len": "off",
@@ -181,7 +178,7 @@ module.exports = {
         "prefer-const": "error",
         "prefer-reflect": "off",
         "prefer-rest-params": "off",
-        "prefer-spread": "error",
+        "prefer-spread": "off",
         "prefer-template": "off",
         "quote-props": [
             "error",
