@@ -13,9 +13,10 @@
     "build": "gulp build",
     "dev": "gulp dev",
     "zip": "gulp zip",
-    "test": "npm run-script check-codestyle",
+    "test": "npm run integration-tests && npm run check-codestyle",
     "check-codestyle": "eslint ./",
-    "fix-codestyle": "eslint ./ --fix"
+    "fix-codestyle": "eslint ./ --fix",
+    "integration-tests": "mocha test/automated/index.js"
   },
   "devDependencies": {
     "eslint": "^2.9.0",
