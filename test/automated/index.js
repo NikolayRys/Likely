@@ -2,23 +2,99 @@
 
 'use strict';
 
-const { describe, it } = require('mocha');
+const { before, after, describe, it } = require('mocha');
+const chai = require('chai');
+const chaiAsPromised = require('chai-as-promised');
+
+chai.use(chaiAsPromised);
+const { expect } = chai;
+
+require('chromedriver');
+const selenium = require('selenium-webdriver');
 
 describe('Likely', function () {
+    let driver;
+
+    before(function () {
+        driver = new selenium.Builder()
+            .forBrowser('chrome')
+            .build();
+    });
+
+    after(function () {
+        return driver.quit();
+    });
+
     describe('common operations', function () {
-        it('should initialize properly');
-        it('should fetch the counters for Facebook');
-        it('should fetch the counters for Google+');
-        it('should fetch the counters for Odnoklassniki');
-        it('should fetch the counters for Pinterest');
-        it('should fetch the counters for VK');
-        it('should open the sharing dialog for Facebook');
-        it('should open the sharing dialog for Google+');
-        it('should open the sharing dialog for Odnoklassniki');
-        it('should open the sharing dialog for Pinterest');
-        it('should open the sharing dialog for Telegram');
-        it('should open the sharing dialog for Twitter');
-        it('should open the sharing dialog for VK');
+        before(function () {
+            // The browser could start long
+            this.timeout(20000);
+
+            return driver.get('http://ilyabirman.github.io/Likely/test.html')
+                .then(function () {
+                    // Give Likely time to initialize
+                    return delay(1500);
+                });
+        });
+
+        it('should initialize properly', function () {
+            return expect(driver.findElement({css: '.likely'}).getAttribute('class')).to.eventually.contain('likely_visible likely_ready');
+        });
+
+        it('should fetch the counters for Facebook', function () {
+            return expectToNotBeEmpty(driver, '.likely__counter_facebook');
+        });
+
+        it('should fetch the counters for Google+', function () {
+            return expectToNotBeEmpty(driver, '.likely__counter_gplus');
+        });
+
+        it('should fetch the counters for Odnoklassniki', function () {
+            return expectToNotBeEmpty(driver, '.likely__counter_odnoklassniki');
+        });
+
+        it('should fetch the counters for Pinterest', function () {
+            return expectToNotBeEmpty(driver, '.likely__counter_pinterest');
+        });
+
+        it('should fetch the counters for VK', function () {
+            return expectToNotBeEmpty(driver, '.likely__counter_vkontakte');
+        });
+
+        it('should open the sharing dialog for Facebook', function () {
+            this.timeout(10000);
+            return expectClickToOpen(driver, '.likely__widget_facebook', /facebook\.com/);
+        });
+
+        it('should open the sharing dialog for Google+', function () {
+            this.timeout(10000);
+            return expectClickToOpen(driver, '.likely__widget_gplus', /plus\.google\.com/);
+        });
+
+        it('should open the sharing dialog for Odnoklassniki', function () {
+            this.timeout(10000);
+            return expectClickToOpen(driver, '.likely__widget_odnoklassniki', /ok\.ru/);
+        });
+
+        it('should open the sharing dialog for Pinterest', function () {
+            this.timeout(10000);
+            return expectClickToOpen(driver, '.likely__widget_pinterest', /pinterest\.com/);
+        });
+
+        it('should open the sharing dialog for Telegram', function () {
+            this.timeout(10000);
+            return expectClickToOpen(driver, '.likely__widget_telegram', /telegram\.me/);
+        });
+
+        it('should open the sharing dialog for Twitter', function () {
+            this.timeout(10000);
+            return expectClickToOpen(driver, '.likely__widget_twitter', /twitter\.com/);
+        });
+
+        it('should open the sharing dialog for VK', function () {
+            this.timeout(10000);
+            return expectClickToOpen(driver, '.likely__widget_vkontakte', /vk\.com/);
+        });
     });
 
     describe('configuration', function () {
@@ -39,3 +115,38 @@ describe('Likely', function () {
         it('should get a correct title when the script is placed before the title element [#67]');
     });
 });
+
+function delay(time) {
+    return new Promise(function (resolve) {
+        setTimeout(resolve, time);
+    });
+}
+
+function expectToNotBeEmpty(driver, selector) {
+    return expect(driver.findElement({css: selector}).getText()).to.eventually.not.be.empty
+}
+
+function expectClickToOpen(driver, clickTargetSelector, windowUrlRegex) {
+    let originalWindowHandle;
+    return driver.findElement({css: clickTargetSelector}).click()
+        .then(function () {
+            return Promise.all([
+                driver.getWindowHandle(),
+                driver.getAllWindowHandles()
+            ]).then(function ([currentHandle, handles]) {
+                originalWindowHandle = currentHandle;
+
+                const newWindowHandle = handles.filter(h => h !== currentHandle)[0];
+                return driver.switchTo().window(newWindowHandle);
+            });
+        })
+        .then(function () {
+            return expect(driver.getCurrentUrl()).to.eventually.match(windowUrlRegex);
+        })
+        .then(function () {
+            return driver.close();
+        })
+        .then(function () {
+            return driver.switchTo().window(originalWindowHandle);
+        });
+}
