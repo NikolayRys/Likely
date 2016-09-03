@@ -26,6 +26,8 @@ describe('Likely', function () {
     });
 
     describe('common operations', function () {
+        const mockedCounterValue = '10';
+
         before(function () {
             // The browser could start long
             this.timeout(20000);
@@ -42,23 +44,23 @@ describe('Likely', function () {
         });
 
         it('should fetch the counters for Facebook', function () {
-            return expectToNotBeEmpty(driver, '.likely__counter_facebook');
+            return expectToContainText(driver, '.likely__counter_facebook', mockedCounterValue);
         });
 
         it('should fetch the counters for Google+', function () {
-            return expectToNotBeEmpty(driver, '.likely__counter_gplus');
+            return expectToContainText(driver, '.likely__counter_gplus', mockedCounterValue);
         });
 
         it('should fetch the counters for Odnoklassniki', function () {
-            return expectToNotBeEmpty(driver, '.likely__counter_odnoklassniki');
+            return expectToContainText(driver, '.likely__counter_odnoklassniki', mockedCounterValue);
         });
 
         it('should fetch the counters for Pinterest', function () {
-            return expectToNotBeEmpty(driver, '.likely__counter_pinterest');
+            return expectToContainText(driver, '.likely__counter_pinterest', mockedCounterValue);
         });
 
         it('should fetch the counters for VK', function () {
-            return expectToNotBeEmpty(driver, '.likely__counter_vkontakte');
+            return expectToContainText(driver, '.likely__counter_vkontakte', mockedCounterValue);
         });
 
         it('should open the sharing dialog for Facebook', function () {
@@ -122,8 +124,8 @@ function delay(time) {
     });
 }
 
-function expectToNotBeEmpty(driver, selector) {
-    return expect(driver.findElement({css: selector}).getText()).to.eventually.not.be.empty
+function expectToContainText(driver, selector, value) {
+    return expect(driver.findElement({css: selector}).getText()).to.eventually.equal(value);
 }
 
 function expectClickToOpen(driver, clickTargetSelector, windowUrlRegex) {
