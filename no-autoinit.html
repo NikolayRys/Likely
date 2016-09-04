@@ -4,16 +4,8 @@
     <meta charset="utf-8"/>
     <title>Likely test page</title>
     <link rel="stylesheet" href="./release/likely.css"/>
-    <script>
-        window.__likelyCounterMock = function (url, callback) {
-            // The callback (which is actually a factory from `factory.js`)
-            // doesn’t save the passed argument if it’s passed synchronously.
-            setTimeout(function () {
-                callback(10);
-            }, 0);
-        };
-    </script>
-    <script src="./release/likely.js"></script>
+    <script src="./counterMock.js"></script>
+    <script src="./release/likely-commonjs.js"></script>
     <style>
         body {
             text-align: center;
