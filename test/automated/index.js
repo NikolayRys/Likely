@@ -159,7 +159,7 @@ describe('Likely', function () {
     });
 
     describe('history', function () {
-        it('should change the shared URL when URL hash is changed');
+        it('should change the shared URL when the URL hash is changed');
         it('should change the shared URL when history.pushState() is called');
         it('should change the shared URL when history.replaceState() is called');
     });
