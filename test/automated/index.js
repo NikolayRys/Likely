@@ -11,6 +11,7 @@ const { expect } = chai;
 
 require('chromedriver');
 const selenium = require('selenium-webdriver');
+const until = require('selenium-webdriver/lib/until');
 
 describe('Likely', function () {
     let driver;
@@ -32,15 +33,7 @@ describe('Likely', function () {
             // The browser could start long
             this.timeout(20000);
 
-            return driver.get('http://ilyabirman.github.io/Likely/test.html')
-                .then(function () {
-                    // Give Likely time to initialize
-                    return delay(1500);
-                });
-        });
-
-        it('should initialize properly', function () {
-            return expect(driver.findElement({css: '.likely'}).getAttribute('class')).to.eventually.contain('likely_visible likely_ready');
+            return getLikely(driver, 'http://ilyabirman.github.io/Likely/autoinit.html', { waitUntilInitialized: true })
         });
 
         it('should fetch the counters for Facebook', function () {
@@ -118,10 +111,16 @@ describe('Likely', function () {
     });
 });
 
-function delay(time) {
-    return new Promise(function (resolve) {
-        setTimeout(resolve, time);
-    });
+function getLikely(driver, url, { waitUntilInitialized = false} = {}) {
+    const pagePromise = driver.get('http://ilyabirman.github.io/Likely/autoinit.html');
+
+    if (waitUntilInitialized) {
+        return pagePromise.then(function () {
+            return driver.wait(until.elementLocated({css: '.likely_ready'}), 1500);
+        });
+    } else {
+        return pagePromise;
+    }
 }
 
 function expectToContainText(driver, selector, value) {
