@@ -2,7 +2,7 @@
 
 'use strict';
 
-const { before, after, describe, it } = require('mocha');
+const { before, after, beforeEach, describe, it } = require('mocha');
 const chai = require('chai');
 const chaiAsPromised = require('chai-as-promised');
 
@@ -93,11 +93,69 @@ describe('Likely', function () {
     });
 
     describe('configuration', function () {
-        it('should change the shared URL when `data-url` is specified');
-        it('should change the shared title when `data-title` is specified');
-        it('should set the `via` when `data-via` on the Twitter button is specified');
-        it('should set the shared text when `data-text` on the Telegram button is specified');
-        it('should change the default image when the `data-media` on the Pinterest button is specified');
+        // Likely is initialized in each test case, so the tests take longer
+        this.timeout(5000);
+
+        beforeEach(function () {
+            // The browser could start long
+            this.timeout(20000);
+
+            return getLikely(driver, 'http://ilyabirman.github.io/Likely/no-autoinit.html')
+        });
+
+        it('should change the shared URL when `<link rel="canonical">` is specified', function () {
+            return driver.executeScript(`
+                document.head.innerHTML += '<link rel="canonical" href="https://google.com">';
+                likely.initiate();
+            `).then(function () {
+                return expectClickToOpen(driver, '.likely__widget_twitter', /twitter\.com\/.*google\.com/);
+            });
+        });
+
+        it('should change the shared URL when `data-url` is specified', function () {
+            return driver.executeScript(`
+                document.querySelector('.likely').setAttribute('data-url', 'https://google.com');
+                likely.initiate();
+            `).then(function () {
+                return expectClickToOpen(driver, '.likely__widget_twitter', /twitter\.com\/.*google\.com/);
+            });
+        });
+
+        it('should change the shared title when `data-title` is specified', function () {
+            return driver.executeScript(`
+                document.querySelector('.likely').setAttribute('data-title', 'Fake Title');
+                likely.initiate();
+            `).then(function () {
+                return expectClickToOpen(driver, '.likely__widget_twitter', /twitter\.com\/.*Fake%20Title/);
+            });
+        });
+
+        it('should set the `via` when `data-via` on the Twitter button is specified', function () {
+            return driver.executeScript(`
+                document.querySelector('.twitter').setAttribute('data-via', 'horse_js');
+                likely.initiate();
+            `).then(function () {
+                return expectClickToOpen(driver, '.likely__widget_twitter', /twitter\.com\/.*horse_js/);
+            });
+        });
+
+        it('should set the shared text when `data-text` on the Telegram button is specified', function () {
+            return driver.executeScript(`
+                document.querySelector('.telegram').setAttribute('data-text', 'Fake Text');
+                likely.initiate();
+            `).then(function () {
+                return expectClickToOpen(driver, '.likely__widget_telegram', /telegram\.me\/.*Fake%20Text/);
+            });
+        });
+
+        it('should change the default image when the `data-media` on the Pinterest button is specified', function () {
+            return driver.executeScript(`
+                document.querySelector('.pinterest').setAttribute('data-media', 'http://i.imgur.com/zunNbfY.jpg');
+                likely.initiate();
+            `).then(function () {
+                return expectClickToOpen(driver, '.likely__widget_pinterest', /pinterest\.com\/.*zunNbfY\.jpg/);
+            });
+        });
     });
 
     describe('history', function () {
