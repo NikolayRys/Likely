@@ -134,9 +134,47 @@ describe('Likely', function () {
     });
 
     describe('history', function () {
-        it('should change the shared URL when the URL hash is changed');
-        it('should change the shared URL when history.pushState() is called');
-        it('should change the shared URL when history.replaceState() is called');
+        const testHistoryMethod = (driver, methodName) => {
+            // `methodName` is either "pushState" or "replaceState"
+
+            const targetUrl = 'http://ilyabirman.github.io/?history';
+
+            return getLikely(driver, 'http://ilyabirman.github.io/Likely/autoinit.html', { waitUntilInitialized: true })
+                .then(() => {
+                    return driver.executeScript(`window.history.${methodName}(null, null, '${targetUrl}');`);
+                })
+                .then(() => {
+                    return expectClickToOpen(
+                        driver,
+                        '.likely__widget_twitter',
+                        new RegExp(`twitter\\.com\\/.*${encodeURIComponent(targetUrl)}`)
+                    );
+                });
+        };
+
+        it('should change the shared URL when history.pushState() is called', function () {
+            return testHistoryMethod(driver, 'pushState');
+        });
+
+        it('should change the shared URL when history.replaceState() is called', function () {
+            return testHistoryMethod(driver, 'replaceState');
+        });
+
+        it('should change the shared URL when the browser’s back button is clicked', function () {
+            return getLikely(driver, 'http://ilyabirman.github.io/Likely/no-autoinit.html')
+                .then(() => {
+                    return driver.executeScript(`
+                        window.history.pushState(null, null, 'http://ilyabirman.github.io/?history');
+                        likely.initiate();
+                    `);
+                })
+                .then(() => {
+                    return driver.navigate().back();
+                })
+                .then(() => {
+                    return expectClickToOpen(driver, '.likely__widget_twitter', /twitter\.com\/.*\/Likely\/no-autoinit\.html/);
+                });
+        });
     });
 
     describe('bugs', function () {
