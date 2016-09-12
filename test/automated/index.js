@@ -16,6 +16,10 @@ const until = require('selenium-webdriver/lib/until');
 describe('Likely', function () {
     let driver;
 
+    // The timeout is used to handle the browser starting long for the first time
+    // and sharing dialogs taking too long to load on a slow network
+    this.timeout(20000);
+
     before(function () {
         driver = new selenium.Builder()
             .forBrowser('chrome')
@@ -26,80 +30,51 @@ describe('Likely', function () {
         return driver.quit();
     });
 
-    describe('common operations', function () {
-        const mockedCounterValue = '10';
-
+    describe('fetching counters', function () {
         before(function () {
-            // The browser could start long
-            this.timeout(20000);
-
             return getLikely(driver, 'http://ilyabirman.github.io/Likely/autoinit.html', { waitUntilInitialized: true })
         });
 
-        it('should fetch the counters for Facebook', function () {
-            return expectToContainText(driver, '.likely__counter_facebook', mockedCounterValue);
+        const testedServices = [
+            { name: 'Facebook', likelyName: 'facebook' },
+            { name: 'Google+', likelyName: 'gplus' },
+            { name: 'Odnoklassniki', likelyName: 'odnoklassniki' },
+            { name: 'Pinterest', likelyName: 'pinterest' },
+            { name: 'VK', likelyName: 'vkontakte' },
+        ];
+
+        testedServices.forEach(({ name, likelyName }) => {
+            it(`should fetch the counters for ${name}`, function () {
+                const mockedCounterValue = '10';
+                return expectToContainText(driver, `.likely__counter_${likelyName}`, mockedCounterValue);
+            });
+        });
+    });
+
+    describe('opening sharing dialogs', function () {
+        before(function () {
+            return getLikely(driver, 'http://ilyabirman.github.io/Likely/autoinit.html', { waitUntilInitialized: true })
         });
 
-        it('should fetch the counters for Google+', function () {
-            return expectToContainText(driver, '.likely__counter_gplus', mockedCounterValue);
-        });
+        const testedServices = [
+            { name: 'Facebook', likelyName: 'facebook', urlRegex: /facebook\.com/ },
+            { name: 'Google+', likelyName: 'gplus', urlRegex: /plus\.google\.com/ },
+            { name: 'Odnoklassniki', likelyName: 'odnoklassniki', urlRegex: /ok\.ru/ },
+            { name: 'Pinterest', likelyName: 'pinterest', urlRegex: /pinterest\.com/ },
+            { name: 'Telegram', likelyName: 'telegram', urlRegex: /telegram\.me/ },
+            { name: 'Twitter', likelyName: 'twitter', urlRegex: /twitter\.com/ },
+            { name: 'VK', likelyName: 'vkontakte', urlRegex: /vk\.com/ },
+        ];
 
-        it('should fetch the counters for Odnoklassniki', function () {
-            return expectToContainText(driver, '.likely__counter_odnoklassniki', mockedCounterValue);
-        });
-
-        it('should fetch the counters for Pinterest', function () {
-            return expectToContainText(driver, '.likely__counter_pinterest', mockedCounterValue);
-        });
-
-        it('should fetch the counters for VK', function () {
-            return expectToContainText(driver, '.likely__counter_vkontakte', mockedCounterValue);
-        });
-
-        it('should open the sharing dialog for Facebook', function () {
-            this.timeout(10000);
-            return expectClickToOpen(driver, '.likely__widget_facebook', /facebook\.com/);
-        });
-
-        it('should open the sharing dialog for Google+', function () {
-            this.timeout(10000);
-            return expectClickToOpen(driver, '.likely__widget_gplus', /plus\.google\.com/);
-        });
-
-        it('should open the sharing dialog for Odnoklassniki', function () {
-            this.timeout(10000);
-            return expectClickToOpen(driver, '.likely__widget_odnoklassniki', /ok\.ru/);
-        });
-
-        it('should open the sharing dialog for Pinterest', function () {
-            this.timeout(10000);
-            return expectClickToOpen(driver, '.likely__widget_pinterest', /pinterest\.com/);
-        });
-
-        it('should open the sharing dialog for Telegram', function () {
-            this.timeout(10000);
-            return expectClickToOpen(driver, '.likely__widget_telegram', /telegram\.me/);
-        });
-
-        it('should open the sharing dialog for Twitter', function () {
-            this.timeout(10000);
-            return expectClickToOpen(driver, '.likely__widget_twitter', /twitter\.com/);
-        });
-
-        it('should open the sharing dialog for VK', function () {
-            this.timeout(10000);
-            return expectClickToOpen(driver, '.likely__widget_vkontakte', /vk\.com/);
+        testedServices.forEach(({ name, likelyName, urlRegex }) => {
+            it(`should open the sharing dialog for ${name}`, function () {
+                return expectClickToOpen(driver, `.likely__widget_${likelyName}`, urlRegex);
+            });
         });
     });
 
     describe('configuration', function () {
-        // Likely is initialized in each test case, so the tests take longer
-        this.timeout(5000);
-
         beforeEach(function () {
-            // The browser could start long
-            this.timeout(20000);
-
             return getLikely(driver, 'http://ilyabirman.github.io/Likely/no-autoinit.html')
         });
 
