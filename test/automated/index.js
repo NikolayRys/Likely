@@ -140,7 +140,12 @@ describe('Likely', function () {
     });
 
     describe('bugs', function () {
-        it('should get a correct title when the script is placed before the title element [#67]');
+        it('should get a correct title when the script is placed before the title element [#67]', function () {
+            return getLikely(driver, 'http://ilyabirman.github.io/Likely/issues/67.html', { waitUntilInitialized: true })
+                .then(() => {
+                    return expectClickToOpen(driver, '.likely__widget_twitter', /twitter\.com\/.*Likely%20test%20page/)
+                });
+        });
     });
 });
 
