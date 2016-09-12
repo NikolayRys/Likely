@@ -170,7 +170,7 @@ describe('Likely', function () {
 });
 
 function getLikely(driver, url, { waitUntilInitialized = false} = {}) {
-    const pagePromise = driver.get('http://ilyabirman.github.io/Likely/autoinit.html');
+    const pagePromise = driver.get(url);
 
     if (waitUntilInitialized) {
         return pagePromise.then(function () {
