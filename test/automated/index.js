@@ -9,7 +9,7 @@ const chaiAsPromised = require('chai-as-promised');
 chai.use(chaiAsPromised);
 const { expect } = chai;
 
-require('chromedriver');
+require('geckodriver');
 const selenium = require('selenium-webdriver');
 const until = require('selenium-webdriver/lib/until');
 
@@ -22,7 +22,7 @@ describe('Likely', function () {
 
     before(function () {
         driver = new selenium.Builder()
-            .forBrowser('chrome')
+            .forBrowser('firefox')
             .build();
     });
 
@@ -160,7 +160,8 @@ describe('Likely', function () {
             return testHistoryMethod(driver, 'replaceState');
         });
 
-        it('should change the shared URL when the browser’s back button is clicked', function () {
+        // Skipped until #94 is resolved
+        it.skip('should change the shared URL when the browser’s back button is clicked', function () {
             return getLikely(driver, 'http://ilyabirman.github.io/Likely/no-autoinit.html')
                 .then(() => {
                     return driver.executeScript(`
