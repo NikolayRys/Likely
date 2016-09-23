@@ -32,7 +32,7 @@ describe('Likely', function () {
 
     describe('fetching counters', function () {
         before(function () {
-            return getLikely(driver, 'http://ilyabirman.github.io/Likely/autoinit.html', { waitUntilInitialized: true })
+            return getLikely(driver, 'http://ilyabirman.github.io/Likely/autoinit.html', { waitUntilInitialized: true });
         });
 
         const testedServices = [
@@ -53,7 +53,7 @@ describe('Likely', function () {
 
     describe('opening sharing dialogs', function () {
         before(function () {
-            return getLikely(driver, 'http://ilyabirman.github.io/Likely/autoinit.html', { waitUntilInitialized: true })
+            return getLikely(driver, 'http://ilyabirman.github.io/Likely/autoinit.html', { waitUntilInitialized: true });
         });
 
         const testedServices = [
@@ -75,14 +75,14 @@ describe('Likely', function () {
 
     describe('configuration', function () {
         beforeEach(function () {
-            return getLikely(driver, 'http://ilyabirman.github.io/Likely/no-autoinit.html')
+            return getLikely(driver, 'http://ilyabirman.github.io/Likely/no-autoinit.html');
         });
 
         it('should change the shared URL when `<link rel="canonical">` is specified', function () {
             return driver.executeScript(`
                 document.head.innerHTML += '<link rel="canonical" href="https://google.com">';
                 likely.initiate();
-            `).then(function () {
+            `).then(() => {
                 return expectClickToOpen(driver, '.likely__widget_twitter', /twitter\.com\/.*google\.com/);
             });
         });
@@ -91,7 +91,7 @@ describe('Likely', function () {
             return driver.executeScript(`
                 document.querySelector('.likely').setAttribute('data-url', 'https://google.com');
                 likely.initiate();
-            `).then(function () {
+            `).then(() => {
                 return expectClickToOpen(driver, '.likely__widget_twitter', /twitter\.com\/.*google\.com/);
             });
         });
@@ -100,7 +100,7 @@ describe('Likely', function () {
             return driver.executeScript(`
                 document.querySelector('.likely').setAttribute('data-title', 'Fake Title');
                 likely.initiate();
-            `).then(function () {
+            `).then(() => {
                 return expectClickToOpen(driver, '.likely__widget_twitter', /twitter\.com\/.*Fake%20Title/);
             });
         });
@@ -109,7 +109,7 @@ describe('Likely', function () {
             return driver.executeScript(`
                 document.querySelector('.twitter').setAttribute('data-via', 'horse_js');
                 likely.initiate();
-            `).then(function () {
+            `).then(() => {
                 return expectClickToOpen(driver, '.likely__widget_twitter', /twitter\.com\/.*horse_js/);
             });
         });
@@ -118,7 +118,7 @@ describe('Likely', function () {
             return driver.executeScript(`
                 document.querySelector('.telegram').setAttribute('data-text', 'Fake Text');
                 likely.initiate();
-            `).then(function () {
+            `).then(() => {
                 return expectClickToOpen(driver, '.likely__widget_telegram', /telegram\.me\/.*Fake%20Text/);
             });
         });
@@ -127,7 +127,7 @@ describe('Likely', function () {
             return driver.executeScript(`
                 document.querySelector('.pinterest').setAttribute('data-media', 'http://i.imgur.com/zunNbfY.jpg');
                 likely.initiate();
-            `).then(function () {
+            `).then(() => {
                 return expectClickToOpen(driver, '.likely__widget_pinterest', /pinterest\.com\/.*zunNbfY\.jpg/);
             });
         });
@@ -182,46 +182,46 @@ describe('Likely', function () {
         it('should get a correct title when the script is placed before the title element [#67]', function () {
             return getLikely(driver, 'http://ilyabirman.github.io/Likely/issues/67.html', { waitUntilInitialized: true })
                 .then(() => {
-                    return expectClickToOpen(driver, '.likely__widget_twitter', /twitter\.com\/.*Likely%20test%20page/)
+                    return expectClickToOpen(driver, '.likely__widget_twitter', /twitter\.com\/.*Likely%20test%20page/);
                 });
         });
     });
 });
 
-function getLikely(driver, url, { waitUntilInitialized = false} = {}) {
+function getLikely(driver, url, { waitUntilInitialized = false } = {}) {
     const pagePromise = driver.get(url);
 
     if (waitUntilInitialized) {
-        return pagePromise.then(function () {
-            return driver.wait(until.elementLocated({css: '.likely_ready'}), 1500);
-        });
-    } else {
+        return pagePromise
+            .then(() => {
+                return driver.wait(until.elementLocated({ css: '.likely_ready' }), 1500);
+            });
+    }
+    else {
         return pagePromise;
     }
 }
 
 function expectToContainText(driver, selector, value) {
-    return expect(driver.findElement({css: selector}).getText()).to.eventually.equal(value);
+    return expect(driver.findElement({ css: selector }).getText()).to.eventually.equal(value);
 }
 
 function expectClickToOpen(driver, clickTargetSelector, windowUrlRegex) {
     let originalWindowHandle;
     let openedUrl;
-    return driver.findElement({css: clickTargetSelector}).click()
-        .then(function () {
-            return Promise.all([
-                driver.getWindowHandle(),
-                driver.getAllWindowHandles()
-            ]);
-        })
-        .then(function ([currentHandle, handles]) {
+    return driver.findElement({ css: clickTargetSelector }).click()
+        .then(() => Promise.all([
+            driver.getWindowHandle(),
+            driver.getAllWindowHandles(),
+        ]))
+        .then(([currentHandle, handles]) => {
             originalWindowHandle = currentHandle;
 
             const newWindowHandle = handles.find(handle => handle !== currentHandle);
             return driver.switchTo().window(newWindowHandle);
         })
         // `driver.wait()` is used because Firefox opens a new window with `about:blank' initially
-        .then(function () {
+        .then(() => {
             // This time should be enough for Firefox to load something and replace `about:blank` with the target URL
             const urlChangeTimeout = 3000;
             return driver.wait(until.urlMatches(windowUrlRegex), urlChangeTimeout);
@@ -232,19 +232,19 @@ function expectClickToOpen(driver, clickTargetSelector, windowUrlRegex) {
             () => driver.getCurrentUrl(),
             () => driver.getCurrentUrl()
         )
-        .then(function (url) {
+        .then((url) => {
             openedUrl = url;
 
             return driver.close();
         })
-        .then(function () {
+        .then(() => {
             return driver.switchTo().window(originalWindowHandle);
         })
         // We compare the URLs only after closing the dialog and switching back to the main window.
         // If we do it before and the comparison fails, all the `.then()` branches won’t execute,
         // and Selenium will continue working in the opened dialog.
         // This will make all the following tests fail
-        .then(function () {
+        .then(() => {
             expect(openedUrl).to.match(windowUrlRegex);
         });
 }
