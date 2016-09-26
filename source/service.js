@@ -22,7 +22,11 @@ var counter = function (url, factory) {
  * @param {Object} options
  */
 module.exports = function (options) {
-    options.counter = options.counter || counter;
+    // __likelyCounterMock is used for UI testing and is set on window
+    // because this function is executed right when Likely is loaded.
+    // There’s currently no way to do `likely.__counterMock = ...`
+    // before running this method.
+    options.counter = window.__likelyCounterMock || options.counter || counter;
     options.click = options.click || function () {
         return true;
     };
