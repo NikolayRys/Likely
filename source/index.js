@@ -53,7 +53,7 @@ var likely = function () {
  *                                     tries to init all the widgets
  * @param {Object} [options] additional options for each widget
  */
-likely.initiate = likely.initate = function (node, options) {
+likely.initiate = function (node, options) {
     // There're three different ways:
     // - node is a node
     // - node is an array of nodes
@@ -75,6 +75,12 @@ likely.initiate = likely.initate = function (node, options) {
         .forEach(function (node) {
             initWidget(node, options);
         });
+};
+
+likely.initate = function () {
+    // eslint-disable-next-line no-console
+    console.warn('likely.initate function is DEPRECATED and will be removed in 3.0. Use likely.initiate instead.');
+    return likely.initiate.apply(likely, arguments);
 };
 
 module.exports = likely;
