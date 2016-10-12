@@ -15,12 +15,14 @@ const until = require('selenium-webdriver/lib/until');
 
 const StaticServer = require('static-server');
 
+const commonTimeout = 20000;
+
 describe('Likely', function () {
     let driver;
 
     // The timeout is used to handle the browser starting long for the first time
     // and sharing dialogs taking too long to load on a slow network
-    this.timeout(20000);
+    this.timeout(commonTimeout);
 
     before(function () {
         driver = new selenium.Builder()
@@ -231,7 +233,7 @@ function expectClickToOpen(driver, clickTargetSelector, windowUrlRegex) {
         // `driver.wait()` is used because Firefox opens a new window with `about:blank' initially
         .then(() => {
             // This time should be enough for Firefox to load something and replace `about:blank` with the target URL
-            const urlChangeTimeout = 3000;
+            const urlChangeTimeout = commonTimeout;
             return driver.wait(until.urlMatches(windowUrlRegex), urlChangeTimeout);
         })
         // `driver.wait()` triggers an exception if the url doesn’t match the regex,
