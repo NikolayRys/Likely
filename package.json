@@ -16,7 +16,7 @@
     "test": "npm run integration-tests && npm run check-codestyle",
     "check-codestyle": "eslint ./",
     "fix-codestyle": "eslint ./ --fix",
-    "integration-tests": "mocha test/automated/index.js"
+    "integration-tests": "mocha test/index.js"
   },
   "devDependencies": {
     "chai": "^3.5.0",
@@ -30,6 +30,7 @@
     "gulp-zip": "^2.0.2",
     "mocha": "^2.5.3",
     "selenium-webdriver": "^3.0.0-beta-2",
+    "static-server": "^2.0.3",
     "webpack-stream": "^3.2.0"
   }
 }

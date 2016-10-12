@@ -13,6 +13,8 @@ require('geckodriver');
 const selenium = require('selenium-webdriver');
 const until = require('selenium-webdriver/lib/until');
 
+const StaticServer = require('static-server');
+
 describe('Likely', function () {
     let driver;
 
@@ -24,6 +26,12 @@ describe('Likely', function () {
         driver = new selenium.Builder()
             .forBrowser('firefox')
             .build();
+
+        new StaticServer({
+            rootPath: `${__dirname}/..`,
+            port: 1337,
+            host: '127.0.0.1'
+        }).start();
     });
 
     after(function () {
@@ -32,7 +40,7 @@ describe('Likely', function () {
 
     describe('fetching counters', function () {
         before(function () {
-            return getLikely(driver, 'http://ilyabirman.github.io/Likely/autoinit.html', { waitUntilInitialized: true });
+            return getLikely(driver, 'http://127.0.0.1:1337/test/files/autoinit.html', { waitUntilInitialized: true });
         });
 
         const testedServices = [
@@ -53,7 +61,7 @@ describe('Likely', function () {
 
     describe('opening sharing dialogs', function () {
         before(function () {
-            return getLikely(driver, 'http://ilyabirman.github.io/Likely/autoinit.html', { waitUntilInitialized: true });
+            return getLikely(driver, 'http://127.0.0.1:1337/test/files/autoinit.html', { waitUntilInitialized: true });
         });
 
         const testedServices = [
@@ -75,7 +83,7 @@ describe('Likely', function () {
 
     describe('configuration', function () {
         beforeEach(function () {
-            return getLikely(driver, 'http://ilyabirman.github.io/Likely/no-autoinit.html');
+            return getLikely(driver, 'http://127.0.0.1:1337/test/files/no-autoinit.html');
         });
 
         it('should change the shared URL when `<link rel="canonical">` is specified', function () {
@@ -137,9 +145,9 @@ describe('Likely', function () {
         const testHistoryMethod = (driver, methodName) => {
             // `methodName` is either "pushState" or "replaceState"
 
-            const targetUrl = 'http://ilyabirman.github.io/?history';
+            const targetUrl = '/?history';
 
-            return getLikely(driver, 'http://ilyabirman.github.io/Likely/autoinit.html', { waitUntilInitialized: true })
+            return getLikely(driver, 'http://127.0.0.1:1337/test/files/autoinit.html', { waitUntilInitialized: true })
                 .then(() => {
                     return driver.executeScript(`window.history.${methodName}(null, null, '${targetUrl}');`);
                 })
@@ -162,10 +170,10 @@ describe('Likely', function () {
 
         // Skipped until #94 is resolved
         it.skip('should change the shared URL when the browser’s back button is clicked', function () {
-            return getLikely(driver, 'http://ilyabirman.github.io/Likely/no-autoinit.html')
+            return getLikely(driver, 'http://127.0.0.1:1337/test/files/autoinit.html')
                 .then(() => {
                     return driver.executeScript(`
-                        window.history.pushState(null, null, 'http://ilyabirman.github.io/?history');
+                        window.history.pushState(null, null, '/?history');
                         likely.initiate();
                     `);
                 })
@@ -173,14 +181,14 @@ describe('Likely', function () {
                     return driver.navigate().back();
                 })
                 .then(() => {
-                    return expectClickToOpen(driver, '.likely__widget_twitter', /twitter\.com\/.*\/Likely\/no-autoinit\.html/);
+                    return expectClickToOpen(driver, '.likely__widget_twitter', /twitter\.com\/.*\/no-autoinit\.html/);
                 });
         });
     });
 
     describe('bugs', function () {
         it('should get a correct title when the script is placed before the title element [#67]', function () {
-            return getLikely(driver, 'http://ilyabirman.github.io/Likely/issues/67.html', { waitUntilInitialized: true })
+            return getLikely(driver, 'http://127.0.0.1:1337/test/files/issues/67.html', { waitUntilInitialized: true })
                 .then(() => {
                     return expectClickToOpen(driver, '.likely__widget_twitter', /twitter\.com\/.*Likely%20test%20page/);
                 });
