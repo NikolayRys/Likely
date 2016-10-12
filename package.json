@@ -16,7 +16,9 @@
     "test": "npm run integration-tests && npm run check-codestyle",
     "check-codestyle": "eslint ./",
     "fix-codestyle": "eslint ./ --fix",
-    "integration-tests": "mocha test/index.js"
+    "preintegration-tests": "npm run build",
+    "integration-tests": "mocha test/index.js",
+    "prepublish": "npm run test"
   },
   "devDependencies": {
     "chai": "^3.5.0",
