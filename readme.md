@@ -148,6 +148,10 @@ The attribute should be an image URL:
 <div class="pinterest" data-media="https://placekitten.com/200/400">Pin</div>
 ```
 
+### VK
+
+You can set `data-image` and `data-description` attributes to set up image and description relatively. VK uses this data to create a proper share card.
+
 Read more about the `media` parameter in the [in the Pinterest documentation](https://developers.pinterest.com/docs/widgets/pin-it/#source-settings).
 
 ## Supported browsers
