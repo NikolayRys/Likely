@@ -20,9 +20,7 @@ export const each = (object, callback) => {
  * @param {Object} arrayLike
  * @returns {Array}
  */
-export const toArray = (arrayLike) => {
-    return Array.prototype.slice.call(arrayLike);
-};
+export const toArray = (arrayLike) => Array.prototype.slice.call(arrayLike);
 
 /**
  * Merge given dictionaries (objects) into one object
