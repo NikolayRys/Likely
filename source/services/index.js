@@ -2,22 +2,18 @@
  * Social network services
  */
 import Service from '../service';
+import svg from '../svg.js';
+import utils from '../utils';
+import vkontakte from './vk';
 
-import facebook from './facebook';
+import facebook from './facebook'; // eslint-disable-line sort-imports
 import gplus from './gplus';
 import odnoklassniki from './odnoklassniki';
 import pinterest from './pinterest';
-
-import svg from '../svg.js';
-
 import telegram from './telegram';
 import twitter from './twitter';
 
-import utils from '../utils';
-
-import vkontakte from './vk';
-
-var services = {
+const services = {
     odnoklassniki,
     vkontakte,
     pinterest,
