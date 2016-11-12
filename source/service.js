@@ -5,11 +5,9 @@ import dom from './dom';
  * @param {Function} factory
  */
 const counter = function (url, factory) {
-    const self = this;
-
     dom.getJSON(url, count => {
         try {
-            const convertedNumber = typeof self.convertNumber === 'function' ? self.convertNumber(count) : count;
+            const convertedNumber = typeof this.convertNumber === 'function' ? this.convertNumber(count) : count;
             factory(convertedNumber);
         }
         catch (e) {}
