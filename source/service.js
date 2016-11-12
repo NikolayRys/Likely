@@ -5,9 +5,11 @@ import dom from './dom';
  * @param {Function} factory
  */
 const counter = function (url, factory) {
+    const self = this;
+
     dom.getJSON(url, count => {
         try {
-            const convertedNumber = typeof this.convertNumber === 'function' ? this.convertNumber(count) : count;
+            const convertedNumber = typeof self.convertNumber === 'function' ? self.convertNumber(count) : count;
             factory(convertedNumber);
         }
         catch (e) {}
@@ -18,6 +20,10 @@ const counter = function (url, factory) {
  * @param {Object} options
  */
 export default options => {
-    options.counter = options.counter || counter;
+    // __likelyCounterMock is used for UI testing and is set on window
+    // because this function is executed right when Likely is loaded.
+    // There’s currently no way to do `likely.__counterMock = ...`
+    // before running this method.
+    options.counter = window.__likelyCounterMock || options.counter || counter;
     options.click = options.click || (() => true);
 };

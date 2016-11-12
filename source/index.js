@@ -6,9 +6,10 @@ import utils from './utils';
 /**
  * @param {Node} node
  * @param {Object} options
+ * @private
  * @returns {Likely}
  */
-const likely = (node, options) => {
+const initWidget = (node, options) => {
     const fullOptions = options || {};
     const defaults = {
         counters: true,
@@ -34,16 +35,52 @@ const likely = (node, options) => {
 };
 
 /**
- * Initiate Likely buttons on load
- * @param {Object} [options] additional options for each widget
+ * @deprecated
+ * @returns {Likely}
  */
-likely.initiate = likely.initate = options => {
-    const widgets = dom.findAll(`.${config.name}`);
+class likely {
+    constructor() {
+        // eslint-disable-next-line no-console
+        console.warn('likely function is DEPRECATED and will be removed in 3.0. Use likely.initiate instead.');
+        return likely.initiate(...arguments);
+    }
 
-    utils.toArray(widgets)
-        .forEach(widget => {
-            likely(widget, options);
-        });
-};
+    /**
+     * Initiate Likely buttons on load
+     * @param {Node|Array<Node>|Object} [node] a particular node or an array of widgets,
+     *                                     if not specified,
+     *                                     tries to init all the widgets
+     * @param {Object} [options] additional options for each widget
+     */
+    static initiate(node, options) {
+        // There're three different ways:
+        // - node is a node
+        // - node is an array of nodes
+        // - node is not a node, it's options (polymorphism)
+        let nodes;
+
+        if (Array.isArray(node)) {
+            nodes = node;
+        }
+        else if (node instanceof Node) {
+            nodes = [node];
+        }
+        else {
+            nodes = dom.findAll(`.${config.name}`);
+            // eslint-disable-next-line no-param-reassign
+            options = node;
+        }
+        utils.toArray(nodes)
+            .forEach(node => {
+                initWidget(node, options);
+            });
+    }
+
+    static initate() {
+        // eslint-disable-next-line no-console
+        console.warn('likely.initate function is DEPRECATED and will be removed in 3.0. Use likely.initiate instead.');
+        return likely.initiate(...arguments);
+    }
+}
 
 export default likely;

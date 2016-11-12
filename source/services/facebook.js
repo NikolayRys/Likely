@@ -3,8 +3,8 @@
  */
 
 export default {
-    counterUrl: 'https://graph.facebook.com/fql?q=SELECT+total_count+FROM+link_stat+WHERE+url%3D%22{url}%22&callback=?',
-    convertNumber: counter => counter.data[0].total_count,
+    counterUrl: 'https://graph.facebook.com/?id={url}&callback=?',
+    convertNumber: (data) => data.share.share_count,
     popupUrl: 'https://www.facebook.com/sharer/sharer.php?u={url}',
     popupWidth: 600,
     popupHeight: 500,

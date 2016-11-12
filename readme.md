@@ -22,9 +22,9 @@ $ bower install ilyabirman-likely --save
 
 Also you can use Likely from CDN:
 
-https://npmcdn.com/ilyabirman-likely@2/release/likely.css
+https://unpkg.com/ilyabirman-likely@2/release/likely.css
 <br>
-https://npmcdn.com/ilyabirman-likely@2/release/likely.js
+https://unpkg.com/ilyabirman-likely@2/release/likely.js
 
 ## Setup
 

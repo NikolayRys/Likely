@@ -78,7 +78,7 @@ module.exports = {
         "no-continue": "off",
         "no-div-regex": "error",
         "no-duplicate-imports": "error",
-        "no-else-return": "error",
+        "no-else-return": "off",
         "no-empty": [
             "error",
             {
@@ -152,7 +152,7 @@ module.exports = {
         "no-unneeded-ternary": "error",
         "no-unsafe-finally": "error",
         "no-unused-expressions": "error",
-        "no-use-before-define": "error",
+        "no-use-before-define": ["error", "nofunc"],
         "no-useless-call": "error",
         "no-useless-computed-key": "error",
         "no-useless-concat": "error",
@@ -183,7 +183,7 @@ module.exports = {
         "prefer-const": "error",
         "prefer-reflect": "off",
         "prefer-rest-params": "off",
-        "prefer-spread": "error",
+        "prefer-spread": "off",
         "prefer-template": "off",
         "quote-props": [
             "error",
