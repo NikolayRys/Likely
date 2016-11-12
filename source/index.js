@@ -71,7 +71,7 @@ class likely {
             options = node;
         }
         utils.toArray(nodes)
-            .forEach(node => {
+            .forEach((node) => {
                 initWidget(node, options);
             });
     }

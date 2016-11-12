@@ -227,7 +227,7 @@ function expectClickToOpen(driver, clickTargetSelector, windowUrlRegex) {
         .then(([currentHandle, handles]) => {
             originalWindowHandle = currentHandle;
 
-            const newWindowHandle = handles.find(handle => handle !== currentHandle);
+            const newWindowHandle = handles.find((handle) => handle !== currentHandle);
             return driver.switchTo().window(newWindowHandle);
         })
         // `driver.wait()` is used because Firefox opens a new window with `about:blank' initially

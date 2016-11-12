@@ -65,7 +65,7 @@ class Likely {
             this.countersLeft = this.buttons.length;
             this.number = 0;
 
-            this.buttons.forEach(button => {
+            this.buttons.forEach((button) => {
                 button.update(options);
             });
         }

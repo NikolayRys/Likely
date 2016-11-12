@@ -46,7 +46,7 @@ class LikelyButton {
         const counters = dom.findAll(className, this.widget);
 
         utils.extend(this.options, utils.merge({ forceUpdate: false }, options));
-        utils.toArray(counters).forEach(node => {
+        utils.toArray(counters).forEach((node) => {
             node.parentNode.removeChild(node);
         });
 
@@ -61,7 +61,7 @@ class LikelyButton {
         let service = utils.getDataset(widget).service;
 
         if (!service) {
-            service = Object.keys(services).filter(service => widget.classList.contains(service))[0];
+            service = Object.keys(services).filter((service) => widget.classList.contains(service))[0];
         }
 
         if (service) {

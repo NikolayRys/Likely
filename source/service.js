@@ -5,7 +5,7 @@ import dom from './dom';
  * @param {Function} factory
  */
 const counter = function (url, factory) {
-    dom.getJSON(url, count => {
+    dom.getJSON(url, (count) => {
         try {
             const convertedNumber = typeof this.convertNumber === 'function' ? this.convertNumber(count) : count;
             factory(convertedNumber);
@@ -17,7 +17,7 @@ const counter = function (url, factory) {
 /**
  * @param {Object} options
  */
-export default options => {
+export default (options) => {
     // __likelyCounterMock is used for UI testing and is set on window
     // because this function is executed right when Likely is loaded.
     // There’s currently no way to do `likely.__counterMock = ...`

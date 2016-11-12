@@ -84,7 +84,7 @@ const utils = {
         let attribute;
         let attributeName;
 
-        const toUpperCase = n0 => n0.charAt(1).toUpperCase();
+        const toUpperCase = (n0) => n0.charAt(1).toUpperCase();
 
         for (i = attributes.length - 1; i >= 0; i--) {
             attribute = attributes[i];

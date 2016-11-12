@@ -10,6 +10,7 @@ module.exports = {
         "es6": true
     },
     "rules": {
+        "arrow-parens": [2, "always"],
         "block-scoped-var": "error",
         "block-spacing": [
             "error",

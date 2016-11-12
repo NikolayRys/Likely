@@ -14,10 +14,10 @@
  * @param {Object} value
  * @returns {Function}
  */
-export default value => {
+export default (value) => {
     const listeners = [];
 
-    return argument => {
+    return (argument) => {
         const type = typeof argument;
 
         if (type === 'undefined') {
@@ -29,7 +29,7 @@ export default value => {
         else {
             value = argument;
 
-            listeners.forEach(listener => {
+            listeners.forEach((listener) => {
                 listener(argument);
             });
         }
