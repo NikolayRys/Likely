@@ -25,6 +25,13 @@ module.exports = {
         library: 'likely',
         libraryTarget: 'umd',
     },
+    module: {
+        loaders: [{
+            test: /\.js$/,
+            exclude: /node_modules/,
+            loader: 'babel',
+        }],
+    },
     devtool: isProduction ? 'eval' : 'source-map',
     watch: !isProduction,
     plugins: isProduction ? [
