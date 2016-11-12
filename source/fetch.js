@@ -1,6 +1,6 @@
 import Factory from './factory';
+import { makeUrl } from './utils';
 import services from './services';
-import utils from './utils';
 
 const factories = {};
 
@@ -26,7 +26,7 @@ export default (service, url, options) => {
 
     counter = Factory();
 
-    const href = utils.makeUrl(options.counterUrl, {
+    const href = makeUrl(options.counterUrl, {
         url,
     });
 

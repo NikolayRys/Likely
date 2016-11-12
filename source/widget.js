@@ -1,7 +1,7 @@
 import Button from './button';
 
 import config from './config';
-import utils from './utils';
+import { toArray } from './utils';
 
 /**
  * Main widget view
@@ -25,7 +25,7 @@ class Likely {
      * Initiate the social buttons widget
      */
     init() {
-        utils.toArray(this.container.children)
+        toArray(this.container.children)
              .forEach(this.addButton.bind(this));
 
         if (this.options.counters) {

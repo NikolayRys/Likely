@@ -1,9 +1,9 @@
-import history from './history';
+import initHistory from './history';
 import likely from './index.js';
 
 window.addEventListener('load', () => {
     likely.initiate();
-    history.init();
+    initHistory();
 });
 
 export default likely;

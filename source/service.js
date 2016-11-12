@@ -1,11 +1,11 @@
-import dom from './dom';
+import { getJSON } from './dom';
 
 /**
  * @param {String} url
  * @param {Function} factory
  */
 const counter = function (url, factory) {
-    dom.getJSON(url, (count) => {
+    getJSON(url, (count) => {
         try {
             const convertedNumber = typeof this.convertNumber === 'function' ? this.convertNumber(count) : count;
             factory(convertedNumber);

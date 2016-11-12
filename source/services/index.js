@@ -2,8 +2,8 @@
  * Social network services
  */
 import Service from '../service';
+import { each } from '../utils';
 import svg from '../svg.js';
-import utils from '../utils';
 import vkontakte from './vk';
 
 import facebook from './facebook'; // eslint-disable-line sort-imports
@@ -23,7 +23,7 @@ const services = {
     telegram,
 };
 
-utils.each(services, (service, key) => {
+each(services, (service, key) => {
     Service(service);
 
     service.svgi = svg[key];

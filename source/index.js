@@ -1,7 +1,7 @@
+import { bools, getDefaultUrl, merge, toArray } from './utils';
 import Likely from './widget';
 import config from './config';
-import dom from './dom';
-import utils from './utils';
+import { findAll } from './dom';
 
 /**
  * @param {Node} node
@@ -17,7 +17,7 @@ const initWidget = (node, options) => {
         zeroes: false,
         title: document.title,
         wait: 0.5e3,
-        url: utils.getDefaultUrl(),
+        url: getDefaultUrl(),
     };
     const widget = node[config.name];
 
@@ -25,9 +25,9 @@ const initWidget = (node, options) => {
         widget.update(fullOptions);
     }
     else {
-        node[config.name] = new Likely(node, utils.merge(
+        node[config.name] = new Likely(node, merge(
             {}, defaults,
-            fullOptions, utils.bools(node)
+            fullOptions, bools(node)
         ));
     }
 
@@ -66,11 +66,11 @@ class likely {
             nodes = [node];
         }
         else {
-            nodes = dom.findAll(`.${config.name}`);
+            nodes = findAll(`.${config.name}`);
             // eslint-disable-next-line no-param-reassign
             options = node;
         }
-        utils.toArray(nodes)
+        toArray(nodes)
             .forEach((node) => {
                 initWidget(node, options);
             });

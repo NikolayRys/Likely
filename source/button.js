@@ -1,8 +1,9 @@
+import { createNode, findAll, openPopup, wrapSVG } from './dom';
+import { extend, getDataset, makeUrl, merge, query, template, toArray } from './utils';
+
 import config from './config';
-import dom from './dom';
 import fetch from './fetch';
 import services from './services';
-import utils from './utils';
 
 const htmlSpan = '<span class="{className}">{content}</span>';
 
@@ -17,7 +18,7 @@ class LikelyButton {
     constructor(widget, likely, options) {
         this.widget = widget;
         this.likely = likely;
-        this.options = utils.merge(options);
+        this.options = merge(options);
 
         this.init();
     }
@@ -43,10 +44,10 @@ class LikelyButton {
      */
     update(options) {
         const className = `.${config.prefix}counter`;
-        const counters = dom.findAll(className, this.widget);
+        const counters = findAll(className, this.widget);
 
-        utils.extend(this.options, utils.merge({ forceUpdate: false }, options));
-        utils.toArray(counters).forEach((node) => {
+        extend(this.options, merge({ forceUpdate: false }, options));
+        toArray(counters).forEach((node) => {
             node.parentNode.removeChild(node);
         });
 
@@ -58,7 +59,7 @@ class LikelyButton {
      */
     detectService() {
         const widget = this.widget;
-        let service = utils.getDataset(widget).service;
+        let service = getDataset(widget).service;
 
         if (!service) {
             service = Object.keys(services).filter((service) => widget.classList.contains(service))[0];
@@ -67,7 +68,7 @@ class LikelyButton {
         if (service) {
             this.service = service;
 
-            utils.extend(this.options, services[service]);
+            extend(this.options, services[service]);
         }
     }
 
@@ -76,7 +77,7 @@ class LikelyButton {
      */
     detectParams() {
         const options = this.options;
-        const data = utils.getDataset(this.widget);
+        const data = getDataset(this.widget);
 
         if (data.counter) {
             const counter = parseInt(data.counter, 10);
@@ -105,14 +106,14 @@ class LikelyButton {
         widget.classList.remove(this.service);
         widget.className += (` ${this.className('widget')}`);
 
-        const button = utils.template(htmlSpan, {
+        const button = template(htmlSpan, {
             className: this.className('button'),
             content: text,
         });
 
-        const icon = utils.template(htmlSpan, {
+        const icon = template(htmlSpan, {
             className: this.className('icon'),
-            content: dom.wrapSVG(options.svgi),
+            content: wrapSVG(options.svgi),
         });
 
         widget.innerHTML = icon + button;
@@ -154,7 +155,7 @@ class LikelyButton {
     updateCounter(counterString) {
         const counter = parseInt(counterString, 10) || 0;
 
-        const counterElement = dom.find(`.${config.name}__counter`, this.widget);
+        const counterElement = find(`.${config.name}__counter`, this.widget);
 
         if (counterElement) {
             counterElement.parentNode.removeChild(counterElement);
@@ -171,7 +172,7 @@ class LikelyButton {
         }
 
         this.widget.appendChild(
-            dom.createNode(utils.template(htmlSpan, options))
+            createNode(template(htmlSpan, options))
         );
 
         this.likely.updateCounter(this.service, counter);
@@ -185,12 +186,12 @@ class LikelyButton {
         const options = this.options;
 
         if (options.click.call(this)) {
-            const url = utils.makeUrl(options.popupUrl, {
+            const url = makeUrl(options.popupUrl, {
                 url: options.url,
                 title: options.title,
             });
 
-            dom.openPopup(
+            openPopup(
                 this.addAdditionalParamsToUrl(url),
                 config.prefix + this.service,
                 options.popupWidth,
@@ -208,7 +209,7 @@ class LikelyButton {
      * @returns {String}
      */
     addAdditionalParamsToUrl(url) {
-        const parameters = utils.query(utils.merge(this.widget.dataset, this.options.data));
+        const parameters = query(merge(this.widget.dataset, this.options.data));
         const delimeter = url.indexOf('?') === -1 ? '?' : '&';
 
         return parameters === ''
