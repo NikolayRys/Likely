@@ -1,6 +1,6 @@
 /* eslint-env node, mocha, es6 */
 
-'use strict';
+'use strict'; // eslint-disable-line strict
 
 const { before, after, beforeEach, describe, it } = require('mocha');
 const chai = require('chai');

@@ -1,4 +1,4 @@
-'use strict';
+'use strict'; // eslint-disable-line strict
 
 window.__likelyCounterMock = function (url, callback) {
     // The callback (which is actually a factory from `factory.js`)
