@@ -4,6 +4,7 @@ var Likely = require('./widget');
 var config = require('./config');
 var utils = require('./utils');
 var dom = require('./dom');
+var history = require('./history');
 
 /**
  * @param {Node} node
@@ -36,6 +37,27 @@ var initWidget = function (node, options) {
     return widget;
 };
 
+var initLikely = function (nodes, options) {
+    var realNodes;
+    if (Array.isArray(nodes)) {
+        // An array of nodes was passed
+        realNodes = nodes;
+    } else if (nodes instanceof Node) {
+        // A single node was passed
+        realNodes = [nodes];
+    } else {
+        // Options were passed, or null/undefined was passed, or the function was called without arguments
+        // Find and initialize all existing Likely widgets
+        realNodes = dom.findAll('.' + config.name);
+    }
+
+    var realOptions = options || nodes || {};
+
+    realNodes.forEach(function (node) {
+        initWidget(node, realOptions);
+    });
+};
+
 /**
  * @deprecated
  * @returns {Likely}
@@ -48,31 +70,19 @@ var likely = function () {
 
 /**
  * Initiate Likely buttons on load
- * @param {Node|Array<Node>|Object} [node] a particular node or an array of widgets,
+ * @param {Node|Array<Node>|Object} [nodes] a particular node or an array of widgets,
  *                                     if not specified,
  *                                     tries to init all the widgets
  * @param {Object} [options] additional options for each widget
  */
-likely.initiate = function (node, options) {
-    // There're three different ways:
-    // - node is a node
-    // - node is an array of nodes
-    // - node is not a node, it's options (polymorphism)
-    var nodes;
+likely.initiate = function (nodes, options) {
+    initLikely(nodes, options);
 
-    if (Array.isArray(node)) {
-        nodes = node;
-    }
-    else if (node instanceof Node) {
-        nodes = [node];
-    }
-    else {
-        nodes = dom.findAll('.' + config.name);
-        // eslint-disable-next-line no-param-reassign
-        options = node;
-    }
-    nodes.forEach(function (node) {
-        initWidget(node, options);
+    history.onUrlChange(function () {
+        initLikely(nodes, utils.extend({
+            forceUpdate: true,
+            url: utils.getDefaultUrl(),
+        }, options));
     });
 };
 

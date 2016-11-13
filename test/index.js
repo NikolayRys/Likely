@@ -170,9 +170,8 @@ describe('Likely', function () {
             return testHistoryMethod(driver, 'replaceState');
         });
 
-        // Skipped until #94 is resolved
-        it.skip('should change the shared URL when the browser’s back button is clicked', function () {
-            return getLikely(driver, 'http://127.0.0.1:1337/test/files/autoinit.html')
+        it('should change the shared URL when the browser’s back button is clicked', function () {
+            return getLikely(driver, 'http://127.0.0.1:1337/test/files/no-autoinit.html')
                 .then(() => {
                     return driver.executeScript(`
                         window.history.pushState(null, null, '/?history');
@@ -183,7 +182,7 @@ describe('Likely', function () {
                     return driver.navigate().back();
                 })
                 .then(() => {
-                    return expectClickToOpen(driver, '.likely__widget_twitter', /twitter\.com\/.*\/no-autoinit\.html/);
+                    return expectClickToOpen(driver, '.likely__widget_twitter', /twitter\.com\/.*no-autoinit\.html/);
                 });
         });
     });
@@ -234,7 +233,7 @@ function expectClickToOpen(driver, clickTargetSelector, windowUrlRegex) {
         .then(() => {
             // This time should be enough for Firefox to load something and replace `about:blank` with the target URL
             const urlChangeTimeout = commonTimeout;
-            return driver.wait(until.urlMatches(windowUrlRegex), urlChangeTimeout);
+            return driver.wait(until.urlMatches(windowUrlRegex), urlChangeTimeout / 2);
         })
         // `driver.wait()` triggers an exception if the url doesn’t match the regex,
         // but we actually ignore this exception and do the proper URL comparison later

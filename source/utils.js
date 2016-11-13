@@ -66,6 +66,7 @@ var utils = {
                 target[key] = subject[key];
             }
         }
+        return target;
     },
 
     /**
