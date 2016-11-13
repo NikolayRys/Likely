@@ -26,6 +26,7 @@
     "babel-core": "^6.18.2",
     "babel-loader": "^6.2.7",
     "babel-plugin-add-module-exports": "^0.2.1",
+    "babel-preset-babili": "^0.0.8",
     "babel-preset-latest": "^6.16.0",
     "chai": "^3.5.0",
     "chai-as-promised": "^5.3.0",

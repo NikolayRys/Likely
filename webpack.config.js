@@ -37,12 +37,6 @@ module.exports = {
     plugins: isProduction ? [
         new webpack.optimize.OccurrenceOrderPlugin(),
         new webpack.optimize.DedupePlugin(),
-        new webpack.optimize.UglifyJsPlugin({
-            compressor: {
-                // eslint-disable-next-line camelcase
-                screw_ie8: true,
-            },
-        }),
         new webpack.BannerPlugin(getLicenseComment(packageJson.version)),
     ] : [],
 };
