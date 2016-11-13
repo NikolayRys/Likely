@@ -1,43 +1,40 @@
 'use strict';
 
-var likely = require('./index.js');
-var utils = require('./utils');
+var callbacks = [];
+var handleUrlChange = function () {
+    callbacks.forEach(function (callback) {
+        callback();
+    });
+};
 
-/**
- * History
- * @type {Object}
- */
+var setupHistoryWatcher = function () {
+    var pushState = window.history.pushState;
+    window.history.pushState = function () {
+        // browser should change the url first
+        setTimeout(handleUrlChange, 0);
+        return pushState.apply(window.history, arguments);
+    };
+
+    var replaceState = window.history.replaceState;
+    window.history.replaceState = function () {
+        // browser should change the url first
+        setTimeout(handleUrlChange, 0);
+        return replaceState.apply(window.history, arguments);
+    };
+
+    window.addEventListener('popstate', handleUrlChange);
+};
+
+var isWatchingHistory = false;
+
 var history = {
-    /**
-     * Called everytime the page url's been changed.
-     * Reinits all widgets with the new page url.
-     * @type {Function}
-     */
-    onUrlChange: function () {
-        likely.initiate({
-            forceUpdate: true,
-            url: utils.getDefaultUrl(),
-        });
-    },
-    /**
-     * Inits pust/pop state events listeners
-     * @type {Function}
-     */
-    init: function () {
-        var pushState = window.history.pushState;
-        window.history.pushState = function () {
-            // browser should change the url first
-            setTimeout(this.onUrlChange.bind(this), 0);
-            return pushState.apply(window.history, arguments);
-        }.bind(this);
+    onUrlChange: function (callback) {
+        if (!isWatchingHistory) {
+            setupHistoryWatcher();
+            isWatchingHistory = true;
+        }
 
-        var replaceState = window.history.replaceState;
-        window.history.replaceState = function () {
-            setTimeout(this.onUrlChange.bind(this), 0);
-            return replaceState.apply(window.history, arguments);
-        }.bind(this);
-
-        window.addEventListener('popstate', this.onUrlChange.bind(this));
+        callbacks.push(callback);
     },
 };
 
