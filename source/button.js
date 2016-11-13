@@ -48,7 +48,7 @@ LikelyButton.prototype = {
         var counters = dom.findAll(className, this.widget);
 
         utils.extend(this.options, utils.merge({ forceUpdate: false }, options));
-        utils.toArray(counters).forEach(function (node) {
+        counters.forEach(function (node) {
             node.parentNode.removeChild(node);
         });
 
