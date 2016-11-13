@@ -4,14 +4,17 @@
 import Service from '../service';
 import { each } from '../utils';
 import svg from '../svg.js';
-import vkontakte from './vk';
 
-import facebook from './facebook'; // eslint-disable-line sort-imports
+/* eslint-disable sort-imports */
+import facebook from './facebook';
 import gplus from './gplus';
 import odnoklassniki from './odnoklassniki';
 import pinterest from './pinterest';
 import telegram from './telegram';
 import twitter from './twitter';
+import vkontakte from './vk';
+/* eslint-enable sort-imports */
+
 
 const services = {
     odnoklassniki,

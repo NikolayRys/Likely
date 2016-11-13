@@ -1,3 +1,6 @@
 {
-  "presets": ["latest"]
+  "presets": ["latest"],
+  "plugins": [
+    "add-module-exports"
+  ]
 }

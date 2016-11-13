@@ -76,10 +76,10 @@ class likely {
             });
     }
 
-    static initate() {
+    static initate(...args) {
         // eslint-disable-next-line no-console
         console.warn('likely.initate function is DEPRECATED and will be removed in 3.0. Use likely.initiate instead.');
-        return likely.initiate(...arguments);
+        return likely.initiate(...args);
     }
 }
 

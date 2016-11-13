@@ -28,11 +28,12 @@ export const toArray = (arrayLike) => Array.prototype.slice.call(arrayLike);
  * @param {...Object} object
  * @returns {Object}
  */
-export function merge() { // eslint-disable-line no-unused-vars
+export const merge = (...args) => { // eslint-disable-line no-unused-vars
     const result = {};
+    const argsArr = [...args];
 
-    for (let i = 0; i < arguments.length; i++) {
-        const arg = arguments[i];
+    for (let i = 0; i < argsArr.length; i++) {
+        const arg = argsArr[i];
 
         if (arg) {
             for (const key in arg) {
@@ -44,7 +45,7 @@ export function merge() { // eslint-disable-line no-unused-vars
     }
 
     return result;
-}
+};
 
 /**
  * Extend one (target) object by other (subject)
