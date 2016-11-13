@@ -68,6 +68,13 @@ var likely = function () {
     return likely.initiate.apply(likely, arguments);
 };
 
+likely.initate = function () {
+    // eslint-disable-next-line no-console
+    console.warn('likely.initate function is DEPRECATED and will be removed in 3.0. Use likely.initiate instead.');
+    return likely.initiate.apply(likely, arguments);
+};
+
+
 /**
  * Initiate Likely buttons on load
  * @param {Node|Array<Node>|Object} [nodes] a particular node or an array of widgets,
@@ -84,12 +91,6 @@ likely.initiate = function (nodes, options) {
             url: utils.getDefaultUrl(),
         }, options));
     });
-};
-
-likely.initate = function () {
-    // eslint-disable-next-line no-console
-    console.warn('likely.initate function is DEPRECATED and will be removed in 3.0. Use likely.initiate instead.');
-    return likely.initiate.apply(likely, arguments);
 };
 
 module.exports = likely;
