@@ -71,10 +71,9 @@ likely.initiate = function (node, options) {
         // eslint-disable-next-line no-param-reassign
         options = node;
     }
-    utils.toArray(nodes)
-        .forEach(function (node) {
-            initWidget(node, options);
-        });
+    nodes.forEach(function (node) {
+        initWidget(node, options);
+    });
 };
 
 likely.initate = function () {

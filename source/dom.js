@@ -1,5 +1,7 @@
 'use strict';
 
+var utils = require('./utils');
+
 var div = document.createElement('div');
 var gid = 0;
 
@@ -68,7 +70,7 @@ var dom = module.exports = {
      * Find first node by selector
      *
      * @param {String} selector
-     * @param {Node} node
+     * @param {Node} [node]
      * @returns {Node}
      */
     find: function (selector, node) {
@@ -79,11 +81,11 @@ var dom = module.exports = {
      * Find all nodes by selector
      *
      * @param {String} selector
-     * @param {Node} node
+     * @param {Node} [node]
      * @returns {NodeList}
      */
     findAll: function (selector, node) {
-        return (node || document).querySelectorAll(selector);
+        return utils.toArray((node || document).querySelectorAll(selector));
     },
 
     /**
