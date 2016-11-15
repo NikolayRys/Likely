@@ -3,17 +3,15 @@
 'use strict';
 
 const { before, after, beforeEach, describe, it } = require('mocha');
-const chai = require('chai');
-const chaiAsPromised = require('chai-as-promised');
-
-chai.use(chaiAsPromised);
-const { expect } = chai;
 
 require('chromedriver');
 const selenium = require('selenium-webdriver');
-const until = require('selenium-webdriver/lib/until');
 
-const StaticServer = require('static-server');
+const startServer = require('./utils/startServer');
+const { LikelyPage, getLikelyPage } = require('./utils/getLikelyPage');
+const waitUntilLikelyInitialized = require('./utils/waitUntilLikelyInitialized');
+const expectToContainText = require('./utils/expectToContainText');
+const expectClickToOpen = require('./utils/expectClickToOpen');
 
 const commonTimeout = 20000;
 
@@ -29,11 +27,7 @@ describe('Likely', function () {
             .forBrowser('chrome')
             .build();
 
-        new StaticServer({
-            rootPath: `${__dirname}/..`,
-            port: 1337,
-            host: '127.0.0.1',
-        }).start();
+        startServer();
     });
 
     after(function () {
@@ -42,7 +36,8 @@ describe('Likely', function () {
 
     describe('fetching counters', function () {
         before(function () {
-            return getLikely(driver, 'http://127.0.0.1:1337/test/files/autoinit.html', { waitUntilInitialized: true });
+            return getLikelyPage(driver, LikelyPage.AUTOINIT)
+                .then(() => waitUntilLikelyInitialized(driver));
         });
 
         const testedServices = [
@@ -63,7 +58,8 @@ describe('Likely', function () {
 
     describe('opening sharing dialogs', function () {
         before(function () {
-            return getLikely(driver, 'http://127.0.0.1:1337/test/files/autoinit.html', { waitUntilInitialized: true });
+            return getLikelyPage(driver, LikelyPage.AUTOINIT)
+                .then(() => waitUntilLikelyInitialized(driver));
         });
 
         const testedServices = [
@@ -85,7 +81,7 @@ describe('Likely', function () {
 
     describe('configuration', function () {
         beforeEach(function () {
-            return getLikely(driver, 'http://127.0.0.1:1337/test/files/no-autoinit.html');
+            return getLikelyPage(driver, LikelyPage.NO_AUTOINIT);
         });
 
         it('should change the shared URL when `<link rel="canonical">` is specified', function () {
@@ -149,7 +145,8 @@ describe('Likely', function () {
 
             const targetUrl = '/?history';
 
-            return getLikely(driver, 'http://127.0.0.1:1337/test/files/autoinit.html', { waitUntilInitialized: true })
+            return getLikelyPage(driver, LikelyPage.AUTOINIT)
+                .then(() => waitUntilLikelyInitialized(driver))
                 .then(() => {
                     return driver.executeScript(`window.history.${methodName}(null, null, '${targetUrl}');`);
                 })
@@ -171,7 +168,7 @@ describe('Likely', function () {
         });
 
         it('should change the shared URL when the browser’s back button is clicked', function () {
-            return getLikely(driver, 'http://127.0.0.1:1337/test/files/no-autoinit.html')
+            return getLikelyPage(driver, LikelyPage.NO_AUTOINIT)
                 .then(() => {
                     return driver.executeScript(`
                         window.history.pushState(null, null, '/?history');
@@ -189,7 +186,8 @@ describe('Likely', function () {
 
     describe('bugs', function () {
         it('should get a correct title when the script is placed before the title element [#67]', function () {
-            return getLikely(driver, 'http://127.0.0.1:1337/test/files/issues/67.html', { waitUntilInitialized: true })
+            return getLikelyPage(driver, LikelyPage.ISSUE_67)
+                .then(() => waitUntilLikelyInitialized(driver))
                 .then(() => {
                     return expectClickToOpen(driver, '.likely__widget_twitter', /twitter\.com\/.*Likely%20test%20page/);
                 });
@@ -197,63 +195,3 @@ describe('Likely', function () {
     });
 });
 
-function getLikely(driver, url, { waitUntilInitialized = false } = {}) {
-    const pagePromise = driver.get(url);
-
-    if (waitUntilInitialized) {
-        return pagePromise
-            .then(() => {
-                return driver.wait(until.elementLocated({ css: '.likely_ready' }), 1500);
-            });
-    }
-    else {
-        return pagePromise;
-    }
-}
-
-function expectToContainText(driver, selector, value) {
-    return expect(driver.findElement({ css: selector }).getText()).to.eventually.equal(value);
-}
-
-function expectClickToOpen(driver, clickTargetSelector, windowUrlRegex) {
-    let originalWindowHandle;
-    let openedUrl;
-    return driver.findElement({ css: clickTargetSelector }).click()
-        .then(() => Promise.all([
-            driver.getWindowHandle(),
-            driver.getAllWindowHandles(),
-        ]))
-        .then(([currentHandle, handles]) => {
-            originalWindowHandle = currentHandle;
-
-            const newWindowHandle = handles.find(handle => handle !== currentHandle);
-            return driver.switchTo().window(newWindowHandle);
-        })
-        // `driver.wait()` is used because Firefox opens a new window with `about:blank' initially
-        .then(() => {
-            // This time should be enough for Firefox to load something and replace `about:blank` with the target URL
-            const urlChangeTimeout = commonTimeout;
-            return driver.wait(until.urlMatches(windowUrlRegex), urlChangeTimeout);
-        })
-        // `driver.wait()` triggers an exception if the url doesn’t match the regex,
-        // but we actually ignore this exception and do the proper URL comparison later
-        .then(
-            () => driver.getCurrentUrl(),
-            () => driver.getCurrentUrl()
-        )
-        .then((url) => {
-            openedUrl = url;
-
-            return driver.close();
-        })
-        .then(() => {
-            return driver.switchTo().window(originalWindowHandle);
-        })
-        // We compare the URLs only after closing the dialog and switching back to the main window.
-        // If we do it before and the comparison fails, all the `.then()` branches won’t execute,
-        // and Selenium will continue working in the opened dialog.
-        // This will make all the following tests fail
-        .then(() => {
-            expect(openedUrl).to.match(windowUrlRegex);
-        });
-}
