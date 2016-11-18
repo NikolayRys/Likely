@@ -83,7 +83,7 @@ Likely supports following social networks:
 * `pinterest` – Pinterest
 * `odnoklassniki` – Odnoklassniki
 * `telegram` – Telegram
-* `linkedin` – Telegram
+* `linkedin` – LinkedIn
 
 If you need several Likely widgets on the page, just create another `div` with the class `likely` and list the social networks in it.
 
