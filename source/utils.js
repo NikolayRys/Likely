@@ -59,6 +59,7 @@ var utils = {
      *
      * @param {Object} target
      * @param {Object} subject
+     * @returns {Object} Extended target
      */
     extend: function (target, subject) {
         for (var key in subject) {
@@ -66,6 +67,7 @@ var utils = {
                 target[key] = subject[key];
             }
         }
+        return target;
     },
 
     /**
