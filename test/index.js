@@ -9,7 +9,7 @@ const chaiAsPromised = require('chai-as-promised');
 chai.use(chaiAsPromised);
 const { expect } = chai;
 
-require('geckodriver');
+require('chromedriver');
 const selenium = require('selenium-webdriver');
 const until = require('selenium-webdriver/lib/until');
 
@@ -26,7 +26,7 @@ describe('Likely', function () {
 
     before(function () {
         driver = new selenium.Builder()
-            .forBrowser('firefox')
+            .forBrowser('chrome')
             .build();
 
         new StaticServer({
