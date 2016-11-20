@@ -37,31 +37,6 @@ var initWidget = function (node, options) {
     return widget;
 };
 
-var initLikely = function (nodes, options) {
-    var realNodes;
-    var realOptions;
-
-    if (Array.isArray(nodes)) {
-        // An array of nodes was passed
-        realNodes = nodes;
-        realOptions = options;
-    }
-    else if (nodes instanceof Node) {
-        // A single node was passed
-        realNodes = [nodes];
-        realOptions = options;
-    }
-    else {
-        // Options were passed, or null/undefined was passed, or the function was called without arguments
-        realNodes = dom.findAll('.' + config.name);
-        realOptions = options || nodes;
-    }
-
-    realNodes.forEach(function (node) {
-        initWidget(node, realOptions);
-    });
-};
-
 /**
  * @deprecated
  * @returns {Likely}
@@ -87,13 +62,38 @@ likely.initate = function () {
  * @param {Object} [options] additional options for each widget
  */
 likely.initiate = function (nodes, options) {
-    initLikely(nodes, options);
+    var realNodes;
+    var realOptions;
+
+    if (Array.isArray(nodes)) {
+        // An array of nodes was passed
+        realNodes = nodes;
+        realOptions = options;
+    }
+    else if (nodes instanceof Node) {
+        // A single node was passed
+        realNodes = [nodes];
+        realOptions = options;
+    }
+    else {
+        // Options were passed, or the function was called without arguments
+        realNodes = dom.findAll('.' + config.name);
+        realOptions = nodes;
+    }
+
+    realNodes.forEach(function (node) {
+        initWidget(node, realOptions);
+    });
 
     history.onUrlChange(function () {
-        initLikely(nodes, utils.extend({
+        var newOptions = utils.extend({
             forceUpdate: true,
             url: utils.getDefaultUrl(),
-        }, options));
+        }, realOptions);
+
+        realNodes.forEach(function (node) {
+            initWidget(node, newOptions);
+        });
     });
 };
 
