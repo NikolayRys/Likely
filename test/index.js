@@ -3,6 +3,7 @@
 'use strict';
 
 const { before, after, beforeEach, describe, it } = require('mocha');
+const expect = require('chai').use(require('chai-as-promised')).expect;
 
 require('chromedriver');
 const selenium = require('selenium-webdriver');
@@ -32,6 +33,109 @@ describe('Likely', function () {
 
     after(function () {
         return driver.quit();
+    });
+
+    describe('initialization', function () {
+        beforeEach(function () {
+            return getLikelyPage(driver, LikelyPage.NO_AUTOINIT_MULTIPLE);
+        });
+
+        it('should initialize without arguments', function () {
+            return driver.executeScript('likely.initiate();')
+                .then(() => waitUntilLikelyInitialized(driver))
+                .then(() => driver.findElements({ css: '.likely' }))
+                .then((allLikelyWidgets) => {
+                    return expect(driver.findElements({ css: '.likely_ready' })).to.eventually.have.lengthOf(allLikelyWidgets.length);
+                });
+        });
+
+        it('should initialize when only options are passed', function () {
+            return driver.executeScript('likely.initiate({ url: "//google.com" });')
+                .then(() => waitUntilLikelyInitialized(driver))
+                .then(() => driver.findElements({ css: '.likely' }))
+                .then((allLikelyWidgets) => {
+                    const expectations = allLikelyWidgets.map(
+                        (widget) => expectClickToOpen(
+                            driver,
+                            widget.findElement({ css: '.likely__widget_twitter' }),
+                            /twitter\.com\/.*google\.com/
+                        )
+                    ).concat(
+                        expect(driver.findElements({ css: '.likely_ready' }))
+                            .to.eventually.have.lengthOf(allLikelyWidgets.length)
+                    );
+
+                    return Promise.all(expectations);
+                });
+        });
+
+        it('should initialize a single node passed', function () {
+            return driver.executeScript('likely.initiate(document.querySelector("#widget1"));')
+                .then(() => waitUntilLikelyInitialized(driver))
+                .then(() => {
+                    return Promise.all([
+                        expect(driver.findElement({ css: '#widget1' }).getAttribute('class'))
+                            .to.eventually.include('likely_ready'),
+                        expect(driver.findElements({ css: '.likely_ready' }))
+                            .to.eventually.have.lengthOf(1),
+                    ]);
+                });
+        });
+
+        it('should initialize a single node passed with options', function () {
+            return driver.executeScript(`
+                likely.initiate(document.querySelector("#widget1"), { url: '//google.com' });
+            `)
+                .then(() => waitUntilLikelyInitialized(driver))
+                .then(() => {
+                    return Promise.all([
+                        expect(driver.findElement({ css: '#widget1' }).getAttribute('class'))
+                            .to.eventually.include('likely_ready'),
+                        expect(driver.findElements({ css: '.likely_ready' }))
+                            .to.eventually.have.lengthOf(1),
+                        expectClickToOpen(driver, '#widget1 .likely__widget_twitter', /twitter\.com\/.*google\.com/),
+                    ]);
+                });
+        });
+
+        it('should initialize multiple nodes passed', function () {
+            return driver.executeScript(`
+                likely.initiate([document.querySelector("#widget1"), document.querySelector("#widget3")]);
+            `)
+                .then(() => waitUntilLikelyInitialized(driver))
+                .then(() => {
+                    return Promise.all([
+                        expect(driver.findElement({ css: '#widget1' }).getAttribute('class'))
+                            .to.eventually.include('likely_ready'),
+                        expect(driver.findElement({ css: '#widget3' }).getAttribute('class'))
+                            .to.eventually.include('likely_ready'),
+                        expect(driver.findElements({ css: '.likely_ready' }))
+                            .to.eventually.have.lengthOf(2),
+                    ]);
+                });
+        });
+
+        it('should initialize multiple nodes passed with options', function () {
+            return driver.executeScript(`
+                likely.initiate(
+                    [document.querySelector("#widget1"), document.querySelector("#widget3")],
+                    { url: '//google.com' }
+                );
+            `)
+                .then(() => waitUntilLikelyInitialized(driver))
+                .then(() => {
+                    return Promise.all([
+                        expect(driver.findElement({ css: '#widget1' }).getAttribute('class'))
+                            .to.eventually.include('likely_ready'),
+                        expect(driver.findElement({ css: '#widget3' }).getAttribute('class'))
+                            .to.eventually.include('likely_ready'),
+                        expect(driver.findElements({ css: '.likely_ready' }))
+                            .to.eventually.have.lengthOf(2),
+                        expectClickToOpen(driver, '#widget1 .likely__widget_twitter', /twitter\.com\/.*google\.com/),
+                        expectClickToOpen(driver, '#widget3 .likely__widget_twitter', /twitter\.com\/.*google\.com/),
+                    ]);
+                });
+        });
     });
 
     describe('fetching counters', function () {

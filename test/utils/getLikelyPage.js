@@ -5,6 +5,7 @@
 const LikelyPage = {
     AUTOINIT: 'autoinit.html',
     NO_AUTOINIT: 'no-autoinit.html',
+    NO_AUTOINIT_MULTIPLE: 'no-autoinit-multiple.html',
     ISSUE_67: 'issues/67.html',
 };
 
