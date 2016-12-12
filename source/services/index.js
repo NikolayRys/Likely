@@ -17,6 +17,7 @@ var services = {
     twitter: require('./twitter'),
     gplus: require('./gplus'),
     telegram: require('./telegram'),
+    linkedin: require('./linkedin'),
 };
 /* eslint-enable global-require */
 

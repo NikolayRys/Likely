@@ -150,6 +150,7 @@ describe('Likely', function () {
             { name: 'Odnoklassniki', likelyName: 'odnoklassniki' },
             { name: 'Pinterest', likelyName: 'pinterest' },
             { name: 'VK', likelyName: 'vkontakte' },
+            { name: 'LinkedIn', likelyName: 'linkedin' },
         ];
 
         testedServices.forEach(({ name, likelyName }) => {
@@ -174,6 +175,7 @@ describe('Likely', function () {
             { name: 'Telegram', likelyName: 'telegram', urlRegex: /telegram\.me/ },
             { name: 'Twitter', likelyName: 'twitter', urlRegex: /twitter\.com/ },
             { name: 'VK', likelyName: 'vkontakte', urlRegex: /vk\.com/ },
+            { name: 'LinkedIn', likelyName: 'linkedin', urlRegex: /linkedin\.com/ },
         ];
 
         testedServices.forEach(({ name, likelyName, urlRegex }) => {
