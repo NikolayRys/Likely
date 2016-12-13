@@ -1,5 +1,5 @@
 import { createNode, findAll, openPopup, wrapSVG } from './dom';
-import { extend, getDataset, makeUrl, merge, query, template, toArray } from './utils';
+import { extend, getDataset, makeUrl, merge, query, template } from './utils';
 
 import config from './config';
 import fetch from './fetch';
@@ -47,7 +47,7 @@ class LikelyButton {
         const counters = findAll(className, this.widget);
 
         extend(this.options, merge({ forceUpdate: false }, options));
-        toArray(counters).forEach((node) => {
+        counters.forEach((node) => {
             node.parentNode.removeChild(node);
         });
 

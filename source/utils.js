@@ -52,6 +52,7 @@ export const merge = (...args) => { // eslint-disable-line no-unused-vars
  *
  * @param {Object} target
  * @param {Object} subject
+ * @returns {Object} Extended target
  */
 export const extend = (target, subject) => {
     for (const key in subject) {
@@ -59,6 +60,7 @@ export const extend = (target, subject) => {
             target[key] = subject[key];
         }
     }
+    return target;
 };
 
 /**
@@ -83,8 +85,7 @@ export const getDataset = (node) => {
 
     for (i = attributes.length - 1; i >= 0; i--) {
         attribute = attributes[i];
-        if (attribute && attribute.name &&
-                (/^data-\w[\w\-]*$/).test(attribute.name)) {
+        if (attribute && attribute.name && (/^data-\w[\w\-]*$/).test(attribute.name)) {
             attributeName = attribute.name.substr(5).replace(/-./g, toUpperCase);
             dataset[attributeName] = attribute.value;
         }

@@ -64,7 +64,7 @@ export const getJSON = (url, callback) => {
  * Find first node by selector
  *
  * @param {String} selector
- * @param {Node} node
+ * @param {Node} [node]
  * @returns {Node}
  */
 export const find = (selector, node) => (node || document).querySelector(selector);
@@ -73,11 +73,10 @@ export const find = (selector, node) => (node || document).querySelector(selecto
  * Find all nodes by selector
  *
  * @param {String} selector
- * @param {Node} node
- * @returns {NodeList}
+ * @param {Node} [node]
+ * @returns {Node[]}
  */
-export const findAll = (selector, node) => (node || document).querySelectorAll(selector);
-
+export const findAll = (selector, node) => [...(node || document).querySelectorAll(selector)];
 /**
  * Open the popup
  *

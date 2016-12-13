@@ -71,6 +71,7 @@ Then, create a `div` with the class `likely` and list necessary social networks 
     <div class="pinterest">Pin</div>
     <div class="odnoklassniki">Like</div>
     <div class="telegram">Send</div>
+    <div class="linkedin">Share</div>
 </div>
 ```
 Likely supports following social networks:
@@ -82,6 +83,7 @@ Likely supports following social networks:
 * `pinterest` – Pinterest
 * `odnoklassniki` – Odnoklassniki
 * `telegram` – Telegram
+* `linkedin` – LinkedIn
 
 If you need several Likely widgets on the page, just create another `div` with the class `likely` and list the social networks in it.
 

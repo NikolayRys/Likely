@@ -8,6 +8,7 @@ import svg from '../svg.js';
 /* eslint-disable sort-imports */
 import facebook from './facebook';
 import gplus from './gplus';
+import linkedin from './linkedin';
 import odnoklassniki from './odnoklassniki';
 import pinterest from './pinterest';
 import telegram from './telegram';
@@ -17,13 +18,14 @@ import vkontakte from './vk';
 
 
 const services = {
-    odnoklassniki,
-    vkontakte,
-    pinterest,
     facebook,
-    twitter,
     gplus,
+    linkedin,
+    odnoklassniki,
+    pinterest,
     telegram,
+    twitter,
+    vkontakte,
 };
 
 each(services, (service, key) => {
