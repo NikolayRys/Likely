@@ -13,14 +13,14 @@
     "build": "gulp build",
     "dev": "gulp dev",
     "zip": "gulp zip",
-    "test": "npm run integration-tests && npm run check-codestyle",
+    "test": "yarn run integration-tests && yarn run check-codestyle",
     "check-codestyle": "eslint ./",
     "fix-codestyle": "eslint ./ --fix",
-    "preintegration-tests": "npm run build",
+    "preintegration-tests": "yarn run build",
     "integration-tests": "mocha test/index.js",
     "//": "`in-publish` is used so that the CI doesn’t run tests during the installation.",
     "//": "If it does and the tests fail, the build gets errored instead of failed.",
-    "prepublish": "in-publish && npm run test || not-in-publish"
+    "prepublish": "in-publish && yarn run test || not-in-publish"
   },
   "devDependencies": {
     "babel-core": "^6.18.2",
