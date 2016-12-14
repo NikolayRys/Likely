@@ -3,14 +3,14 @@
  */
 
 import { makeUrl, set } from '../utils';
-import dom from '../dom';
+import { getScript } from '../dom';
 
 const odnoklassniki = {
     counterUrl: 'https://connect.ok.ru/dk?st.cmd=extLike&ref={url}&uid={index}',
     counter(url, promise) {
         this.promises.push(promise);
 
-        dom.getScript(makeUrl(url, {
+        getScript(makeUrl(url, {
             index: this.promises.length - 1,
         }));
     },
