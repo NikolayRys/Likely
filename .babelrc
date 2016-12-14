@@ -3,10 +3,5 @@
     "es2015": {
       "modules": false
     }
-  }]],
-  "env": {
-    "production": {
-      "presets": ["babili"]
-    }
-  }
+  }]]
 }
