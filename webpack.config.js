@@ -40,8 +40,7 @@ if (isProduction) {
 module.exports = {
     entry: {
         likely: './source/likely.js',
-        // [] is a workaround, see https://github.com/webpack/webpack/issues/300
-        'likely-commonjs': ['./source/index.js'],
+        'likely-commonjs': './source/index.js',
     },
     output: {
         filename: './release/[name].js',
