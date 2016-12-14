@@ -1,5 +1,3 @@
-/* eslint-env node, mocha, es6 */
-
 'use strict';
 
 const expect = require('chai').use(require('chai-as-promised')).expect;
