@@ -40,7 +40,7 @@ if (isProduction) {
 module.exports = {
     entry: {
         likely: './source/likely.js',
-        // 'likely-commonjs': './source/index.js',
+        // [] is a workaround, see https://github.com/webpack/webpack/issues/300
         'likely-commonjs': ['./source/index.js'],
     },
     output: {
