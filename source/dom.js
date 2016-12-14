@@ -1,125 +1,113 @@
-'use strict';
+const div = document.createElement('div');
+let gid = 0;
 
-var utils = require('./utils');
+/**
+ * Wrap SVG coords from data object into SVG tag
+ *
+ * @param {String} coords
+ * @returns {String}
+ */
+export const wrapSVG = (coords) =>
+  '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" ' +
+  'viewBox="0 0 16 16"><path d="M' +
+  coords +
+  'z"/></svg>';
 
-var div = document.createElement('div');
-var gid = 0;
+/**
+ * Create node from HTML
+ *
+ * @param {String} html
+ * @returns {Node}
+ */
+export const createNode = (html) => {
+    div.innerHTML = html;
 
-var dom = module.exports = {
-    /**
-     * Wrap SVG coords from data object into SVG tag
-     *
-     * @param {String} coords
-     * @returns {String}
-     */
-    wrapSVG: function (coords) {
-        return '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" ' +
-            'viewBox="0 0 16 16"><path d="M' +
-            coords +
-            'z"/></svg>';
-    },
+    return div.children[0];
+};
 
-    /**
-     * Create node from HTML
-     *
-     * @param {String} html
-     * @returns {Node}
-     */
-    createNode: function (html) {
-        div.innerHTML = html;
+/**
+ * Load script
+ *
+ * @param {String} url
+ */
+export const getScript = (url) => {
+    const script = document.createElement('script');
+    const head = document.head;
 
-        return div.children[0];
-    },
+    script.type = 'text/javascript';
+    script.src = url;
 
-    /**
-     * Load script
-     *
-     * @param {String} url
-     */
-    getScript: function (url) {
-        var script = document.createElement('script');
-        var head = document.head;
+    head.appendChild(script);
+    head.removeChild(script);
+};
 
-        script.type = 'text/javascript';
-        script.src = url;
+/**
+ * Get JSON
+ *
+ * @param {String} url
+ * @param {Function} callback
+ */
+export const getJSON = (url, callback) => {
+    const name = encodeURIComponent(`random_fun_${++gid}`);
 
-        head.appendChild(script);
-        head.removeChild(script);
-    },
+    const concreteUrl = url.replace(
+        /callback=(\?)/,
+        `callback=${name}`
+    );
 
-    /**
-     * Get JSON
-     *
-     * @param {String} url
-     * @param {Function} callback
-     */
-    getJSON: function (url, callback) {
-        var name = encodeURIComponent('random_fun_' + (++gid));
+    window[name] = callback;
 
-        var concreteUrl = url.replace(
-            /callback=(\?)/,
-            'callback=' + name
-        );
+    getScript(concreteUrl);
+};
 
-        window[name] = callback;
+/**
+ * Find first node by selector
+ *
+ * @param {String} selector
+ * @param {Node} [node]
+ * @returns {Node}
+ */
+export const find = (selector, node) => (node || document).querySelector(selector);
 
-        dom.getScript(concreteUrl);
-    },
+/**
+ * Find all nodes by selector
+ *
+ * @param {String} selector
+ * @param {Node} [node]
+ * @returns {Node[]}
+ */
+export const findAll = (selector, node) => [...(node || document).querySelectorAll(selector)];
+/**
+ * Open the popup
+ *
+ * @param {String} url
+ * @param {String} winId
+ * @param {Number} width,
+ * @param {Number} height
+ * @returns {Object|null}
+ */
+export const openPopup = (url, winId, width, height) => {
+    const left = Math.round(screen.width / 2 - width / 2);
+    let top = 0;
 
-    /**
-     * Find first node by selector
-     *
-     * @param {String} selector
-     * @param {Node} [node]
-     * @returns {Node}
-     */
-    find: function (selector, node) {
-        return (node || document).querySelector(selector);
-    },
+    if (screen.height > height) {
+        top = Math.round(screen.height / 3 - height / 2);
+    }
 
-    /**
-     * Find all nodes by selector
-     *
-     * @param {String} selector
-     * @param {Node} [node]
-     * @returns {Node[]}
-     */
-    findAll: function (selector, node) {
-        return utils.toArray((node || document).querySelectorAll(selector));
-    },
+    const options = 'left=' + left +
+        ',top=' + top +
+        ',width=' + width +
+        ',height=' + height +
+        ',personalbar=0,toolbar=0,scrollbars=1,resizable=1';
 
-    /**
-     * Open the popup
-     *
-     * @param {String} url
-     * @param {String} winId
-     * @param {Number} width,
-     * @param {Number} height
-     * @returns {Object|null}
-     */
-    openPopup: function (url, winId, width, height) {
-        var left = Math.round(screen.width / 2 - width / 2);
-        var top = 0;
+    const win = window.open(url, winId, options);
 
-        if (screen.height > height) {
-            top = Math.round(screen.height / 3 - height / 2);
-        }
+    if (!win) {
+        location.href = url;
+        return null;
+    }
 
-        var options = 'left=' + left +
-            ',top=' + top +
-            ',width=' + width +
-            ',height=' + height +
-            ',personalbar=0,toolbar=0,scrollbars=1,resizable=1';
+    win.focus();
 
-        var win = window.open(url, winId, options);
-
-        if (!win) {
-            location.href = url;
-            return null;
-        }
-
-        win.focus();
-
-        return win;
-    },
+    return win;
 };

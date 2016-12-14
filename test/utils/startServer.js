@@ -1,5 +1,3 @@
-/* eslint-env node, mocha, es6 */
-
 'use strict';
 
 const StaticServer = require('static-server');

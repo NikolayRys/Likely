@@ -1,10 +1,8 @@
-'use strict';
-
 /**
  * Configuration
  */
 
-module.exports = {
+export default {
     name: 'likely',
     prefix: 'likely__',
 };

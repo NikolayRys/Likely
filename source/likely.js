@@ -1,9 +1,7 @@
-'use strict';
+import likely from './index.js';
 
-var likely = require('./index.js');
-
-window.addEventListener('load', function () {
+window.addEventListener('load', () => {
     likely.initiate();
 });
 
-module.exports = likely;
+export default likely;

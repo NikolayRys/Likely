@@ -1,5 +1,3 @@
-/* eslint-env node, mocha, es6 */
-
 'use strict';
 
 const until = require('selenium-webdriver/lib/until');

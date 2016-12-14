@@ -1,21 +1,19 @@
-'use strict';
-
-var callbacks = [];
-var handleUrlChange = function () {
-    callbacks.forEach(function (callback) {
+const callbacks = [];
+const handleUrlChange = () => {
+    callbacks.forEach((callback) => {
         callback();
     });
 };
 
-var setupHistoryWatcher = function () {
-    var pushState = window.history.pushState;
+const setupHistoryWatcher = () => {
+    const pushState = window.history.pushState;
     window.history.pushState = function () {
         // browser should change the url first
         setTimeout(handleUrlChange, 0);
         return pushState.apply(window.history, arguments);
     };
 
-    var replaceState = window.history.replaceState;
+    const replaceState = window.history.replaceState;
     window.history.replaceState = function () {
         // browser should change the url first
         setTimeout(handleUrlChange, 0);
@@ -25,10 +23,10 @@ var setupHistoryWatcher = function () {
     window.addEventListener('popstate', handleUrlChange);
 };
 
-var isWatchingHistory = false;
+let isWatchingHistory = false;
 
-var history = {
-    onUrlChange: function (callback) {
+const history = {
+    onUrlChange(callback) {
         if (!isWatchingHistory) {
             setupHistoryWatcher();
             isWatchingHistory = true;
@@ -38,4 +36,4 @@ var history = {
     },
 };
 
-module.exports = history;
+export default history;

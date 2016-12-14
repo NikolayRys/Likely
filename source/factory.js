@@ -1,5 +1,3 @@
-'use strict';
-
 /* eslint-disable consistent-return, no-param-reassign */
 
 /**
@@ -16,11 +14,11 @@
  * @param {Object} value
  * @returns {Function}
  */
-module.exports = function (value) {
-    var listeners = [];
+export default (value) => {
+    const listeners = [];
 
-    return function (argument) {
-        var type = typeof argument;
+    return (argument) => {
+        const type = typeof argument;
 
         if (type === 'undefined') {
             return value;
@@ -31,7 +29,7 @@ module.exports = function (value) {
         else {
             value = argument;
 
-            listeners.forEach(function (listener) {
+            listeners.forEach((listener) => {
                 listener(argument);
             });
         }

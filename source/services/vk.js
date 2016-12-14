@@ -1,18 +1,16 @@
-'use strict';
-
 /**
  * Vkontakte service provider
  */
 
-var utils = require('../utils');
-var dom = require('../dom');
+import { makeUrl, set } from '../utils';
+import { getScript } from '../dom';
 
-var vkontakte = {
+const vkontakte = {
     counterUrl: 'https://vk.com/share.php?act=count&url={url}&index={index}',
-    counter: function (url, promise) {
+    counter(url, promise) {
         this.promises.push(promise);
 
-        dom.getScript(utils.makeUrl(url, {
+        getScript(makeUrl(url, {
             index: this.promises.length - 1,
         }));
     },
@@ -22,8 +20,8 @@ var vkontakte = {
     popupHeight: 330,
 };
 
-utils.set(window, 'VK.Share.count', function (index, count) {
+set(window, 'VK.Share.count', (index, count) => {
     vkontakte.promises[index](count);
 });
 
-module.exports = vkontakte;
+export default vkontakte;
