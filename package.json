@@ -11,7 +11,7 @@
   "main": "release/likely-commonjs.js",
   "scripts": {
     "dev": "NODE_ENV=development webpack",
-    "build": "NODE_ENV=production webpack",
+    "build": "NODE_ENV=production webpack -p",
     "zip": "gulp zip",
     "test": "npm run integration-tests && npm run check-codestyle",
     "check-codestyle": "eslint ./",
