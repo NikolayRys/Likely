@@ -18,15 +18,13 @@
     "fix-codestyle": "eslint ./ --fix",
     "preintegration-tests": "npm run build",
     "integration-tests": "mocha test/index.js",
-    "//": "`in-publish` is used so that the CI doesn’t run tests during the installation.",
-    "//": "If it does and the tests fail, the build gets errored instead of failed.",
+    "//": "`in-publish` is used so that the CI doesn’t run tests during the installation. If it does and the tests fail, the build gets errored instead of failed.",
     "prepublish": "in-publish && npm run test || not-in-publish"
   },
   "devDependencies": {
     "babel-core": "^6.18.2",
     "babel-loader": "^6.2.7",
     "babel-plugin-add-module-exports": "^0.2.1",
-    "babel-preset-babili": "^0.0.8",
     "babel-preset-latest": "^6.16.0",
     "chai": "^3.5.0",
     "chai-as-promised": "^5.3.0",
@@ -42,6 +40,7 @@
     "mocha": "^2.5.3",
     "selenium-webdriver": "^3.0.0-beta-2",
     "static-server": "^2.0.3",
+    "webpack": "^2.1.0-beta.28",
     "webpack-stream": "^3.2.0"
   }
 }
