@@ -18,8 +18,7 @@
     "fix-codestyle": "eslint ./ --fix",
     "preintegration-tests": "npm run build",
     "integration-tests": "mocha test/index.js",
-    "//": "`in-publish` is used so that the CI doesn’t run tests during the installation.",
-    "//": "If it does and the tests fail, the build gets errored instead of failed.",
+    "//": "`in-publish` is used so that the CI doesn’t run tests during the installation. If it does and the tests fail, the build gets errored instead of failed.",
     "prepublish": "in-publish && npm run test || not-in-publish"
   },
   "devDependencies": {
