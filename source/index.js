@@ -97,4 +97,6 @@ class likely {
     }
 }
 
-export default likely;
+// `module.exports` instead of `export default`:
+// public API should be `likely.initiate`, not `likely.default.initiate`
+module.exports = likely;

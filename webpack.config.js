@@ -35,6 +35,14 @@ module.exports = {
     devtool: 'source-map',
     watch: !isProduction,
     plugins: isProduction ? [
+        new webpack.optimize.UglifyJsPlugin({
+            minimize: true,
+            sourceMap: true,
+            compressor: {
+                // eslint-disable-next-line camelcase
+                screw_ie8: true,
+            },
+        }),
         new webpack.BannerPlugin(getLicenseComment(packageJson.version)),
     ] : [],
 };
