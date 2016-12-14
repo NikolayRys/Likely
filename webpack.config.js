@@ -32,7 +32,7 @@ module.exports = {
             loader: 'babel-loader',
         }],
     },
-    devtool: isProduction ? 'eval' : 'source-map',
+    devtool: 'source-map',
     watch: !isProduction,
     plugins: isProduction ? [
         new webpack.BannerPlugin(getLicenseComment(packageJson.version)),
