@@ -1,3 +1,5 @@
+import '../styles/likely.styl';
+
 import { bools, extend, getDefaultUrl, merge } from './utils';
 
 import Likely from './widget';
