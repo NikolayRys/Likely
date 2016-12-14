@@ -48,7 +48,7 @@ module.exports = {
         libraryTarget: 'umd',
     },
     module: {
-        rules: [{
+        loaders: [{
             test: /\.js$/,
             exclude: /node_modules/,
             loader: 'babel-loader',
