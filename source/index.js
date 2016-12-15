@@ -1,4 +1,4 @@
-import { bools, extend, getDefaultUrl, merge } from './utils';
+import { bools, getDefaultUrl, merge } from './utils';
 
 import Likely from './widget';
 import config from './config';
@@ -78,20 +78,14 @@ class likely {
             realOptions = nodes;
         }
 
-        realNodes.forEach((node) => {
-            initWidget(node, realOptions);
-        });
+        initWidgets();
+        history.onUrlChange(initWidgets);
 
-        history.onUrlChange(() => {
-            const newOptions = extend({
-                forceUpdate: true,
-                url: getDefaultUrl(),
-            }, realOptions);
-
+        function initWidgets() {
             realNodes.forEach((node) => {
-                initWidget(node, newOptions);
+                initWidget(node, realOptions);
             });
-        });
+        }
     }
 }
 
