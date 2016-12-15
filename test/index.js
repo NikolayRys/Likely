@@ -136,6 +136,48 @@ describe('Likely', function () {
         });
     });
 
+    describe('changing configuration after being initialized', function () {
+        beforeEach(function () {
+            return getLikelyPage(driver, LikelyPage.AUTOINIT)
+                .then(() => waitUntilLikelyInitialized(driver));
+        });
+
+        it('should change the shared URL when the new options are passed as a JS object', function () {
+            return driver.executeScript(`
+                likely.initiate({
+                    url: 'http://google.com'
+                });
+            `)
+                .then(function () {
+                    return expectClickToOpen(driver, '.likely__widget_twitter', /twitter\.com\/.*google\.com/);
+                });
+        });
+
+        it('should change the shared URL when the new URL is specified on the node', function () {
+            return driver.executeScript(`
+                document.querySelector('.likely').setAttribute('data-url', 'http://google.com');
+                likely.initiate();
+            `)
+                .then(function () {
+                    return expectClickToOpen(driver, '.likely__widget_twitter', /twitter\.com\/.*google\.com/);
+                });
+        });
+
+        it('should change the shared URL when the new URL is specified as <link rel="canonical">', function () {
+            return driver.executeScript(`
+                const link = document.createElement('link');
+                link.setAttribute('rel', 'canonical');
+                link.setAttribute('href', 'http://google.com');
+                document.head.appendChild(link);
+                
+                likely.initiate();
+            `)
+                .then(function () {
+                    return expectClickToOpen(driver, '.likely__widget_twitter', /twitter\.com\/.*google\.com/);
+                });
+        });
+    });
+
     describe('fetching counters', function () {
         before(function () {
             return getLikelyPage(driver, LikelyPage.AUTOINIT)

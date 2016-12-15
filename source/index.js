@@ -23,14 +23,12 @@ const initWidget = (node, options) => {
     };
     const widget = node[config.name];
 
+    const realOptions = merge({}, defaults, fullOptions, bools(node));
     if (widget) {
-        widget.update(fullOptions);
+        widget.update(realOptions);
     }
     else {
-        node[config.name] = new Likely(node, merge(
-            {}, defaults,
-            fullOptions, bools(node)
-        ));
+        node[config.name] = new Likely(node, realOptions);
     }
 
     return widget;
