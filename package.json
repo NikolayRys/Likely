@@ -28,7 +28,7 @@
     "babel-preset-latest": "^6.16.0",
     "chai": "^3.5.0",
     "chai-as-promised": "^5.3.0",
-    "chromedriver": "^2.25.1",
+    "chromedriver": "~2.25.1",
     "eslint": "^2.9.0",
     "gulp": "^3.9.1",
     "gulp-csso": "^1.0.0",
