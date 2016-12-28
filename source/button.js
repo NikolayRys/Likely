@@ -1,4 +1,4 @@
-import { createNode, findAll, openPopup, wrapSVG } from './dom';
+import { createNode, find, findAll, openPopup, wrapSVG } from './dom';
 import { extend, getDataset, makeUrl, merge, query, template } from './utils';
 
 import config from './config';
