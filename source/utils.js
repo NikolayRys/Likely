@@ -23,17 +23,17 @@ export const each = (object, callback) => {
 export const toArray = (arrayLike) => Array.prototype.slice.call(arrayLike);
 
 /**
- * Merge given dictionaries (objects) into one object
+ * Merge given dictionaries (objects) into one object.
+ * Iterates across the arguments.
  *
- * @param {...Object} object
  * @returns {Object}
  */
-export const merge = (...args) => { // eslint-disable-line no-unused-vars
+export const merge = function () {
     const result = {};
-    const argsArr = [...args];
+    const args = Array.prototype.slice.call(arguments); // eslint-disable-line no-undef
 
-    for (let i = 0; i < argsArr.length; i++) {
-        const arg = argsArr[i];
+    for (let i = 0; i < args.length; i++) {
+        const arg = args[i];
 
         if (arg) {
             for (const key in arg) {
