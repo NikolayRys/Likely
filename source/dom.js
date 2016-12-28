@@ -76,7 +76,7 @@ export const find = (selector, node) => (node || document).querySelector(selecto
  * @param {Node} [node]
  * @returns {Node[]}
  */
-export const findAll = (selector, node) => [...(node || document).querySelectorAll(selector)];
+export const findAll = (selector, node) => Array.prototype.slice.call((node || document).querySelectorAll(selector));
 /**
  * Open the popup
  *
