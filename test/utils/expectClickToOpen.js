@@ -21,8 +21,9 @@ function expectClickToOpen(driver, clickTarget, windowUrlRegex) {
     const realClickTarget = typeof clickTarget === 'string' ? driver.findElement({ css: clickTarget }) : clickTarget;
 
     return realClickTarget.click()
+        // Set a timeout to wait until the new window opens. This prevents random crashes in Travis
         .then(() => {
-            return new Promise(resolve => setTimeout(resolve, 500))
+            return new Promise((resolve) => setTimeout(resolve, 200));
         })
         .then(() => Promise.all([
             driver.getWindowHandle(),
@@ -30,11 +31,8 @@ function expectClickToOpen(driver, clickTarget, windowUrlRegex) {
         ]))
         .then(([currentHandle, handles]) => {
             originalWindowHandle = currentHandle;
-            console.log('originalWindowHandle', originalWindowHandle);
-            console.log('handles', handles);
 
             const newWindowHandle = handles.find((handle) => handle !== currentHandle);
-            console.log('newWindowHandle', newWindowHandle);
             return driver.switchTo().window(newWindowHandle);
         })
         // `driver.wait()` is used because Firefox opens a new window with `about:blank' initially
@@ -54,11 +52,7 @@ function expectClickToOpen(driver, clickTarget, windowUrlRegex) {
             return driver.close();
         })
         .then(() => {
-            return driver.getAllWindowHandles().then((allHandles) => {
-                console.log('allHandles after closing', allHandles);
-                console.log('originalWindowHandle after closing', originalWindowHandle);
-                return driver.switchTo().window(originalWindowHandle);
-            });
+            return driver.switchTo().window(originalWindowHandle);
         })
         // We compare the URLs only after closing the dialog and switching back to the main window.
         // If we do it before and the comparison fails, all the `.then()` branches won’t execute,
