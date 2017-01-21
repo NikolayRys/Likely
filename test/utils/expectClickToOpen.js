@@ -14,7 +14,6 @@ const until = require('selenium-webdriver/lib/until');
  * @returns {Promise.<undefined>} Promise that resolves when the
  */
 function expectClickToOpen(driver, clickTarget, windowUrlRegex) {
-    let originalWindowHandle;
     let openedUrl;
 
     // clickTarget can be either a selector or a node
@@ -30,8 +29,6 @@ function expectClickToOpen(driver, clickTarget, windowUrlRegex) {
             driver.getAllWindowHandles(),
         ]))
         .then(([currentHandle, handles]) => {
-            originalWindowHandle = currentHandle;
-
             const newWindowHandle = handles.find((handle) => handle !== currentHandle);
             return driver.switchTo().window(newWindowHandle);
         })
@@ -51,8 +48,9 @@ function expectClickToOpen(driver, clickTarget, windowUrlRegex) {
 
             return driver.close();
         })
-        .then(() => {
-            return driver.switchTo().window(originalWindowHandle);
+        .then(() => driver.getAllWindowHandles())
+        .then(([primaryWindowHandle]) => {
+            return driver.switchTo().window(primaryWindowHandle);
         })
         // We compare the URLs only after closing the dialog and switching back to the main window.
         // If we do it before and the comparison fails, all the `.then()` branches won’t execute,
