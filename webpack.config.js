@@ -36,7 +36,6 @@ module.exports = {
     watch: !isProduction,
     plugins: isProduction ? [
         new webpack.optimize.UglifyJsPlugin({
-            minimize: true,
             sourceMap: true,
             compressor: {
                 // eslint-disable-next-line camelcase
