@@ -26,9 +26,12 @@ function expectClickToOpen(driver, clickTarget, windowUrlRegex) {
             driver.getAllWindowHandles(),
         ]))
         .then(([currentHandle, handles]) => {
+            console.debug('originalWindowHandle', originalWindowHandle);
+            console.debug('handles', handles);
             originalWindowHandle = currentHandle;
 
             const newWindowHandle = handles.find((handle) => handle !== currentHandle);
+            console.debug('newWindowHandle', newWindowHandle);
             return driver.switchTo().window(newWindowHandle);
         })
         // `driver.wait()` is used because Firefox opens a new window with `about:blank' initially
@@ -48,7 +51,11 @@ function expectClickToOpen(driver, clickTarget, windowUrlRegex) {
             return driver.close();
         })
         .then(() => {
-            return driver.switchTo().window(originalWindowHandle);
+            return driver.getAllWindowHandles().then((allHandles) => {
+                console.debug('allHandles after closing', allHandles);
+                console.debug('originalWindowHandle after closing', originalWindowHandle);
+                return driver.switchTo().window(originalWindowHandle);
+            });
         })
         // We compare the URLs only after closing the dialog and switching back to the main window.
         // If we do it before and the comparison fails, all the `.then()` branches won’t execute,
