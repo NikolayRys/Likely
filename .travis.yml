@@ -5,8 +5,6 @@ node_js:
   - "node"
 addons:
   apt:
-    sources:
-      - google-chrome
     packages:
       - google-chrome-stable
 
