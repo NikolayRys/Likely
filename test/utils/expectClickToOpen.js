@@ -21,14 +21,17 @@ function expectClickToOpen(driver, clickTarget, windowUrlRegex) {
     const realClickTarget = typeof clickTarget === 'string' ? driver.findElement({ css: clickTarget }) : clickTarget;
 
     return realClickTarget.click()
+        .then(() => {
+            return new Promise(resolve => setTimeout(resolve, 500))
+        })
         .then(() => Promise.all([
             driver.getWindowHandle(),
             driver.getAllWindowHandles(),
         ]))
         .then(([currentHandle, handles]) => {
+            originalWindowHandle = currentHandle;
             console.log('originalWindowHandle', originalWindowHandle);
             console.log('handles', handles);
-            originalWindowHandle = currentHandle;
 
             const newWindowHandle = handles.find((handle) => handle !== currentHandle);
             console.log('newWindowHandle', newWindowHandle);
