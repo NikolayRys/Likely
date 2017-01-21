@@ -20,7 +20,7 @@ function expectClickToOpen(driver, clickTarget, windowUrlRegex) {
     const realClickTarget = typeof clickTarget === 'string' ? driver.findElement({ css: clickTarget }) : clickTarget;
 
     return realClickTarget.click()
-        // Set a timeout to wait until the new window opens. This prevents random crashes in Travis
+        // Set a timeout to wait until the new window opens. This lowers the amount of random crashes in Travis
         .then(() => {
             return new Promise((resolve) => setTimeout(resolve, 200));
         })
