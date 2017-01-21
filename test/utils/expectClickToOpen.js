@@ -26,12 +26,12 @@ function expectClickToOpen(driver, clickTarget, windowUrlRegex) {
             driver.getAllWindowHandles(),
         ]))
         .then(([currentHandle, handles]) => {
-            console.debug('originalWindowHandle', originalWindowHandle);
-            console.debug('handles', handles);
+            console.log('originalWindowHandle', originalWindowHandle);
+            console.log('handles', handles);
             originalWindowHandle = currentHandle;
 
             const newWindowHandle = handles.find((handle) => handle !== currentHandle);
-            console.debug('newWindowHandle', newWindowHandle);
+            console.log('newWindowHandle', newWindowHandle);
             return driver.switchTo().window(newWindowHandle);
         })
         // `driver.wait()` is used because Firefox opens a new window with `about:blank' initially
@@ -52,8 +52,8 @@ function expectClickToOpen(driver, clickTarget, windowUrlRegex) {
         })
         .then(() => {
             return driver.getAllWindowHandles().then((allHandles) => {
-                console.debug('allHandles after closing', allHandles);
-                console.debug('originalWindowHandle after closing', originalWindowHandle);
+                console.log('allHandles after closing', allHandles);
+                console.log('originalWindowHandle after closing', originalWindowHandle);
                 return driver.switchTo().window(originalWindowHandle);
             });
         })
