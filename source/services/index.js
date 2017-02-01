@@ -1,7 +1,7 @@
 /**
  * Social network services
  */
-import Service from '../service';
+import { getJSON } from '../dom';
 import { each } from '../utils';
 
 /* eslint-disable sort-imports */
@@ -27,8 +27,23 @@ const services = {
     vkontakte,
 };
 
+const counter = function (/**String*/ url, /**Function*/ factory) {
+    getJSON(url, (count) => {
+        try {
+            const convertedNumber = typeof this.convertNumber === 'function' ? this.convertNumber(count) : count;
+            factory(convertedNumber);
+        }
+        catch (e) {}
+    });
+};
+
 each(services, (service) => {
-    Service(service);
+    // __likelyCounterMock is used for UI testing and is set on window
+    // because this function is executed right when Likely is loaded.
+    // There’s currently no way to do `likely.__counterMock = ...`
+    // before running this method.
+    service.counter = window.__likelyCounterMock || service.counter || counter;
+    service.click = service.click || (() => true);
 });
 
 export default services;
