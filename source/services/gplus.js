@@ -4,6 +4,7 @@
 
 export default {
     counterUrl: 'https://share.yandex.net/counter/gpp/?url={url}&callback=?',
+    name: 'gplus',
     gid: 0,
     promises: {},
     popupUrl: 'https://plus.google.com/share?url={url}',

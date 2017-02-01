@@ -27,10 +27,8 @@ const services = {
     vkontakte,
 };
 
-each(services, (service, key) => {
+each(services, (service) => {
     Service(service);
-
-    service.name = key;
 });
 
 export default services;

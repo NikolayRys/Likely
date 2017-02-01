@@ -14,6 +14,7 @@ const vkontakte = {
             index: this.promises.length - 1,
         }));
     },
+    name: 'vkontakte',
     promises: [],
     popupUrl: 'https://vk.com/share.php?url={url}&title={title}',
     popupWidth: 550,

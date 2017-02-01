@@ -14,6 +14,7 @@ const odnoklassniki = {
             index: this.promises.length - 1,
         }));
     },
+    name: 'odnoklassniki',
     promises: [],
     popupUrl: 'https://connect.ok.ru/dk?st.cmd=WidgetSharePreview&service=odnoklassniki&st.shareUrl={url}',
     popupWidth: 640,
