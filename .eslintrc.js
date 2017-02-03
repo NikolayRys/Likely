@@ -96,7 +96,7 @@ module.exports = {
         "no-implicit-coercion": "error",
         "no-implicit-globals": "off",
         "no-implied-eval": "error",
-        "no-inline-comments": "error",
+        "no-inline-comments": "off",
         "no-inner-declarations": [
             "error",
             "functions"
@@ -212,7 +212,7 @@ module.exports = {
             "always"
         ],
         "semi-spacing": "error",
-        "sort-imports": "error",
+        "sort-imports": ["error", { "ignoreCase": true }],
         "sort-vars": "off",
         "space-before-blocks": "error",
         "space-before-function-paren": [
