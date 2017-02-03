@@ -1,8 +1,8 @@
 /**
  * Social network services
  */
+import _ from 'lodash';
 import { getJSON } from '../dom';
-import { each } from '../utils';
 
 /* eslint-disable sort-imports */
 import facebook from './facebook';
@@ -37,7 +37,7 @@ const counter = function (/**String*/ url, /**Function*/ factory) {
     });
 };
 
-each(services, (service) => {
+_.forOwn(services, (service) => {
     // __likelyCounterMock is used for UI testing and is set on window
     // because this function is executed right when Likely is loaded.
     // There’s currently no way to do `likely.__counterMock = ...`

@@ -2,7 +2,8 @@
 // It’s written with CommonJS imports and exports to make possible doing `module.exports = likely`.
 // This is required so that users work with `require('likely')`, not `require('likely').default`
 
-import { bools, getDefaultUrl, merge } from './utils';
+import _ from 'lodash';
+import { bools, getDefaultUrl } from './utils';
 
 import Likely from './widget';
 import config from './config';
@@ -27,7 +28,7 @@ const initWidget = (node, options) => {
     };
     const widget = node[config.name];
 
-    const realOptions = merge({}, defaults, fullOptions, bools(node));
+    const realOptions = _.assign({}, defaults, fullOptions, bools(node));
     if (widget) {
         widget.update(realOptions);
     }

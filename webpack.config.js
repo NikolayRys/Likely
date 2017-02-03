@@ -1,6 +1,7 @@
 /* eslint-env node */
 
 const webpack = require('webpack');
+const lodashWebpackPlugin = require('lodash-webpack-plugin');
 const packageJson = require('./package.json');
 
 const isProduction = process.env.NODE_ENV === 'production';
@@ -43,5 +44,6 @@ module.exports = {
             },
         }),
         new webpack.BannerPlugin(getLicenseComment(packageJson.version)),
+        new lodashWebpackPlugin(),
     ] : [],
 };
