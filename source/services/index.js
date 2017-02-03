@@ -27,7 +27,7 @@ const services = {
     vkontakte,
 };
 
-const counter = function (/**String*/ url, /**Function*/ factory) {
+const counter = function (/** String*/ url, /** Function*/ factory) {
     getJSON(url, (count) => {
         try {
             const convertedNumber = typeof this.convertNumber === 'function' ? this.convertNumber(count) : count;

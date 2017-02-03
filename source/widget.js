@@ -1,6 +1,5 @@
 import _ from 'lodash';
 import Button from './button';
-
 import config from './config';
 
 /**

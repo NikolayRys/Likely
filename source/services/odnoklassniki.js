@@ -2,8 +2,8 @@
  * Odnoklassniki service provider
  */
 
-import { makeUrl } from '../utils';
 import { getScript } from '../dom';
+import { makeUrl } from '../utils';
 
 const odnoklassniki = {
     counterUrl: 'https://connect.ok.ru/dk?st.cmd=extLike&ref={url}&uid={index}',

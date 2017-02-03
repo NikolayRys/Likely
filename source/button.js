@@ -1,7 +1,7 @@
-import _ from 'lodash';
 import { createNode, find, findAll, openPopup, wrapSVG } from './dom';
 import { getDataset, makeUrl, query, template } from './utils';
 
+import _ from 'lodash';
 import config from './config';
 import fetch from './fetch';
 import services from './services';

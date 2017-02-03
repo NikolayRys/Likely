@@ -2,8 +2,8 @@
  * Vkontakte service provider
  */
 
-import { makeUrl } from '../utils';
 import { getScript } from '../dom';
+import { makeUrl } from '../utils';
 
 const vkontakte = {
     counterUrl: 'https://vk.com/share.php?act=count&url={url}&index={index}',

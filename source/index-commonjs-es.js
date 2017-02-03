@@ -2,13 +2,13 @@
 // It’s written with CommonJS imports and exports to make possible doing `module.exports = likely`.
 // This is required so that users work with `require('likely')`, not `require('likely').default`
 
-import _ from 'lodash';
 import { bools, getDefaultUrl } from './utils';
 
-import Likely from './widget';
+import _ from 'lodash';
 import config from './config';
 import { findAll } from './dom';
 import history from './history';
+import Likely from './widget';
 
 /**
  * @param {Node} node
