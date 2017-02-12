@@ -1,69 +1,6 @@
 const bool = { yes: true, no: false };
 
 /**
- * Simple $.each, only for objects
- *
- * @param {Object} object
- * @param {Function} callback
- */
-export const each = (object, callback) => {
-    for (const key in object) {
-        if (object.hasOwnProperty(key)) {
-            callback(object[key], key);
-        }
-    }
-};
-
-/**
- * Convert array-like object to array
- *
- * @param {Object} arrayLike
- * @returns {Array}
- */
-export const toArray = (arrayLike) => Array.prototype.slice.call(arrayLike);
-
-/**
- * Merge given dictionaries (objects) into one object.
- * Iterates across the arguments.
- *
- * @returns {Object}
- */
-export const merge = function () {
-    const result = {};
-    const args = Array.prototype.slice.call(arguments); // eslint-disable-line no-undef
-
-    for (let i = 0; i < args.length; i++) {
-        const arg = args[i];
-
-        if (arg) {
-            for (const key in arg) {
-                if (arg.hasOwnProperty(key)) {
-                    result[key] = arg[key];
-                }
-            }
-        }
-    }
-
-    return result;
-};
-
-/**
- * Extend one (target) object by other (subject)
- *
- * @param {Object} target
- * @param {Object} subject
- * @returns {Object} Extended target
- */
-export const extend = (target, subject) => {
-    for (const key in subject) {
-        if (subject.hasOwnProperty(key)) {
-            target[key] = subject[key];
-        }
-    }
-    return target;
-};
-
-/**
  * Return node.dataset or plain object for IE 10without setters
  * based on https://gist.github.com/brettz9/4093766#file_html5_dataset.js
  *
@@ -164,32 +101,6 @@ export const query = (data) => {
     }
 
     return query.join('&');
-};
-
-/**
- * Set value in object using dot-notation
- *
- * @param {Object} object
- * @param {String} key
- * @param {Object} value
- */
-export const set = (object, key, value) => {
-    const frags = key.split('.');
-    let last = null;
-
-    frags.forEach((key, index) => {
-        if (typeof object[key] === 'undefined') {
-            object[key] = {};
-        }
-
-        if (index !== frags.length - 1) {
-            object = object[key];   // eslint-disable-line no-param-reassign
-        }
-
-        last = key;
-    });
-
-    object[last] = value;
 };
 
 /**

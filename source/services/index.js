@@ -1,9 +1,8 @@
 /**
  * Social network services
  */
-import Service from '../service';
-import { each } from '../utils';
-import svg from '../svg.js';
+import _ from 'lodash';
+import { getJSON } from '../dom';
 
 /* eslint-disable sort-imports */
 import facebook from './facebook';
@@ -28,11 +27,23 @@ const services = {
     vkontakte,
 };
 
-each(services, (service, key) => {
-    Service(service);
+const counter = function (/** String*/ url, /** Function*/ factory) {
+    getJSON(url, (count) => {
+        try {
+            const convertedNumber = typeof this.convertNumber === 'function' ? this.convertNumber(count) : count;
+            factory(convertedNumber);
+        }
+        catch (e) {}
+    });
+};
 
-    service.svgi = svg[key];
-    service.name = key;
+_.forOwn(services, (service) => {
+    // __likelyCounterMock is used for UI testing and is set on window
+    // because this function is executed right when Likely is loaded.
+    // There’s currently no way to do `likely.__counterMock = ...`
+    // before running this method.
+    service.counter = window.__likelyCounterMock || service.counter || counter;
+    service.click = service.click || (() => true);
 });
 
 export default services;

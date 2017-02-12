@@ -17,7 +17,7 @@ function runJsTaskWithEnv(environment) {
         NODE_ENV: environment,
     });
 
-    return gulp.src('./source/likely.js')
+    return gulp.src('./source/index-browser.js')
         .pipe(envs)
         // Local `require` is used to require the config with the previously set NODE_ENV
         // eslint-disable-next-line global-require

@@ -2,12 +2,13 @@
 // It’s written with CommonJS imports and exports to make possible doing `module.exports = likely`.
 // This is required so that users work with `require('likely')`, not `require('likely').default`
 
-const { bools, getDefaultUrl, merge } = require('./utils');
+import { bools, getDefaultUrl } from './utils';
 
-const Likely = require('./widget').default;
-const config = require('./config').default;
-const { findAll } = require('./dom');
-const history = require('./history').default;
+import _ from 'lodash';
+import config from './config';
+import { findAll } from './dom';
+import history from './history';
+import Likely from './widget';
 
 /**
  * @param {Node} node
@@ -27,7 +28,7 @@ const initWidget = (node, options) => {
     };
     const widget = node[config.name];
 
-    const realOptions = merge({}, defaults, fullOptions, bools(node));
+    const realOptions = _.assign({}, defaults, fullOptions, bools(node));
     if (widget) {
         widget.update(realOptions);
     }
@@ -93,4 +94,4 @@ class likely {
     }
 }
 
-module.exports = likely;
+export default likely;

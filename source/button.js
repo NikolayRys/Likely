@@ -1,6 +1,7 @@
 import { createNode, find, findAll, openPopup, wrapSVG } from './dom';
-import { extend, getDataset, makeUrl, merge, query, template } from './utils';
+import { getDataset, makeUrl, query, template } from './utils';
 
+import _ from 'lodash';
 import config from './config';
 import fetch from './fetch';
 import services from './services';
@@ -18,7 +19,7 @@ class LikelyButton {
     constructor(widget, likely, options) {
         this.widget = widget;
         this.likely = likely;
-        this.options = merge(options);
+        this.options = _.assign({}, options);
 
         this.init();
     }
@@ -46,7 +47,7 @@ class LikelyButton {
         const className = `.${config.prefix}counter`;
         const counters = findAll(className, this.widget);
 
-        extend(this.options, merge({ forceUpdate: false }, options));
+        _.assign(this.options, { forceUpdate: false }, options);
         counters.forEach((node) => {
             node.parentNode.removeChild(node);
         });
@@ -68,7 +69,7 @@ class LikelyButton {
         if (service) {
             this.service = service;
 
-            extend(this.options, services[service]);
+            _.assign(this.options, services[service]);
         }
     }
 
@@ -209,7 +210,7 @@ class LikelyButton {
      * @returns {String}
      */
     addAdditionalParamsToUrl(url) {
-        const parameters = query(merge(this.widget.dataset, this.options.data));
+        const parameters = query(_.assign({}, this.widget.dataset, this.options.data));
         const delimeter = url.indexOf('?') === -1 ? '?' : '&';
 
         return parameters === ''

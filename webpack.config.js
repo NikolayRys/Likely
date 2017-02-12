@@ -1,6 +1,7 @@
 /* eslint-env node */
 
 const webpack = require('webpack');
+const lodashWebpackPlugin = require('lodash-webpack-plugin');
 const packageJson = require('./package.json');
 
 const isProduction = process.env.NODE_ENV === 'production';
@@ -16,9 +17,9 @@ function getLicenseComment(version) {
 
 module.exports = {
     entry: {
-        likely: './source/likely.js',
+        likely: './source/index-browser.js',
         // [] is a workaround, see https://github.com/webpack/webpack/issues/300
-        'likely-commonjs': ['./source/index.js'],
+        'likely-commonjs': ['./source/index-commonjs.js'],
     },
     output: {
         filename: '[name].js',
@@ -43,5 +44,6 @@ module.exports = {
             },
         }),
         new webpack.BannerPlugin(getLicenseComment(packageJson.version)),
+        new lodashWebpackPlugin(),
     ] : [],
 };
