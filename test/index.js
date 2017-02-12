@@ -169,7 +169,7 @@ describe('Likely', function () {
                 link.setAttribute('rel', 'canonical');
                 link.setAttribute('href', 'http://google.com');
                 document.head.appendChild(link);
-                
+
                 likely.initiate();
             `)
                 .then(function () {
@@ -337,6 +337,18 @@ describe('Likely', function () {
                 .then(() => {
                     return expectClickToOpen(driver, '.likely__widget_twitter', /twitter\.com\/.*Likely%20test%20page/);
                 });
+        });
+    });
+
+    describe('execute outside browser enviroment', function () {
+        it('should require without errors', function () {
+            const likely = require('../release/likely-commonjs'); // eslint-disable-line global-require
+            expect(likely).to.be.an('function');
+        });
+
+        it('should initalize without errors', function () {
+            const likely = require('../release/likely-commonjs'); // eslint-disable-line global-require
+            expect(likely.initiate).to.not.throw(Error);
         });
     });
 });

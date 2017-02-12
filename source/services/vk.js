@@ -2,8 +2,8 @@
  * Vkontakte service provider
  */
 
+import { getScript, global } from '../dom';
 import { makeUrl, set } from '../utils';
-import { getScript } from '../dom';
 
 const vkontakte = {
     counterUrl: 'https://vk.com/share.php?act=count&url={url}&index={index}',
@@ -20,7 +20,7 @@ const vkontakte = {
     popupHeight: 330,
 };
 
-set(window, 'VK.Share.count', (index, count) => {
+set(global, 'VK.Share.count', (index, count) => {
     vkontakte.promises[index](count);
 });
 

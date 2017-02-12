@@ -2,7 +2,7 @@
 // It’s written with CommonJS imports and exports to make possible doing `module.exports = likely`.
 // This is required so that users work with `require('likely')`, not `require('likely').default`
 
-const { bools, getDefaultUrl, merge } = require('./utils');
+const { bools, getDefaultUrl, isBrowserEnv, merge } = require('./utils');
 
 const Likely = require('./widget').default;
 const config = require('./config').default;
@@ -63,6 +63,10 @@ class likely {
      * @param {Object} [options] additional options for each widget
      */
     static initiate(nodes, options) {
+        if (!isBrowserEnv) {
+            return;
+        }
+
         let realNodes;
         let realOptions;
 

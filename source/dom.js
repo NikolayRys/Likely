@@ -1,4 +1,10 @@
-const div = document.createElement('div');
+import { isBrowserEnv } from './utils';
+
+const fakeWindow = {};
+
+export const global = isBrowserEnv ? window : fakeWindow;
+
+const div = isBrowserEnv ? document.createElement('div') : {};
 let gid = 0;
 
 /**

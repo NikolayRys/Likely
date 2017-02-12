@@ -207,3 +207,8 @@ export const getDefaultUrl = () => {
     }
     return window.location.href.replace(window.location.hash, '');
 };
+
+/**
+ * Is code run in browser or on server.
+ */
+export const isBrowserEnv = typeof window !== 'undefined' && typeof document !== 'undefined' && document.createElement;

@@ -2,8 +2,8 @@
  * Odnoklassniki service provider
  */
 
+import { getScript, global } from '../dom';
 import { makeUrl, set } from '../utils';
-import { getScript } from '../dom';
 
 const odnoklassniki = {
     counterUrl: 'https://connect.ok.ru/dk?st.cmd=extLike&ref={url}&uid={index}',
@@ -20,7 +20,7 @@ const odnoklassniki = {
     popupHeight: 400,
 };
 
-set(window, 'ODKL.updateCount', (index, counter) => {
+set(global, 'ODKL.updateCount', (index, counter) => {
     odnoklassniki.promises[index](counter);
 });
 
