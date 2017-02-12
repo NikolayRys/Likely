@@ -22,8 +22,6 @@
     "prepublish": "in-publish && npm run test || not-in-publish"
   },
   "files": [
-    "source",
-    "styles",
     "release",
     "license.txt"
   ],
