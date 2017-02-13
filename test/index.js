@@ -345,10 +345,5 @@ describe('Likely', function () {
             const likely = require('../release/likely-commonjs'); // eslint-disable-line global-require
             expect(likely).to.be.an('function');
         });
-
-        it('should initalize without errors', function () {
-            const likely = require('../release/likely-commonjs'); // eslint-disable-line global-require
-            expect(likely.initiate).to.not.throw(Error);
-        });
     });
 });
