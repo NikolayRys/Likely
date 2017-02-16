@@ -1,4 +1,4 @@
-import { getJSON } from './dom';
+import { getJSON, global } from './dom';
 
 /**
  * @param {String} url
@@ -22,6 +22,6 @@ export default (options) => {
     // because this function is executed right when Likely is loaded.
     // There’s currently no way to do `likely.__counterMock = ...`
     // before running this method.
-    options.counter = window.__likelyCounterMock || options.counter || counter;
+    options.counter = global.__likelyCounterMock || options.counter || counter;
     options.click = options.click || (() => true);
 };
