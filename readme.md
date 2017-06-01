@@ -152,6 +152,24 @@ The attribute should be an image URL:
 
 Read more about the `media` parameter in the [in the Pinterest documentation](https://developers.pinterest.com/docs/widgets/pin-it/#source-settings).
 
+### Accessibility Settings
+
+To make buttons accessible for keyboard navigation and screen readers add `tabindex`, `role` and `aria-label` attributes:
+
+```html
+<div class="likely">
+    <div class="facebook"      tabindex="0" role="link" aria-label="Share on Facebook">Share</div>
+    <div class="twitter"       tabindex="0" role="link" aria-label="Tweet on Twitter">Tweet</div>
+    <div class="gplus"         tabindex="0" role="link" aria-label="Plus One on Google Plus">+1</div>
+    <div class="vkontakte"     tabindex="0" role="link" aria-label="Share on Vkontakte">Share</div>
+    <div class="pinterest"     tabindex="0" role="link" aria-label="Pin on Pinterest">Pin</div>
+    <div class="odnoklassniki" tabindex="0" role="link" aria-label="Like on Odnoklassniki">Like</div>
+    <div class="telegram"      tabindex="0" role="link" aria-label="Send on Telegram">Send</div>
+    <div class="linkedin"      tabindex="0" role="link" aria-label="Share on LinkedIn">Share</div>
+</div>
+```
+
+
 ## Supported browsers
 
 We support IE 10+, Safari 9+ and the latest versions of Chrome, Firefox and Edge. Likely could work in the older versions too, but we don’t do anything specific to maintain its compatibility with them and don’t test it there.
