@@ -58,10 +58,10 @@ export const getJSON = (url, callback) => {
 
     const concreteUrl = url.replace(
         /callback=(\?)/,
-        `callback=${name}`
+        `callback=__likelyCallbacks.${name}`
     );
 
-    window[name] = callback;
+    window.__likelyCallbacks[name] = callback;
 
     getScript(concreteUrl);
 };
