@@ -152,6 +152,15 @@ The attribute should be an image URL:
 
 Read more about the `media` parameter in the [in the Pinterest documentation](https://developers.pinterest.com/docs/widgets/pin-it/#source-settings).
 
+
+### VK
+
+You can set `data-image` and `data-description` attributes to set up an image and a description accordingly:
+
+```html
+<div class="vkontakte" data-image="https://placekitten.com/200/400" data-description="Check this out">Share</div>
+```
+
 ### Accessibility Settings
 
 To make buttons accessible for keyboard navigation and screen readers add `tabindex`, `role` and `aria-label` attributes:
