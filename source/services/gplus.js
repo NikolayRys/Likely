@@ -1,10 +1,8 @@
-'use strict';
-
 /**
  * Google+ service provider
  */
 
-var gplus = {
+export default {
     counterUrl: 'https://share.yandex.net/counter/gpp/?url={url}&callback=?',
     gid: 0,
     promises: {},
@@ -12,5 +10,3 @@ var gplus = {
     popupWidth: 700,
     popupHeight: 500,
 };
-
-module.exports = gplus;

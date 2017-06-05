@@ -1,9 +1,13 @@
-'use strict';
+// This module is an entry point for CommonJS modules.
+// It’s written with CommonJS imports and exports to make possible doing `module.exports = likely`.
+// This is required so that users work with `require('likely')`, not `require('likely').default`
 
-var Likely = require('./widget');
-var config = require('./config');
-var utils = require('./utils');
-var dom = require('./dom');
+const { bools, getDefaultUrl, merge } = require('./utils');
+
+const Likely = require('./widget').default;
+const config = require('./config').default;
+const { findAll } = require('./dom');
+const history = require('./history').default;
 
 /**
  * @param {Node} node
@@ -11,26 +15,24 @@ var dom = require('./dom');
  * @private
  * @returns {Likely}
  */
-var initWidget = function (node, options) {
-    var fullOptions = options || {};
-    var defaults = {
+const initWidget = (node, options) => {
+    const fullOptions = options || {};
+    const defaults = {
         counters: true,
         timeout: 1e3,
         zeroes: false,
         title: document.title,
         wait: 0.5e3,
-        url: utils.getDefaultUrl(),
+        url: getDefaultUrl(),
     };
-    var widget = node[config.name];
+    const widget = node[config.name];
 
+    const realOptions = merge({}, defaults, fullOptions, bools(node));
     if (widget) {
-        widget.update(fullOptions);
+        widget.update(realOptions);
     }
     else {
-        node[config.name] = new Likely(node, utils.merge(
-            {}, defaults,
-            fullOptions, utils.bools(node)
-        ));
+        node[config.name] = new Likely(node, realOptions);
     }
 
     return widget;
@@ -40,47 +42,55 @@ var initWidget = function (node, options) {
  * @deprecated
  * @returns {Likely}
  */
-var likely = function () {
-    // eslint-disable-next-line no-console
-    console.warn('likely function is DEPRECATED and will be removed in 3.0. Use likely.initiate instead.');
-    return likely.initiate.apply(likely, arguments);
-};
-
-/**
- * Initiate Likely buttons on load
- * @param {Node|Array<Node>|Object} [node] a particular node or an array of widgets,
- *                                     if not specified,
- *                                     tries to init all the widgets
- * @param {Object} [options] additional options for each widget
- */
-likely.initiate = function (node, options) {
-    // There're three different ways:
-    // - node is a node
-    // - node is an array of nodes
-    // - node is not a node, it's options (polymorphism)
-    var nodes;
-
-    if (Array.isArray(node)) {
-        nodes = node;
+class likely {
+    constructor() {
+        // eslint-disable-next-line no-console
+        console.warn('likely function is DEPRECATED and will be removed in 3.0. Use likely.initiate instead.');
+        return likely.initiate(...arguments);
     }
-    else if (node instanceof Node) {
-        nodes = [node];
-    }
-    else {
-        nodes = dom.findAll('.' + config.name);
-        // eslint-disable-next-line no-param-reassign
-        options = node;
-    }
-    utils.toArray(nodes)
-        .forEach(function (node) {
-            initWidget(node, options);
-        });
-};
 
-likely.initate = function () {
-    // eslint-disable-next-line no-console
-    console.warn('likely.initate function is DEPRECATED and will be removed in 3.0. Use likely.initiate instead.');
-    return likely.initiate.apply(likely, arguments);
-};
+    static initate() {
+        // eslint-disable-next-line no-console
+        console.warn('likely.initate function is DEPRECATED and will be removed in 3.0. Use likely.initiate instead.');
+        return likely.initiate(...arguments);
+    }
+
+    /**
+     * Initiate Likely buttons on load
+     * @param {Node|Array<Node>|Object} [nodes] a particular node or an array of widgets,
+     *                                     if not specified,
+     *                                     tries to init all the widgets
+     * @param {Object} [options] additional options for each widget
+     */
+    static initiate(nodes, options) {
+        let realNodes;
+        let realOptions;
+
+        if (Array.isArray(nodes)) {
+            // An array of nodes was passed
+            realNodes = nodes;
+            realOptions = options;
+        }
+        else if (nodes instanceof Node) {
+            // A single node was passed
+            realNodes = [nodes];
+            realOptions = options;
+        }
+        else {
+            // Options were passed, or the function was called without arguments
+            realNodes = findAll(`.${config.name}`);
+            realOptions = nodes;
+        }
+
+        initWidgets();
+        history.onUrlChange(initWidgets);
+
+        function initWidgets() {
+            realNodes.forEach((node) => {
+                initWidget(node, realOptions);
+            });
+        }
+    }
+}
 
 module.exports = likely;

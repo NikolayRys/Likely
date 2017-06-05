@@ -1,11 +1,11 @@
-'use strict';
+// This module is an entry point when `likely.js` is just dropped into the browser.
+// It’s written with CommonJS imports and exports to make possible doing `module.exports = likely`.
+// This is required so that users work with `window.likely`, not `window.likely.default`
 
-var likely = require('./index.js');
-var history = require('./history');
+const likely = require('./index.js');
 
-window.addEventListener('load', function () {
+window.addEventListener('load', () => {
     likely.initiate();
-    history.init();
 });
 
 module.exports = likely;

@@ -1,17 +1,16 @@
 /* eslint-env node */
 
-'use strict';
+const csso = require('gulp-csso');
+const env = require('gulp-env');
+const gulp = require('gulp');
+const stylus = require('gulp-stylus');
+const webpack = require('webpack');
+const webpackStream = require('webpack-stream');
+const zip = require('gulp-zip');
 
-var gulp = require('gulp');
-var stylus = require('gulp-stylus');
-var csso = require('gulp-csso');
-var zip = require('gulp-zip');
-var webpack = require('webpack-stream');
-var env = require('gulp-env');
+const packageJson = require('./package.json');
 
-var packageJson = require('./package.json');
-
-var release = './release/';
+const release = './release/';
 
 function runJsTaskWithEnv(environment) {
     var envs = env.set({
@@ -22,7 +21,7 @@ function runJsTaskWithEnv(environment) {
         .pipe(envs)
         // Local `require` is used to require the config with the previously set NODE_ENV
         // eslint-disable-next-line global-require
-        .pipe(webpack(require('./webpack.config.js')))
+        .pipe(webpackStream(require('./webpack.config.js'), webpack))
         .pipe(envs.reset)
         .pipe(gulp.dest(release));
 }

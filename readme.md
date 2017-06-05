@@ -71,6 +71,7 @@ Then, create a `div` with the class `likely` and list necessary social networks 
     <div class="pinterest">Pin</div>
     <div class="odnoklassniki">Like</div>
     <div class="telegram">Send</div>
+    <div class="linkedin">Share</div>
 </div>
 ```
 Likely supports following social networks:
@@ -82,6 +83,7 @@ Likely supports following social networks:
 * `pinterest` – Pinterest
 * `odnoklassniki` – Odnoklassniki
 * `telegram` – Telegram
+* `linkedin` – LinkedIn
 
 If you need several Likely widgets on the page, just create another `div` with the class `likely` and list the social networks in it.
 
@@ -150,12 +152,30 @@ The attribute should be an image URL:
 
 Read more about the `media` parameter in the [in the Pinterest documentation](https://developers.pinterest.com/docs/widgets/pin-it/#source-settings).
 
+
 ### VK
 
 You can set `data-image` and `data-description` attributes to set up an image and a description accordingly:
 
 ```html
 <div class="vkontakte" data-image="https://placekitten.com/200/400" data-description="Check this out">Share</div>
+```
+
+### Accessibility Settings
+
+To make buttons accessible for keyboard navigation and screen readers add `tabindex`, `role` and `aria-label` attributes:
+
+```html
+<div class="likely">
+    <div class="facebook" tabindex="0" role="link" aria-label="Share on Facebook">Share</div>
+    <div class="twitter" tabindex="0" role="link" aria-label="Tweet on Twitter">Tweet</div>
+    <div class="gplus" tabindex="0" role="link" aria-label="Plus One on Google Plus">+1</div>
+    <div class="vkontakte" tabindex="0" role="link" aria-label="Share on Vkontakte">Share</div>
+    <div class="pinterest" tabindex="0" role="link" aria-label="Pin on Pinterest">Pin</div>
+    <div class="odnoklassniki" tabindex="0" role="link" aria-label="Like on Odnoklassniki">Like</div>
+    <div class="telegram" tabindex="0" role="link" aria-label="Send on Telegram">Send</div>
+    <div class="linkedin" tabindex="0" role="link" aria-label="Share on LinkedIn">Share</div>
+</div>
 ```
 
 ## Supported browsers

@@ -1,11 +1,9 @@
 /* eslint-env node */
 
-'use strict';
+const webpack = require('webpack');
+const packageJson = require('./package.json');
 
-var webpack = require('webpack');
-var packageJson = require('./package.json');
-
-var isProduction = process.env.NODE_ENV === 'production';
+const isProduction = process.env.NODE_ENV === 'production';
 
 function getLicenseComment(version) {
     return [
@@ -27,12 +25,18 @@ module.exports = {
         library: 'likely',
         libraryTarget: 'umd',
     },
-    devtool: isProduction ? 'eval' : 'source-map',
+    module: {
+        rules: [{
+            test: /\.js$/,
+            exclude: /node_modules/,
+            loader: 'babel-loader',
+        }],
+    },
+    devtool: 'source-map',
     watch: !isProduction,
     plugins: isProduction ? [
-        new webpack.optimize.OccurrenceOrderPlugin(),
-        new webpack.optimize.DedupePlugin(),
         new webpack.optimize.UglifyJsPlugin({
+            sourceMap: true,
             compressor: {
                 // eslint-disable-next-line camelcase
                 screw_ie8: true,
