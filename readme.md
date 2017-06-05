@@ -158,17 +158,16 @@ To make buttons accessible for keyboard navigation and screen readers add `tabin
 
 ```html
 <div class="likely">
-    <div class="facebook"      tabindex="0" role="link" aria-label="Share on Facebook">Share</div>
-    <div class="twitter"       tabindex="0" role="link" aria-label="Tweet on Twitter">Tweet</div>
-    <div class="gplus"         tabindex="0" role="link" aria-label="Plus One on Google Plus">+1</div>
-    <div class="vkontakte"     tabindex="0" role="link" aria-label="Share on Vkontakte">Share</div>
-    <div class="pinterest"     tabindex="0" role="link" aria-label="Pin on Pinterest">Pin</div>
+    <div class="facebook" tabindex="0" role="link" aria-label="Share on Facebook">Share</div>
+    <div class="twitter" tabindex="0" role="link" aria-label="Tweet on Twitter">Tweet</div>
+    <div class="gplus" tabindex="0" role="link" aria-label="Plus One on Google Plus">+1</div>
+    <div class="vkontakte" tabindex="0" role="link" aria-label="Share on Vkontakte">Share</div>
+    <div class="pinterest" tabindex="0" role="link" aria-label="Pin on Pinterest">Pin</div>
     <div class="odnoklassniki" tabindex="0" role="link" aria-label="Like on Odnoklassniki">Like</div>
-    <div class="telegram"      tabindex="0" role="link" aria-label="Send on Telegram">Send</div>
-    <div class="linkedin"      tabindex="0" role="link" aria-label="Share on LinkedIn">Share</div>
+    <div class="telegram" tabindex="0" role="link" aria-label="Send on Telegram">Send</div>
+    <div class="linkedin" tabindex="0" role="link" aria-label="Share on LinkedIn">Share</div>
 </div>
 ```
-
 
 ## Supported browsers
 
