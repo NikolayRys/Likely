@@ -1,7 +1,22 @@
 import Button from './button';
+import { global } from './dom';
 
 import config from './config';
 import { toArray } from './utils';
+
+/**
+ * Size modifiers of the widget
+ *
+ * @typedef {Object} Widget~Sizes
+ * @property {String} small
+ * @property {String} middle
+ * @property {String} big
+ */
+const SIZES = {
+    small: `${config.name}-small`,
+    middle: `${config.name}-middle`,
+    big: `${config.name}-big`
+};
 
 /**
  * Main widget view
@@ -17,6 +32,7 @@ class Likely {
         this.countersLeft = 0;
         this.buttons = [];
         this.number = 0;
+        this._currentSizeMod = null;
 
         this.init();
     }
@@ -35,6 +51,9 @@ class Likely {
         else {
             this.appear();
         }
+        this.changeSizeModifier(
+            this.getSize(this.getCurrentWidth())
+        );
     }
 
     /**
@@ -106,6 +125,47 @@ class Likely {
 
             this.container.classList.add(`${config.name}_ready`);
         }
+    }
+
+    /**
+     * Takes the font size of the widget
+     * and returns the size modifier for it
+     *
+     * @param {Number} size
+     * @returns {String}
+     */
+    getSize(size) {
+        if (size < 24) {
+            return SIZES.small;
+        }
+        if (size < 36) {
+            return SIZES.middle;
+        }
+        return SIZES.big;
+    }
+
+    /**
+     * Returns the font-size
+     * of the buttons container
+     *
+     * @returns {Number}
+     */
+    getCurrentWidth() {
+        return parseInt(global.getComputedStyle(this.container)['font-size'], 10);
+    }
+
+    /**
+     * Change likely-{size} class
+     * on the widget container
+     *
+     * @param {String} mod 
+     */
+    changeSizeModifier(mod) {
+        if (this._currentSizeMod) {
+            this.container.classList.remove(this._currentSizeMod);
+        }
+        this.container.classList.add(mod);
+        this._currentSizeMod = mod;
     }
 }
 

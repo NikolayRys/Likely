@@ -2,7 +2,6 @@
 .likely__widget {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  display: inline-block;
   margin: 0;
   padding: 0;
   list-style: none !important;
@@ -11,6 +10,7 @@
 
 // Hide buttons until they are loaded
 .likely {
+  display: inline-block;
   opacity: 0;
 }
 .likely_visible {
@@ -18,7 +18,6 @@
   transition: opacity .1s ease-in;
 }
 .likely > * {
-  display: inline-block;
   visibility: hidden;
 }
 .likely_visible > * {
@@ -28,9 +27,11 @@
 .likely {
   // outline: 1px #f00 solid;
   &__widget {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
     position: relative;
     white-space: nowrap;
+    padding: 0.2em;
   }
 
   &__button,
@@ -46,6 +47,7 @@
     position: relative;
     cursor: pointer;
     user-select: none;
+    margin-left: -2px;
   }
 
   &__counter {
@@ -60,13 +62,6 @@
 
   &_ready &__counter_empty {
     display: none;
-  }
-
-  &__widget,
-  &__icon,
-  &__button,
-  &__counter {
-    vertical-align: top;
   }
 
   &__widget {
@@ -89,10 +84,7 @@
     position: relative;
     text-align: left;
     display: inline-block;
-  }
-
-  svg {
-    position: absolute;
+    margin-right: 0.2em;
   }
 
   &__button,
@@ -175,82 +167,14 @@ colorize('telegram',      #34abde);
 // colorize('mailru', #255896, #ffcd00);
 colorize('linkedin', #0077b5);
 
+.likely-small svg
+  width: 16px
+  height: 16px
 
+.likely-middle svg
+  width: 24px
+  height: 24px
 
-/* Size options */
-
-.likely {
-  margin: 0 -5px -10px;
-  .likely__widget {
-    border-radius: 3px;
-    margin: 0 5px 10px;
-  }
-  .likely__icon {
-    width: 22px; height: 22px;
-  }
-
-  .likely__button {
-    padding: 1px 4px 1px 0;
-  }
-  .likely__counter {
-    padding: 1px 4px;
-  }
-  svg {
-    left: 3px;
-    top: 3px;
-    width: 16px;
-    height: 16px;
-  }
-}
-
-.likely-big {
-  margin: 0 -6px -12px;
-  .likely__widget {
-    line-height: 28px;
-    font-size: 18px;
-    border-radius: 4px;
-    height: 32px;
-    margin: 0 6px 12px;
-  }
-  .likely__icon {
-    width: 32px; height: 32px;
-  }
-  .likely__button {
-    padding: 2px 6px 2px 0;
-  }
-  .likely__counter {
-    padding: 2px 6px;
-  }
-  svg {
-    left: 4px;
-    top: 4px;
-    width: 24px;
-    height: 24px;
-  }
-}
-
-.likely-small {
-  margin: 0 -4px -8px;
-  .likely__widget {
-    line-height: 14px;
-    font-size: 12px;
-    border-radius: 2px;
-    height: 18px;
-    margin: 0 4px 8px;
-  }
-  .likely__icon {
-    width: 18px; height: 18px;
-  }
-  .likely__button {
-    padding: 2px 3px 2px 0;
-  }
-  .likely__counter {
-    padding: 2px 3px;
-  }
-  svg {
-    left: 3px;
-    top: 3px;
-    width: 12px;
-    height: 12px;
-  }
-}
+.likely-big svg
+  width: 32px
+  height: 32px
