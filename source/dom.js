@@ -8,6 +8,12 @@ const div = isBrowserEnv ? document.createElement('div') : {};
 let gid = 0;
 
 /**
+ * Storage for callbacks which are needed
+ * for JSONP API of social networks
+ */
+global.__likelyCallbacks = {};
+
+/**
  * Wrap SVG coords from data object into SVG tag
  *
  * @param {String} coords
@@ -61,7 +67,7 @@ export const getJSON = (url, callback) => {
         `callback=__likelyCallbacks.${name}`
     );
 
-    window.__likelyCallbacks[name] = callback;
+    global.__likelyCallbacks[name] = callback;
 
     getScript(concreteUrl);
 };
