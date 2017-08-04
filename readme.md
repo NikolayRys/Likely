@@ -72,6 +72,7 @@ Then, create a `div` with the class `likely` and list necessary social networks 
     <div class="odnoklassniki">Like</div>
     <div class="telegram">Send</div>
     <div class="linkedin">Share</div>
+    <div class="whatsapp">Send</div>
 </div>
 ```
 Likely supports following social networks:
@@ -84,6 +85,7 @@ Likely supports following social networks:
 * `odnoklassniki` – Odnoklassniki
 * `telegram` – Telegram
 * `linkedin` – LinkedIn
+* `whatsapp` – WhatsApp
 
 If you need several Likely widgets on the page, just create another `div` with the class `likely` and list the social networks in it.
 
@@ -175,6 +177,7 @@ To make buttons accessible for keyboard navigation and screen readers add `tabin
     <div class="odnoklassniki" tabindex="0" role="link" aria-label="Like on Odnoklassniki">Like</div>
     <div class="telegram" tabindex="0" role="link" aria-label="Send on Telegram">Send</div>
     <div class="linkedin" tabindex="0" role="link" aria-label="Share on LinkedIn">Share</div>
+    <div class="whatsapp" tabindex="0" role="link" aria-label="Send on WhatsApp">Share</div>
 </div>
 ```
 
