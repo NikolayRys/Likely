@@ -1,4 +1,4 @@
-import { createNode, find, findAll, openPopup, wrapSVG } from './dom';
+import { createNode, createTempLink, find, findAll, openPopup, wrapSVG } from './dom';
 import { extend, getDataset, makeUrl, merge, query, template } from './utils';
 
 import config from './config';
@@ -190,6 +190,11 @@ class LikelyButton {
                 url: options.url,
                 title: options.title,
             });
+
+            if (options.openPopup === false) {
+                createTempLink(this.addAdditionalParamsToUrl(url));
+                return false;
+            }
 
             openPopup(
                 this.addAdditionalParamsToUrl(url),

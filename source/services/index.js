@@ -14,6 +14,7 @@ import pinterest from './pinterest';
 import telegram from './telegram';
 import twitter from './twitter';
 import vkontakte from './vk';
+import whatsapp from './whatsapp';
 /* eslint-enable sort-imports */
 
 
@@ -26,6 +27,7 @@ const services = {
     telegram,
     twitter,
     vkontakte,
+    whatsapp,
 };
 
 each(services, (service, key) => {
