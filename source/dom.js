@@ -123,3 +123,21 @@ export const openPopup = (url, winId, width, height) => {
 
     return win;
 };
+/**
+ * Creates a temporary anchor element, click on it and destroys it.
+ * Used for buttons that do not have sharing popups
+ *
+ * @param {String} url
+ */
+export const createTempLink = (url) => {
+    const anchor = document.createElement('a');
+
+    anchor.href = url;
+    anchor.style = 'display: none';
+    document.body.appendChild(anchor);
+
+    setTimeout(() => {
+        anchor.click();
+        document.body.removeChild(anchor);
+    });
+};
