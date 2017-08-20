@@ -113,7 +113,7 @@ class LikelyButton {
 
         const icon = template(htmlSpan, {
             className: this.className('icon'),
-            content: wrapSVG(options.svgi),
+            content: wrapSVG(options.svgIconPath),
         });
 
         widget.innerHTML = icon + button;

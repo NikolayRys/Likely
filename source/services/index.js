@@ -3,7 +3,6 @@
  */
 import Service from '../service';
 import { each } from '../utils';
-import svg from '../svg.js';
 
 /* eslint-disable sort-imports */
 import facebook from './facebook';
@@ -33,7 +32,6 @@ const services = {
 each(services, (service, key) => {
     Service(service);
 
-    service.svgi = svg[key];
     service.name = key;
 });
 
