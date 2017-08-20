@@ -12,7 +12,7 @@ import odnoklassniki from './odnoklassniki';
 import pinterest from './pinterest';
 import telegram from './telegram';
 import twitter from './twitter';
-import vkontakte from './vk';
+import vkontakte from './vkontakte';
 import whatsapp from './whatsapp';
 /* eslint-enable sort-imports */
 
