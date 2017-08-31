@@ -32,7 +32,7 @@ module.exports = {
             loader: 'babel-loader',
         }],
     },
-    devtool: 'source-map',
+    devtool: false,
     watch: !isProduction,
     plugins: isProduction ? [
         new webpack.optimize.UglifyJsPlugin({
