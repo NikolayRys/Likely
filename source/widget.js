@@ -16,7 +16,6 @@ class Likely {
 
         this.countersLeft = 0;
         this.buttons = [];
-        this.number = 0;
 
         this.init();
     }
@@ -31,7 +30,7 @@ class Likely {
              .forEach(this.addButton.bind(this));
 
         if (this.options.counters) {
-            this.timer = setTimeout(this.appear.bind(this), this.options.wait);
+            setTimeout(this.appear.bind(this), this.options.wait);
             this.timeout = setTimeout(this.ready.bind(this), this.options.timeout);
         }
         else {
@@ -65,7 +64,6 @@ class Likely {
             options.url && options.url !== this.options.url
         ) {
             this.countersLeft = this.buttons.length;
-            this.number = 0;
 
             this.buttons.forEach((button) => {
                 button.update(options);
@@ -80,10 +78,6 @@ class Likely {
      * @param {Number} counter
      */
     updateCounter(service, counter) {
-        if (counter) {
-            this.number += counter;
-        }
-
         this.countersLeft--;
 
         if (this.countersLeft === 0) {
