@@ -1,118 +1,68 @@
-.likely,
-.likely__widget {
+.likely {
+  display: inline;
+
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  display: inline-block;
-  margin: 0;
-  padding: 0;
-  text-indent: 0 !important;
-  list-style: none !important;
-  font-weight: normal;
-  font-family: Helvetica Neue, Arial, sans-serif;
-  font-size: inherit;
-}
+  text-rendering: optimizeLegibility;
 
-// Hide buttons until they are loaded
-.likely {
+  // Hide buttons until they are loaded
   opacity: 0;
-  font-size: 0 !important;
-}
-.likely_visible {
-  opacity: 1;
   transition: opacity .1s ease-in;
-}
-.likely > * {
-  display: inline-block;
-  visibility: hidden;
-}
-.likely_visible > * {
-  visibility: inherit;
-}
 
-.likely {
-  // outline: 1px #f00 solid;
+  &_visible {
+    opacity: 1;
+  }
+
   &__widget {
-    display: inline-block;
-    position: relative;
+    display: inline-flex;
+    align-items: baseline;
+    height: 1.25em;
+    line-height: 1.25em;
+    border-radius: 0.1875em;
+
     white-space: nowrap;
-  }
-
-  &__button,
-  &__counter {
-    text-decoration: none;
-    text-rendering: optimizeLegibility;
-    display: inline-block;
-    margin: 0;
-    outline: 0;
-  }
-
-  &__button {
-    position: relative;
-    cursor: pointer;
-    user-select: none;
-  }
-
-  &__counter {
-    display: none;
-    position: relative;
-    font-weight: normal;
-  }
-
-  &_ready &__counter {
-    display: inline-block;
-  }
-
-  &_ready &__counter_empty {
-    display: none;
-  }
-
-  &__widget,
-  &__icon,
-  &__button,
-  &__counter {
-    vertical-align: top;
-  }
-
-  &__widget {
 
     transition: widget-transition = background .33s ease-out, color .33s ease-out, fill .33s ease-out;
 
     &:hover, &:active, &:focus {
       transition: none;
       cursor: pointer;
-
-      @media (hover: none) {
-        transition: widget-transition;
-        cursor: unset;
-      }
     }
 
+    &:not(:last-child) {
+      margin-right: 0.25em;
+    }
+  }
+
+  &__button {
+    padding: 0 0.25em 0 0;
+    user-select: none;
+  }
+
+  &__counter {
+    display: none;
+    padding: 0 0.25em;
+    // To make the separator on the left fill the whole vertical space
+    align-self: stretch;
+
+    text-align: center;
+
+    .likely_ready &:not(&_empty) {
+      display: inline;
+    }
   }
 
   &__icon {
-    position: relative;
-    text-align: left;
-    display: inline-block;
-  }
+    display: inline-flex;
+    align-self: stretch;
+    padding: 0.1875em;
 
-  svg {
-    position: absolute;
+    svg {
+      width: 1em;
+      height: 1em;
+      align-self: center;
+    }
   }
-
-  &__button,
-  &__counter {
-    line-height: inherit;
-    cursor: inherit;
-  }
-
-  &__button:empty {
-    display: none;
-  }
-
-  &__counter {
-    text-align: center;
-  }
-
 }
 
 /* Style options */
@@ -148,10 +98,6 @@ colorize(button, color) {
     fill: color;
     &:hover, &:active, &:focus {
       background: alpha(mix(#fff,color,75%),.8);
-
-      @media (hover: none) {
-        background: likely-background;
-      }
     }
   }
   .likely-light {
@@ -159,11 +105,6 @@ colorize(button, color) {
       &:hover, &:active, &:focus {
         text-shadow: color 0 0 .25em;
         background: alpha(color,0.7);
-
-        @media (hover: none) {
-          text-shadow: likely-light-box-shadow;
-          background: likely-light-background;
-        }
       }
     }
   }
@@ -178,85 +119,3 @@ colorize('telegram', #34abde);
 colorize('twitter', #00b7ec);
 colorize('vkontakte', #526e8f);
 colorize('whatsapp', #25D366);
-
-
-
-/* Size options */
-
-.likely {
-  margin: 0 -5px -10px;
-  .likely__widget {
-    line-height: 20px;
-    font-size: 14px;
-    border-radius: 3px;
-    height: 22px;
-    margin: 0 5px 10px;
-  }
-  .likely__icon {
-    width: 22px; height: 22px;
-  }
-  .likely__button {
-    padding: 1px 4px 1px 0;
-  }
-  .likely__counter {
-    padding: 1px 4px;
-  }
-  svg {
-    left: 3px;
-    top: 3px;
-    width: 16px;
-    height: 16px;
-  }
-}
-
-.likely-big {
-  margin: 0 -6px -12px;
-  .likely__widget {
-    line-height: 28px;
-    font-size: 18px;
-    border-radius: 4px;
-    height: 32px;
-    margin: 0 6px 12px;
-  }
-  .likely__icon {
-    width: 32px; height: 32px;
-  }
-  .likely__button {
-    padding: 2px 6px 2px 0;
-  }
-  .likely__counter {
-    padding: 2px 6px;
-  }
-  svg {
-    left: 4px;
-    top: 4px;
-    width: 24px;
-    height: 24px;
-  }
-}
-
-.likely-small {
-  margin: 0 -4px -8px;
-  .likely__widget {
-    line-height: 14px;
-    font-size: 12px;
-    border-radius: 2px;
-    height: 18px;
-    margin: 0 4px 8px;
-  }
-  .likely__icon {
-    width: 18px; height: 18px;
-  }
-  .likely__button {
-    padding: 2px 3px 2px 0;
-  }
-  .likely__counter {
-    padding: 2px 3px;
-  }
-  svg {
-    left: 3px;
-    top: 3px;
-    width: 12px;
-    height: 12px;
-  }
-}

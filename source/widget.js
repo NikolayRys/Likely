@@ -25,6 +25,8 @@ class Likely {
      * Initiate the social buttons widget
      */
     init() {
+        this.removeWhitespaceChildren(this.container);
+
         toArray(this.container.children)
              .forEach(this.addButton.bind(this));
 
@@ -88,6 +90,19 @@ class Likely {
             this.appear();
             this.ready();
         }
+    }
+
+    /**
+     * The buttons can be inline. In this case, space characters between them will affect visual spacing.
+     * To make the spacing reliable, we remove all text nodes that are whitespaces.
+     * @param {HTMLElement} container
+     */
+    removeWhitespaceChildren(container) {
+        toArray(container.childNodes).forEach((childNode) => {
+            if (childNode.nodeType === Node.TEXT_NODE && childNode.textContent.match(/^\s*$/)) {
+                container.removeChild(childNode);
+            }
+        });
     }
 
     /**
