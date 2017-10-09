@@ -7,7 +7,7 @@ const Likely = require('./widget').default;
 const config = require('./config').default;
 const { findAll } = require('./dom');
 const history = require('./history').default;
-require('../styles/likely.styl');
+require('./index.styl');
 
 /**
  * @param {Node} node
