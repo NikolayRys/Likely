@@ -1,13 +1,13 @@
 // This module is an entry point for CommonJS modules.
 // It’s written with CommonJS imports and exports to make possible doing `module.exports = likely`.
 // This is required so that users work with `require('likely')`, not `require('likely').default`
-
 const { bools, getDefaultUrl, merge } = require('./utils');
 
 const Likely = require('./widget').default;
 const config = require('./config').default;
 const { findAll } = require('./dom');
 const history = require('./history').default;
+require('../styles/likely.styl');
 
 /**
  * @param {Node} node

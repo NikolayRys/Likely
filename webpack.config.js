@@ -1,17 +1,47 @@
 /* eslint-env node */
 
 const webpack = require('webpack');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const packageJson = require('./package.json');
 
-const isProduction = process.env.NODE_ENV === 'production';
+const { NODE_ENV } = process.env;
+const isProduction = NODE_ENV === 'production';
+
+const license = `
+Likely $version by Ilya Birman (ilyabirman.net)
+Rewritten sans jQuery by Evgeny Steblinsky (volter9.github.io)
+Supported by Ivan Akulov (iamakulov.com), Viktor Karpov (vitkarpov.com), and contributors
+Inspired by Social Likes by Artem Sapegin (sapegin.me)
+`;
 
 function getLicenseComment(version) {
-    return [
-        'Likely $version by Ilya Birman (ilyabirman.net)',
-        'Rewritten sans jQuery by Evgeny Steblinsky (volter9.github.io)',
-        'Supported by Ivan Akulov (iamakulov.com), Viktor Karpov (vitkarpov.com), and contributors',
-        'Inspired by Social Likes by Artem Sapegin (sapegin.me)',
-    ].join('\n').replace(/\$version/g, version);
+    return license.replace(/\$version/g, version);
+}
+
+const plugins = [
+    new ExtractTextPlugin({
+        filename: './release/likely.css',
+        disable: false,
+    }),
+];
+
+if (isProduction) {
+    plugins.concat([
+        new webpack.optimize.UglifyJsPlugin({
+            sourceMap: true,
+            compressor: {
+                // eslint-disable-next-line camelcase
+                screw_ie8: true,
+            },
+        }),
+        new webpack.optimize.DedupePlugin(),
+        new webpack.BannerPlugin(getLicenseComment(packageJson.version)),
+        new webpack.DefinePlugin({
+            'process.env': {
+                NODE_ENV: JSON.stringify('production'),
+            },
+        }),
+    ]);
 }
 
 module.exports = {
@@ -21,7 +51,7 @@ module.exports = {
         'likely-commonjs': ['./source/index.js'],
     },
     output: {
-        filename: '[name].js',
+        filename: './release/[name].js',
         library: 'likely',
         libraryTarget: 'umd',
     },
@@ -30,18 +60,16 @@ module.exports = {
             test: /\.js$/,
             exclude: /node_modules/,
             loader: 'babel-loader',
+        }, {
+            test: /\.styl$/,
+            exclude: /node_modules/,
+            loader: ExtractTextPlugin.extract({
+                fallbackLoader: 'style-loader',
+                loader: 'css-loader!stylus-loader',
+            }),
         }],
     },
     devtool: false,
     watch: !isProduction,
-    plugins: isProduction ? [
-        new webpack.optimize.UglifyJsPlugin({
-            sourceMap: true,
-            compressor: {
-                // eslint-disable-next-line camelcase
-                screw_ie8: true,
-            },
-        }),
-        new webpack.BannerPlugin(getLicenseComment(packageJson.version)),
-    ] : [],
+    plugins,
 };
