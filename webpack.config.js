@@ -27,13 +27,6 @@ const plugins = [
 
 if (isProduction) {
     plugins.concat([
-        new webpack.optimize.UglifyJsPlugin({
-            sourceMap: true,
-            compressor: {
-                // eslint-disable-next-line camelcase
-                screw_ie8: true,
-            },
-        }),
         new webpack.optimize.DedupePlugin(),
         new webpack.BannerPlugin(getLicenseComment(packageJson.version)),
         new webpack.DefinePlugin({
