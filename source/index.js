@@ -39,58 +39,40 @@ const initWidget = (node, options) => {
 };
 
 /**
- * @deprecated
- * @returns {Likely}
+ * Initiate Likely buttons on load
+ * @param {Node|Array<Node>|Object} [nodes] a particular node or an array of widgets,
+ *                                     if not specified,
+ *                                     tries to init all the widgets
+ * @param {Object} [options] additional options for each widget
  */
-class likely {
-    constructor() {
-        // eslint-disable-next-line no-console
-        console.warn('likely function is DEPRECATED and will be removed in 3.0. Use likely.initiate instead.');
-        return likely.initiate(...arguments);
+const initiate = (nodes, options) => {
+    let realNodes;
+    let realOptions;
+
+    if (Array.isArray(nodes)) {
+        // An array of nodes was passed
+        realNodes = nodes;
+        realOptions = options;
+    }
+    else if (nodes instanceof Node) {
+        // A single node was passed
+        realNodes = [nodes];
+        realOptions = options;
+    }
+    else {
+        // Options were passed, or the function was called without arguments
+        realNodes = findAll(`.${config.name}`);
+        realOptions = nodes;
     }
 
-    static initate() {
-        // eslint-disable-next-line no-console
-        console.warn('likely.initate function is DEPRECATED and will be removed in 3.0. Use likely.initiate instead.');
-        return likely.initiate(...arguments);
+    initWidgets();
+    history.onUrlChange(initWidgets);
+
+    function initWidgets() {
+        realNodes.forEach((node) => {
+            initWidget(node, realOptions);
+        });
     }
+};
 
-    /**
-     * Initiate Likely buttons on load
-     * @param {Node|Array<Node>|Object} [nodes] a particular node or an array of widgets,
-     *                                     if not specified,
-     *                                     tries to init all the widgets
-     * @param {Object} [options] additional options for each widget
-     */
-    static initiate(nodes, options) {
-        let realNodes;
-        let realOptions;
-
-        if (Array.isArray(nodes)) {
-            // An array of nodes was passed
-            realNodes = nodes;
-            realOptions = options;
-        }
-        else if (nodes instanceof Node) {
-            // A single node was passed
-            realNodes = [nodes];
-            realOptions = options;
-        }
-        else {
-            // Options were passed, or the function was called without arguments
-            realNodes = findAll(`.${config.name}`);
-            realOptions = nodes;
-        }
-
-        initWidgets();
-        history.onUrlChange(initWidgets);
-
-        function initWidgets() {
-            realNodes.forEach((node) => {
-                initWidget(node, realOptions);
-            });
-        }
-    }
-}
-
-module.exports = likely;
+exports.initiate = initiate;
