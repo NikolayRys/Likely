@@ -16,10 +16,7 @@ module.exports = {
             "error",
             "always"
         ],
-        "brace-style": [
-            "error",
-            "stroustrup"
-        ],
+        "brace-style": "off",
         "camelcase": "error",
         "comma-dangle": [
             "error",
