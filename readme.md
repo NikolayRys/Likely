@@ -116,7 +116,9 @@ You can configure Likely by specifying `data-*` attributes on a button group or 
 
 These options should be specified on the `div` with the `likely` class.
 
-* `data-url` – URL to share and load counters for
+* `data-url` – URL to share and load counters for (⚠ specify the full URL with the protocol – like in `https://ilyabirman.com` – because some social networks don’t recognize the partial one)
+
+
 * `data-title` – Page title
 
 ```html
