@@ -2,45 +2,43 @@ likely-background = rgba(231,231,231,.8);
 likely-light-background = rgba(236,236,236,.16);
 likely-light-box-shadow = rgba(0,0,0,.2) 0 0 .33em;
 
-.likely {
-  &__widget {
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-rendering: optimizeLegibility;
+.likely-button {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 
-    // Hide buttons until they are loaded
-    opacity: 0;
+  // Hide buttons until they are loaded
+  opacity: 0;
 
-    display: inline-flex;
-    align-items: baseline;
-    height: 1.25em;
-    line-height: 1.25em;
-    border-radius: 0.1875em;
+  display: inline-flex;
+  align-items: baseline;
+  height: 1.25em;
+  line-height: 1.25em;
+  border-radius: 0.1875em;
 
-    white-space: nowrap;
+  white-space: nowrap;
 
-    transition: background .33s ease-out, color .33s ease-out, fill .33s ease-out, opacity .1s ease-in;
+  transition: background .33s ease-out, color .33s ease-out, fill .33s ease-out, opacity .1s ease-in;
 
-    &_visible {
-      opacity: 1;
-    }
+  &_visibility_visible {
+    opacity: 1;
+  }
 
-    &:hover, &:active, &:focus {
-      transition: none;
-      cursor: pointer;
-    }
+  &:hover, &:active, &:focus {
+    transition: none;
+    cursor: pointer;
+  }
 
-    &:not(.likely-light) {
-      color: #000;
-      background: likely-background;
-    }
+  &:not(.likely-button_light) {
+    color: #000;
+    background: likely-background;
+  }
 
-    &.likely-light {
-      color: #fff;
-      fill: #fff;
-      background: likely-light-background;
-      text-shadow: likely-light-box-shadow;
-    }
+  &.likely-button_light {
+    color: #fff;
+    fill: #fff;
+    background: likely-light-background;
+    text-shadow: likely-light-box-shadow;
   }
 
   &__button {
@@ -56,17 +54,17 @@ likely-light-box-shadow = rgba(0,0,0,.2) 0 0 .33em;
 
     text-align: center;
 
-    .likely__widget_visible &:not(&_empty) {
+    .likely-button_visibility_visible &:not(&_empty) {
       display: inline;
     }
 
-    .likely__widget:not(.likely-light) & {
+    .likely-button:not(.likely-button_light) & {
       background-size: 1px 1px;
       background-repeat: repeat-y;
       background-image: linear-gradient(to right, rgba(0,0,0,.2) 0, rgba(0,0,0,0) .5px, rgba(0,0,0,0) 100%)
     }
 
-    .likely__widget.likely-light & {
+    .likely-button.likely-button_light & {
       background-image: linear-gradient(to right, rgba(255,255,255,.4) 0, rgba(255,255,255,0) .5px, rgba(255,255,255,0) 100%)
     }
   }
@@ -84,34 +82,34 @@ likely-light-box-shadow = rgba(0,0,0,.2) 0 0 .33em;
   }
 }
 
-.likely__widget:not(.likely-light) {
+.likely-button:not(.likely-button_light) {
   color: #000;
   background: likely-background;
 }
-.likely__widget:not(.likely-light) .likely__counter {
+.likely-button:not(.likely-button_light) .likely-button__counter {
   background-size: 1px 1px;
   background-repeat: repeat-y;
   background-image: linear-gradient(to right, rgba(0,0,0,.2) 0, rgba(0,0,0,0) .5px, rgba(0,0,0,0) 100%)
 }
-.likely__widget.likely-light {
+.likely-button.likely-button_light {
   color: #fff;
   fill: #fff;
   background: likely-light-background;
   text-shadow: likely-light-box-shadow;
 }
-.likely__widget.likely-light .likely__counter {
+.likely-button.likely-button_light .likely-button__counter {
   background-image: linear-gradient(to right, rgba(255,255,255,.4) 0, rgba(255,255,255,0) .5px, rgba(255,255,255,0) 100%)
 }
 
 colorize(button, color) {
-  .likely__widget_{button} {
+  .likely-button_service_{button} {
     fill: color;
     &:hover, &:active, &:focus {
       background: alpha(mix(#fff,color,75%),.8);
     }
   }
-  .likely-light {
-    .likely__widget_{button} {
+  .likely-button_light {
+    .likely-button_service_{button} {
       &:hover, &:active, &:focus {
         text-shadow: color 0 0 .25em;
         background: alpha(color,0.7);

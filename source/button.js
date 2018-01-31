@@ -1,4 +1,11 @@
-import { createNode, createTempLink, find, findAll, openPopup, wrapSVG } from './dom';
+import {
+    createNode,
+    createTempLink,
+    find,
+    findAll,
+    openPopup,
+    wrapSVG,
+} from './dom';
 import { extend, getDataset, makeUrl, merge, query, template } from './utils';
 
 import config from './config';
@@ -46,7 +53,7 @@ class LikelyButton {
         const counters = findAll(className, this.button);
 
         extend(this.options, merge({ forceUpdate: false }, options));
-        counters.forEach((node) => {
+        counters.forEach(node => {
             node.parentNode.removeChild(node);
         });
 
@@ -61,7 +68,9 @@ class LikelyButton {
         let service = getDataset(button).service;
 
         if (!service) {
-            service = Object.keys(services).filter((service) => button.classList.contains(service))[0];
+            service = Object.keys(services).filter(service =>
+                button.classList.contains(service),
+            )[0];
         }
 
         if (service) {
@@ -83,8 +92,7 @@ class LikelyButton {
 
             if (isNaN(counter)) {
                 options.counterUrl = data.counter;
-            }
-            else {
+            } else {
                 options.counterNumber = counter;
             }
         }
@@ -103,7 +111,7 @@ class LikelyButton {
 
         button.addEventListener('click', this.click.bind(this));
         button.classList.remove(this.service);
-        button.className += ` ${this.className('widget')}`;
+        button.classList.add(`${config.name}_service_${this.service}`);
 
         const buttonHTML = template(htmlSpan, {
             className: this.className('button'),
@@ -126,19 +134,14 @@ class LikelyButton {
 
         if (options.counters && options.counterNumber) {
             this.updateCounter(options.counterNumber);
-        }
-        else if (options.counters && options.counterUrl) {
-            fetch(
-                this.service,
-                options.url,
-                options
-            )(this.updateCounter.bind(this));
+        } else if (options.counters && options.counterUrl) {
+            fetch(this.service, options.url, options)(
+                this.updateCounter.bind(this),
+            );
 
             setTimeout(this.appear.bind(this), this.options.wait);
-            this.timeout = setTimeout(this.ready.bind(this), this.options.timeout);
         } else {
             this.appear();
-            this.ready();
         }
     }
 
@@ -176,12 +179,9 @@ class LikelyButton {
             options.content = '';
         }
 
-        this.button.appendChild(
-            createNode(template(htmlSpan, options))
-        );
+        this.button.appendChild(createNode(template(htmlSpan, options)));
 
         this.appear();
-        this.ready();
     }
 
     /**
@@ -206,7 +206,7 @@ class LikelyButton {
                 this.addAdditionalParamsToUrl(url),
                 config.prefix + this.service,
                 options.popupWidth,
-                options.popupHeight
+                options.popupHeight,
             );
         }
 
@@ -223,21 +223,11 @@ class LikelyButton {
         const parameters = query(merge(this.button.dataset, this.options.data));
         const delimeter = url.indexOf('?') === -1 ? '?' : '&';
 
-        return parameters === ''
-            ? url
-            : url + delimeter + parameters;
+        return parameters === '' ? url : url + delimeter + parameters;
     }
 
     appear() {
-        this.button.classList.add(`${config.name}__widget_visible`);
-    }
-
-    ready() {
-        if (this.timeout) {
-            clearTimeout(this.timeout);
-
-            this.button.classList.add(`${config.name}__widget_ready`);
-        }
+        this.button.classList.add(`${config.name}_visibility_visible`);
     }
 }
 

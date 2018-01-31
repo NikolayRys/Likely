@@ -5,7 +5,6 @@ const { bools, getDefaultUrl, merge } = require('./utils');
 
 const Button = require('./button').default;
 const config = require('./config').default;
-const services = require('./services').default;
 const { findAll } = require('./dom');
 const history = require('./history').default;
 require('./index.styl');
@@ -20,7 +19,6 @@ const initButton = (node, options) => {
     const fullOptions = options || {};
     const defaults = {
         counters: true,
-        timeout: 1e3,
         zeroes: false,
         title: document.title,
         wait: 0.5e3,
@@ -59,11 +57,7 @@ const initiate = (nodes, options) => {
         realOptions = options;
     } else {
         // Options were passed, or the function was called without arguments
-        realNodes = findAll(
-            Object.keys(services)
-                .map(className => `.${className}`)
-                .join(', '),
-        );
+        realNodes = findAll('.likely-button');
         realOptions = nodes;
     }
 

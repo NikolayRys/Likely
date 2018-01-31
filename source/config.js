@@ -3,6 +3,6 @@
  */
 
 export default {
-    name: 'likely',
-    prefix: 'likely__',
+    name: 'likely-button',
+    prefix: 'likely-button__',
 };
