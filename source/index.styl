@@ -29,16 +29,26 @@ likely-light-box-shadow = rgba(0,0,0,.2) 0 0 .33em;
     cursor: pointer;
   }
 
-  &:not(.likely-button_light) {
-    color: #000;
-    background: likely-background;
-  }
-
-  &.likely-button_light {
+  &_light {
     color: #fff;
     fill: #fff;
     background: likely-light-background;
     text-shadow: likely-light-box-shadow;
+
+    .likely-button__counter {
+      background-image: linear-gradient(to right, rgba(255,255,255,.4) 0, rgba(255,255,255,0) .5px, rgba(255,255,255,0) 100%)
+    }
+  }
+
+  &:not(&_light) {
+    color: #000;
+    background: likely-background;
+
+    .likely-button__counter {
+      background-size: 1px 1px;
+      background-repeat: repeat-y;
+      background-image: linear-gradient(to right, rgba(0,0,0,.2) 0, rgba(0,0,0,0) .5px, rgba(0,0,0,0) 100%)
+    }
   }
 
   &__label {
@@ -47,25 +57,14 @@ likely-light-box-shadow = rgba(0,0,0,.2) 0 0 .33em;
   }
 
   &__counter {
-    display: none;
     padding: 0 0.25em;
     // To make the separator on the left fill the whole vertical space
     align-self: stretch;
 
     text-align: center;
 
-    .likely-button_visibility_visible &:not(&_empty) {
-      display: inline;
-    }
-
-    .likely-button:not(.likely-button_light) & {
-      background-size: 1px 1px;
-      background-repeat: repeat-y;
-      background-image: linear-gradient(to right, rgba(0,0,0,.2) 0, rgba(0,0,0,0) .5px, rgba(0,0,0,0) 100%)
-    }
-
-    .likely-button.likely-button_light & {
-      background-image: linear-gradient(to right, rgba(255,255,255,.4) 0, rgba(255,255,255,0) .5px, rgba(255,255,255,0) 100%)
+    &:empty {
+      display: none;
     }
   }
 
@@ -82,38 +81,19 @@ likely-light-box-shadow = rgba(0,0,0,.2) 0 0 .33em;
   }
 }
 
-.likely-button:not(.likely-button_light) {
-  color: #000;
-  background: likely-background;
-}
-.likely-button:not(.likely-button_light) .likely-button__counter {
-  background-size: 1px 1px;
-  background-repeat: repeat-y;
-  background-image: linear-gradient(to right, rgba(0,0,0,.2) 0, rgba(0,0,0,0) .5px, rgba(0,0,0,0) 100%)
-}
-.likely-button.likely-button_light {
-  color: #fff;
-  fill: #fff;
-  background: likely-light-background;
-  text-shadow: likely-light-box-shadow;
-}
-.likely-button.likely-button_light .likely-button__counter {
-  background-image: linear-gradient(to right, rgba(255,255,255,.4) 0, rgba(255,255,255,0) .5px, rgba(255,255,255,0) 100%)
-}
-
-colorize(button, color) {
-  .likely-button_service_{button} {
+colorize(serviceName, color) {
+  .likely-button:not(.likely-button_light).likely-button_service_{serviceName} {
     fill: color;
+
     &:hover, &:active, &:focus {
-      background: alpha(mix(#fff,color,75%),.8);
+      background: alpha(mix(#fff, color, 75%), 0.8);
     }
   }
-  .likely-button_light {
-    .likely-button_service_{button} {
-      &:hover, &:active, &:focus {
-        text-shadow: color 0 0 .25em;
-        background: alpha(color,0.7);
-      }
+
+  .likely-button.likely-button_light.likely-button_service_{serviceName} {
+    &:hover, &:active, &:focus {
+      text-shadow: color 0 0 0.25em;
+      background: alpha(color, 0.7);
     }
   }
 }

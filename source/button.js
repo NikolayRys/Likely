@@ -164,7 +164,6 @@ class LikelyButton {
         };
 
         if (!counter && !this.options.zeroes) {
-            options.className += ' likely-button__counter_empty';
             options.content = '';
         }
 
