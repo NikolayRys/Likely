@@ -8,16 +8,15 @@ import services from './services';
 const htmlSpan = '<span class="{className}">{content}</span>';
 
 /**
- * Separate social link widget
- *
- * @param {Node} widget
- * @param {Likely} likely
- * @param {Object} options
+ * Separate social link button
  */
 class LikelyButton {
-    constructor(widget, likely, options) {
-        this.widget = widget;
-        this.likely = likely;
+    /**
+     * @param {Node} button
+     * @param {Object} options
+     */
+    constructor(button, options) {
+        this.button = button;
         this.options = merge(options);
 
         this.init();
@@ -44,7 +43,7 @@ class LikelyButton {
      */
     update(options) {
         const className = `.${config.prefix}counter`;
-        const counters = findAll(className, this.widget);
+        const counters = findAll(className, this.button);
 
         extend(this.options, merge({ forceUpdate: false }, options));
         counters.forEach((node) => {
@@ -58,11 +57,11 @@ class LikelyButton {
      * Get the config.name of service and its options
      */
     detectService() {
-        const widget = this.widget;
-        let service = getDataset(widget).service;
+        const button = this.button;
+        let service = getDataset(button).service;
 
         if (!service) {
-            service = Object.keys(services).filter((service) => widget.classList.contains(service))[0];
+            service = Object.keys(services).filter((service) => button.classList.contains(service))[0];
         }
 
         if (service) {
@@ -77,7 +76,7 @@ class LikelyButton {
      */
     detectParams() {
         const options = this.options;
-        const data = getDataset(this.widget);
+        const data = getDataset(this.button);
 
         if (data.counter) {
             const counter = parseInt(data.counter, 10);
@@ -99,24 +98,24 @@ class LikelyButton {
      */
     initHtml() {
         const options = this.options;
-        const widget = this.widget;
-        const text = widget.innerHTML;
+        const button = this.button;
+        const text = button.innerHTML;
 
-        widget.addEventListener('click', this.click.bind(this));
-        widget.classList.remove(this.service);
-        widget.className += ` ${this.className('widget')}`;
+        button.addEventListener('click', this.click.bind(this));
+        button.classList.remove(this.service);
+        button.className += ` ${this.className('widget')}`;
 
-        const button = template(htmlSpan, {
+        const buttonHTML = template(htmlSpan, {
             className: this.className('button'),
             content: text,
         });
 
-        const icon = template(htmlSpan, {
+        const iconHTML = template(htmlSpan, {
             className: this.className('icon'),
             content: wrapSVG(options.svgIconPath),
         });
 
-        widget.innerHTML = icon + button;
+        button.innerHTML = iconHTML + buttonHTML;
     }
 
     /**
@@ -128,12 +127,18 @@ class LikelyButton {
         if (options.counters && options.counterNumber) {
             this.updateCounter(options.counterNumber);
         }
-        else if (options.counterUrl) {
+        else if (options.counters && options.counterUrl) {
             fetch(
                 this.service,
                 options.url,
                 options
             )(this.updateCounter.bind(this));
+
+            setTimeout(this.appear.bind(this), this.options.wait);
+            this.timeout = setTimeout(this.ready.bind(this), this.options.timeout);
+        } else {
+            this.appear();
+            this.ready();
         }
     }
 
@@ -155,7 +160,7 @@ class LikelyButton {
     updateCounter(counterString) {
         const counter = parseInt(counterString, 10) || 0;
 
-        const counterElement = find(`.${config.name}__counter`, this.widget);
+        const counterElement = find(`.${config.name}__counter`, this.button);
 
         if (counterElement) {
             counterElement.parentNode.removeChild(counterElement);
@@ -171,11 +176,12 @@ class LikelyButton {
             options.content = '';
         }
 
-        this.widget.appendChild(
+        this.button.appendChild(
             createNode(template(htmlSpan, options))
         );
 
-        this.likely.updateCounter(this.service, counter);
+        this.appear();
+        this.ready();
     }
 
     /**
@@ -214,12 +220,24 @@ class LikelyButton {
      * @returns {String}
      */
     addAdditionalParamsToUrl(url) {
-        const parameters = query(merge(this.widget.dataset, this.options.data));
+        const parameters = query(merge(this.button.dataset, this.options.data));
         const delimeter = url.indexOf('?') === -1 ? '?' : '&';
 
         return parameters === ''
             ? url
             : url + delimeter + parameters;
+    }
+
+    appear() {
+        this.button.classList.add(`${config.name}__widget_visible`);
+    }
+
+    ready() {
+        if (this.timeout) {
+            clearTimeout(this.timeout);
+
+            this.button.classList.add(`${config.name}__widget_ready`);
+        }
     }
 }
 

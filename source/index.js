@@ -3,8 +3,9 @@
 // This is required so that users work with `require('likely')`, not `require('likely').default`
 const { bools, getDefaultUrl, merge } = require('./utils');
 
-const Likely = require('./widget').default;
+const Button = require('./button').default;
 const config = require('./config').default;
+const services = require('./services').default;
 const { findAll } = require('./dom');
 const history = require('./history').default;
 require('./index.styl');
@@ -13,9 +14,9 @@ require('./index.styl');
  * @param {Node} node
  * @param {Object} options
  * @private
- * @returns {Likely}
+ * @returns {Button}
  */
-const initWidget = (node, options) => {
+const initButton = (node, options) => {
     const fullOptions = options || {};
     const defaults = {
         counters: true,
@@ -25,17 +26,16 @@ const initWidget = (node, options) => {
         wait: 0.5e3,
         url: getDefaultUrl(),
     };
-    const widget = node[config.name];
+    const button = node[config.name];
 
     const realOptions = merge({}, defaults, fullOptions, bools(node));
-    if (widget) {
-        widget.update(realOptions);
-    }
-    else {
-        node[config.name] = new Likely(node, realOptions);
+    if (button) {
+        button.update(realOptions);
+    } else {
+        node[config.name] = new Button(node, realOptions);
     }
 
-    return widget;
+    return button;
 };
 
 /**
@@ -53,24 +53,26 @@ const initiate = (nodes, options) => {
         // An array of nodes was passed
         realNodes = nodes;
         realOptions = options;
-    }
-    else if (nodes instanceof Node) {
+    } else if (nodes instanceof Node) {
         // A single node was passed
         realNodes = [nodes];
         realOptions = options;
-    }
-    else {
+    } else {
         // Options were passed, or the function was called without arguments
-        realNodes = findAll(`.${config.name}`);
+        realNodes = findAll(
+            Object.keys(services)
+                .map(className => `.${className}`)
+                .join(', '),
+        );
         realOptions = nodes;
     }
 
-    initWidgets();
-    history.onUrlChange(initWidgets);
+    initButtons();
+    history.onUrlChange(initButtons);
 
-    function initWidgets() {
-        realNodes.forEach((node) => {
-            initWidget(node, realOptions);
+    function initButtons() {
+        realNodes.forEach(node => {
+            initButton(node, realOptions);
         });
     }
 };

@@ -1,19 +1,16 @@
+likely-background = rgba(231,231,231,.8);
+likely-light-background = rgba(236,236,236,.16);
+likely-light-box-shadow = rgba(0,0,0,.2) 0 0 .33em;
+
 .likely {
-  display: inline;
-
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-rendering: optimizeLegibility;
-
-  // Hide buttons until they are loaded
-  opacity: 0;
-  transition: opacity .1s ease-in;
-
-  &_visible {
-    opacity: 1;
-  }
-
   &__widget {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+
+    // Hide buttons until they are loaded
+    opacity: 0;
+
     display: inline-flex;
     align-items: baseline;
     height: 1.25em;
@@ -22,15 +19,27 @@
 
     white-space: nowrap;
 
-    transition: widget-transition = background .33s ease-out, color .33s ease-out, fill .33s ease-out;
+    transition: background .33s ease-out, color .33s ease-out, fill .33s ease-out, opacity .1s ease-in;
+
+    &_visible {
+      opacity: 1;
+    }
 
     &:hover, &:active, &:focus {
       transition: none;
       cursor: pointer;
     }
 
-    &:not(:last-child) {
-      margin-right: 0.25em;
+    &:not(.likely-light) {
+      color: #000;
+      background: likely-background;
+    }
+
+    &.likely-light {
+      color: #fff;
+      fill: #fff;
+      background: likely-light-background;
+      text-shadow: likely-light-box-shadow;
     }
   }
 
@@ -47,8 +56,18 @@
 
     text-align: center;
 
-    .likely_ready &:not(&_empty) {
+    .likely__widget_visible &:not(&_empty) {
       display: inline;
+    }
+
+    .likely__widget:not(.likely-light) & {
+      background-size: 1px 1px;
+      background-repeat: repeat-y;
+      background-image: linear-gradient(to right, rgba(0,0,0,.2) 0, rgba(0,0,0,0) .5px, rgba(0,0,0,0) 100%)
+    }
+
+    .likely__widget.likely-light & {
+      background-image: linear-gradient(to right, rgba(255,255,255,.4) 0, rgba(255,255,255,0) .5px, rgba(255,255,255,0) 100%)
     }
   }
 
@@ -65,32 +84,23 @@
   }
 }
 
-/* Style options */
-likely-background = rgba(231,231,231,.8);
-likely-light-background = rgba(236,236,236,.16);
-likely-light-box-shadow = rgba(0,0,0,.2) 0 0 .33em;
-
-.likely:not(.likely-light) {
-  .likely__widget {
-    color: #000;
-    background: likely-background;
-  }
-  .likely__counter {
-    background-size: 1px 1px;
-    background-repeat: repeat-y;
-    background-image: linear-gradient(to right, rgba(0,0,0,.2) 0, rgba(0,0,0,0) .5px, rgba(0,0,0,0) 100%)
-  }
+.likely__widget:not(.likely-light) {
+  color: #000;
+  background: likely-background;
 }
-.likely-light {
-  .likely__widget {
-    color: #fff;
-    fill: #fff;
-    background: likely-light-background;
-    text-shadow: likely-light-box-shadow;
-  }
-  .likely__counter {
-    background-image: linear-gradient(to right, rgba(255,255,255,.4) 0, rgba(255,255,255,0) .5px, rgba(255,255,255,0) 100%)
-  }
+.likely__widget:not(.likely-light) .likely__counter {
+  background-size: 1px 1px;
+  background-repeat: repeat-y;
+  background-image: linear-gradient(to right, rgba(0,0,0,.2) 0, rgba(0,0,0,0) .5px, rgba(0,0,0,0) 100%)
+}
+.likely__widget.likely-light {
+  color: #fff;
+  fill: #fff;
+  background: likely-light-background;
+  text-shadow: likely-light-box-shadow;
+}
+.likely__widget.likely-light .likely__counter {
+  background-image: linear-gradient(to right, rgba(255,255,255,.4) 0, rgba(255,255,255,0) .5px, rgba(255,255,255,0) 100%)
 }
 
 colorize(button, color) {
