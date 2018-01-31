@@ -114,12 +114,12 @@ class LikelyButton {
         button.classList.add(`${config.name}_service_${this.service}`);
 
         const buttonHTML = template(htmlSpan, {
-            className: this.className('button'),
+            className: `${config.prefix}label`,
             content: text,
         });
 
         const iconHTML = template(htmlSpan, {
-            className: this.className('icon'),
+            className: `${config.prefix}icon`,
             content: wrapSVG(options.svgIconPath),
         });
 
@@ -146,16 +146,6 @@ class LikelyButton {
     }
 
     /**
-     * @param {String} className
-     * @returns {String}
-     */
-    className(className) {
-        const fullClass = config.prefix + className;
-
-        return `${fullClass} ${fullClass}_${this.service}`;
-    }
-
-    /**
      * Update counter
      *
      * @param {String} counterString
@@ -170,7 +160,7 @@ class LikelyButton {
         }
 
         const options = {
-            className: this.className('counter'),
+            className: `${config.prefix}counter`,
             content: counter,
         };
 
