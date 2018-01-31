@@ -4,7 +4,6 @@
 const { bools, getDefaultUrl, merge } = require('./utils');
 
 const Button = require('./button').default;
-const config = require('./config').default;
 const { findAll } = require('./dom');
 const history = require('./history').default;
 require('./index.styl');
@@ -24,13 +23,15 @@ const initButton = (node, options) => {
         wait: 0.5e3,
         url: getDefaultUrl(),
     };
-    const button = node[config.name];
+
+    const NODE_STORAGE_FIELD = '_likelyButtonData';
+    const button = node[NODE_STORAGE_FIELD];
 
     const realOptions = merge({}, defaults, fullOptions, bools(node));
     if (button) {
         button.update(realOptions);
     } else {
-        node[config.name] = new Button(node, realOptions);
+        node[NODE_STORAGE_FIELD] = new Button(node, realOptions);
     }
 
     return button;

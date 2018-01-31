@@ -8,7 +8,6 @@ import {
 } from './dom';
 import { extend, getDataset, makeUrl, merge, query, template } from './utils';
 
-import config from './config';
 import fetch from './fetch';
 import services from './services';
 
@@ -49,7 +48,7 @@ class LikelyButton {
      * @param {Object} options
      */
     update(options) {
-        const className = `.${config.prefix}counter`;
+        const className = '.likely-button__counter';
         const counters = findAll(className, this.button);
 
         extend(this.options, merge({ forceUpdate: false }, options));
@@ -111,15 +110,15 @@ class LikelyButton {
 
         button.addEventListener('click', this.click.bind(this));
         button.classList.remove(this.service);
-        button.classList.add(`${config.name}_service_${this.service}`);
+        button.classList.add(`likely-button_service_${this.service}`);
 
         const buttonHTML = template(htmlSpan, {
-            className: `${config.prefix}label`,
+            className: 'likely-button__label',
             content: text,
         });
 
         const iconHTML = template(htmlSpan, {
-            className: `${config.prefix}icon`,
+            className: 'likely-button__icon',
             content: wrapSVG(options.svgIconPath),
         });
 
@@ -153,19 +152,19 @@ class LikelyButton {
     updateCounter(counterString) {
         const counter = parseInt(counterString, 10) || 0;
 
-        const counterElement = find(`.${config.name}__counter`, this.button);
+        const counterElement = find('.likely-button__counter', this.button);
 
         if (counterElement) {
             counterElement.parentNode.removeChild(counterElement);
         }
 
         const options = {
-            className: `${config.prefix}counter`,
+            className: 'likely-button__counter',
             content: counter,
         };
 
         if (!counter && !this.options.zeroes) {
-            options.className += ` ${config.prefix}counter_empty`;
+            options.className += ' likely-button__counter_empty';
             options.content = '';
         }
 
@@ -194,7 +193,7 @@ class LikelyButton {
 
             openPopup(
                 this.addAdditionalParamsToUrl(url),
-                config.prefix + this.service,
+                `likely-button__${this.service}`,
                 options.popupWidth,
                 options.popupHeight,
             );
@@ -217,7 +216,7 @@ class LikelyButton {
     }
 
     appear() {
-        this.button.classList.add(`${config.name}_visibility_visible`);
+        this.button.classList.add('likely-button_visibility_visible');
     }
 }
 
