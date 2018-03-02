@@ -3,7 +3,7 @@
 const LikelyPage = {
     AUTOINIT: 'autoinit.html',
     NO_AUTOINIT: 'no-autoinit.html',
-    NO_AUTOINIT_MULTIPLE: 'no-autoinit-multiple.html',
+    NO_AUTOINIT_WRAPPED: 'no-autoinit-wrapped.html',
     ISSUE_67: 'issues/67.html',
 };
 

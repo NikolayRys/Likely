@@ -66,7 +66,7 @@ const initiate = (nodes, options) => {
     history.onUrlChange(initButtons);
 
     function initButtons() {
-        realNodes.forEach(node => {
+        realNodes.forEach((node) => {
             initButton(node, realOptions);
         });
     }

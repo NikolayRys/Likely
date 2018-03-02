@@ -35,31 +35,31 @@ describe('Likely', function () {
 
     describe('initialization', function () {
         beforeEach(function () {
-            return getLikelyPage(driver, LikelyPage.NO_AUTOINIT_MULTIPLE);
+            return getLikelyPage(driver, LikelyPage.NO_AUTOINIT);
         });
 
         it('should initialize without arguments', function () {
             return driver.executeScript('likely.initiate();')
                 .then(() => waitUntilLikelyInitialized(driver))
-                .then(() => driver.findElements({ css: '.likely' }))
+                .then(() => driver.findElements({ css: '.likely-button' }))
                 .then((allLikelyWidgets) => {
-                    return expect(driver.findElements({ css: '.likely_ready' })).to.eventually.have.lengthOf(allLikelyWidgets.length);
+                    return expect(driver.findElements({ css: '.likely-button_visibility_visible' })).to.eventually.have.lengthOf(allLikelyWidgets.length);
                 });
         });
 
         it('should initialize when only options are passed', function () {
             return driver.executeScript('likely.initiate({ url: "//google.com" });')
                 .then(() => waitUntilLikelyInitialized(driver))
-                .then(() => driver.findElements({ css: '.likely' }))
+                .then(() => driver.findElements({ css: '.likely-button' }))
                 .then((allLikelyWidgets) => {
                     const expectations = allLikelyWidgets.map(
                         (widget) => expectClickToOpen(
                             driver,
-                            widget.findElement({ css: '.likely__widget_twitter' }),
+                            widget.findElement({ css: '.likely-button_service_twitter' }),
                             /twitter\.com\/.*google\.com/
                         )
                     ).concat(
-                        expect(driver.findElements({ css: '.likely_ready' }))
+                        expect(driver.findElements({ css: '.likely-button_visibility_visible' }))
                             .to.eventually.have.lengthOf(allLikelyWidgets.length)
                     );
 
@@ -73,8 +73,8 @@ describe('Likely', function () {
                 .then(() => {
                     return Promise.all([
                         expect(driver.findElement({ css: '#widget1' }).getAttribute('class'))
-                            .to.eventually.include('likely_ready'),
-                        expect(driver.findElements({ css: '.likely_ready' }))
+                            .to.eventually.include('likely-button_visibility_visible'),
+                        expect(driver.findElements({ css: '.likely-button_visibility_visible' }))
                             .to.eventually.have.lengthOf(1),
                     ]);
                 });
@@ -88,10 +88,10 @@ describe('Likely', function () {
                 .then(() => {
                     return Promise.all([
                         expect(driver.findElement({ css: '#widget1' }).getAttribute('class'))
-                            .to.eventually.include('likely_ready'),
-                        expect(driver.findElements({ css: '.likely_ready' }))
+                            .to.eventually.include('likely-button_visibility_visible'),
+                        expect(driver.findElements({ css: '.likely-button_visibility_visible' }))
                             .to.eventually.have.lengthOf(1),
-                        expectClickToOpen(driver, '#widget1 .likely__widget_twitter', /twitter\.com\/.*google\.com/),
+                        expectClickToOpen(driver, '#widget1', /twitter\.com\/.*google\.com/),
                     ]);
                 });
         });
@@ -104,10 +104,10 @@ describe('Likely', function () {
                 .then(() => {
                     return Promise.all([
                         expect(driver.findElement({ css: '#widget1' }).getAttribute('class'))
-                            .to.eventually.include('likely_ready'),
+                            .to.eventually.include('likely-button_visibility_visible'),
                         expect(driver.findElement({ css: '#widget3' }).getAttribute('class'))
-                            .to.eventually.include('likely_ready'),
-                        expect(driver.findElements({ css: '.likely_ready' }))
+                            .to.eventually.include('likely-button_visibility_visible'),
+                        expect(driver.findElements({ css: '.likely-button_visibility_visible' }))
                             .to.eventually.have.lengthOf(2),
                     ]);
                 });
@@ -124,13 +124,13 @@ describe('Likely', function () {
                 .then(() => {
                     return Promise.all([
                         expect(driver.findElement({ css: '#widget1' }).getAttribute('class'))
-                            .to.eventually.include('likely_ready'),
+                            .to.eventually.include('likely-button_visibility_visible'),
                         expect(driver.findElement({ css: '#widget3' }).getAttribute('class'))
-                            .to.eventually.include('likely_ready'),
-                        expect(driver.findElements({ css: '.likely_ready' }))
+                            .to.eventually.include('likely-button_visibility_visible'),
+                        expect(driver.findElements({ css: '.likely-button_visibility_visible' }))
                             .to.eventually.have.lengthOf(2),
-                        expectClickToOpen(driver, '#widget1 .likely__widget_twitter', /twitter\.com\/.*google\.com/),
-                        expectClickToOpen(driver, '#widget3 .likely__widget_twitter', /twitter\.com\/.*google\.com/),
+                        expectClickToOpen(driver, '#widget1', /twitter\.com\/.*google\.com/),
+                        expectClickToOpen(driver, '#widget3', /google\.com\/.*google\.com/),
                     ]);
                 });
         });
@@ -149,17 +149,17 @@ describe('Likely', function () {
                 });
             `)
                 .then(function () {
-                    return expectClickToOpen(driver, '.likely__widget_twitter', /twitter\.com\/.*google\.com/);
+                    return expectClickToOpen(driver, '.likely-button_service_twitter', /twitter\.com\/.*google\.com/);
                 });
         });
 
         it('should change the shared URL when the new URL is specified on the node', function () {
             return driver.executeScript(`
-                document.querySelector('.likely').setAttribute('data-url', 'http://google.com');
+                document.querySelector('.likely-button_service_twitter').setAttribute('data-url', 'http://google.com');
                 likely.initiate();
             `)
                 .then(function () {
-                    return expectClickToOpen(driver, '.likely__widget_twitter', /twitter\.com\/.*google\.com/);
+                    return expectClickToOpen(driver, '.likely-button_service_twitter', /twitter\.com\/.*google\.com/);
                 });
         });
 
@@ -173,7 +173,7 @@ describe('Likely', function () {
                 likely.initiate();
             `)
                 .then(function () {
-                    return expectClickToOpen(driver, '.likely__widget_twitter', /twitter\.com\/.*google\.com/);
+                    return expectClickToOpen(driver, '.likely-button_service_twitter', /twitter\.com\/.*google\.com/);
                 });
         });
     });
@@ -196,7 +196,11 @@ describe('Likely', function () {
         testedServices.forEach(({ name, likelyName }) => {
             it(`should fetch the counters for ${name}`, function () {
                 const mockedCounterValue = '10';
-                return expectToContainText(driver, `.likely__counter_${likelyName}`, mockedCounterValue);
+                return expectToContainText(
+                    driver,
+                    `.likely-button_service_${likelyName} .likely-button__counter`,
+                    mockedCounterValue
+                );
             });
         });
     });
@@ -220,7 +224,7 @@ describe('Likely', function () {
 
         testedServices.forEach(({ name, likelyName, urlRegex }) => {
             it(`should open the sharing dialog for ${name}`, function () {
-                return expectClickToOpen(driver, `.likely__widget_${likelyName}`, urlRegex);
+                return expectClickToOpen(driver, `.likely-button_service_${likelyName}`, urlRegex);
             });
         });
     });
@@ -235,25 +239,25 @@ describe('Likely', function () {
                 document.head.innerHTML += '<link rel="canonical" href="https://google.com">';
                 likely.initiate();
             `).then(() => {
-                return expectClickToOpen(driver, '.likely__widget_twitter', /twitter\.com\/.*google\.com/);
+                return expectClickToOpen(driver, '.likely-button_service_twitter', /twitter\.com\/.*google\.com/);
             });
         });
 
         it('should change the shared URL when `data-url` is specified', function () {
             return driver.executeScript(`
-                document.querySelector('.likely').setAttribute('data-url', 'https://google.com');
+                document.querySelector('.likely-button_service_twitter').setAttribute('data-url', 'https://google.com');
                 likely.initiate();
             `).then(() => {
-                return expectClickToOpen(driver, '.likely__widget_twitter', /twitter\.com\/.*google\.com/);
+                return expectClickToOpen(driver, '.likely-button_service_twitter', /twitter\.com\/.*google\.com/);
             });
         });
 
         it('should change the shared title when `data-title` is specified', function () {
             return driver.executeScript(`
-                document.querySelector('.likely').setAttribute('data-title', 'Fake Title');
+                document.querySelector('.likely-button_service_twitter').setAttribute('data-title', 'Fake Title');
                 likely.initiate();
             `).then(() => {
-                return expectClickToOpen(driver, '.likely__widget_twitter', /twitter\.com\/.*Fake%20Title/);
+                return expectClickToOpen(driver, '.likely-button_service_twitter', /twitter\.com\/.*Fake%20Title/);
             });
         });
 
@@ -262,7 +266,7 @@ describe('Likely', function () {
                 document.querySelector('.twitter').setAttribute('data-via', 'horse_js');
                 likely.initiate();
             `).then(() => {
-                return expectClickToOpen(driver, '.likely__widget_twitter', /twitter\.com\/.*horse_js/);
+                return expectClickToOpen(driver, '.likely-button_service_twitter', /twitter\.com\/.*horse_js/);
             });
         });
 
@@ -271,7 +275,7 @@ describe('Likely', function () {
                 document.querySelector('.telegram').setAttribute('data-text', 'Fake Text');
                 likely.initiate();
             `).then(() => {
-                return expectClickToOpen(driver, '.likely__widget_telegram', /telegram\.me\/.*Fake%20Text/);
+                return expectClickToOpen(driver, '.likely-button_service_telegram', /telegram\.me\/.*Fake%20Text/);
             });
         });
 
@@ -280,8 +284,103 @@ describe('Likely', function () {
                 document.querySelector('.pinterest').setAttribute('data-media', 'http://i.imgur.com/zunNbfY.jpg');
                 likely.initiate();
             `).then(() => {
-                return expectClickToOpen(driver, '.likely__widget_pinterest', /pinterest\.com\/.*zunNbfY\.jpg/);
+                return expectClickToOpen(driver, '.likely-button_service_pinterest', /pinterest\.com\/.*zunNbfY\.jpg/);
             });
+        });
+    });
+
+    describe('with .likely wrapper', function () {
+        beforeEach(function () {
+            return getLikelyPage(driver, LikelyPage.NO_AUTOINIT_WRAPPED);
+        });
+
+        it('should inherit common options from the .likely block', function () {
+            const targetUrl = 'https://google.com';
+
+            return driver.executeScript(`
+                document.querySelector('.likely').setAttribute('data-url', '${targetUrl}');
+                likely.initiate();
+            `).then(() => {
+                return expectClickToOpen(
+                    driver,
+                    '.likely-button_service_twitter',
+                    new RegExp(`twitter\\.com\\/.*${encodeURIComponent(targetUrl)}`)
+                );
+            });
+        });
+
+        it('should inherit button-specific options from the .likely block', function () {
+            return driver.executeScript(`
+                document.querySelector('.likely').setAttribute('data-media', 'http://i.imgur.com/zunNbfY.jpg');
+                likely.initiate();
+            `).then(() => {
+                return expectClickToOpen(driver, '.likely-button_service_pinterest', /pinterest\.com\/.*zunNbfY\.jpg/);
+            });
+        });
+
+        it('should not inherit an option if the button already has one', function () {
+            return driver.executeScript(`
+                document.querySelector('.likely').setAttribute('data-media', 'http://i.imgur.com/zunNbfY.jpg');
+                document.querySelector('.pinterest').setAttribute('data-media', 'http://i.imgur.com/foobar.jpg');
+                likely.initiate();
+            `).then(() => {
+                return expectClickToOpen(driver, '.likely-button_service_pinterest', /pinterest\.com\/.*foobar\.jpg/);
+            });
+        });
+
+        it('should update an option on re-initialization if it’s changed on the .likely block', function () {
+            return driver.executeScript(`
+                document.querySelector('.likely').setAttribute('data-url', 'https://facebook.com');
+                likely.initiate();
+            `)
+                .then(() => {
+                    return expectClickToOpen(
+                        driver,
+                        '.likely-button_service_twitter',
+                        /twitter\.com\/.*facebook\.com/
+                    );
+                })
+                .then(() => {
+                    return driver.executeScript(`
+                        document.querySelector('.likely').setAttribute('data-url', 'https://google.com');
+                        likely.initiate();
+                    `);
+                })
+                .then(() => {
+                    return expectClickToOpen(
+                        driver,
+                        '.likely-button_service_twitter',
+                        /twitter\.com\/.*google\.com/
+                    );
+                });
+        });
+
+        it('should NOT update an option on re-initialization if the button already has one', function () {
+            return driver.executeScript(`
+                document.querySelector('.likely').setAttribute('data-url', 'https://facebook.com');
+                document.querySelector('.twitter').setAttribute('data-url', 'https://google.com');
+                likely.initiate();
+            `)
+                .then(() => {
+                    return expectClickToOpen(
+                        driver,
+                        '.likely-button_service_twitter',
+                        /twitter\.com\/.*google\.com/
+                    );
+                })
+                .then(() => {
+                    return driver.executeScript(`
+                        document.querySelector('.likely').setAttribute('data-url', 'https://vk.com');
+                        likely.initiate();
+                    `);
+                })
+                .then(() => {
+                    return expectClickToOpen(
+                        driver,
+                        '.likely-button_service_twitter',
+                        /twitter\.com\/.*google\.com/
+                    );
+                });
         });
     });
 
@@ -299,7 +398,7 @@ describe('Likely', function () {
                 .then(() => {
                     return expectClickToOpen(
                         driver,
-                        '.likely__widget_twitter',
+                        '.likely-button_service_twitter',
                         new RegExp(`twitter\\.com\\/.*${encodeURIComponent(targetUrl)}`)
                     );
                 });
@@ -325,7 +424,7 @@ describe('Likely', function () {
                     return driver.navigate().back();
                 })
                 .then(() => {
-                    return expectClickToOpen(driver, '.likely__widget_twitter', /twitter\.com\/.*no-autoinit\.html/);
+                    return expectClickToOpen(driver, '.likely-button_service_twitter', /twitter\.com\/.*no-autoinit\.html/);
                 });
         });
     });
@@ -335,7 +434,7 @@ describe('Likely', function () {
             return getLikelyPage(driver, LikelyPage.ISSUE_67)
                 .then(() => waitUntilLikelyInitialized(driver))
                 .then(() => {
-                    return expectClickToOpen(driver, '.likely__widget_twitter', /twitter\.com\/.*Likely%20test%20page/);
+                    return expectClickToOpen(driver, '.likely-button_service_twitter', /twitter\.com\/.*Likely%20test%20page/);
                 });
         });
     });

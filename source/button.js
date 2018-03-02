@@ -23,7 +23,7 @@ class LikelyButton {
      */
     constructor(button, options) {
         this.button = button;
-        this.options = merge(options);
+        this.options = merge({}, options);
 
         this.init();
     }
@@ -32,14 +32,12 @@ class LikelyButton {
      * Initiate the button
      */
     init() {
+        this.inheritDatasetAndStyles();
+        this.mergeDatasetIntoOptions();
         this.detectService();
-        this.detectParams();
+        this.initButtonHtml();
 
-        if (this.service) {
-            this.initHtml();
-
-            setTimeout(this.initCounter.bind(this), 0);
-        }
+        setTimeout(this.initCounter.bind(this), 0);
     }
 
     /**
@@ -52,7 +50,7 @@ class LikelyButton {
         const counters = findAll(className, this.button);
 
         extend(this.options, merge({ forceUpdate: false }, options));
-        counters.forEach(node => {
+        counters.forEach((node) => {
             node.parentNode.removeChild(node);
         });
 
@@ -64,53 +62,72 @@ class LikelyButton {
      */
     detectService() {
         const button = this.button;
-        let service = getDataset(button).service;
+        const service = Object.keys(services).filter((service) =>
+            button.classList.contains(service)
+        )[0];
 
-        if (!service) {
-            service = Object.keys(services).filter(service =>
-                button.classList.contains(service),
-            )[0];
+        extend(this.options, services[service]);
+        this.service = service;
+    }
+
+    inheritDatasetAndStyles() {
+        const parentElement = this.button.parentElement;
+        if (!parentElement.classList.contains('likely')) {
+            // The buttons aren’t wrapped into the .likely block,
+            // so we don’t need to copy options
+            return;
         }
 
-        if (service) {
-            this.service = service;
+        // Inherit the data-* params from the .likely block
+        // (the button’s data-* params still have a higher priority)
+        const likelyBlockData = getDataset(this.button.parentElement);
+        const mergedData = merge({}, likelyBlockData, this.button.dataset);
+        extend(this.button.dataset, mergedData);
 
-            extend(this.options, services[service]);
+        // Inherit the style classes
+        if (parentElement.classList.contains('light') || parentElement.classList.contains('likely_light')) {
+            this.button.classList.add('light');
+
+            // Generally, buttons are independent and shouldn’t touch the likely block
+            // except from inheriting settings from it. However, unfortunately,
+            // if the likely block has the .light class, it must be replaced to avoid clashes
+            // with other classes. We do this job here.
+            parentElement.classList.remove('light');
+            parentElement.classList.add('likely_light');
         }
     }
 
     /**
      * Merge params from data-* attributes into options hash map
      */
-    detectParams() {
-        const options = this.options;
+    mergeDatasetIntoOptions() {
         const data = getDataset(this.button);
 
         if (data.counter) {
             const counter = parseInt(data.counter, 10);
 
             if (isNaN(counter)) {
-                options.counterUrl = data.counter;
+                this.options.counterUrl = data.counter;
             } else {
-                options.counterNumber = counter;
+                this.options.counterNumber = counter;
             }
         }
 
-        options.title = data.title || options.title;
-        options.url = data.url || options.url;
+        this.options.title = data.title || this.options.title;
+        this.options.url = data.url || this.options.url;
     }
 
     /**
      * Inititate button's HTML
      */
-    initHtml() {
+    initButtonHtml() {
         const options = this.options;
         const button = this.button;
         const text = button.innerHTML;
 
-        button.addEventListener('click', this.click.bind(this));
-        button.classList.remove(this.service);
-        button.classList.add(`likely-button_service_${this.service}`);
+        button.className = button.className
+            .replace(this.service, `likely-button_service_${this.service}`)
+            .replace('light', 'likely-button_light');
 
         const buttonHTML = template(htmlSpan, {
             className: 'likely-button__label',
@@ -123,6 +140,8 @@ class LikelyButton {
         });
 
         button.innerHTML = iconHTML + buttonHTML;
+
+        button.addEventListener('click', this.click.bind(this));
     }
 
     /**
@@ -135,7 +154,7 @@ class LikelyButton {
             this.updateCounter(options.counterNumber);
         } else if (options.counters && options.counterUrl) {
             fetch(this.service, options.url, options)(
-                this.updateCounter.bind(this),
+                this.updateCounter.bind(this)
             );
 
             setTimeout(this.appear.bind(this), this.options.wait);
@@ -194,7 +213,7 @@ class LikelyButton {
                 this.addAdditionalParamsToUrl(url),
                 `likely-button__${this.service}`,
                 options.popupWidth,
-                options.popupHeight,
+                options.popupHeight
             );
         }
 

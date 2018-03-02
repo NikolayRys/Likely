@@ -24,3 +24,5 @@ release/*
 # JetBrains
 .idea
 *.iml
+
+.vscode
