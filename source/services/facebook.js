@@ -3,8 +3,8 @@
  */
 
 export default {
-    counterUrl: 'https://graph.facebook.com/?id={url}&callback=?',
-    convertNumber: (data) => data.share.share_count,
+    counterUrl: 'https://graph.facebook.com/v3.0/?id={url}&fields=engagement&access_token=2468121513424873|dff1c64ef7e6e609b05037650fc22eed',
+    convertNumber: (data) => data.engagement.share_count,
     popupUrl: 'https://www.facebook.com/sharer/sharer.php?u={url}',
     popupWidth: 600,
     popupHeight: 500,
