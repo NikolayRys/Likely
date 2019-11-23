@@ -7,12 +7,10 @@ const packageJson = require('./package.json');
 const { NODE_ENV } = process.env;
 const isProduction = NODE_ENV === 'production';
 
-const license = `
-Likely $version by Ilya Birman (ilyabirman.net)
+const license = `Likely $version by Ilya Birman (ilyabirman.net)
 Rewritten sans jQuery by Evgeny Steblinsky (volter9.github.io)
 Supported by Ivan Akulov (iamakulov.com), Viktor Karpov (vitkarpov.com), and contributors
-Inspired by Social Likes by Artem Sapegin (sapegin.me)
-`;
+Inspired by Social Likes by Artem Sapegin (sapegin.me)`;
 
 function getLicenseComment(version) {
     return license.replace(/\$version/g, version);
@@ -26,9 +24,11 @@ const plugins = [
 ];
 
 if (isProduction) {
-    plugins.concat([
-        new webpack.optimize.DedupePlugin(),
-        new webpack.BannerPlugin(getLicenseComment(packageJson.version)),
+    plugins.push.apply(plugins, [
+        new webpack.BannerPlugin({
+            banner: getLicenseComment(packageJson.version),
+            exclude: './release/likely.css',
+        }),
         new webpack.DefinePlugin({
             'process.env': {
                 NODE_ENV: JSON.stringify('production'),
