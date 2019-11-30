@@ -25,7 +25,7 @@ const plugins = [
 ];
 
 if (isProduction) {
-    plugins.push.apply(plugins, [
+    plugins.push(
         new webpack.BannerPlugin({
             banner: getLicenseComment(packageJson.version),
             exclude: './release/likely.css',
@@ -34,8 +34,8 @@ if (isProduction) {
             'process.env': {
                 NODE_ENV: JSON.stringify('production'),
             },
-        }),
-    ]);
+        })
+    );
 }
 
 module.exports = {
