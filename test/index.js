@@ -274,7 +274,7 @@ describe('Likely', function () {
             });
         });
 
-        // Temporary disabled because pintrest requires being logged in to show relevant popup
+        // Temporary disabled because pinterest requires being logged in to show relevant popup, otherwise it redirects
         // Actually expected regex: /pinterest\.com\/.*zunNbfY\.jpg/
         it('should open popup for Pinterest', function () {
             return driver.executeScript(`
