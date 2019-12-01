@@ -10,7 +10,7 @@ const isProduction = NODE_ENV === 'production';
 const license = `Likely $version by Ilya Birman (ilyabirman.net)
 Rewritten sans jQuery by Evgeny Steblinsky (volter9.github.io)
 Supported by Ivan Akulov (iamakulov.com), Viktor Karpov (vitkarpov.com), 
-Nikolay Rys(linkedin.com/in/nikolay-rys) and contributors
+Nikolay Rys (linkedin.com/in/nikolay-rys) and contributors
 Inspired by Social Likes by Artem Sapegin (sapegin.me)`;
 
 function getLicenseComment(version) {
