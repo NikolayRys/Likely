@@ -186,7 +186,6 @@ describe('Likely', function () {
 
         const testedServices = [
             { name: 'Facebook', likelyName: 'facebook' },
-            { name: 'Google+', likelyName: 'gplus' },
             { name: 'Odnoklassniki', likelyName: 'odnoklassniki' },
             { name: 'Pinterest', likelyName: 'pinterest' },
             { name: 'VK', likelyName: 'vkontakte' },
@@ -208,7 +207,6 @@ describe('Likely', function () {
 
         const testedServices = [
             { name: 'Facebook', likelyName: 'facebook', urlRegex: /facebook\.com/ },
-            { name: 'Google+', likelyName: 'gplus', urlRegex: /plus\.google\.com/ },
             { name: 'Odnoklassniki', likelyName: 'odnoklassniki', urlRegex: /ok\.ru/ },
             { name: 'Pinterest', likelyName: 'pinterest', urlRegex: /pinterest\.com/ },
             { name: 'Telegram', likelyName: 'telegram', urlRegex: /telegram\.me/ },

@@ -66,7 +66,6 @@ Then, create a `div` with the class `likely` and list necessary social networks 
 <div class="likely">
     <div class="facebook">Share</div>
     <div class="twitter">Tweet</div>
-    <div class="gplus">+1</div>
     <div class="vkontakte">Share</div>
     <div class="pinterest">Pin</div>
     <div class="odnoklassniki">Like</div>
@@ -79,7 +78,6 @@ Likely supports following social networks:
 
 * `facebook` – Facebook
 * `twitter` – Twitter
-* `gplus` - Google+
 * `vkontakte` – VK
 * `pinterest` – Pinterest
 * `odnoklassniki` – Odnoklassniki
@@ -173,7 +171,6 @@ To make buttons accessible for keyboard navigation and screen readers add `tabin
 <div class="likely">
     <div class="facebook" tabindex="0" role="link" aria-label="Share on Facebook">Share</div>
     <div class="twitter" tabindex="0" role="link" aria-label="Tweet on Twitter">Tweet</div>
-    <div class="gplus" tabindex="0" role="link" aria-label="Plus One on Google Plus">+1</div>
     <div class="vkontakte" tabindex="0" role="link" aria-label="Share on Vkontakte">Share</div>
     <div class="pinterest" tabindex="0" role="link" aria-label="Pin on Pinterest">Pin</div>
     <div class="odnoklassniki" tabindex="0" role="link" aria-label="Like on Odnoklassniki">Like</div>

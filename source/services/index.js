@@ -6,7 +6,6 @@ import { each } from '../utils';
 
 /* eslint-disable sort-imports */
 import facebook from './facebook';
-import gplus from './gplus';
 import linkedin from './linkedin';
 import odnoklassniki from './odnoklassniki';
 import pinterest from './pinterest';
@@ -19,7 +18,6 @@ import whatsapp from './whatsapp';
 
 const services = {
     facebook,
-    gplus,
     linkedin,
     odnoklassniki,
     pinterest,
