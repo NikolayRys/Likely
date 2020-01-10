@@ -28,7 +28,7 @@ if (isProduction) {
     plugins.push(
         new webpack.BannerPlugin({
             banner: getLicenseComment(packageJson.version),
-            exclude: './release/likely.css',
+            exclude: /\.css$/,
         }),
         new webpack.DefinePlugin({
             'process.env': {
