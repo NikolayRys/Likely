@@ -26,3 +26,6 @@ release/*.map
 # JetBrains
 .idea
 *.iml
+
+# It's a library, so package-lock should not be commited
+package-lock.json
