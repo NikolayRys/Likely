@@ -1,12 +1,12 @@
-# Likely
+![Likely logo](logo.png)
 
 The social sharing buttons that aren’t shabby
-
-[![Likely screenshot](http://i.imgur.com/ipqE5Tu.png)](http://ilyabirman.net/projects/likely/)
 
 ## Take a look
 
 See Likely in action on its [homepage](http://ilyabirman.net/projects/likely/).
+
+[![Likely screenshot](http://i.imgur.com/ipqE5Tu.png)](http://ilyabirman.net/projects/likely/)
 
 ## Get
 
