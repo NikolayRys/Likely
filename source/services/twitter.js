@@ -7,7 +7,7 @@ export default {
     popupWidth: 600,
     popupHeight: 450,
     click() {
-        if (!/[\.\?:\-–—]\s*$/.test(this.options.title)) {
+        if (!/[.?:\-–—]\s*$/.test(this.options.title)) {
             this.options.title += ':';
         }
 

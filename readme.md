@@ -186,4 +186,9 @@ We support IE 10+, Safari 9+ and the latest versions of Chrome, Firefox and Edge
 
 # Development
 Please use the [Github commit style](https://gist.github.com/robertpainsi/b632364184e70900af4ab688decf6f53).
-Before pushing: `npm test`.
+Before pushing make sure the tests are green and the linter does not complain. 
+```bash
+npm test
+npm run-script check-codestyle
+```
+Also please add your own tests if you are submitting a feature.
