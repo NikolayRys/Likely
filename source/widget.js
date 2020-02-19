@@ -26,7 +26,7 @@ class Likely {
      */
     init() {
         toArray(this.container.children)
-             .forEach(this.addButton.bind(this));
+            .forEach(this.addButton.bind(this));
 
         if (this.options.counters) {
             this.timer = setTimeout(this.appear.bind(this), this.options.wait);

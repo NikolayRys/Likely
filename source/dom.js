@@ -20,10 +20,10 @@ global.__likelyCallbacks = {};
  * @returns {String}
  */
 export const wrapSVG = (coords) =>
-  '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" ' +
-  'viewBox="0 0 16 16"><path d="M' +
-  coords +
-  'z"/></svg>';
+    '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" ' +
+    'viewBox="0 0 16 16"><path d="M' +
+    coords +
+    'z"/></svg>';
 
 /**
  * Create node from HTML

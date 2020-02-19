@@ -8,7 +8,7 @@ const bool = { yes: true, no: false };
  */
 export const each = (object, callback) => {
     for (const key in object) {
-        if (object.hasOwnProperty(key)) {
+        if (Object.prototype.hasOwnProperty.call(object, key)) {
             callback(object[key], key);
         }
     }
@@ -37,7 +37,7 @@ export const merge = function () {
 
         if (arg) {
             for (const key in arg) {
-                if (arg.hasOwnProperty(key)) {
+                if (Object.prototype.hasOwnProperty.call(arg, key)) {
                     result[key] = arg[key];
                 }
             }
@@ -56,7 +56,7 @@ export const merge = function () {
  */
 export const extend = (target, subject) => {
     for (const key in subject) {
-        if (subject.hasOwnProperty(key)) {
+        if (Object.prototype.hasOwnProperty.call(subject, key)) {
             target[key] = subject[key];
         }
     }
@@ -85,7 +85,7 @@ export const getDataset = (node) => {
 
     for (i = attributes.length - 1; i >= 0; i--) {
         attribute = attributes[i];
-        if (attribute && attribute.name && (/^data-\w[\w\-]*$/).test(attribute.name)) {
+        if (attribute && attribute.name && (/^data-\w[\w-]*$/).test(attribute.name)) {
             attributeName = attribute.name.substr(5).replace(/-./g, toUpperCase);
             dataset[attributeName] = attribute.value;
         }
@@ -105,7 +105,7 @@ export const bools = (node) => {
     const data = getDataset(node);
 
     for (const key in data) {
-        if (data.hasOwnProperty(key)) {
+        if (Object.prototype.hasOwnProperty.call(data, key)) {
             const value = data[key];
 
             result[key] = bool[value] || value;
@@ -123,7 +123,7 @@ export const bools = (node) => {
  * @returns {String}
  */
 export const template = (text, data) => {
-    return text ? text.replace(/\{([^\}]+)\}/g, function (value, key) {
+    return text ? text.replace(/\{([^}]+)\}/g, function (value, key) {
         return key in data ? data[key] : value;
     }) : '';
 };
@@ -137,7 +137,7 @@ export const template = (text, data) => {
  */
 export const makeUrl = (text, data) => {
     for (const key in data) {
-        if (data.hasOwnProperty(key)) {
+        if (Object.prototype.hasOwnProperty.call(data, key)) {
             data[key] = encodeURIComponent(data[key]);
         }
     }
@@ -183,7 +183,7 @@ export const set = (object, key, value) => {
         }
 
         if (index !== frags.length - 1) {
-            object = object[key];   // eslint-disable-line no-param-reassign
+            object = object[key]; // eslint-disable-line no-param-reassign
         }
 
         last = key;
