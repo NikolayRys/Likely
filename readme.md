@@ -183,3 +183,7 @@ To make buttons accessible for keyboard navigation and screen readers add `tabin
 ## Supported browsers
 
 We support IE 10+, Safari 9+ and the latest versions of Chrome, Firefox and Edge. Likely could work in the older versions too, but we don’t do anything specific to maintain its compatibility with them and don’t test it there.
+
+# Development
+Please use the [Github commit style](https://gist.github.com/robertpainsi/b632364184e70900af4ab688decf6f53).
+Before pushing: `npm test`.
