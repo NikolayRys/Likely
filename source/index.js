@@ -38,23 +38,7 @@ const initWidget = (node, options) => {
     return widget;
 };
 
-/**
- * @deprecated
- * @returns {Likely}
- */
-class likely {
-    constructor() {
-        // eslint-disable-next-line no-console
-        console.warn('likely function is DEPRECATED and will be removed in 3.0. Use likely.initiate instead.');
-        return likely.initiate(...arguments);
-    }
-
-    static initate() {
-        // eslint-disable-next-line no-console
-        console.warn('likely.initate function is DEPRECATED and will be removed in 3.0. Use likely.initiate instead.');
-        return likely.initiate(...arguments);
-    }
-
+const likely = {
     /**
      * Initiate Likely buttons on load
      * @param {Node|Array<Node>|Object} [nodes] a particular node or an array of widgets,
@@ -62,7 +46,7 @@ class likely {
      *                                     tries to init all the widgets
      * @param {Object} [options] additional options for each widget
      */
-    static initiate(nodes, options) {
+    initiate(nodes, options) {
         let realNodes;
         let realOptions;
 
@@ -90,7 +74,7 @@ class likely {
                 initWidget(node, realOptions);
             });
         }
-    }
-}
+    },
+};
 
 module.exports = likely;
