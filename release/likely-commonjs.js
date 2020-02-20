@@ -547,10 +547,6 @@ __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__utils__["each"])(services, fu
 /* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
 // This module is an entry point for CommonJS modules.
 // It’s written with CommonJS imports and exports to make possible doing `module.exports = likely`.
 // This is required so that users work with `require('likely')`, not `require('likely').default`
@@ -596,69 +592,42 @@ var initWidget = function initWidget(node, options) {
     return widget;
 };
 
-/**
- * @deprecated
- * @returns {Likely}
- */
+var likely = {
+    /**
+     * Initiate Likely buttons on load
+     * @param {Node|Array<Node>|Object} [nodes] a particular node or an array of widgets,
+     *                                     if not specified,
+     *                                     tries to init all the widgets
+     * @param {Object} [options] additional options for each widget
+     */
+    initiate: function initiate(nodes, options) {
+        var realNodes = void 0;
+        var realOptions = void 0;
 
-var likely = function () {
-    function likely() {
-        _classCallCheck(this, likely);
+        if (Array.isArray(nodes)) {
+            // An array of nodes was passed
+            realNodes = nodes;
+            realOptions = options;
+        } else if (nodes instanceof Node) {
+            // A single node was passed
+            realNodes = [nodes];
+            realOptions = options;
+        } else {
+            // Options were passed, or the function was called without arguments
+            realNodes = findAll('.' + config.name);
+            realOptions = nodes;
+        }
 
-        // eslint-disable-next-line no-console
-        console.warn('likely function is DEPRECATED and will be removed in 3.0. Use likely.initiate instead.');
-        return likely.initiate.apply(likely, arguments);
+        initWidgets();
+        history.onUrlChange(initWidgets);
+
+        function initWidgets() {
+            realNodes.forEach(function (node) {
+                initWidget(node, realOptions);
+            });
+        }
     }
-
-    _createClass(likely, null, [{
-        key: 'initate',
-        value: function initate() {
-            // eslint-disable-next-line no-console
-            console.warn('likely.initate function is DEPRECATED and will be removed in 3.0. Use likely.initiate instead.');
-            return likely.initiate.apply(likely, arguments);
-        }
-
-        /**
-         * Initiate Likely buttons on load
-         * @param {Node|Array<Node>|Object} [nodes] a particular node or an array of widgets,
-         *                                     if not specified,
-         *                                     tries to init all the widgets
-         * @param {Object} [options] additional options for each widget
-         */
-
-    }, {
-        key: 'initiate',
-        value: function initiate(nodes, options) {
-            var realNodes = void 0;
-            var realOptions = void 0;
-
-            if (Array.isArray(nodes)) {
-                // An array of nodes was passed
-                realNodes = nodes;
-                realOptions = options;
-            } else if (nodes instanceof Node) {
-                // A single node was passed
-                realNodes = [nodes];
-                realOptions = options;
-            } else {
-                // Options were passed, or the function was called without arguments
-                realNodes = findAll('.' + config.name);
-                realOptions = nodes;
-            }
-
-            initWidgets();
-            history.onUrlChange(initWidgets);
-
-            function initWidgets() {
-                realNodes.forEach(function (node) {
-                    initWidget(node, realOptions);
-                });
-            }
-        }
-    }]);
-
-    return likely;
-}();
+};
 
 module.exports = likely;
 
