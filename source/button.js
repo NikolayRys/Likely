@@ -125,7 +125,10 @@ class LikelyButton {
     initCounter() {
         const options = this.options;
 
-        if (options.counters && options.counterNumber) {
+        if (!options.counters) {
+            return;
+        }
+        if (options.counterNumber) {
             this.updateCounter(options.counterNumber);
         }
         else if (options.counterUrl) {

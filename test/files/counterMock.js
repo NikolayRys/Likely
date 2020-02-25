@@ -6,4 +6,6 @@ window.__likelyCounterMock = function (url, callback) {
     setTimeout(function () {
         callback(10);
     }, 0);
+    window.__likelyCounterMock.calls++;
 };
+window.__likelyCounterMock.calls = 0;

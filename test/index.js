@@ -197,6 +197,16 @@ describe('Likely', function () {
                 return expectToContainText(driver, `.likely__counter_${likelyName}`, mockedCounterValue);
             });
         });
+
+        it('should provide the number of __likelyCounterMock function calls', function () {
+            driver.executeScript(`
+                var el = document.createElement('span');
+                el.setAttribute('id', '__likelyCounterMock');
+                el.innerHTML = window.__likelyCounterMock.calls;
+                document.body.appendChild(el);
+            `);
+            return expectToContainText(driver, '#__likelyCounterMock', '4');
+        });
     });
 
     describe('opening sharing dialogs', function () {
@@ -335,6 +345,19 @@ describe('Likely', function () {
                 .then(() => waitUntilLikelyInitialized(driver))
                 .then(() => {
                     return expectClickToOpen(driver, '.likely__widget_twitter', /twitter\.com\/.*Likely%20test%20page/);
+                });
+        });
+        it('should not make requests when counters are disabled [#145]', function () {
+            return getLikelyPage(driver, LikelyPage.ISSUE_145)
+                .then(() => waitUntilLikelyInitialized(driver))
+                .then(() => {
+                    driver.executeScript(`
+                        var el = document.createElement('span');
+                        el.setAttribute('id', '__likelyCounterMock');
+                        el.innerHTML = window.__likelyCounterMock.calls;
+                        document.body.appendChild(el);
+                    `);
+                    return expectToContainText(driver, '#__likelyCounterMock', '0');
                 });
         });
     });
