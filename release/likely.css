@@ -27,7 +27,6 @@
   visibility: inherit;
 }
 .likely__widget {
-  display: inline-block;
   position: relative;
   white-space: nowrap;
 }
