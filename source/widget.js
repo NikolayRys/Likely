@@ -16,7 +16,6 @@ class Likely {
 
         this.countersLeft = 0;
         this.buttons = [];
-        this.number = 0;
 
         this.init();
     }
@@ -63,7 +62,6 @@ class Likely {
             options.url && options.url !== this.options.url
         ) {
             this.countersLeft = this.buttons.length;
-            this.number = 0;
 
             this.buttons.forEach((button) => {
                 button.update(options);
@@ -76,10 +74,7 @@ class Likely {
      *
      * @param {Number} counter
      */
-    updateCounter(counter) {
-        if (counter) {
-            this.number += counter;
-        }
+    updateCounter() {
 
         this.countersLeft--;
 
