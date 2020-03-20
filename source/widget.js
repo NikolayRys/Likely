@@ -74,10 +74,9 @@ class Likely {
     /**
      * Update counter
      *
-     * @param {String} service
      * @param {Number} counter
      */
-    updateCounter(service, counter) {
+    updateCounter(counter) {
         if (counter) {
             this.number += counter;
         }
