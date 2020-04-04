@@ -12,6 +12,7 @@
 .likely {
   opacity: 0;
   font-size: 0 !important;
+  transition: opacity 0.1s ease-in;
 }
 .likely * {
   display: inline-block;
@@ -19,7 +20,6 @@
 }
 .likely_visible {
   opacity: 1;
-  transition: opacity 0.1s ease-in;
 }
 .likely_visible * {
   visibility: inherit;

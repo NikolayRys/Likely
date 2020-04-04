@@ -14,6 +14,7 @@
 .likely {
   opacity: 0;
   font-size: 0 !important;
+  transition: opacity .1s ease-in;
 
   * {
     display: inline-block;
@@ -22,7 +23,6 @@
 
   &_visible {
     opacity: 1;
-    transition: opacity .1s ease-in;
 
     * {
       visibility: inherit;
