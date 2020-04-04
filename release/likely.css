@@ -7,11 +7,9 @@
   text-indent: 0 !important;
   font-weight: normal;
   font-family: Helvetica Neue, Arial, sans-serif;
-  font-size: inherit;
 }
 .likely {
   opacity: 0;
-  font-size: 0 !important;
   transition: opacity 0.1s ease-in;
 }
 .likely * {
@@ -23,6 +21,9 @@
 }
 .likely_visible * {
   visibility: inherit;
+}
+.likely {
+  font-size: 0 !important;
 }
 .likely__widget {
   position: relative;

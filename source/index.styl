@@ -7,13 +7,11 @@
   text-indent: 0 !important;
   font-weight: normal;
   font-family: Helvetica Neue, Arial, sans-serif;
-  font-size: inherit;
 }
 
 // Hide buttons until they are loaded
 .likely {
   opacity: 0;
-  font-size: 0 !important;
   transition: opacity .1s ease-in;
 
   * {
@@ -31,6 +29,7 @@
 }
 
 .likely {
+  font-size: 0 !important;
   // outline: 1px #f00 solid;
   &__widget {
     position: relative;
