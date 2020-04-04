@@ -13,15 +13,15 @@
   opacity: 0;
   font-size: 0 !important;
 }
+.likely * {
+  display: inline-block;
+  visibility: hidden;
+}
 .likely_visible {
   opacity: 1;
   transition: opacity 0.1s ease-in;
 }
-.likely > * {
-  display: inline-block;
-  visibility: hidden;
-}
-.likely_visible > * {
+.likely_visible * {
   visibility: inherit;
 }
 .likely__widget {

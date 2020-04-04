@@ -14,17 +14,20 @@
 .likely {
   opacity: 0;
   font-size: 0 !important;
-}
-.likely_visible {
-  opacity: 1;
-  transition: opacity .1s ease-in;
-}
-.likely > * {
-  display: inline-block;
-  visibility: hidden;
-}
-.likely_visible > * {
-  visibility: inherit;
+
+  * {
+    display: inline-block;
+    visibility: hidden;
+  }
+
+  &_visible {
+    opacity: 1;
+    transition: opacity .1s ease-in;
+
+    * {
+      visibility: inherit;
+    }
+  }
 }
 
 .likely {
