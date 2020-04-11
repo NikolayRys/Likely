@@ -1,13 +1,8 @@
-.likely,
-.likely__widget {
-  display: inline-block;
-}
 .likely {
   opacity: 0;
   transition: opacity 0.1s ease-in;
 }
 .likely * {
-  display: inline-block;
   visibility: hidden;
 }
 .likely_visible {
@@ -17,12 +12,16 @@
   visibility: inherit;
 }
 .likely {
+  display: inline-block;
   font-size: 0 !important;
   font-weight: normal;
   font-family: Helvetica Neue, Arial, sans-serif;
   text-indent: 0 !important;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+.likely * {
+  display: inline-block;
 }
 .likely__widget {
   position: relative;
@@ -32,7 +31,6 @@
 .likely__counter {
   text-decoration: none;
   text-rendering: optimizeLegibility;
-  display: inline-block;
   margin: 0;
   outline: 0;
 }
@@ -77,7 +75,6 @@
 .likely__icon {
   position: relative;
   text-align: left;
-  display: inline-block;
 }
 .likely svg {
   position: absolute;
