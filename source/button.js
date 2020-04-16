@@ -189,6 +189,7 @@ class LikelyButton {
             const url = makeUrl(options.popupUrl, {
                 url: options.url,
                 title: options.title,
+                content: options.content,
             });
 
             if (options.openPopup === false) {
