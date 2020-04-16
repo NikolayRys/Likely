@@ -186,7 +186,7 @@ To make buttons accessible for keyboard navigation and screen readers add `tabin
     <div class="odnoklassniki" tabindex="0" role="link" aria-label="Like on Odnoklassniki">Like</div>
     <div class="telegram" tabindex="0" role="link" aria-label="Send on Telegram">Send</div>
     <div class="linkedin" tabindex="0" role="link" aria-label="Share on LinkedIn">Share</div>
-    <div class="whatsapp" tabindex="0" role="link" aria-label="Send on WhatsApp">Share</div>
+    <div class="whatsapp" tabindex="0" role="link" aria-label="Send on WhatsApp">Send</div>
     <div class="viber" tabindex="0" role="link" aria-label="Send on Viber">Send</div>
 </div>
 ```
