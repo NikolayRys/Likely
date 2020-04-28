@@ -114,7 +114,7 @@ You can configure Likely by specifying `data-*` attributes on a button group or 
 
 ### Common options
 
-These options may be specified on the `div` with the `likely` class (current page URL and title will be used as a fallback).
+These options can be specified on the `div` with the `likely` class (current page URL and title will be used as a fallback).
 
 * `data-url` – URL to share and load counters for (⚠ specify the full URL with the protocol – like in `https://ilyabirman.com` – because some social networks don’t recognize the partial one)
 
@@ -167,7 +167,7 @@ You can set `data-image` and `data-description` attributes to set up an image an
 
 ### Viber
 
-You can set `data-comment` attribute to define a text of the message.
+You can set `data-comment` attribute to specify some text that's going to be added to a shared link (on a separate line).
 
 ```html
 <div class="viber" data-comment="Check this out">Send</div>
