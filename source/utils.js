@@ -108,7 +108,7 @@ export const bools = (node) => {
         if (Object.prototype.hasOwnProperty.call(data, key)) {
             const value = data[key];
 
-            result[key] = bool[value] || value;
+            result[key] = (value in bool) ? bool[value] : value;
         }
     }
 

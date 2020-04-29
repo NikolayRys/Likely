@@ -125,7 +125,10 @@ class LikelyButton {
     initCounter() {
         const options = this.options;
 
-        if (options.counters && options.counterNumber) {
+        if (!options.counters) {
+            return;
+        }
+        if (options.counterNumber) {
             this.updateCounter(options.counterNumber);
         }
         else if (options.counterUrl) {
@@ -189,6 +192,7 @@ class LikelyButton {
             const url = makeUrl(options.popupUrl, {
                 url: options.url,
                 title: options.title,
+                content: options.content,
             });
 
             if (options.openPopup === false) {

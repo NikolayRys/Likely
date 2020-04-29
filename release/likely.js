@@ -80,7 +80,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 20);
+/******/ 	return __webpack_require__(__webpack_require__.s = 21);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -217,7 +217,7 @@ var bools = function bools(node) {
         if (Object.prototype.hasOwnProperty.call(data, key)) {
             var value = data[key];
 
-            result[key] = bool[value] || value;
+            result[key] = value in bool ? bool[value] : value;
         }
     }
 
@@ -505,8 +505,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__pinterest__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__telegram__ = __webpack_require__(14);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__twitter__ = __webpack_require__(15);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__vkontakte__ = __webpack_require__(16);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__whatsapp__ = __webpack_require__(17);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__vkontakte__ = __webpack_require__(17);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__whatsapp__ = __webpack_require__(18);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__viber__ = __webpack_require__(16);
 /**
  * Social network services
  */
@@ -514,6 +515,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 /* eslint-disable sort-imports */
+
 
 
 
@@ -532,7 +534,8 @@ var services = {
     telegram: __WEBPACK_IMPORTED_MODULE_6__telegram__["a" /* default */],
     twitter: __WEBPACK_IMPORTED_MODULE_7__twitter__["a" /* default */],
     vkontakte: __WEBPACK_IMPORTED_MODULE_8__vkontakte__["a" /* default */],
-    whatsapp: __WEBPACK_IMPORTED_MODULE_9__whatsapp__["a" /* default */]
+    whatsapp: __WEBPACK_IMPORTED_MODULE_9__whatsapp__["a" /* default */],
+    viber: __WEBPACK_IMPORTED_MODULE_10__viber__["a" /* default */]
 };
 
 __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__utils__["each"])(services, function (service, key) {
@@ -559,14 +562,14 @@ var _require = __webpack_require__(0),
     getDefaultUrl = _require.getDefaultUrl,
     merge = _require.merge;
 
-var Likely = __webpack_require__(18).default;
+var Likely = __webpack_require__(19).default;
 var config = __webpack_require__(2).default;
 
 var _require2 = __webpack_require__(1),
     findAll = _require2.findAll;
 
 var history = __webpack_require__(8).default;
-__webpack_require__(19);
+__webpack_require__(20);
 
 /**
  * @param {Node} node
@@ -826,7 +829,10 @@ var LikelyButton = function () {
         value: function initCounter() {
             var options = this.options;
 
-            if (options.counters && options.counterNumber) {
+            if (!options.counters) {
+                return;
+            }
+            if (options.counterNumber) {
                 this.updateCounter(options.counterNumber);
             } else if (options.counterUrl) {
                 __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__fetch__["a" /* default */])(this.service, options.url, options)(this.updateCounter.bind(this));
@@ -891,7 +897,8 @@ var LikelyButton = function () {
             if (options.click.call(this)) {
                 var url = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__utils__["makeUrl"])(options.popupUrl, {
                     url: options.url,
-                    title: options.title
+                    title: options.title,
+                    content: options.content
                 });
 
                 if (options.openPopup === false) {
@@ -1238,6 +1245,31 @@ __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__utils__["set"])(__WEBPACK_IMP
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/**
+ * Viber service provider
+ */
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+    popupUrl: 'viber://forward?text={content}',
+    click: function click() {
+        if (Object.prototype.hasOwnProperty.call(this.widget.dataset, 'comment')) {
+            this.options.content = this.options.url + '\n' + this.widget.dataset.comment;
+        } else {
+            this.options.content = this.options.url;
+        }
+
+        return true;
+    },
+
+    openPopup: false,
+    svgIconPath: '8.52,6.76 C 8.52,6.81 8.66,6.91 8.85,6.97 9.02,7.03 9.10,7.01 9.04,6.89 8.91,6.68 8.52,6.60 8.52,6.76 Z M 5.88,5.16 C 5.03,5.53 4.63,6.14 4.47,7.39 4.28,8.79 4.63,10.01 5.40,10.57 5.92,10.94 6.03,11.16 6.03,11.83 6.03,11.83 6.05,12.66 6.05,12.66 6.05,12.66 6.71,11.89 6.71,11.89 7.29,11.24 7.50,11.14 8.31,11.12 10.60,11.10 11.51,10.27 11.51,8.16 11.53,6.34 11.20,5.59 10.16,5.18 9.14,4.78 6.79,4.78 5.88,5.16 Z M 9.56,6.22 C 10.22,6.81 10.68,8.30 10.20,8.30 10.08,8.30 9.97,8.06 9.95,7.74 9.95,7.74 9.93,7.19 9.93,7.19 9.93,7.19 9.77,7.70 9.77,7.70 9.77,7.70 9.62,8.20 9.62,8.20 9.62,8.20 9.39,7.70 9.39,7.70 9.21,7.29 9.16,7.27 9.16,7.57 9.14,7.94 9.10,7.92 8.66,7.47 8.39,7.21 8.23,6.91 8.27,6.81 8.33,6.72 8.23,6.56 8.08,6.46 7.88,6.34 7.94,6.28 8.29,6.28 8.58,6.28 9.04,6.48 9.33,6.72 9.33,6.72 9.87,7.19 9.87,7.19 9.87,7.19 9.37,6.62 9.37,6.62 9.08,6.32 8.64,6.08 8.39,6.08 8.12,6.08 7.85,5.97 7.79,5.87 7.50,5.41 8.96,5.69 9.56,6.22 Z M 7.00,6.40 C 7.25,6.78 7.29,7.01 7.13,7.27 6.63,8.02 7.92,9.36 8.71,8.87 9.02,8.69 9.21,8.71 9.64,8.97 10.29,9.40 10.33,9.74 9.79,10.21 9.41,10.53 9.35,10.53 8.37,10.07 6.44,9.09 5.05,6.91 5.86,6.12 6.25,5.73 6.61,5.83 7.00,6.40 Z M 6.59,0.61 C 4.09,1.03 1.52,3.10 0.62,5.41 -0.02,7.05 -0.02,9.38 0.62,11.04 1.29,12.74 3.35,14.74 5.09,15.39 6.82,16.02 9.18,16.02 10.91,15.39 12.65,14.74 14.71,12.74 15.38,11.04 16.02,9.36 16.02,7.05 15.38,5.37 14.73,3.71 12.63,1.66 11.01,1.07 9.60,0.57 7.92,0.38 6.59,0.61 Z M 10.81,4.58 C 11.97,5.23 12.34,6.10 12.32,8.02 12.32,10.71 11.41,11.71 8.77,11.89 7.65,11.97 7.27,12.09 6.82,12.52 6.13,13.12 5.61,13.00 5.61,12.21 5.61,11.81 5.44,11.54 5.01,11.30 4.03,10.77 3.66,9.86 3.66,8.00 3.66,4.94 4.80,3.99 8.33,4.11 9.64,4.15 10.29,4.27 10.81,4.58'
+});
+
+/***/ }),
+/* 17 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__dom__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__utils__ = __webpack_require__(0);
 /**
@@ -1271,7 +1303,7 @@ __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__utils__["set"])(__WEBPACK_IMP
 /* harmony default export */ __webpack_exports__["a"] = (vkontakte);
 
 /***/ }),
-/* 17 */
+/* 18 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1290,7 +1322,7 @@ __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__utils__["set"])(__WEBPACK_IMP
 });
 
 /***/ }),
-/* 18 */
+/* 19 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1343,6 +1375,7 @@ var Likely = function () {
                 this.timeout = setTimeout(this.ready.bind(this), this.options.timeout);
             } else {
                 this.appear();
+                this.ready();
             }
         }
 
@@ -1422,11 +1455,8 @@ var Likely = function () {
     }, {
         key: 'ready',
         value: function ready() {
-            if (this.timeout) {
-                clearTimeout(this.timeout);
-
-                this.container.classList.add(__WEBPACK_IMPORTED_MODULE_1__config__["default"].name + '_ready');
-            }
+            clearTimeout(this.timeout);
+            this.container.classList.add(__WEBPACK_IMPORTED_MODULE_1__config__["default"].name + '_ready');
         }
     }]);
 
@@ -1436,13 +1466,13 @@ var Likely = function () {
 /* harmony default export */ __webpack_exports__["default"] = (Likely);
 
 /***/ }),
-/* 19 */
+/* 20 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 
 /***/ }),
-/* 20 */
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // This module is an entry point when `likely.js` is just dropped into the browser.

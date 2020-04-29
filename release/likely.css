@@ -341,6 +341,35 @@
     background: rgba(236,236,236,0.16);
   }
 }
+.likely__widget_viber {
+  fill: #7360f2;
+}
+.likely__widget_viber:hover,
+.likely__widget_viber:active,
+.likely__widget_viber:focus {
+  background: rgba(220,215,251,0.8);
+}
+@media (hover: none) {
+  .likely__widget_viber:hover,
+  .likely__widget_viber:active,
+  .likely__widget_viber:focus {
+    background: rgba(231,231,231,0.8);
+  }
+}
+.likely-light .likely__widget_viber:hover,
+.likely-light .likely__widget_viber:active,
+.likely-light .likely__widget_viber:focus {
+  text-shadow: #7360f2 0 0 0.25em;
+  background: rgba(115,96,242,0.7);
+}
+@media (hover: none) {
+  .likely-light .likely__widget_viber:hover,
+  .likely-light .likely__widget_viber:active,
+  .likely-light .likely__widget_viber:focus {
+    text-shadow: rgba(0,0,0,0.2) 0 0 0.33em;
+    background: rgba(236,236,236,0.16);
+  }
+}
 /* Size options */
 .likely {
   margin: 0 -5px -10px;
