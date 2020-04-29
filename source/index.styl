@@ -1,38 +1,35 @@
-.likely,
-.likely__widget {
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  display: inline-block;
-  margin: 0;
-  padding: 0;
-  text-indent: 0 !important;
-  list-style: none !important;
-  font-weight: normal;
-  font-family: Helvetica Neue, Arial, sans-serif;
-  font-size: inherit;
-}
-
 // Hide buttons until they are loaded
 .likely {
   opacity: 0;
-  font-size: 0 !important;
-}
-.likely_visible {
-  opacity: 1;
   transition: opacity .1s ease-in;
-}
-.likely > * {
-  display: inline-block;
-  visibility: hidden;
-}
-.likely_visible > * {
-  visibility: inherit;
+
+  * {
+    visibility: hidden;
+  }
+
+  &_visible {
+    opacity: 1;
+
+    * {
+      visibility: inherit;
+    }
+  }
 }
 
 .likely {
-  // outline: 1px #f00 solid;
-  &__widget {
+  display: inline-block;
+  font-size: 0 !important;
+  font-weight: normal;
+  font-family: Helvetica Neue, Arial, sans-serif;
+  text-indent: 0 !important;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  * {
     display: inline-block;
+  }
+
+  &__widget {
     position: relative;
     white-space: nowrap;
   }
@@ -41,7 +38,6 @@
   &__counter {
     text-decoration: none;
     text-rendering: optimizeLegibility;
-    display: inline-block;
     margin: 0;
     outline: 0;
   }
@@ -55,7 +51,6 @@
   &__counter {
     display: none;
     position: relative;
-    font-weight: normal;
   }
 
   &_ready &__counter {
@@ -74,7 +69,6 @@
   }
 
   &__widget {
-
     transition: widget-transition = background .33s ease-out, color .33s ease-out, fill .33s ease-out;
 
     &:hover, &:active, &:focus {
@@ -86,13 +80,11 @@
         cursor: unset;
       }
     }
-
   }
 
   &__icon {
     position: relative;
     text-align: left;
-    display: inline-block;
   }
 
   svg {
@@ -112,7 +104,6 @@
   &__counter {
     text-align: center;
   }
-
 }
 
 /* Style options */
