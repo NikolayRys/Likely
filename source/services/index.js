@@ -13,6 +13,7 @@ import telegram from './telegram';
 import twitter from './twitter';
 import vkontakte from './vkontakte';
 import whatsapp from './whatsapp';
+import viber from './viber';
 /* eslint-enable sort-imports */
 
 
@@ -25,6 +26,7 @@ const services = {
     twitter,
     vkontakte,
     whatsapp,
+    viber,
 };
 
 each(services, (service, key) => {
