@@ -63,8 +63,8 @@ export const getJSON = (url, callback) => {
     const name = encodeURIComponent(`random_fun_${++gid}`);
 
     const concreteUrl = url.replace(
-        /callback=(\?)/,
-        `callback=__likelyCallbacks.${name}`
+        /(callback|jsonp)=(\?)/,
+        `$1=__likelyCallbacks.${name}`
     );
 
     global.__likelyCallbacks[name] = callback;
