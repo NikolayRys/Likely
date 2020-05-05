@@ -244,3 +244,11 @@ npm test
 npm run-script check-codestyle
 ```
 Also please add your own tests if you are submitting a feature.
+
+## Release
+
+Make sure you build a zip archive before you publish the package to NPM:
+
+```
+$ npm run release
+```

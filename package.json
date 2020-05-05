@@ -12,7 +12,10 @@
   "scripts": {
     "dev": "cross-env NODE_ENV=development webpack",
     "build": "cross-env NODE_ENV=production webpack && cross-env NODE_ENV=production webpack -p --config webpack.config.min.js",
-    "zip": "cross-env-shell bestzip release/$npm_package_name-$npm_package_version.zip release/likely.css release/likely.js",
+    "prepare-release": "mkdir release/archive && cp release/likely.min.js release/archive/likely.js && cp release/likely.min.css release/archive/likely.css",
+    "zip": "cross-env-shell bestzip release/$npm_package_name-$npm_package_version.zip release/archive/*",
+    "clean-release": "rm -rf release/archive",
+    "release": "npm run prepare-release && npm run zip && npm run clean-release",
     "test": "npm run integration-tests && npm run check-codestyle",
     "check-codestyle": "eslint ./",
     "fix-codestyle": "eslint ./ --fix",
