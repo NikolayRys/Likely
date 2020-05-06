@@ -189,6 +189,7 @@ describe('Likely', function () {
             { name: 'Odnoklassniki', likelyName: 'odnoklassniki' },
             { name: 'Pinterest', likelyName: 'pinterest' },
             { name: 'VK', likelyName: 'vkontakte' },
+            { name: 'Reddit', likelyName: 'reddit' },
         ];
 
         testedServices.forEach(({ name, likelyName }) => {
@@ -205,7 +206,7 @@ describe('Likely', function () {
                 el.innerHTML = window.__likelyCounterMock.calls;
                 document.body.appendChild(el);
             `);
-            return expectToContainText(driver, '#__likelyCounterMock', '4');
+            return expectToContainText(driver, '#__likelyCounterMock', '5');
         });
     });
 
@@ -223,6 +224,7 @@ describe('Likely', function () {
             { name: 'Twitter', likelyName: 'twitter', urlRegex: /twitter\.com/ },
             { name: 'VK', likelyName: 'vkontakte', urlRegex: /vk\.com/ },
             { name: 'LinkedIn', likelyName: 'linkedin', urlRegex: /linkedin\.com/ },
+            { name: 'Reddit', likelyName: 'reddit', urlRegex: /reddit\.com/ },
         ];
 
         testedServices.forEach(({ name, likelyName, urlRegex }) => {
