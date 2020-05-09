@@ -80,7 +80,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 22);
+/******/ 	return __webpack_require__(__webpack_require__.s = 23);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -400,7 +400,7 @@ var getScript = function getScript(url) {
 var getJSON = function getJSON(url, callback) {
     var name = encodeURIComponent('random_fun_' + ++gid);
 
-    var concreteUrl = url.replace(/callback=(\?)/, 'callback=__likelyCallbacks.' + name);
+    var concreteUrl = url.replace(/(callback|jsonp)=(\?)/, '$1=__likelyCallbacks.' + name);
 
     global.__likelyCallbacks[name] = callback;
 
@@ -503,11 +503,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__linkedin__ = __webpack_require__(11);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__odnoklassniki__ = __webpack_require__(12);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__pinterest__ = __webpack_require__(13);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__telegram__ = __webpack_require__(14);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__twitter__ = __webpack_require__(15);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__vkontakte__ = __webpack_require__(17);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__whatsapp__ = __webpack_require__(18);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__viber__ = __webpack_require__(16);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__telegram__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__twitter__ = __webpack_require__(16);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__vkontakte__ = __webpack_require__(18);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__whatsapp__ = __webpack_require__(19);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__viber__ = __webpack_require__(17);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__reddit__ = __webpack_require__(14);
 /**
  * Social network services
  */
@@ -515,6 +516,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 /* eslint-disable sort-imports */
+
 
 
 
@@ -535,7 +537,8 @@ var services = {
     twitter: __WEBPACK_IMPORTED_MODULE_7__twitter__["a" /* default */],
     vkontakte: __WEBPACK_IMPORTED_MODULE_8__vkontakte__["a" /* default */],
     whatsapp: __WEBPACK_IMPORTED_MODULE_9__whatsapp__["a" /* default */],
-    viber: __WEBPACK_IMPORTED_MODULE_10__viber__["a" /* default */]
+    viber: __WEBPACK_IMPORTED_MODULE_10__viber__["a" /* default */],
+    reddit: __WEBPACK_IMPORTED_MODULE_11__reddit__["a" /* default */]
 };
 
 __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__utils__["each"])(services, function (service, key) {
@@ -562,14 +565,14 @@ var _require = __webpack_require__(0),
     getDefaultUrl = _require.getDefaultUrl,
     merge = _require.merge;
 
-var Likely = __webpack_require__(19).default;
+var Likely = __webpack_require__(20).default;
 var config = __webpack_require__(2).default;
 
 var _require2 = __webpack_require__(1),
     findAll = _require2.findAll;
 
 var history = __webpack_require__(8).default;
-__webpack_require__(20);
+__webpack_require__(21);
 
 /**
  * @param {Node} node
@@ -1205,6 +1208,32 @@ __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__utils__["set"])(__WEBPACK_IMP
 
 "use strict";
 /**
+ * Reddit service provider
+ *
+ * Notes:
+ * 1) How are shares counted
+ * The number of upvotes minus the number of down votes for a specific URL submitted on Reddit
+ * `children[0].data.score` - contain pre calculated value
+ */
+/* harmony default export */ __webpack_exports__["a"] = ({
+    counterUrl: 'https://www.reddit.com/api/info.json?url={url}&limit=1&jsonp=?',
+    convertNumber: function convertNumber(response) {
+        var children = response.data.children[0] || {};
+
+        return children.data.score ? children.data.score : undefined;
+    },
+    popupUrl: 'https://reddit.com/submit?url={url}&title={title}',
+    popupWidth: 600,
+    popupHeight: 500,
+    svgIconPath: '16 8 C 16 12.418 12.418 16 8 16 C 3.582 16 0 12.418 0 8 C 0 3.582 3.582 0 8 0 C 12.418 0 16 3.582 16 8 Z  M 9.836 9.665 C 9.357 9.665 8.965 9.241 9.001 8.764 C 9.034 8.336 9.406 7.991 9.836 7.991 C 10.314 7.991 10.707 8.415 10.67 8.892 C 10.637 9.32 10.265 9.665 9.836 9.665 L 9.836 9.665 Z  M 9.98 11.033 C 9.413 11.6 8.324 11.645 8 11.645 C 7.676 11.645 6.587 11.6 6.02 11.033 C 5.939 10.952 5.939 10.808 6.02 10.727 C 6.101 10.646 6.245 10.646 6.326 10.727 C 6.686 11.087 7.451 11.213 8 11.213 C 8.549 11.213 9.314 11.087 9.674 10.727 C 9.755 10.646 9.899 10.646 9.98 10.727 C 10.061 10.808 10.061 10.952 9.98 11.033 Z  M 5.336 8.828 C 5.336 8.35 5.76 7.957 6.237 7.993 C 6.666 8.026 7.01 8.398 7.01 8.828 C 7.01 9.306 6.586 9.699 6.109 9.662 C 5.681 9.629 5.336 9.257 5.336 8.828 L 5.336 8.828 Z  M 13.336 7.991 C 13.336 7.343 12.814 6.821 12.166 6.821 C 11.852 6.821 11.564 6.947 11.357 7.145 C 10.556 6.569 9.458 6.2 8.234 6.155 L 8.765 3.654 L 10.502 4.022 C 10.52 4.463 10.889 4.814 11.33 4.814 C 11.789 4.814 12.166 4.445 12.166 3.978 C 12.166 3.519 11.798 3.141 11.33 3.141 C 11.006 3.141 10.718 3.33 10.583 3.609 L 8.648 3.195 C 8.537 3.176 8.424 3.241 8.405 3.357 L 8.405 3.357 L 7.811 6.146 C 6.569 6.182 5.453 6.551 4.643 7.136 C 4.436 6.938 4.148 6.812 3.834 6.812 C 3.186 6.812 2.664 7.334 2.664 7.982 C 2.664 8.459 2.943 8.864 3.357 9.044 C 3.339 9.161 3.33 9.278 3.33 9.395 C 3.33 11.186 5.417 12.643 8 12.643 C 10.574 12.643 12.67 11.186 12.67 9.395 C 12.67 9.278 12.661 9.161 12.643 9.044 C 13.048 8.864 13.336 8.45 13.336 7.982 L 13.336 7.991'
+});
+
+/***/ }),
+/* 15 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/**
  * Telegram service provider
  */
 
@@ -1216,7 +1245,7 @@ __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__utils__["set"])(__WEBPACK_IMP
 });
 
 /***/ }),
-/* 15 */
+/* 16 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1241,7 +1270,7 @@ __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__utils__["set"])(__WEBPACK_IMP
 });
 
 /***/ }),
-/* 16 */
+/* 17 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1266,7 +1295,7 @@ __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__utils__["set"])(__WEBPACK_IMP
 });
 
 /***/ }),
-/* 17 */
+/* 18 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1293,7 +1322,7 @@ var vkontakte = {
     popupUrl: 'https://vk.com/share.php?url={url}&title={title}',
     popupWidth: 550,
     popupHeight: 330,
-    svgIconPath: '7.828 12.526h.957s.288-.032.436-.19c.14-.147.14-.42.14-.42s-.02-1.284.58-1.473c.59-.187 1.34 1.24 2.14 1.788.61.42 1.07.33 1.07.33l2.14-.03s1.12-.07.59-.95c-.04-.07-.3-.65-1.58-1.84-1.34-1.24-1.16-1.04.45-3.19.98-1.31 1.38-2.11 1.25-2.45-.11-.32-.84-.24-.84-.24l-2.4.02s-.18-.02-.31.06-.21.26-.21.26-.38 1.02-.89 1.88C10.27 7.9 9.84 8 9.67 7.88c-.403-.26-.3-1.053-.3-1.62 0-1.76.27-2.5-.52-2.69-.26-.06-.454-.1-1.123-.11-.86-.01-1.585.006-1.996.207-.27.135-.48.434-.36.45.16.02.52.098.71.358.25.337.24 1.09.24 1.09s.14 2.077-.33 2.335c-.33.174-.77-.187-1.73-1.837-.49-.84-.86-1.78-.86-1.78s-.07-.17-.2-.27c-.15-.11-.37-.15-.37-.15l-2.29.02s-.34.01-.46.16c-.11.13-.01.41-.01.41s1.79 4.19 3.82 6.3c1.86 1.935 3.97 1.81 3.97 1.81'
+    svgIconPath: 'M91.5385 0.881119H48.951C10.0839 0.881119 0.881119 10.0839 0.881119 48.951V91.5385C0.881119 130.406 10.0839 139.608 48.951 139.608H91.5385C130.406 139.608 139.608 130.406 139.608 91.5385V48.951C139.608 10.0839 130.308 0.881119 91.5385 0.881119ZM112.881 99.8601H102.797C98.979 99.8601 97.8042 96.8252 90.951 89.8741C84.979 84.0979 82.3357 83.3147 80.8671 83.3147C78.8112 83.3147 78.2238 83.9021 78.2238 86.7413V95.8461C78.2238 98.2937 77.4406 99.7622 70.979 99.7622C60.3077 99.7622 48.4615 93.3007 40.1399 81.2587C27.6084 63.6364 24.1818 50.4196 24.1818 47.6783C24.1818 46.2098 24.7692 44.8392 27.6084 44.8392H37.6923C40.2378 44.8392 41.2168 46.014 42.1958 48.7552C47.1888 63.1469 55.5105 75.7762 58.9371 75.7762C60.2098 75.7762 60.7972 75.1888 60.7972 71.958V57.0769C60.4056 50.2238 56.7832 49.6364 56.7832 47.1888C56.7832 46.014 57.7622 44.8392 59.3287 44.8392H75.1888C77.3427 44.8392 78.1259 46.014 78.1259 48.5594V68.6294C78.1259 70.7832 79.1049 71.5664 79.6923 71.5664C80.965 71.5664 82.042 70.7832 84.3916 68.4336C91.6364 60.3077 96.8252 47.7762 96.8252 47.7762C97.5105 46.3077 98.6853 44.9371 101.231 44.9371H111.315C114.35 44.9371 115.035 46.5035 114.35 48.6573C113.077 54.5315 100.741 71.958 100.741 71.958C99.6643 73.7203 99.2727 74.5035 100.741 76.4615C101.818 77.9301 105.343 80.965 107.692 83.7063C112 88.6014 115.329 92.7133 116.21 95.5524C117.189 98.3916 115.72 99.8601 112.881 99.8601Z'
 };
 
 __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__utils__["set"])(__WEBPACK_IMPORTED_MODULE_0__dom__["global"], 'VK.Share.count', function (index, count) {
@@ -1303,7 +1332,7 @@ __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__utils__["set"])(__WEBPACK_IMP
 /* harmony default export */ __webpack_exports__["a"] = (vkontakte);
 
 /***/ }),
-/* 18 */
+/* 19 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1322,7 +1351,7 @@ __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__utils__["set"])(__WEBPACK_IMP
 });
 
 /***/ }),
-/* 19 */
+/* 20 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1466,14 +1495,14 @@ var Likely = function () {
 /* harmony default export */ __webpack_exports__["default"] = (Likely);
 
 /***/ }),
-/* 20 */
+/* 21 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 
 /***/ }),
-/* 21 */,
-/* 22 */
+/* 22 */,
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__(4);
