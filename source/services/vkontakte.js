@@ -1,5 +1,5 @@
 /**
- * Vkontakte service provider
+ * VK service provider
  */
 
 import { getScript, global } from '../dom';

@@ -284,12 +284,12 @@
   }
 }
 .likely__widget_vkontakte {
-  fill: #526e8f;
+  fill: #4680c2;
 }
 .likely__widget_vkontakte:hover,
 .likely__widget_vkontakte:active,
 .likely__widget_vkontakte:focus {
-  background: rgba(211,218,227,0.8);
+  background: rgba(208,223,239,0.8);
 }
 @media (hover: none) {
   .likely__widget_vkontakte:hover,
@@ -301,8 +301,8 @@
 .likely-light .likely__widget_vkontakte:hover,
 .likely-light .likely__widget_vkontakte:active,
 .likely-light .likely__widget_vkontakte:focus {
-  text-shadow: #526e8f 0 0 0.25em;
-  background: rgba(82,110,143,0.7);
+  text-shadow: #4680c2 0 0 0.25em;
+  background: rgba(70,128,194,0.7);
 }
 @media (hover: none) {
   .likely-light .likely__widget_vkontakte:hover,
