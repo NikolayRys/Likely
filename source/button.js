@@ -22,11 +22,12 @@ class LikelyButton {
         this.serviceName = this.detectService();
 
         this.detectParams();
+    }
 
+    prepare() {
         if (this.serviceName) {
             this.initHtml();
-
-            setTimeout(this.displayCounterValue.bind(this), 0);
+            this.registerAsCounted();
         }
     }
 
@@ -38,13 +39,11 @@ class LikelyButton {
     update(options) {
         const className = `.${config.prefix}counter`;
         const counters = findAll(className, this.widget);
-
         extend(this.options, merge({ forceUpdate: false }, options));
         counters.forEach((node) => {
             node.parentNode.removeChild(node);
         });
-
-        this.displayCounterValue();
+        this.registerAsCounted();
     }
 
     /**
@@ -111,7 +110,7 @@ class LikelyButton {
     /**
      * Fetch or get cached counter value and update the counter
      */
-    displayCounterValue() {
+    registerAsCounted() {
         const options = this.options;
         if (options.counterUrl) {
             connectButtonToService(this.serviceName, this.setDisplayedCounter.bind(this), options);
