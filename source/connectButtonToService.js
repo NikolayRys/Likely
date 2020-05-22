@@ -6,22 +6,18 @@ const broadcastersForServices = {};
 function UpdateBroadcaster(counterUrl, pageUrl) {
     this.url = interpolateUrl(counterUrl, { url: pageUrl });
     this.setters = [];
-    this.cachedValue = undefined;
+    this.value = undefined;
 }
-
-UpdateBroadcaster.prototype.fetchFromService = function (serviceName) {
-    services[serviceName].fetch(this);
-};
 
 UpdateBroadcaster.prototype.register = function (buttonSetter) {
     this.setters.push(buttonSetter);
-    if (this.cachedValue) {
-        buttonSetter(this.cachedValue);
+    if (this.value) {
+        buttonSetter(this.value);
     }
 };
 
 UpdateBroadcaster.prototype.trigger = function (value) {
-    this.cachedValue = value;
+    this.value = value;
     this.setters.forEach((buttonSetter) => {
         buttonSetter(value);
     });
@@ -43,8 +39,8 @@ export default (serviceName, buttonSetter, options) => {
     let broadcaster = broadcastersForUrls[options.url];
 
     if (!broadcaster || options.forceUpdate) {
-        broadcaster = new UpdateBroadcaster(options.counterUrl, options.url) ;
-        broadcaster.fetchFromService(serviceName);
+        broadcaster = new UpdateBroadcaster(options.counterUrl, options.url);
+        services[serviceName].fetch(broadcaster);
         broadcastersForUrls[options.url] = broadcaster;
     }
     broadcaster.register(buttonSetter);
