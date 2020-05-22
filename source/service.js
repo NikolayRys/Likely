@@ -2,13 +2,13 @@ import { getJSON, global } from './dom';
 
 /**
  * @param {String} url
- * @param {Function} factory
+ * @param {Function} updateBroadcaster
  */
-const counter = function (url, factory) {
-    getJSON(url, (count) => {
+const defaultFetch = function (updateBroadcaster) {
+    getJSON(updateBroadcaster.url, (count) => {
         try {
             const convertedNumber = typeof this.convertNumber === 'function' ? this.convertNumber(count) : count;
-            factory(convertedNumber);
+            updateBroadcaster.trigger(convertedNumber);
         }
         catch (e) {}
     });
@@ -18,10 +18,10 @@ const counter = function (url, factory) {
  * @param {Object} options
  */
 export default (options) => {
-    // __likelyCounterMock is used for UI testing and is set on window
+    // __likelyFetchMock is used for UI testing and is set on window
     // because this function is executed right when Likely is loaded.
-    // There’s currently no way to do `likely.__counterMock = ...`
+    // There’s currently no way to do `likely.__likelyFetchMock = ...`
     // before running this method.
-    options.counter = global.__likelyCounterMock || options.counter || counter;
+    options.fetch = global.__likelyFetchMock || options.fetch || defaultFetch;
     options.click = options.click || (() => true);
 };
