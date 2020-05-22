@@ -72,6 +72,8 @@ Then, create a `div` with the class `likely` and list necessary social networks 
     <div class="telegram">Send</div>
     <div class="linkedin">Share</div>
     <div class="whatsapp">Send</div>
+    <div class="viber">Send</div>
+    <div class="reddit">Share</div>
 </div>
 ```
 Likely supports following social networks:
@@ -84,6 +86,8 @@ Likely supports following social networks:
 * `telegram` – Telegram
 * `linkedin` – LinkedIn
 * `whatsapp` – WhatsApp
+* `viber` – Viber
+* `reddit` – Reddit
 
 If you need several Likely widgets on the page, just create another `div` with the class `likely` and list the social networks in it.
 
@@ -112,12 +116,14 @@ You can configure Likely by specifying `data-*` attributes on a button group or 
 
 ### Common options
 
-These options should be specified on the `div` with the `likely` class.
+These options can be specified on the `div` with the `likely` class (current page URL and title will be used as a fallback).
 
 * `data-url` – URL to share and load counters for (⚠ specify the full URL with the protocol – like in `https://ilyabirman.com` – because some social networks don’t recognize the partial one)
 
 
 * `data-title` – Page title
+
+* `data-counters` – pass "no" to disable counters (enabled by default)
 
 ```html
 <div class="likely" data-url="https://github.com/ilyabirman/Likely">
@@ -163,6 +169,50 @@ You can set `data-image` and `data-description` attributes to set up an image an
 <div class="vkontakte" data-image="https://placekitten.com/200/400" data-description="Check this out">Share</div>
 ```
 
+### Viber
+
+You can set `data-comment` attribute to specify some text that's going to be added to a shared link (on a separate line).
+
+```html
+<div class="viber" data-comment="Check this out">Send</div>
+```
+
+### Reinitialize configuration on change data attributes
+
+If you need to dynamically change the widget's configuration for sharing use, you can re-initialize the widget and invoke the configuration update logic on the *Likely* instance using the `init` method.
+
+
+1. Likely widget in html template
+
+```html
+<div class="likely" data-url="https://google.com">
+    <div class="twitter">Tweet</div>
+    <div class="facebook">Share</div>
+    <div class="vkontakte">Share</div>
+    <div class="odnoklassniki">Like</div>
+    <div class="pinterest">Pin</div>
+    <div class="telegram">Send</div>
+    <div class="linkedin">Share</div>
+    <div class="whatsapp">Send</div>
+    <div class="viber">Send</div>
+</div>
+```
+
+2. Attributes for button elements are updated.
+
+3. Logic for update configuration using *Likely* as an example
+
+```javascript
+// find in dom likely
+const likelyWidget = document.querySelector(".likely");
+
+// find instance of likely 
+const likelyInstance = likelyWidget.likely;
+
+// Call inner method for update options from data attributes
+likelyInstance.init();
+```
+
 ### Accessibility Settings
 
 To make buttons accessible for keyboard navigation and screen readers add `tabindex`, `role` and `aria-label` attributes:
@@ -176,7 +226,9 @@ To make buttons accessible for keyboard navigation and screen readers add `tabin
     <div class="odnoklassniki" tabindex="0" role="link" aria-label="Like on Odnoklassniki">Like</div>
     <div class="telegram" tabindex="0" role="link" aria-label="Send on Telegram">Send</div>
     <div class="linkedin" tabindex="0" role="link" aria-label="Share on LinkedIn">Share</div>
-    <div class="whatsapp" tabindex="0" role="link" aria-label="Send on WhatsApp">Share</div>
+    <div class="whatsapp" tabindex="0" role="link" aria-label="Send on WhatsApp">Send</div>
+    <div class="viber" tabindex="0" role="link" aria-label="Send on Viber">Send</div>
+    <div class="reddit" tabindex="0" role="link" aria-label="Share on Reddit">Share</div>
 </div>
 ```
 

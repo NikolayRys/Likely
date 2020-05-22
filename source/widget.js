@@ -25,6 +25,7 @@ class Likely {
         }
         else {
             this.appear();
+            this.ready();
         }
         this.materializeButtons();
     }
@@ -89,11 +90,8 @@ class Likely {
      * Get. Set. Ready.
      */
     ready() {
-        if (this.timeout) {
-            clearTimeout(this.timeout);
-
-            this.container.classList.add(`${config.name}_ready`);
-        }
+        clearTimeout(this.timeout);
+        this.container.classList.add(`${config.name}_ready`);
     }
 }
 

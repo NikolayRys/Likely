@@ -1,33 +1,29 @@
-.likely,
-.likely__widget {
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  display: inline-block;
-  margin: 0;
-  padding: 0;
-  text-indent: 0 !important;
-  list-style: none !important;
-  font-weight: normal;
-  font-family: Helvetica Neue, Arial, sans-serif;
-  font-size: inherit;
-}
 .likely {
   opacity: 0;
-  font-size: 0 !important;
+  transition: opacity 0.1s ease-in;
+}
+.likely * {
+  visibility: hidden;
 }
 .likely_visible {
   opacity: 1;
-  transition: opacity 0.1s ease-in;
 }
-.likely > * {
-  display: inline-block;
-  visibility: hidden;
-}
-.likely_visible > * {
+.likely_visible * {
   visibility: inherit;
 }
-.likely__widget {
+.likely {
   display: inline-block;
+  font-size: 0 !important;
+  font-weight: normal;
+  font-family: Helvetica Neue, Arial, sans-serif;
+  text-indent: 0 !important;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.likely * {
+  display: inline-block;
+}
+.likely__widget {
   position: relative;
   white-space: nowrap;
 }
@@ -35,7 +31,6 @@
 .likely__counter {
   text-decoration: none;
   text-rendering: optimizeLegibility;
-  display: inline-block;
   margin: 0;
   outline: 0;
 }
@@ -47,7 +42,6 @@
 .likely__counter {
   display: none;
   position: relative;
-  font-weight: normal;
 }
 .likely_ready .likely__counter {
   display: inline-block;
@@ -81,7 +75,6 @@
 .likely__icon {
   position: relative;
   text-align: left;
-  display: inline-block;
 }
 .likely svg {
   position: absolute;
@@ -344,6 +337,35 @@
   .likely-light .likely__widget_whatsapp:hover,
   .likely-light .likely__widget_whatsapp:active,
   .likely-light .likely__widget_whatsapp:focus {
+    text-shadow: rgba(0,0,0,0.2) 0 0 0.33em;
+    background: rgba(236,236,236,0.16);
+  }
+}
+.likely__widget_viber {
+  fill: #7360f2;
+}
+.likely__widget_viber:hover,
+.likely__widget_viber:active,
+.likely__widget_viber:focus {
+  background: rgba(220,215,251,0.8);
+}
+@media (hover: none) {
+  .likely__widget_viber:hover,
+  .likely__widget_viber:active,
+  .likely__widget_viber:focus {
+    background: rgba(231,231,231,0.8);
+  }
+}
+.likely-light .likely__widget_viber:hover,
+.likely-light .likely__widget_viber:active,
+.likely-light .likely__widget_viber:focus {
+  text-shadow: #7360f2 0 0 0.25em;
+  background: rgba(115,96,242,0.7);
+}
+@media (hover: none) {
+  .likely-light .likely__widget_viber:hover,
+  .likely-light .likely__widget_viber:active,
+  .likely-light .likely__widget_viber:focus {
     text-shadow: rgba(0,0,0,0.2) 0 0 0.33em;
     background: rgba(236,236,236,0.16);
   }

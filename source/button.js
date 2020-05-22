@@ -112,7 +112,7 @@ class LikelyButton {
      */
     registerAsCounted() {
         const options = this.options;
-        if (options.counterUrl) {
+        if (options.counters && options.counterUrl) {
             connectButtonToService(this.serviceName, this.setDisplayedCounter.bind(this), options);
         }
     }
@@ -168,6 +168,7 @@ class LikelyButton {
             const url = interpolateUrl(options.popupUrl, {
                 url: options.url,
                 title: options.title,
+                content: options.content,
             });
 
             if (options.openPopup === false) {

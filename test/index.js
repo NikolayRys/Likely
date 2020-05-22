@@ -189,6 +189,7 @@ describe('Likely', function () {
             { name: 'Odnoklassniki', likelyName: 'odnoklassniki' },
             { name: 'Pinterest', likelyName: 'pinterest' },
             { name: 'VK', likelyName: 'vkontakte' },
+            { name: 'Reddit', likelyName: 'reddit' },
         ];
 
         testedServices.forEach(({ name, likelyName }) => {
@@ -196,6 +197,16 @@ describe('Likely', function () {
                 const mockedCounterValue = '10';
                 return expectToContainText(driver, `.likely__counter_${likelyName}`, mockedCounterValue);
             });
+        });
+
+        it('should provide the number of __likelyCounterMock function calls', function () {
+            driver.executeScript(`
+                var el = document.createElement('span');
+                el.setAttribute('id', '__likelyCounterMock');
+                el.innerHTML = window.__likelyCounterMock.calls;
+                document.body.appendChild(el);
+            `);
+            return expectToContainText(driver, '#__likelyCounterMock', '5');
         });
     });
 
@@ -213,6 +224,7 @@ describe('Likely', function () {
             { name: 'Twitter', likelyName: 'twitter', urlRegex: /twitter\.com/ },
             { name: 'VK', likelyName: 'vkontakte', urlRegex: /vk\.com/ },
             { name: 'LinkedIn', likelyName: 'linkedin', urlRegex: /linkedin\.com/ },
+            { name: 'Reddit', likelyName: 'reddit', urlRegex: /reddit\.com/ },
         ];
 
         testedServices.forEach(({ name, likelyName, urlRegex }) => {
@@ -335,6 +347,19 @@ describe('Likely', function () {
                 .then(() => waitUntilLikelyInitialized(driver))
                 .then(() => {
                     return expectClickToOpen(driver, '.likely__widget_twitter', /twitter\.com\/.*Likely%20test%20page/);
+                });
+        });
+        it('should not make requests when counters are disabled [#145]', function () {
+            return getLikelyPage(driver, LikelyPage.ISSUE_145)
+                .then(() => waitUntilLikelyInitialized(driver))
+                .then(() => {
+                    driver.executeScript(`
+                        var el = document.createElement('span');
+                        el.setAttribute('id', '__likelyCounterMock');
+                        el.innerHTML = window.__likelyCounterMock.calls;
+                        document.body.appendChild(el);
+                    `);
+                    return expectToContainText(driver, '#__likelyCounterMock', '0');
                 });
         });
     });
