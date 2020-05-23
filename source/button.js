@@ -48,6 +48,7 @@ class LikelyButton {
 
     /**
      * Get the config.name of service and its options
+     * @returns {String}
      */
     detectService() {
         const widget = this.widget;

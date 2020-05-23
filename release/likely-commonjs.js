@@ -741,6 +741,7 @@ var LikelyButton = function () {
 
         /**
          * Get the config.name of service and its options
+         * @returns {String}
          */
 
     }, {
@@ -1026,7 +1027,6 @@ var history = {
 
 
 /**
- * @param {String} url
  * @param {Function} updateBroadcaster
  */
 var defaultFetch = function defaultFetch(updateBroadcaster) {

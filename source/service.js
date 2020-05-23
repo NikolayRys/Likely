@@ -1,7 +1,6 @@
 import { getJSON, global } from './dom';
 
 /**
- * @param {String} url
  * @param {Function} updateBroadcaster
  */
 const defaultFetch = function (updateBroadcaster) {
