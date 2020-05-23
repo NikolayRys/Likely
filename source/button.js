@@ -195,7 +195,7 @@ class LikelyButton {
      * @returns {String}
      */
     addAdditionalParamsToUrl(url) {
-        const parameters = query(merge(this.widget.dataset, this.options.data));
+        const parameters = query(merge(this.widget.dataset, this.options.data), this.options.knownParams, this.options.name);
         const delimeter = url.indexOf('?') === -1 ? '?' : '&';
 
         return parameters === ''
