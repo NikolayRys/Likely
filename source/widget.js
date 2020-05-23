@@ -16,26 +16,18 @@ class Likely {
 
         this.countersLeft = 0;
         this.buttons = [];
-        this.number = 0;
 
-        this.init();
-    }
-
-    /**
-     * Initiate the social buttons widget
-     */
-    init() {
-        toArray(this.container.children)
-            .forEach(this.addButton.bind(this));
+        toArray(this.container.children).forEach(this.addButton.bind(this));
 
         if (this.options.counters) {
-            this.timer = setTimeout(this.appear.bind(this), this.options.wait);
+            setTimeout(this.appear.bind(this), this.options.wait);
             this.timeout = setTimeout(this.ready.bind(this), this.options.timeout);
         }
         else {
             this.appear();
             this.ready();
         }
+        this.materializeButtons();
     }
 
     /**
@@ -53,6 +45,10 @@ class Likely {
         }
     }
 
+    materializeButtons() {
+        this.buttons.forEach((button) => button.prepare());
+    }
+
     /**
      * Update the timer with URL
      *
@@ -64,7 +60,6 @@ class Likely {
             options.url && options.url !== this.options.url
         ) {
             this.countersLeft = this.buttons.length;
-            this.number = 0;
 
             this.buttons.forEach((button) => {
                 button.update(options);
@@ -73,16 +68,9 @@ class Likely {
     }
 
     /**
-     * Update counter
-     *
-     * @param {String} service
-     * @param {Number} counter
+     * Mark the button as done
      */
-    updateCounter(service, counter) {
-        if (counter) {
-            this.number += counter;
-        }
-
+    finalize() {
         this.countersLeft--;
 
         if (this.countersLeft === 0) {

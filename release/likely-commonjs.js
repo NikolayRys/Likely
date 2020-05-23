@@ -89,16 +89,16 @@ return /******/ (function(modules) { // webpackBootstrap
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "each", function() { return each; });
+/* WEBPACK VAR INJECTION */(function(global) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "each", function() { return each; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "toArray", function() { return toArray; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "merge", function() { return merge; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "extend", function() { return extend; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getDataset", function() { return getDataset; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "bools", function() { return bools; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "template", function() { return template; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "makeUrl", function() { return makeUrl; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "interpolateStr", function() { return interpolateStr; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "interpolateUrl", function() { return interpolateUrl; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "query", function() { return query; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "set", function() { return set; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "registerGlobalCallback", function() { return registerGlobalCallback; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getDefaultUrl", function() { return getDefaultUrl; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isBrowserEnv", function() { return isBrowserEnv; });
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
@@ -231,7 +231,7 @@ var bools = function bools(node) {
  * @param {Object} data
  * @returns {String}
  */
-var template = function template(text, data) {
+var interpolateStr = function interpolateStr(text, data) {
     return text ? text.replace(/\{([^}]+)\}/g, function (value, key) {
         return key in data ? data[key] : value;
     }) : '';
@@ -244,14 +244,13 @@ var template = function template(text, data) {
  * @param {Object} data
  * @returns {String}
  */
-var makeUrl = function makeUrl(text, data) {
+var interpolateUrl = function interpolateUrl(text, data) {
     for (var key in data) {
         if (Object.prototype.hasOwnProperty.call(data, key)) {
             data[key] = encodeURIComponent(data[key]);
         }
     }
-
-    return template(text, data);
+    return interpolateStr(text, data);
 };
 
 /**
@@ -278,13 +277,13 @@ var query = function query(data) {
 /**
  * Set value in object using dot-notation
  *
- * @param {Object} object
  * @param {String} key
  * @param {Object} value
  */
-var set = function set(object, key, value) {
+var registerGlobalCallback = function registerGlobalCallback(key, value) {
     var frags = key.split('.');
     var last = null;
+    var object = global;
 
     frags.forEach(function (key, index) {
         if (typeof object[key] === 'undefined') {
@@ -321,6 +320,7 @@ var getDefaultUrl = function getDefaultUrl() {
  * Is code run in browser or on server.
  */
 var isBrowserEnv = typeof window !== 'undefined' && typeof document !== 'undefined' && document.createElement;
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(21)))
 
 /***/ }),
 /* 1 */
@@ -331,7 +331,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "global", function() { return global; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "wrapSVG", function() { return wrapSVG; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createNode", function() { return createNode; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getScript", function() { return getScript; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "loadScript", function() { return loadScript; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getJSON", function() { return getJSON; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "find", function() { return find; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "findAll", function() { return findAll; });
@@ -376,11 +376,11 @@ var createNode = function createNode(html) {
 };
 
 /**
- * Load script
+ * Load script. It gets executed after the main one is finished.
  *
  * @param {String} url
  */
-var getScript = function getScript(url) {
+var loadScript = function loadScript(url) {
     var script = document.createElement('script');
     var head = document.head;
 
@@ -404,7 +404,7 @@ var getJSON = function getJSON(url, callback) {
 
     global.__likelyCallbacks[name] = callback;
 
-    getScript(concreteUrl);
+    loadScript(concreteUrl);
 };
 
 /**
@@ -497,18 +497,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__service__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__service__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__utils__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__facebook__ = __webpack_require__(10);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__linkedin__ = __webpack_require__(11);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__odnoklassniki__ = __webpack_require__(12);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__pinterest__ = __webpack_require__(13);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__telegram__ = __webpack_require__(15);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__twitter__ = __webpack_require__(16);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__vkontakte__ = __webpack_require__(18);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__whatsapp__ = __webpack_require__(19);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__viber__ = __webpack_require__(17);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__reddit__ = __webpack_require__(14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__facebook__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__linkedin__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__odnoklassniki__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__pinterest__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__telegram__ = __webpack_require__(14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__twitter__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__vkontakte__ = __webpack_require__(17);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__whatsapp__ = __webpack_require__(18);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__viber__ = __webpack_require__(16);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__reddit__ = __webpack_require__(13);
 /**
  * Social network services
  */
@@ -565,14 +565,14 @@ var _require = __webpack_require__(0),
     getDefaultUrl = _require.getDefaultUrl,
     merge = _require.merge;
 
-var Likely = __webpack_require__(20).default;
+var Likely = __webpack_require__(19).default;
 var config = __webpack_require__(2).default;
 
 var _require2 = __webpack_require__(1),
     findAll = _require2.findAll;
 
-var history = __webpack_require__(8).default;
-__webpack_require__(21);
+var history = __webpack_require__(7).default;
+__webpack_require__(20);
 
 /**
  * @param {Node} node
@@ -590,12 +590,13 @@ var initWidget = function initWidget(node, options) {
         wait: 0.5e3,
         url: getDefaultUrl()
     };
-    var widget = node[config.name];
 
     var realOptions = merge({}, defaults, fullOptions, bools(node));
+    var widget = node[config.name];
     if (widget) {
         widget.update(realOptions);
     } else {
+        // Attaching widget to the node object for future re-initializations
         node[config.name] = new Likely(node, realOptions);
     }
 
@@ -676,7 +677,7 @@ module.exports = likely;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__dom__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__utils__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__config__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__fetch__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__connectButtonToService__ = __webpack_require__(6);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__services__ = __webpack_require__(3);
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -706,25 +707,17 @@ var LikelyButton = function () {
         this.widget = widget;
         this.likely = likely;
         this.options = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__utils__["merge"])(options);
+        this.serviceName = this.detectService();
 
-        this.init();
+        this.detectParams();
     }
 
-    /**
-     * Initiate the button
-     */
-
-
     _createClass(LikelyButton, [{
-        key: 'init',
-        value: function init() {
-            this.detectService();
-            this.detectParams();
-
-            if (this.service) {
+        key: 'prepare',
+        value: function prepare() {
+            if (this.serviceName) {
                 this.initHtml();
-
-                setTimeout(this.initCounter.bind(this), 0);
+                this.registerAsCounted();
             }
         }
 
@@ -739,36 +732,30 @@ var LikelyButton = function () {
         value: function update(options) {
             var className = '.' + __WEBPACK_IMPORTED_MODULE_2__config__["default"].prefix + 'counter';
             var counters = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__dom__["findAll"])(className, this.widget);
-
             __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__utils__["extend"])(this.options, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__utils__["merge"])({ forceUpdate: false }, options));
             counters.forEach(function (node) {
                 node.parentNode.removeChild(node);
             });
-
-            this.initCounter();
+            this.registerAsCounted();
         }
 
         /**
          * Get the config.name of service and its options
+         * @returns {String}
          */
 
     }, {
         key: 'detectService',
         value: function detectService() {
             var widget = this.widget;
-            var service = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__utils__["getDataset"])(widget).service;
+            var serviceName = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__utils__["getDataset"])(widget).service || Object.keys(__WEBPACK_IMPORTED_MODULE_4__services__["a" /* default */]).filter(function (service) {
+                return widget.classList.contains(service);
+            })[0];
 
-            if (!service) {
-                service = Object.keys(__WEBPACK_IMPORTED_MODULE_4__services__["a" /* default */]).filter(function (service) {
-                    return widget.classList.contains(service);
-                })[0];
+            if (serviceName) {
+                __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__utils__["extend"])(this.options, __WEBPACK_IMPORTED_MODULE_4__services__["a" /* default */][serviceName]);
             }
-
-            if (service) {
-                this.service = service;
-
-                __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__utils__["extend"])(this.options, __WEBPACK_IMPORTED_MODULE_4__services__["a" /* default */][service]);
-            }
+            return serviceName;
         }
 
         /**
@@ -796,7 +783,7 @@ var LikelyButton = function () {
         }
 
         /**
-         * Inititate button's HTML
+         * Initiate button's HTML
          */
 
     }, {
@@ -807,15 +794,15 @@ var LikelyButton = function () {
             var text = widget.innerHTML;
 
             widget.addEventListener('click', this.click.bind(this));
-            widget.classList.remove(this.service);
+            widget.classList.remove(this.serviceName);
             widget.className += ' ' + this.className('widget');
 
-            var button = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__utils__["template"])(htmlSpan, {
+            var button = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__utils__["interpolateStr"])(htmlSpan, {
                 className: this.className('button'),
                 content: text
             });
 
-            var icon = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__utils__["template"])(htmlSpan, {
+            var icon = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__utils__["interpolateStr"])(htmlSpan, {
                 className: this.className('icon'),
                 content: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__dom__["wrapSVG"])(options.svgIconPath)
             });
@@ -828,17 +815,11 @@ var LikelyButton = function () {
          */
 
     }, {
-        key: 'initCounter',
-        value: function initCounter() {
+        key: 'registerAsCounted',
+        value: function registerAsCounted() {
             var options = this.options;
-
-            if (!options.counters) {
-                return;
-            }
-            if (options.counterNumber) {
-                this.updateCounter(options.counterNumber);
-            } else if (options.counterUrl) {
-                __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__fetch__["a" /* default */])(this.service, options.url, options)(this.updateCounter.bind(this));
+            if (options.counters && options.counterUrl) {
+                __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__connectButtonToService__["a" /* default */])(this.serviceName, this.setDisplayedCounter.bind(this), options);
             }
         }
 
@@ -852,7 +833,7 @@ var LikelyButton = function () {
         value: function className(_className) {
             var fullClass = __WEBPACK_IMPORTED_MODULE_2__config__["default"].prefix + _className;
 
-            return fullClass + ' ' + fullClass + '_' + this.service;
+            return fullClass + ' ' + fullClass + '_' + this.serviceName;
         }
 
         /**
@@ -862,10 +843,9 @@ var LikelyButton = function () {
          */
 
     }, {
-        key: 'updateCounter',
-        value: function updateCounter(counterString) {
-            var counter = parseInt(counterString, 10) || 0;
-
+        key: 'setDisplayedCounter',
+        value: function setDisplayedCounter(counterString) {
+            var counterInt = parseInt(counterString, 10) || 0;
             var counterElement = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__dom__["find"])('.' + __WEBPACK_IMPORTED_MODULE_2__config__["default"].name + '__counter', this.widget);
 
             if (counterElement) {
@@ -874,17 +854,17 @@ var LikelyButton = function () {
 
             var options = {
                 className: this.className('counter'),
-                content: counter
+                content: counterInt
             };
 
-            if (!counter && !this.options.zeroes) {
+            if (!counterInt && !this.options.zeroes) {
                 options.className += ' ' + __WEBPACK_IMPORTED_MODULE_2__config__["default"].prefix + 'counter_empty';
                 options.content = '';
             }
 
-            this.widget.appendChild(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__dom__["createNode"])(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__utils__["template"])(htmlSpan, options)));
+            this.widget.appendChild(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__dom__["createNode"])(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__utils__["interpolateStr"])(htmlSpan, options)));
 
-            this.likely.updateCounter(this.service, counter);
+            this.likely.finalize();
         }
 
         /**
@@ -898,7 +878,7 @@ var LikelyButton = function () {
             var options = this.options;
 
             if (options.click.call(this)) {
-                var url = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__utils__["makeUrl"])(options.popupUrl, {
+                var url = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__utils__["interpolateUrl"])(options.popupUrl, {
                     url: options.url,
                     title: options.title,
                     content: options.content
@@ -909,7 +889,7 @@ var LikelyButton = function () {
                     return false;
                 }
 
-                __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__dom__["openPopup"])(this.addAdditionalParamsToUrl(url), __WEBPACK_IMPORTED_MODULE_2__config__["default"].prefix + this.service, options.popupWidth, options.popupHeight);
+                __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__dom__["openPopup"])(this.addAdditionalParamsToUrl(url), __WEBPACK_IMPORTED_MODULE_2__config__["default"].prefix + this.serviceName, options.popupWidth, options.popupHeight);
             }
 
             return false;
@@ -942,92 +922,58 @@ var LikelyButton = function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__utils__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__services__ = __webpack_require__(3);
 
-/* eslint-disable consistent-return, no-param-reassign */
+
+
+var broadcastersForServices = {};
+
+function UpdateBroadcaster(counterUrl, pageUrl) {
+    this.url = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__utils__["interpolateUrl"])(counterUrl, { url: pageUrl });
+    this.setters = [];
+    this.value = undefined;
+}
+
+UpdateBroadcaster.prototype.register = function (buttonSetter) {
+    this.setters.push(buttonSetter);
+    if (this.value) {
+        buttonSetter(this.value);
+    }
+};
+
+UpdateBroadcaster.prototype.trigger = function (value) {
+    this.value = value;
+    this.setters.forEach(function (buttonSetter) {
+        buttonSetter(value);
+    });
+};
 
 /**
- * Factory function
+ * Find or create an appropriate instance of UpdateBroadcaster
  *
- * This function returns function with following API:
- *
- * - if passed argument is callback, then this callback would be called
- *   if the value was changed
- * - if passed argument is anything but undefined or function, then this
- *   function behaves like setter
- * - if argument isn't provided, then return value stored in closure
- *
- * @param {Object} value
- * @returns {Function}
+ * @param {String} serviceName
+ * @param {Object} options
+ * @param {Function} buttonSetter
  */
-/* harmony default export */ __webpack_exports__["a"] = (function (value) {
-    var listeners = [];
 
-    return function (argument) {
-        var type = typeof argument === 'undefined' ? 'undefined' : _typeof(argument);
+/* harmony default export */ __webpack_exports__["a"] = (function (serviceName, buttonSetter, options) {
+    if (!broadcastersForServices[serviceName]) {
+        broadcastersForServices[serviceName] = {};
+    }
+    var broadcastersForUrls = broadcastersForServices[serviceName];
+    var broadcaster = broadcastersForUrls[options.url];
 
-        if (type === 'undefined') {
-            return value;
-        } else if (type === 'function') {
-            listeners.push(argument);
-        } else {
-            value = argument;
-
-            listeners.forEach(function (listener) {
-                listener(argument);
-            });
-        }
-    };
+    if (!broadcaster || options.forceUpdate) {
+        broadcaster = new UpdateBroadcaster(options.counterUrl, options.url);
+        __WEBPACK_IMPORTED_MODULE_1__services__["a" /* default */][serviceName].fetch(broadcaster);
+        broadcastersForUrls[options.url] = broadcaster;
+    }
+    broadcaster.register(buttonSetter);
 });
 
 /***/ }),
 /* 7 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__factory__ = __webpack_require__(6);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__utils__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__services__ = __webpack_require__(3);
-
-
-
-
-var factories = {};
-
-/**
- * Fetch data
- *
- * @param {String} service
- * @param {String} url
- * @param {Object} options
- * @returns {Promise}
- */
-/* harmony default export */ __webpack_exports__["a"] = (function (service, url, options) {
-    if (!factories[service]) {
-        factories[service] = {};
-    }
-
-    var counters = factories[service];
-    var counter = counters[url];
-
-    if (!options.forceUpdate && counter) {
-        return counter;
-    }
-
-    counter = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__factory__["a" /* default */])();
-
-    var href = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__utils__["makeUrl"])(options.counterUrl, {
-        url: url
-    });
-
-    __WEBPACK_IMPORTED_MODULE_2__services__["a" /* default */][service].counter(href, counter, url);
-
-    counters[url] = counter;
-    return counter;
-});
-
-/***/ }),
-/* 8 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1073,7 +1019,7 @@ var history = {
 /* harmony default export */ __webpack_exports__["default"] = (history);
 
 /***/ }),
-/* 9 */
+/* 8 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1081,16 +1027,15 @@ var history = {
 
 
 /**
- * @param {String} url
- * @param {Function} factory
+ * @param {Function} updateBroadcaster
  */
-var counter = function counter(url, factory) {
+var defaultFetch = function defaultFetch(updateBroadcaster) {
     var _this = this;
 
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__dom__["getJSON"])(url, function (count) {
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__dom__["getJSON"])(updateBroadcaster.url, function (count) {
         try {
             var convertedNumber = typeof _this.convertNumber === 'function' ? _this.convertNumber(count) : count;
-            factory(convertedNumber);
+            updateBroadcaster.trigger(convertedNumber);
         } catch (e) {}
     });
 };
@@ -1099,18 +1044,18 @@ var counter = function counter(url, factory) {
  * @param {Object} options
  */
 /* harmony default export */ __webpack_exports__["a"] = (function (options) {
-    // __likelyCounterMock is used for UI testing and is set on window
+    // __likelyFetchMock is used for UI testing and is set on window
     // because this function is executed right when Likely is loaded.
-    // There’s currently no way to do `likely.__counterMock = ...`
+    // There’s currently no way to do `likely.__likelyFetchMock = ...`
     // before running this method.
-    options.counter = __WEBPACK_IMPORTED_MODULE_0__dom__["global"].__likelyCounterMock || options.counter || counter;
+    options.fetch = __WEBPACK_IMPORTED_MODULE_0__dom__["global"].__likelyFetchMock || options.fetch || defaultFetch;
     options.click = options.click || function () {
         return true;
     };
 });
 
 /***/ }),
-/* 10 */
+/* 9 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1130,7 +1075,7 @@ var counter = function counter(url, factory) {
 });
 
 /***/ }),
-/* 11 */
+/* 10 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1146,12 +1091,12 @@ var counter = function counter(url, factory) {
 });
 
 /***/ }),
-/* 12 */
+/* 11 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__dom__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__utils__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__utils__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__dom__ = __webpack_require__(1);
 /**
  * Odnoklassniki service provider
  */
@@ -1161,29 +1106,29 @@ var counter = function counter(url, factory) {
 
 var odnoklassniki = {
     counterUrl: 'https://connect.ok.ru/dk?st.cmd=extLike&ref={url}&uid={index}',
-    counter: function counter(url, promise) {
-        this.promises.push(promise);
-
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__dom__["getScript"])(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__utils__["makeUrl"])(url, {
-            index: this.promises.length - 1
+    fetch: function fetch(updateBroadcaster) {
+        this.broadcasters.push(updateBroadcaster);
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__dom__["loadScript"])(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__utils__["interpolateUrl"])(updateBroadcaster.url, {
+            index: this.broadcasters.length - 1
         }));
     },
 
-    promises: [],
+    broadcasters: [],
     popupUrl: 'https://connect.ok.ru/dk?st.cmd=WidgetSharePreview&service=odnoklassniki&st.shareUrl={url}',
     popupWidth: 640,
     popupHeight: 400,
     svgIconPath: '8 6.107c.888 0 1.607-.72 1.607-1.607 0-.888-.72-1.607-1.607-1.607s-1.607.72-1.607 1.607c0 .888.72 1.607 1.607 1.607zM13 0H3C1 0 0 1 0 3v10c0 2 1 3 3 3h10c2 0 3-1 3-3V3c0-2-1-3-3-3zM8 .75c2.07 0 3.75 1.68 3.75 3.75 0 2.07-1.68 3.75-3.75 3.75S4.25 6.57 4.25 4.5C4.25 2.43 5.93.75 8 .75zm3.826 12.634c.42.42.42 1.097 0 1.515-.21.208-.483.313-.758.313-.274 0-.548-.105-.758-.314L8 12.59 5.69 14.9c-.42.418-1.098.418-1.516 0s-.42-1.098 0-1.516L6.357 11.2c-1.303-.386-2.288-1.073-2.337-1.11-.473-.354-.57-1.025-.214-1.5.354-.47 1.022-.567 1.496-.216.03.022 1.4.946 2.698.946 1.31 0 2.682-.934 2.693-.943.474-.355 1.146-.258 1.5.213.355.474.26 1.146-.214 1.5-.05.036-1.035.723-2.338 1.11l2.184 2.184'
 };
 
-__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__utils__["set"])(__WEBPACK_IMPORTED_MODULE_0__dom__["global"], 'ODKL.updateCount', function (index, counter) {
-    odnoklassniki.promises[index](counter);
+// Gets called by the script provided by the service
+__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__utils__["registerGlobalCallback"])('ODKL.updateCount', function (index, counter) {
+    odnoklassniki.broadcasters[index].trigger(counter);
 });
 
 /* harmony default export */ __webpack_exports__["a"] = (odnoklassniki);
 
 /***/ }),
-/* 13 */
+/* 12 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1203,7 +1148,7 @@ __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__utils__["set"])(__WEBPACK_IMP
 });
 
 /***/ }),
-/* 14 */
+/* 13 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1229,7 +1174,7 @@ __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__utils__["set"])(__WEBPACK_IMP
 });
 
 /***/ }),
-/* 15 */
+/* 14 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1245,7 +1190,7 @@ __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__utils__["set"])(__WEBPACK_IMP
 });
 
 /***/ }),
-/* 16 */
+/* 15 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1270,7 +1215,7 @@ __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__utils__["set"])(__WEBPACK_IMP
 });
 
 /***/ }),
-/* 17 */
+/* 16 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1295,12 +1240,12 @@ __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__utils__["set"])(__WEBPACK_IMP
 });
 
 /***/ }),
-/* 18 */
+/* 17 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__dom__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__utils__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__utils__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__dom__ = __webpack_require__(1);
 /**
  * Vkontakte service provider
  */
@@ -1310,29 +1255,29 @@ __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__utils__["set"])(__WEBPACK_IMP
 
 var vkontakte = {
     counterUrl: 'https://vk.com/share.php?act=count&url={url}&index={index}',
-    counter: function counter(url, promise) {
-        this.promises.push(promise);
-
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__dom__["getScript"])(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__utils__["makeUrl"])(url, {
-            index: this.promises.length - 1
+    fetch: function fetch(updateBroadcaster) {
+        this.broadcasters.push(updateBroadcaster);
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__dom__["loadScript"])(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__utils__["interpolateUrl"])(updateBroadcaster.url, {
+            index: this.broadcasters.length - 1
         }));
     },
 
-    promises: [],
+    broadcasters: [],
     popupUrl: 'https://vk.com/share.php?url={url}&title={title}',
     popupWidth: 550,
     popupHeight: 330,
     svgIconPath: '7.828 12.526h.957s.288-.032.436-.19c.14-.147.14-.42.14-.42s-.02-1.284.58-1.473c.59-.187 1.34 1.24 2.14 1.788.61.42 1.07.33 1.07.33l2.14-.03s1.12-.07.59-.95c-.04-.07-.3-.65-1.58-1.84-1.34-1.24-1.16-1.04.45-3.19.98-1.31 1.38-2.11 1.25-2.45-.11-.32-.84-.24-.84-.24l-2.4.02s-.18-.02-.31.06-.21.26-.21.26-.38 1.02-.89 1.88C10.27 7.9 9.84 8 9.67 7.88c-.403-.26-.3-1.053-.3-1.62 0-1.76.27-2.5-.52-2.69-.26-.06-.454-.1-1.123-.11-.86-.01-1.585.006-1.996.207-.27.135-.48.434-.36.45.16.02.52.098.71.358.25.337.24 1.09.24 1.09s.14 2.077-.33 2.335c-.33.174-.77-.187-1.73-1.837-.49-.84-.86-1.78-.86-1.78s-.07-.17-.2-.27c-.15-.11-.37-.15-.37-.15l-2.29.02s-.34.01-.46.16c-.11.13-.01.41-.01.41s1.79 4.19 3.82 6.3c1.86 1.935 3.97 1.81 3.97 1.81'
 };
 
-__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__utils__["set"])(__WEBPACK_IMPORTED_MODULE_0__dom__["global"], 'VK.Share.count', function (index, count) {
-    vkontakte.promises[index](count);
+// Gets called by the script provided by the service
+__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__utils__["registerGlobalCallback"])('VK.Share.count', function (index, count) {
+    vkontakte.broadcasters[index].trigger(count);
 });
 
 /* harmony default export */ __webpack_exports__["a"] = (vkontakte);
 
 /***/ }),
-/* 19 */
+/* 18 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1351,7 +1296,7 @@ __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__utils__["set"])(__WEBPACK_IMP
 });
 
 /***/ }),
-/* 20 */
+/* 19 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1384,37 +1329,27 @@ var Likely = function () {
 
         this.countersLeft = 0;
         this.buttons = [];
-        this.number = 0;
 
-        this.init();
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__utils__["toArray"])(this.container.children).forEach(this.addButton.bind(this));
+
+        if (this.options.counters) {
+            setTimeout(this.appear.bind(this), this.options.wait);
+            this.timeout = setTimeout(this.ready.bind(this), this.options.timeout);
+        } else {
+            this.appear();
+            this.ready();
+        }
+        this.materializeButtons();
     }
 
     /**
-     * Initiate the social buttons widget
+     * Add a button
+     *
+     * @param {Node} node
      */
 
 
     _createClass(Likely, [{
-        key: 'init',
-        value: function init() {
-            __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__utils__["toArray"])(this.container.children).forEach(this.addButton.bind(this));
-
-            if (this.options.counters) {
-                this.timer = setTimeout(this.appear.bind(this), this.options.wait);
-                this.timeout = setTimeout(this.ready.bind(this), this.options.timeout);
-            } else {
-                this.appear();
-                this.ready();
-            }
-        }
-
-        /**
-         * Add a button
-         *
-         * @param {Node} node
-         */
-
-    }, {
         key: 'addButton',
         value: function addButton(node) {
             var button = new __WEBPACK_IMPORTED_MODULE_0__button__["a" /* default */](node, this, this.options);
@@ -1424,6 +1359,13 @@ var Likely = function () {
             if (button.options.counterUrl) {
                 this.countersLeft++;
             }
+        }
+    }, {
+        key: 'materializeButtons',
+        value: function materializeButtons() {
+            this.buttons.forEach(function (button) {
+                return button.prepare();
+            });
         }
 
         /**
@@ -1437,7 +1379,6 @@ var Likely = function () {
         value: function update(options) {
             if (options.forceUpdate || options.url && options.url !== this.options.url) {
                 this.countersLeft = this.buttons.length;
-                this.number = 0;
 
                 this.buttons.forEach(function (button) {
                     button.update(options);
@@ -1446,19 +1387,12 @@ var Likely = function () {
         }
 
         /**
-         * Update counter
-         *
-         * @param {String} service
-         * @param {Number} counter
+         * Mark the button as done
          */
 
     }, {
-        key: 'updateCounter',
-        value: function updateCounter(service, counter) {
-            if (counter) {
-                this.number += counter;
-            }
-
+        key: 'finalize',
+        value: function finalize() {
             this.countersLeft--;
 
             if (this.countersLeft === 0) {
@@ -1495,10 +1429,37 @@ var Likely = function () {
 /* harmony default export */ __webpack_exports__["default"] = (Likely);
 
 /***/ }),
-/* 21 */
+/* 20 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 21 */
+/***/ (function(module, exports) {
+
+var g;
+
+// This works in non-strict mode
+g = (function() {
+	return this;
+})();
+
+try {
+	// This works if eval is allowed (see CSP)
+	g = g || Function("return this")() || (1,eval)("this");
+} catch(e) {
+	// This works if the window reference is available
+	if(typeof window === "object")
+		g = window;
+}
+
+// g can still be undefined, but nothing to do about it...
+// We return undefined, instead of nothing here, so it's
+// easier to handle this case. if(!global) { ...}
+
+module.exports = g;
+
 
 /***/ }),
 /* 22 */,
