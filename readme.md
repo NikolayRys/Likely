@@ -73,6 +73,7 @@ Then, create a `div` with the class `likely` and list necessary social networks 
     <div class="linkedin">Share</div>
     <div class="whatsapp">Send</div>
     <div class="viber">Send</div>
+    <div class="reddit">Share</div>
 </div>
 ```
 Likely supports following social networks:
@@ -86,6 +87,7 @@ Likely supports following social networks:
 * `linkedin` – LinkedIn
 * `whatsapp` – WhatsApp
 * `viber` – Viber
+* `reddit` – Reddit
 
 If you need several Likely widgets on the page, just create another `div` with the class `likely` and list the social networks in it.
 
@@ -175,6 +177,42 @@ You can set `data-comment` attribute to specify some text that's going to be add
 <div class="viber" data-comment="Check this out">Send</div>
 ```
 
+### Reinitialize configuration on change data attributes
+
+If you need to dynamically change the widget's configuration for sharing use, you can re-initialize the widget and invoke the configuration update logic on the *Likely* instance using the `init` method.
+
+
+1. Likely widget in html template
+
+```html
+<div class="likely" data-url="https://google.com">
+    <div class="twitter">Tweet</div>
+    <div class="facebook">Share</div>
+    <div class="vkontakte">Share</div>
+    <div class="odnoklassniki">Like</div>
+    <div class="pinterest">Pin</div>
+    <div class="telegram">Send</div>
+    <div class="linkedin">Share</div>
+    <div class="whatsapp">Send</div>
+    <div class="viber">Send</div>
+</div>
+```
+
+2. Attributes for button elements are updated.
+
+3. Logic for update configuration using *Likely* as an example
+
+```javascript
+// find in dom likely
+const likelyWidget = document.querySelector(".likely");
+
+// find instance of likely 
+const likelyInstance = likelyWidget.likely;
+
+// Call inner method for update options from data attributes
+likelyInstance.init();
+```
+
 ### Accessibility Settings
 
 To make buttons accessible for keyboard navigation and screen readers add `tabindex`, `role` and `aria-label` attributes:
@@ -190,6 +228,7 @@ To make buttons accessible for keyboard navigation and screen readers add `tabin
     <div class="linkedin" tabindex="0" role="link" aria-label="Share on LinkedIn">Share</div>
     <div class="whatsapp" tabindex="0" role="link" aria-label="Send on WhatsApp">Send</div>
     <div class="viber" tabindex="0" role="link" aria-label="Send on Viber">Send</div>
+    <div class="reddit" tabindex="0" role="link" aria-label="Share on Reddit">Share</div>
 </div>
 ```
 

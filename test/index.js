@@ -22,8 +22,12 @@ describe('Likely', function () {
     this.timeout(commonTimeout);
 
     before(function () {
+        // Required for travis
+        var chromeOptions = { args: ['--no-sandbox'] };
+        const chromeCapabilities = selenium.Capabilities.chrome();
+        chromeCapabilities.set('chromeOptions', chromeOptions);
         driver = new selenium.Builder()
-            .forBrowser('chrome')
+            .withCapabilities(chromeCapabilities)
             .build();
 
         startServer();
@@ -189,6 +193,7 @@ describe('Likely', function () {
             { name: 'Odnoklassniki', likelyName: 'odnoklassniki' },
             { name: 'Pinterest', likelyName: 'pinterest' },
             { name: 'VK', likelyName: 'vkontakte' },
+            { name: 'Reddit', likelyName: 'reddit' },
         ];
 
         testedServices.forEach(({ name, likelyName }) => {
@@ -198,14 +203,14 @@ describe('Likely', function () {
             });
         });
 
-        it('should provide the number of __likelyCounterMock function calls', function () {
+        it('should provide the number of __likelyFetchMock function calls', function () {
             driver.executeScript(`
                 var el = document.createElement('span');
-                el.setAttribute('id', '__likelyCounterMock');
-                el.innerHTML = window.__likelyCounterMock.calls;
+                el.setAttribute('id', '__likelyFetchMock');
+                el.innerHTML = window.__likelyFetchMock.calls;
                 document.body.appendChild(el);
             `);
-            return expectToContainText(driver, '#__likelyCounterMock', '4');
+            return expectToContainText(driver, '#__likelyFetchMock', '5');
         });
     });
 
@@ -223,6 +228,7 @@ describe('Likely', function () {
             { name: 'Twitter', likelyName: 'twitter', urlRegex: /twitter\.com/ },
             { name: 'VK', likelyName: 'vkontakte', urlRegex: /vk\.com/ },
             { name: 'LinkedIn', likelyName: 'linkedin', urlRegex: /linkedin\.com/ },
+            { name: 'Reddit', likelyName: 'reddit', urlRegex: /reddit\.com/ },
         ];
 
         testedServices.forEach(({ name, likelyName, urlRegex }) => {
@@ -353,16 +359,16 @@ describe('Likely', function () {
                 .then(() => {
                     driver.executeScript(`
                         var el = document.createElement('span');
-                        el.setAttribute('id', '__likelyCounterMock');
-                        el.innerHTML = window.__likelyCounterMock.calls;
+                        el.setAttribute('id', '__likelyFetchMock');
+                        el.innerHTML = window.__likelyFetchMock.calls;
                         document.body.appendChild(el);
                     `);
-                    return expectToContainText(driver, '#__likelyCounterMock', '0');
+                    return expectToContainText(driver, '#__likelyFetchMock', '0');
                 });
         });
     });
 
-    describe('execute outside browser enviroment', function () {
+    describe('execute outside browser environment', function () {
         it('should require without errors', function () {
             const likely = require('../release/likely-commonjs'); // eslint-disable-line global-require
             expect(likely).to.be.an('function');

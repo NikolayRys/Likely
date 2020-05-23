@@ -122,7 +122,7 @@ export const bools = (node) => {
  * @param {Object} data
  * @returns {String}
  */
-export const template = (text, data) => {
+export const interpolateStr = (text, data) => {
     return text ? text.replace(/\{([^}]+)\}/g, function (value, key) {
         return key in data ? data[key] : value;
     }) : '';
@@ -135,14 +135,13 @@ export const template = (text, data) => {
  * @param {Object} data
  * @returns {String}
  */
-export const makeUrl = (text, data) => {
+export const interpolateUrl = (text, data) => {
     for (const key in data) {
         if (Object.prototype.hasOwnProperty.call(data, key)) {
             data[key] = encodeURIComponent(data[key]);
         }
     }
-
-    return template(text, data);
+    return interpolateStr(text, data);
 };
 
 /**
@@ -175,13 +174,13 @@ export const query = (data, accepted, widgetName) => {
 /**
  * Set value in object using dot-notation
  *
- * @param {Object} object
  * @param {String} key
  * @param {Object} value
  */
-export const set = (object, key, value) => {
+export const registerGlobalCallback = (key, value) => {
     const frags = key.split('.');
     let last = null;
+    let object = global;
 
     frags.forEach((key, index) => {
         if (typeof object[key] === 'undefined') {
