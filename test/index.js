@@ -22,8 +22,12 @@ describe('Likely', function () {
     this.timeout(commonTimeout);
 
     before(function () {
+        // Required for travis
+        var chromeOptions = { args: ['--no-sandbox'] };
+        const chromeCapabilities = selenium.Capabilities.chrome();
+        chromeCapabilities.set('chromeOptions', chromeOptions);
         driver = new selenium.Builder()
-            .forBrowser('chrome')
+            .withCapabilities(chromeCapabilities)
             .build();
 
         startServer();
