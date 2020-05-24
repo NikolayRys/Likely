@@ -1347,8 +1347,8 @@ var Likely = function () {
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__utils__["toArray"])(this.container.children).forEach(this.addButton.bind(this));
 
         if (this.options.counters) {
-            setTimeout(this.appear.bind(this), this.options.wait);
-            this.timeout = setTimeout(this.ready.bind(this), this.options.timeout);
+            this.appearDelay = setTimeout(this.appear.bind(this), this.options.wait);
+            this.readyDelay = setTimeout(this.ready.bind(this), this.options.timeout);
         } else {
             this.appear();
             this.ready();
@@ -1410,18 +1410,22 @@ var Likely = function () {
             this.countersLeft--;
 
             if (this.countersLeft === 0) {
+                console.log('CALLED');
                 this.appear();
                 this.ready();
             }
         }
 
         /**
+         * @deprecated Will be deleted in version 3.0, and joined with likely_ready
          * Show the buttons with smooth animation
          */
 
     }, {
         key: 'appear',
         value: function appear() {
+            console.warn('DEPRECATION: "likely_visible" class will be removed in 3.0 and joined with likely_ready');
+            clearTimeout(this.appearDelay);
             this.container.classList.add(__WEBPACK_IMPORTED_MODULE_1__config__["default"].name + '_visible');
         }
 
@@ -1432,7 +1436,7 @@ var Likely = function () {
     }, {
         key: 'ready',
         value: function ready() {
-            clearTimeout(this.timeout);
+            clearTimeout(this.readyDelay);
             this.container.classList.add(__WEBPACK_IMPORTED_MODULE_1__config__["default"].name + '_ready');
         }
     }]);

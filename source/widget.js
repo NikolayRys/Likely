@@ -20,8 +20,8 @@ class Likely {
         toArray(this.container.children).forEach(this.addButton.bind(this));
 
         if (this.options.counters) {
-            setTimeout(this.appear.bind(this), this.options.wait);
-            this.timeout = setTimeout(this.ready.bind(this), this.options.timeout);
+            this.appearDelay = setTimeout(this.appear.bind(this), this.options.wait);
+            this.readyDelay = setTimeout(this.ready.bind(this), this.options.timeout);
         }
         else {
             this.appear();
@@ -80,17 +80,20 @@ class Likely {
     }
 
     /**
+     * @deprecated Will be deleted in version 3.0, and joined with likely_ready
      * Show the buttons with smooth animation
      */
     appear() {
+        clearTimeout(this.appearDelay);
         this.container.classList.add(`${config.name}_visible`);
+        console.warn('DEPRECATION: "likely_visible" class will be removed in 3.0 and joined with likely_ready');
     }
 
     /**
      * Get. Set. Ready.
      */
     ready() {
-        clearTimeout(this.timeout);
+        clearTimeout(this.readyDelay);
         this.container.classList.add(`${config.name}_ready`);
     }
 }
