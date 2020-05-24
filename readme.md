@@ -235,3 +235,9 @@ npm test
 npm run-script check-codestyle
 ```
 Also, please, add your own tests if you are submitting a feature.
+
+## Release
+Release packaging before publishing: 
+```
+$ npm run release
+```
