@@ -8,10 +8,23 @@ See Likely in action on its [homepage](http://ilyabirman.net/projects/likely/).
 
 [![Likely screenshot](http://i.imgur.com/ipqE5Tu.png)](http://ilyabirman.net/projects/likely/)
 
+Likely supports following social networks:
+
+* `facebook` – Facebook
+* `twitter` – Twitter
+* `vkontakte` – VK
+* `pinterest` – Pinterest
+* `odnoklassniki` – Odnoklassniki
+* `telegram` – Telegram
+* `linkedin` – LinkedIn
+* `whatsapp` – WhatsApp
+* `viber` – Viber
+* `reddit` – Reddit
+
 ## Get
 
 [Download the repository code](https://github.com/ilyabirman/Likely/archive/master.zip) and move `release/likely.js` and
-`release/likely.css` to the desired directory.
+`release/likely.css` to the desired directory (or `likely.min.js` & `likely.min.css` if you prefer them optimized).
 
 Or use npm or Bower:
 
@@ -22,13 +35,19 @@ $ bower install ilyabirman-likely --save
 
 Also you can use Likely from CDN:
 
+https://unpkg.com/ilyabirman-likely@2/release/likely.min.css
+<br>
+https://unpkg.com/ilyabirman-likely@2/release/likely.min.js
+
+or
+
 https://unpkg.com/ilyabirman-likely@2/release/likely.css
 <br>
 https://unpkg.com/ilyabirman-likely@2/release/likely.js
 
 ## Setup
 
-Link the files `likely.css` and `likely.js` from the compiled sources.
+Link the files `likely.css` and `likely.js` from the compiled sources. In place of the each file the minified `.min.` versions can be used as well.
 
 If downloaded directly:
 ```html
@@ -60,7 +79,7 @@ If installed with Bower:
         type="text/javascript"></script>
 ```
 
-Then, create a `div` with the class `likely` and list necessary social networks in child `div`s:
+Then, create a `div` with the class `likely` and list necessary social networks:
 
 ```html
 <div class="likely">
@@ -76,18 +95,6 @@ Then, create a `div` with the class `likely` and list necessary social networks 
     <div class="reddit">Share</div>
 </div>
 ```
-Likely supports following social networks:
-
-* `facebook` – Facebook
-* `twitter` – Twitter
-* `vkontakte` – VK
-* `pinterest` – Pinterest
-* `odnoklassniki` – Odnoklassniki
-* `telegram` – Telegram
-* `linkedin` – LinkedIn
-* `whatsapp` – WhatsApp
-* `viber` – Viber
-* `reddit` – Reddit
 
 If you need several Likely widgets on the page, just create another `div` with the class `likely` and list the social networks in it.
 
@@ -120,7 +127,6 @@ These options can be specified on the `div` with the `likely` class (current pag
 
 * `data-url` – URL to share and load counters for (⚠ specify the full URL with the protocol – like in `https://ilyabirman.com` – because some social networks don’t recognize the partial one)
 
-
 * `data-title` – Page title
 
 * `data-counters` – pass "no" to disable counters (enabled by default)
@@ -139,11 +145,12 @@ You can set `data-via` attribute to mention a specific user in the tweet:
 <div class="twitter" data-via="ilyabirman">Tweet</div>
 ```
 
-With `data-via="ilyabirman"`, the tweet text will include “via @ilyabirman”. Read more about the `via` parameter [in the Twitter documentation](https://dev.twitter.com/web/tweet-button#component-via).
+With `data-via="ilyabirman"`, the tweet text will include “via @ilyabirman”. Read more about the `via` parameter [in Twitter documentation](https://dev.twitter.com/web/tweet-button#component-via).
 
 ### Telegram
 
-You can set `data-text` attribute to define a text of the message.
+You can set `data-text` attribute to define a text of the message. 
+Doesn't use `data-title`.
 
 ```html
 <div class="telegram" data-text="Check this out">Send</div>
@@ -158,8 +165,7 @@ The attribute should be an image URL:
 <div class="pinterest" data-media="https://placekitten.com/200/400">Pin</div>
 ```
 
-Read more about the `media` parameter in the [in the Pinterest documentation](https://developers.pinterest.com/docs/widgets/pin-it/#source-settings).
-
+Read more about the `media` parameter [in Pinterest documentation](https://developers.pinterest.com/docs/widgets/pin-it/#source-settings).
 
 ### VK
 
@@ -172,6 +178,7 @@ You can set `data-image` and `data-description` attributes to set up an image an
 ### Viber
 
 You can set `data-comment` attribute to specify some text that's going to be added to a shared link (on a separate line).
+Doesn't use `data-title`.
 
 ```html
 <div class="viber" data-comment="Check this out">Send</div>
@@ -179,38 +186,14 @@ You can set `data-comment` attribute to specify some text that's going to be add
 
 ### Reinitialize configuration on change data attributes
 
-If you need to dynamically change the widget's configuration for sharing use, you can re-initialize the widget and invoke the configuration update logic on the *Likely* instance using the `init` method.
-
-
-1. Likely widget in html template
-
-```html
-<div class="likely" data-url="https://google.com">
-    <div class="twitter">Tweet</div>
-    <div class="facebook">Share</div>
-    <div class="vkontakte">Share</div>
-    <div class="odnoklassniki">Like</div>
-    <div class="pinterest">Pin</div>
-    <div class="telegram">Send</div>
-    <div class="linkedin">Share</div>
-    <div class="whatsapp">Send</div>
-    <div class="viber">Send</div>
-</div>
-```
-
-2. Attributes for button elements are updated.
-
-3. Logic for update configuration using *Likely* as an example
+If you need to dynamically change a widget's configuration, you can re-initialize the widget and invoke the configuration update logic on the *Likely* instance using the `init` method.
 
 ```javascript
-// find in dom likely
-const likelyWidget = document.querySelector(".likely");
-
-// find instance of likely 
-const likelyInstance = likelyWidget.likely;
-
-// Call inner method for update options from data attributes
-likelyInstance.init();
+// Use global object, created by the library
+likely.initiate();
+// If you need to refresh the counters, pass the corresponding param,
+// but be aware that it will issue xhr calls to all the relevant services.
+likely.initiate({forceUpdate:true});
 ```
 
 ### Accessibility Settings
@@ -234,7 +217,15 @@ To make buttons accessible for keyboard navigation and screen readers add `tabin
 
 ## Supported browsers
 
-We support IE 10+, Safari 9+ and the latest versions of Chrome, Firefox and Edge. Likely could work in the older versions too, but we don’t do anything specific to maintain its compatibility with them and don’t test it there.
+We support IE 10+, Safari 9+ and the latest versions of Chrome, Firefox and Edge. Likely might work in the older versions too but we don’t maintain the compatibility on purpose.
+
+## Deprecations 
+In version 3.0 the following is going to be changed:
+1. Classes `likely-visible` and `likely-ready` will be merged into just `likely-ready`, so please don't rely on `likely-visible` to test the presence.
+2. Unrecognized params passed to the services will be filtered out.
+3. Old initialization method will be removed.
+
+There are deprecation warnings implemented in 2.5 for all the above.  
 
 # Development
 Please use the [Github commit style](https://gist.github.com/robertpainsi/b632364184e70900af4ab688decf6f53).
@@ -243,12 +234,10 @@ Before pushing make sure the tests are green and the linter does not complain.
 npm test
 npm run-script check-codestyle
 ```
-Also please add your own tests if you are submitting a feature.
+Also, please, add your own tests if you are submitting a feature.
 
 ## Release
-
-Make sure you build a zip archive before you publish the package to NPM:
-
+Release packaging before publishing: 
 ```
 $ npm run release
 ```
