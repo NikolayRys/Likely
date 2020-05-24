@@ -234,7 +234,8 @@ Before pushing make sure the tests are green and the linter does not complain.
 npm test
 npm run-script check-codestyle
 ```
-Also, please, add your own tests if you are submitting a feature.
+Also, please, add your own tests if you are submitting a feature. 
+[![Build Status](https://travis-ci.org/NikolayRys/Likely.svg?branch=master)](https://travis-ci.org/NikolayRys/Likely)
 
 ## Release
 Release packaging before publishing: 
