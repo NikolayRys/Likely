@@ -8,6 +8,19 @@ See Likely in action on its [homepage](http://ilyabirman.net/projects/likely/).
 
 [![Likely screenshot](http://i.imgur.com/ipqE5Tu.png)](http://ilyabirman.net/projects/likely/)
 
+Likely supports following social networks:
+
+* `facebook` – Facebook
+* `twitter` – Twitter
+* `vkontakte` – VK
+* `pinterest` – Pinterest
+* `odnoklassniki` – Odnoklassniki
+* `telegram` – Telegram
+* `linkedin` – LinkedIn
+* `whatsapp` – WhatsApp
+* `viber` – Viber
+* `reddit` – Reddit
+
 ## Get
 
 [Download the repository code](https://github.com/ilyabirman/Likely/archive/master.zip) and move `release/likely.js` and
@@ -34,7 +47,7 @@ https://unpkg.com/ilyabirman-likely@2/release/likely.js
 
 ## Setup
 
-Link the files `likely.css` and `likely.js` from the compiled sources.
+Link the files `likely.css` and `likely.js` from the compiled sources. In place of the each file the minified `.min.` versions can be used as well.
 
 If downloaded directly:
 ```html
@@ -82,18 +95,6 @@ Then, create a `div` with the class `likely` and list necessary social networks:
     <div class="reddit">Share</div>
 </div>
 ```
-Likely supports following social networks:
-
-* `facebook` – Facebook
-* `twitter` – Twitter
-* `vkontakte` – VK
-* `pinterest` – Pinterest
-* `odnoklassniki` – Odnoklassniki
-* `telegram` – Telegram
-* `linkedin` – LinkedIn
-* `whatsapp` – WhatsApp
-* `viber` – Viber
-* `reddit` – Reddit
 
 If you need several Likely widgets on the page, just create another `div` with the class `likely` and list the social networks in it.
 
@@ -126,7 +127,6 @@ These options can be specified on the `div` with the `likely` class (current pag
 
 * `data-url` – URL to share and load counters for (⚠ specify the full URL with the protocol – like in `https://ilyabirman.com` – because some social networks don’t recognize the partial one)
 
-
 * `data-title` – Page title
 
 * `data-counters` – pass "no" to disable counters (enabled by default)
@@ -149,7 +149,8 @@ With `data-via="ilyabirman"`, the tweet text will include “via @ilyabirman”.
 
 ### Telegram
 
-You can set `data-text` attribute to define a text of the message.
+You can set `data-text` attribute to define a text of the message. 
+Doesn't use `data-title`.
 
 ```html
 <div class="telegram" data-text="Check this out">Send</div>
@@ -166,7 +167,6 @@ The attribute should be an image URL:
 
 Read more about the `media` parameter [in Pinterest documentation](https://developers.pinterest.com/docs/widgets/pin-it/#source-settings).
 
-
 ### VK
 
 You can set `data-image` and `data-description` attributes to set up an image and a description accordingly:
@@ -178,6 +178,7 @@ You can set `data-image` and `data-description` attributes to set up an image an
 ### Viber
 
 You can set `data-comment` attribute to specify some text that's going to be added to a shared link (on a separate line).
+Doesn't use `data-title`.
 
 ```html
 <div class="viber" data-comment="Check this out">Send</div>
@@ -188,12 +189,11 @@ You can set `data-comment` attribute to specify some text that's going to be add
 If you need to dynamically change a widget's configuration, you can re-initialize the widget and invoke the configuration update logic on the *Likely* instance using the `init` method.
 
 ```javascript
-// Find the widget's element in the DOM
-const likelyWidget = document.querySelector(".likely");
-// Get the widget's instance
-const likelyInstance = likelyWidget.likely;
-// Call the method to update options after data attributes changed
-likelyInstance.init();
+// Use global object, created by the library
+likely.initiate();
+// If you need to refresh the counters, pass the corresponding param,
+// but be aware that it will issue xhr calls to all the relevant services.
+likely.initiate({forceUpdate:true});
 ```
 
 ### Accessibility Settings
@@ -218,6 +218,14 @@ To make buttons accessible for keyboard navigation and screen readers add `tabin
 ## Supported browsers
 
 We support IE 10+, Safari 9+ and the latest versions of Chrome, Firefox and Edge. Likely might work in the older versions too but we don’t maintain the compatibility on purpose.
+
+## Deprecations 
+In version 3.0 the following is going to be changed:
+1. Classes `likely-visible` and `likely-ready` will be merged into just `likely-ready`, so please don't rely on `likely-visible` to test the presence.
+2. Unrecognized params passed to the services will be filtered out.
+3. Old initialization method will be removed.
+
+There are deprecation warnings implemented in 2.5 for all the above.  
 
 # Development
 Please use the [Github commit style](https://gist.github.com/robertpainsi/b632364184e70900af4ab688decf6f53).
