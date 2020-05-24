@@ -593,7 +593,7 @@ var initWidget = function initWidget(node, options) {
         timeout: 1e3,
         zeroes: false,
         title: document.title,
-        wait: 0.5e3,
+        wait: 0.7e3,
         url: getDefaultUrl()
     };
 
