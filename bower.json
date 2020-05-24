@@ -1,10 +1,11 @@
 {
   "name": "Likely",
-  "version": "2.4",
+  "version": "2.5",
   "homepage": "http://ilyabirman.ru/projects/likely",
   "authors": [
     "Ilya Birman <ilyabirman@ilyabirman.ru>",
-    "Evgeny Steblinsky <volter925@gmail.com>"
+    "Evgeny Steblinsky <volter925@gmail.com>",
+    "Nikolay Rys <nikolay@rys.me>",
   ],
   "main": [
     "release/likely.css",
