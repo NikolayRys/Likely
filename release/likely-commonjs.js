@@ -1410,7 +1410,6 @@ var Likely = function () {
             this.countersLeft--;
 
             if (this.countersLeft === 0) {
-                console.log('CALLED');
                 this.appear();
                 this.ready();
             }
@@ -1424,9 +1423,9 @@ var Likely = function () {
     }, {
         key: 'appear',
         value: function appear() {
-            console.warn('DEPRECATION: "likely_visible" class will be removed in 3.0 and joined with likely_ready');
             clearTimeout(this.appearDelay);
             this.container.classList.add(__WEBPACK_IMPORTED_MODULE_1__config__["default"].name + '_visible');
+            console.warn('DEPRECATION: "likely_visible" class will be removed in 3.0 and joined with likely_ready');
         }
 
         /**
