@@ -1,8 +1,8 @@
 import { createNode, createTempLink, find, findAll, openPopup, wrapSVG } from './dom';
-import { extend, getDataset, makeUrl, merge, query, template } from './utils';
+import { extend, getDataset, interpolateStr, interpolateUrl, merge, query } from './utils';
 
 import config from './config';
-import fetch from './fetch';
+import connectButtonToService from './connectButtonToService';
 import services from './services';
 
 const htmlSpan = '<span class="{className}">{content}</span>';
@@ -19,21 +19,15 @@ class LikelyButton {
         this.widget = widget;
         this.likely = likely;
         this.options = merge(options);
+        this.serviceName = this.detectService();
 
-        this.init();
+        this.detectParams();
     }
 
-    /**
-     * Initiate the button
-     */
-    init() {
-        this.detectService();
-        this.detectParams();
-
-        if (this.service) {
+    prepare() {
+        if (this.serviceName) {
             this.initHtml();
-
-            setTimeout(this.initCounter.bind(this), 0);
+            this.registerAsCounted();
         }
     }
 
@@ -45,31 +39,26 @@ class LikelyButton {
     update(options) {
         const className = `.${config.prefix}counter`;
         const counters = findAll(className, this.widget);
-
         extend(this.options, merge({ forceUpdate: false }, options));
         counters.forEach((node) => {
             node.parentNode.removeChild(node);
         });
-
-        this.initCounter();
+        this.registerAsCounted();
     }
 
     /**
      * Get the config.name of service and its options
+     * @returns {String}
      */
     detectService() {
         const widget = this.widget;
-        let service = getDataset(widget).service;
+        const serviceName = getDataset(widget).service ||
+            Object.keys(services).filter((service) => widget.classList.contains(service))[0];
 
-        if (!service) {
-            service = Object.keys(services).filter((service) => widget.classList.contains(service))[0];
+        if (serviceName) {
+            extend(this.options, services[serviceName]);
         }
-
-        if (service) {
-            this.service = service;
-
-            extend(this.options, services[service]);
-        }
+        return serviceName;
     }
 
     /**
@@ -95,7 +84,7 @@ class LikelyButton {
     }
 
     /**
-     * Inititate button's HTML
+     * Initiate button's HTML
      */
     initHtml() {
         const options = this.options;
@@ -103,15 +92,15 @@ class LikelyButton {
         const text = widget.innerHTML;
 
         widget.addEventListener('click', this.click.bind(this));
-        widget.classList.remove(this.service);
+        widget.classList.remove(this.serviceName);
         widget.className += ` ${this.className('widget')}`;
 
-        const button = template(htmlSpan, {
+        const button = interpolateStr(htmlSpan, {
             className: this.className('button'),
             content: text,
         });
 
-        const icon = template(htmlSpan, {
+        const icon = interpolateStr(htmlSpan, {
             className: this.className('icon'),
             content: wrapSVG(options.svgIconPath),
         });
@@ -122,18 +111,10 @@ class LikelyButton {
     /**
      * Fetch or get cached counter value and update the counter
      */
-    initCounter() {
+    registerAsCounted() {
         const options = this.options;
-
-        if (options.counters && options.counterNumber) {
-            this.updateCounter(options.counterNumber);
-        }
-        else if (options.counterUrl) {
-            fetch(
-                this.service,
-                options.url,
-                options
-            )(this.updateCounter.bind(this));
+        if (options.counters && options.counterUrl) {
+            connectButtonToService(this.serviceName, this.setDisplayedCounter.bind(this), options);
         }
     }
 
@@ -144,7 +125,7 @@ class LikelyButton {
     className(className) {
         const fullClass = config.prefix + className;
 
-        return `${fullClass} ${fullClass}_${this.service}`;
+        return `${fullClass} ${fullClass}_${this.serviceName}`;
     }
 
     /**
@@ -152,9 +133,8 @@ class LikelyButton {
      *
      * @param {String} counterString
      */
-    updateCounter(counterString) {
-        const counter = parseInt(counterString, 10) || 0;
-
+    setDisplayedCounter(counterString) {
+        const counterInt = parseInt(counterString, 10) || 0;
         const counterElement = find(`.${config.name}__counter`, this.widget);
 
         if (counterElement) {
@@ -163,19 +143,19 @@ class LikelyButton {
 
         const options = {
             className: this.className('counter'),
-            content: counter,
+            content: counterInt,
         };
 
-        if (!counter && !this.options.zeroes) {
+        if (!counterInt && !this.options.zeroes) {
             options.className += ` ${config.prefix}counter_empty`;
             options.content = '';
         }
 
         this.widget.appendChild(
-            createNode(template(htmlSpan, options))
+            createNode(interpolateStr(htmlSpan, options))
         );
 
-        this.likely.updateCounter(this.service, counter);
+        this.likely.finalize();
     }
 
     /**
@@ -186,9 +166,10 @@ class LikelyButton {
         const options = this.options;
 
         if (options.click.call(this)) {
-            const url = makeUrl(options.popupUrl, {
+            const url = interpolateUrl(options.popupUrl, {
                 url: options.url,
                 title: options.title,
+                content: options.content,
             });
 
             if (options.openPopup === false) {
@@ -198,7 +179,7 @@ class LikelyButton {
 
             openPopup(
                 this.addAdditionalParamsToUrl(url),
-                config.prefix + this.service,
+                config.prefix + this.serviceName,
                 options.popupWidth,
                 options.popupHeight
             );
@@ -214,7 +195,7 @@ class LikelyButton {
      * @returns {String}
      */
     addAdditionalParamsToUrl(url) {
-        const parameters = query(merge(this.widget.dataset, this.options.data));
+        const parameters = query(merge(this.widget.dataset, this.options.data), this.options.knownParams, this.options.name);
         const delimeter = url.indexOf('?') === -1 ? '?' : '&';
 
         return parameters === ''

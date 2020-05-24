@@ -22,8 +22,12 @@ describe('Likely', function () {
     this.timeout(commonTimeout);
 
     before(function () {
+        // Required for travis
+        var chromeOptions = { args: ['--no-sandbox'] };
+        const chromeCapabilities = selenium.Capabilities.chrome();
+        chromeCapabilities.set('chromeOptions', chromeOptions);
         driver = new selenium.Builder()
-            .forBrowser('chrome')
+            .withCapabilities(chromeCapabilities)
             .build();
 
         startServer();
@@ -189,6 +193,7 @@ describe('Likely', function () {
             { name: 'Odnoklassniki', likelyName: 'odnoklassniki' },
             { name: 'Pinterest', likelyName: 'pinterest' },
             { name: 'VK', likelyName: 'vkontakte' },
+            { name: 'Reddit', likelyName: 'reddit' },
         ];
 
         testedServices.forEach(({ name, likelyName }) => {
@@ -196,6 +201,16 @@ describe('Likely', function () {
                 const mockedCounterValue = '10';
                 return expectToContainText(driver, `.likely__counter_${likelyName}`, mockedCounterValue);
             });
+        });
+
+        it('should provide the number of __likelyFetchMock function calls', function () {
+            driver.executeScript(`
+                var el = document.createElement('span');
+                el.setAttribute('id', '__likelyFetchMock');
+                el.innerHTML = window.__likelyFetchMock.calls;
+                document.body.appendChild(el);
+            `);
+            return expectToContainText(driver, '#__likelyFetchMock', '5');
         });
     });
 
@@ -213,6 +228,7 @@ describe('Likely', function () {
             { name: 'Twitter', likelyName: 'twitter', urlRegex: /twitter\.com/ },
             { name: 'VK', likelyName: 'vkontakte', urlRegex: /vk\.com/ },
             { name: 'LinkedIn', likelyName: 'linkedin', urlRegex: /linkedin\.com/ },
+            { name: 'Reddit', likelyName: 'reddit', urlRegex: /reddit\.com/ },
         ];
 
         testedServices.forEach(({ name, likelyName, urlRegex }) => {
@@ -337,9 +353,22 @@ describe('Likely', function () {
                     return expectClickToOpen(driver, '.likely__widget_twitter', /twitter\.com\/.*Likely%20test%20page/);
                 });
         });
+        it('should not make requests when counters are disabled [#145]', function () {
+            return getLikelyPage(driver, LikelyPage.ISSUE_145)
+                .then(() => waitUntilLikelyInitialized(driver))
+                .then(() => {
+                    driver.executeScript(`
+                        var el = document.createElement('span');
+                        el.setAttribute('id', '__likelyFetchMock');
+                        el.innerHTML = window.__likelyFetchMock.calls;
+                        document.body.appendChild(el);
+                    `);
+                    return expectToContainText(driver, '#__likelyFetchMock', '0');
+                });
+        });
     });
 
-    describe('execute outside browser enviroment', function () {
+    describe('execute outside browser environment', function () {
         it('should require without errors', function () {
             const likely = require('../release/likely-commonjs').initiate; // eslint-disable-line global-require
             expect(likely).to.be.an('function');

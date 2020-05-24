@@ -108,7 +108,7 @@ export const bools = (node) => {
         if (Object.prototype.hasOwnProperty.call(data, key)) {
             const value = data[key];
 
-            result[key] = bool[value] || value;
+            result[key] = (value in bool) ? bool[value] : value;
         }
     }
 
@@ -122,7 +122,7 @@ export const bools = (node) => {
  * @param {Object} data
  * @returns {String}
  */
-export const template = (text, data) => {
+export const interpolateStr = (text, data) => {
     return text ? text.replace(/\{([^}]+)\}/g, function (value, key) {
         return key in data ? data[key] : value;
     }) : '';
@@ -135,29 +135,34 @@ export const template = (text, data) => {
  * @param {Object} data
  * @returns {String}
  */
-export const makeUrl = (text, data) => {
+export const interpolateUrl = (text, data) => {
     for (const key in data) {
         if (Object.prototype.hasOwnProperty.call(data, key)) {
             data[key] = encodeURIComponent(data[key]);
         }
     }
-
-    return template(text, data);
+    return interpolateStr(text, data);
 };
 
 /**
  * Create query string out of data
  *
  * @param {Object} data
+ * @param {Array} accepted
+ * @param {String} widgetName
  * @returns {String}
  */
-export const query = (data) => {
+export const query = (data, accepted, widgetName) => {
     const filter = encodeURIComponent;
     const query = [];
 
     for (const key in data) {
         if (typeof data[key] === 'object') {
             continue;
+        }
+
+        if (Array.isArray(accepted) && !accepted.includes(key)) {
+            console.warn('Likely – DEPRECATION WARNING: unsupported parameter “%s” is provided for “%s” button. It will be ignored in version 3.0.', key, widgetName);
         }
 
         query.push(`${filter(key)}=${filter(data[key])}`);
@@ -169,13 +174,13 @@ export const query = (data) => {
 /**
  * Set value in object using dot-notation
  *
- * @param {Object} object
  * @param {String} key
  * @param {Object} value
  */
-export const set = (object, key, value) => {
+export const registerGlobalCallback = (key, value) => {
     const frags = key.split('.');
     let last = null;
+    let object = global;
 
     frags.forEach((key, index) => {
         if (typeof object[key] === 'undefined') {

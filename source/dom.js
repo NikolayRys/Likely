@@ -38,11 +38,11 @@ export const createNode = (html) => {
 };
 
 /**
- * Load script
+ * Load script. It gets executed after the main one is finished.
  *
  * @param {String} url
  */
-export const getScript = (url) => {
+export const loadScript = (url) => {
     const script = document.createElement('script');
     const head = document.head;
 
@@ -63,13 +63,13 @@ export const getJSON = (url, callback) => {
     const name = encodeURIComponent(`random_fun_${++gid}`);
 
     const concreteUrl = url.replace(
-        /callback=(\?)/,
-        `callback=__likelyCallbacks.${name}`
+        /(callback|jsonp)=(\?)/,
+        `$1=__likelyCallbacks.${name}`
     );
 
     global.__likelyCallbacks[name] = callback;
 
-    getScript(concreteUrl);
+    loadScript(concreteUrl);
 };
 
 /**

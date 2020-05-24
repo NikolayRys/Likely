@@ -22,16 +22,17 @@ const initWidget = (node, options) => {
         timeout: 1e3,
         zeroes: false,
         title: document.title,
-        wait: 0.5e3,
+        wait: 0.7e3,
         url: getDefaultUrl(),
     };
-    const widget = node[config.name];
 
     const realOptions = merge({}, defaults, fullOptions, bools(node));
+    const widget = node[config.name];
     if (widget) {
         widget.update(realOptions);
     }
     else {
+        // Attaching widget to the node object for future re-initializations
         node[config.name] = new Likely(node, realOptions);
     }
 
