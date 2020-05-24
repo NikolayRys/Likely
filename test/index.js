@@ -370,7 +370,7 @@ describe('Likely', function () {
 
     describe('execute outside browser environment', function () {
         it('should require without errors', function () {
-            const likely = require('../release/likely-commonjs'); // eslint-disable-line global-require
+            const likely = require('../release/likely-commonjs').initiate; // eslint-disable-line global-require
             expect(likely).to.be.an('function');
         });
     });
