@@ -3,7 +3,7 @@
  */
 
 export default {
-    popupUrl: 'https://twitter.com/intent/tweet?url={url}&text={title}',
+    popupUrl: 'https://twitter.com/intent/tweet?url={url}',
     popupWidth: 600,
     popupHeight: 450,
     click() {
