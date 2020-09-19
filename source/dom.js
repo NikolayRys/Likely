@@ -59,8 +59,8 @@ export const loadScript = (url) => {
  * @param {String} url
  * @param {Function} callback
  */
-export const getJSON = (url, callback) => {
-    const name = encodeURIComponent(`random_fun_${++gid}`);
+export const getJSONP = (url, callback) => {
+    const name = encodeURIComponent(`jsonp_${++gid}`);
 
     const concreteUrl = url.replace(
         /(callback|jsonp)=(\?)/,
