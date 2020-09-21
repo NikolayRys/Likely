@@ -17,7 +17,6 @@ import viber from './viber';
 import reddit from './reddit';
 /* eslint-enable sort-imports */
 
-
 const services = {
     facebook,
     linkedin,
