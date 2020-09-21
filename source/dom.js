@@ -54,25 +54,6 @@ export const loadScript = (url) => {
 };
 
 /**
- * Get JSON
- *
- * @param {String} url
- * @param {Function} callback
- */
-export const getJSONP = (url, callback) => {
-    const name = encodeURIComponent(`jsonp_${++gid}`);
-
-    const concreteUrl = url.replace(
-        /(callback|jsonp)=(\?)/,
-        `$1=__likelyCallbacks.${name}`
-    );
-
-    global.__likelyCallbacks[name] = callback;
-
-    loadScript(concreteUrl);
-};
-
-/**
  * Find first node by selector
  *
  * @param {String} selector
