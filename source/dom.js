@@ -5,13 +5,6 @@ const fakeWindow = {};
 export const global = isBrowserEnv ? window : fakeWindow;
 
 const div = isBrowserEnv ? document.createElement('div') : {};
-let gid = 0;
-
-/**
- * Storage for callbacks which are needed
- * for JSONP API of social networks
- */
-global.__likelyCallbacks = {};
 
 /**
  * Wrap SVG coords from data object into SVG tag
@@ -38,11 +31,11 @@ export const createNode = (html) => {
 };
 
 /**
- * Load script. It gets executed after the main one is finished.
+ * Load JSONP script. It gets executed after the main one is finished.
  *
  * @param {String} url
  */
-export const loadScript = (url) => {
+export const loadJSONP = (url) => {
     const script = document.createElement('script');
     const head = document.head;
 
