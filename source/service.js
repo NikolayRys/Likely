@@ -1,19 +1,23 @@
-import { getJSON, global } from './dom';
+import { global } from './dom';
 
-/**
- * @param {Function} updateBroadcaster
- */
-const defaultFetch = function (updateBroadcaster) {
-    getJSON(updateBroadcaster.url, (count) => {
-        try {
-            const convertedNumber = typeof this.convertNumber === 'function' ? this.convertNumber(count) : count;
+function fetchXHR(updateBroadcaster) {
+    const xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = () => {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            const convertedNumber = typeof this.convertNumber === 'function' ? this.convertNumber(xhr.responseText) : xhr.responseText;
             updateBroadcaster.trigger(convertedNumber);
         }
-        catch (e) {}
-    });
-};
+    };
+    xhr.open('GET', updateBroadcaster.url, true);
+    xhr.send();
+}
+
+function resetBroadcasters() {
+    this.broadcastersByUrl = {};
+}
 
 /**
+ * Expands option set for a service with default values
  * @param {Object} options
  */
 export default (options) => {
@@ -21,6 +25,8 @@ export default (options) => {
     // because this function is executed right when Likely is loaded.
     // There’s currently no way to do `likely.__likelyFetchMock = ...`
     // before running this method.
-    options.fetch = global.__likelyFetchMock || options.fetch || defaultFetch;
+    options.fetch = global.__likelyFetchMock || options.fetch || fetchXHR;
     options.click = options.click || (() => true);
+    options.resetBroadcasters = resetBroadcasters;
+    options.resetBroadcasters();
 };
