@@ -1,5 +1,6 @@
 /**
  * WhatsApp service provider
+ * Doc: https://faq.whatsapp.com/iphone/how-to-link-to-whatsapp-from-a-different-app
  */
 
 export default {
