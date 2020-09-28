@@ -20,8 +20,13 @@ class LikelyButton {
         this.likely = likely;
         this.options = mergeToNew(options);
         this.serviceName = this.detectService();
+        if (this.isValid()) {
+            this.detectParams();
+        }
+    }
 
-        this.detectParams();
+    isValid() {
+        return this.options.service !== undefined;
     }
 
     prepare() {

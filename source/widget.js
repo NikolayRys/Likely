@@ -42,11 +42,14 @@ class Likely {
      */
     addButton(node) {
         const button = new Button(node, this, this.options);
-
-        this.buttons.push(button);
-
-        if (button.options.service.counterUrl) {
-            this.countersLeft++;
+        if (button.isValid()) {
+            this.buttons.push(button);
+            if (button.options.service.counterUrl) {
+                this.countersLeft++;
+            }
+        }
+        else {
+            console.warn('A button without a valid service detected, please check button classes.');
         }
     }
 
