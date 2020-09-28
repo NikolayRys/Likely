@@ -17,14 +17,19 @@ class Likely {
         this.countersLeft = 0;
         this.buttons = [];
 
+        if (!likely.deprecationShown) {
+            console.warn('LIKELY DEPRECATION FOR 3.0: Class "likely_visible" will be removed and joined with likely_ready. ' +
+                'Button tags will be changed from <div> to <button>.');
+            likely.deprecationShown = true;
+        }
+
         toArray(this.container.children).forEach(this.addButton.bind(this));
 
+        this.appear();
         if (this.options.counters) {
-            this.appearDelay = setTimeout(this.appear.bind(this), this.options.wait);
             this.readyDelay = setTimeout(this.ready.bind(this), this.options.timeout);
         }
         else {
-            this.appear();
             this.ready();
         }
         this.materializeButtons();
@@ -40,7 +45,7 @@ class Likely {
 
         this.buttons.push(button);
 
-        if (button.options.counterUrl) {
+        if (button.options.service.counterUrl) {
             this.countersLeft++;
         }
     }
@@ -74,7 +79,7 @@ class Likely {
         this.countersLeft--;
 
         if (this.countersLeft === 0) {
-            this.appear();
+            clearTimeout(this.readyDelay);
             this.ready();
         }
     }
@@ -84,16 +89,13 @@ class Likely {
      * Show the buttons with smooth animation
      */
     appear() {
-        clearTimeout(this.appearDelay);
         this.container.classList.add(`${config.name}_visible`);
-        console.warn('DEPRECATION: "likely_visible" class will be removed in 3.0 and joined with likely_ready');
     }
 
     /**
      * Get. Set. Ready.
      */
     ready() {
-        clearTimeout(this.readyDelay);
         this.container.classList.add(`${config.name}_ready`);
     }
 }
