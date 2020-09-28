@@ -1,12 +1,12 @@
 // This module is an entry point for CommonJS modules.
 // It’s written with CommonJS imports and exports to make possible doing `module.exports = likely`.
 // This is required so that users work with `require('likely')`, not `require('likely').default`
-const { bools, getDefaultUrl, merge } = require('./utils');
-
+const { bools, getDefaultUrl, mergeToNew } = require('./utils');
 const Likely = require('./widget').default;
 const config = require('./config').default;
 const { findAll } = require('./dom');
 const history = require('./history').default;
+const services = require('./services').default;
 require('./index.styl');
 
 /**
@@ -22,11 +22,10 @@ const initWidget = (node, options) => {
         timeout: 1e3,
         zeroes: false,
         title: document.title,
-        wait: 0.7e3,
         url: getDefaultUrl(),
     };
 
-    const realOptions = merge({}, defaults, fullOptions, bools(node));
+    const realOptions = mergeToNew({}, defaults, fullOptions, bools(node));
     const widget = node[config.name];
     if (widget) {
         widget.update(realOptions);
@@ -67,6 +66,8 @@ const likely = {
             realOptions = nodes;
         }
 
+        this.maintainStoredData(realOptions);
+
         initWidgets();
         history.onUrlChange(initWidgets);
 
@@ -76,6 +77,20 @@ const likely = {
             });
         }
     },
+
+    /**
+     * Reset stored broadcasters if forceUpdate is requested
+     * @param {Object} realOptions
+     */
+    maintainStoredData(realOptions) {
+        if (realOptions && realOptions.forceUpdate) {
+            Object.keys(services).forEach((serviceName) => {
+                services[serviceName].resetBroadcasters();
+            });
+        }
+    },
+
+    deprecationsShown: false,
 };
 
 module.exports = likely;
