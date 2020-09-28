@@ -185,7 +185,7 @@ You can set `data-image` and `data-description` attributes to set up an image an
 
 ### Linkedin
 Support Open Graph Protocol, please refer the documentation to find out more: https://ogp.me/.
-Recognizes the following OPG <meta> tags: og:title, og:image, og:description, og:url which are used in the popup.
+Recognizes the following OGP <meta> tags: og:title, og:image, og:description, og:url which are used in the popup.
 
 ### Viber
 You can set `data-comment` attribute to specify some text that's going to be added to a shared link (on a separate line).
