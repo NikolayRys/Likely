@@ -137,6 +137,14 @@ These options can be specified on the `div` with the `likely` class (current pag
 </div>
 ```
 
+### Facebook
+
+Allows to add a not editable(but removable) text to the shared link:
+```html
+    <div class="facebook" data-quote="Best website ever!">Post</div>
+```
+Supports Open Graph Markup: https://developers.facebook.com/docs/sharing/webmasters
+
 ### Twitter
 
 You can set `data-via` attribute to mention a specific user in the tweet:
@@ -222,8 +230,9 @@ We support IE 10+, Safari 9+ and the latest versions of Chrome, Firefox and Edge
 ## Deprecations 
 In version 3.0 the following is going to be changed:
 1. Classes `likely-visible` and `likely-ready` will be merged into just `likely-ready`, so please don't rely on `likely-visible` to test the presence.
-2. Unrecognized params passed to the services will be filtered out.
+2. Unrecognized params passed to the services will be ignored.
 3. Old initialization method will be removed.
+4. Likely buttons will be changed from <div> to <button> tag.
 
 There are deprecation warnings implemented in 2.5 for all the above.  
 
