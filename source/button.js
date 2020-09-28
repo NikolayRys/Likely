@@ -59,10 +59,7 @@ class LikelyButton {
         const widget = this.widget;
         const serviceName = getDataset(widget).service ||
             Object.keys(services).filter((service) => widget.classList.contains(service))[0];
-
-        if (serviceName) {
-            this.options.service = services[serviceName];
-        }
+        this.options.service = services[serviceName];
         return serviceName;
     }
 
