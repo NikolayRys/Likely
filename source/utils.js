@@ -64,7 +64,7 @@ export const extendWith = (target, subject) => {
 };
 
 /**
- * Return node.dataset or plain object for IE 10without setters
+ * Return node.dataset or plain object for IE10 without setters
  * based on https://gist.github.com/brettz9/4093766#file_html5_dataset.js
  *
  * @param {Node} node
