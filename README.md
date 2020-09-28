@@ -183,8 +183,11 @@ You can set `data-image` and `data-description` attributes to set up an image an
 <div class="vkontakte" data-image="https://placekitten.com/200/400" data-description="Check this out">Share</div>
 ```
 
-### Viber
+### Linkedin
+Support Open Graph Protocol, please refer the documentation to find out more: https://ogp.me/.
+Recognizes the following OPG <meta> tags: og:title, og:image, og:description, og:url which are used in the popup.
 
+### Viber
 You can set `data-comment` attribute to specify some text that's going to be added to a shared link (on a separate line).
 Doesn't use `data-title`.
 
