@@ -24,12 +24,12 @@ export const toArray = (arrayLike) => Array.prototype.slice.call(arrayLike);
 
 /**
  * Merge given dictionaries (objects) into one object.
- * Iterates across the arguments.
+ * Iterates across the arguments, the last one gets priority.
  *
  * @returns {Object}
  */
-export const merge = function () {
-    const result = {};
+export const mergeToNew = function () {
+    const newObject = {};
     const args = Array.prototype.slice.call(arguments); // eslint-disable-line no-undef
 
     for (let i = 0; i < args.length; i++) {
@@ -38,13 +38,13 @@ export const merge = function () {
         if (arg) {
             for (const key in arg) {
                 if (Object.prototype.hasOwnProperty.call(arg, key)) {
-                    result[key] = arg[key];
+                    newObject[key] = arg[key];
                 }
             }
         }
     }
 
-    return result;
+    return newObject;
 };
 
 /**
@@ -54,7 +54,7 @@ export const merge = function () {
  * @param {Object} subject
  * @returns {Object} Extended target
  */
-export const extend = (target, subject) => {
+export const extendWith = (target, subject) => {
     for (const key in subject) {
         if (Object.prototype.hasOwnProperty.call(subject, key)) {
             target[key] = subject[key];
@@ -162,7 +162,7 @@ export const query = (data, accepted, widgetName) => {
         }
 
         if (Array.isArray(accepted) && !accepted.includes(key)) {
-            console.warn('Likely – DEPRECATION WARNING: unsupported parameter “%s” is provided for “%s” button. It will be ignored in version 3.0.', key, widgetName);
+            console.warn('LIKELY DEPRECATION WARNING: unsupported parameter “%s” is provided for “%s” button. It will be ignored in version 3.0.', key, widgetName);
         }
 
         query.push(`${filter(key)}=${filter(data[key])}`);
