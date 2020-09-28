@@ -95,7 +95,7 @@ class LikelyButton {
 
         widget.addEventListener('click', this.click.bind(this));
         widget.classList.remove(this.serviceName);
-        widget.className += ` ${this.className('widget')}`;
+        widget.className += `${this.className('widget')}`;
 
         const button = interpolateStr(htmlSpan, {
             className: this.className('button'),
