@@ -1,5 +1,6 @@
 /**
  * Viber service provider
+ * Doc: https://developers.viber.com/docs/tools/share-button/
  */
 
 export default {
