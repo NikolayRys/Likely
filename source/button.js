@@ -1,5 +1,5 @@
 import { createNode, createTempLink, find, findAll, openPopup, wrapSVG } from './dom';
-import { extend, getDataset, interpolateStr, interpolateUrl, merge, query } from './utils';
+import { extendWith, getDataset, interpolateStr, interpolateUrl, mergeToNew, query } from './utils';
 
 import config from './config';
 import connectButtonToService from './connectButtonToService';
@@ -18,7 +18,7 @@ class LikelyButton {
     constructor(widget, likely, options) {
         this.widget = widget;
         this.likely = likely;
-        this.options = merge(options);
+        this.options = mergeToNew(options);
         this.serviceName = this.detectService();
 
         this.detectParams();
@@ -39,7 +39,7 @@ class LikelyButton {
     update(options) {
         const className = `.${config.prefix}counter`;
         const counters = findAll(className, this.widget);
-        extend(this.options, merge({ forceUpdate: false }, options));
+        extendWith(this.options, mergeToNew({ forceUpdate: false }, options));
         counters.forEach((node) => {
             node.parentNode.removeChild(node);
         });
@@ -56,7 +56,7 @@ class LikelyButton {
             Object.keys(services).filter((service) => widget.classList.contains(service))[0];
 
         if (serviceName) {
-            extend(this.options, services[serviceName]);
+            this.options.service = services[serviceName];
         }
         return serviceName;
     }
@@ -72,7 +72,7 @@ class LikelyButton {
             const counter = parseInt(data.counter, 10);
 
             if (isNaN(counter)) {
-                options.counterUrl = data.counter;
+                options.service.counterUrl = data.counter;
             }
             else {
                 options.counterNumber = counter;
@@ -102,7 +102,7 @@ class LikelyButton {
 
         const icon = interpolateStr(htmlSpan, {
             className: this.className('icon'),
-            content: wrapSVG(options.svgIconPath),
+            content: wrapSVG(options.service.svgIconPath),
         });
 
         widget.innerHTML = icon + button;
@@ -113,8 +113,8 @@ class LikelyButton {
      */
     registerAsCounted() {
         const options = this.options;
-        if (options.counters && options.counterUrl) {
-            connectButtonToService(this.serviceName, this.setDisplayedCounter.bind(this), options);
+        if (options.counters && options.service.counterUrl) {
+            connectButtonToService(this.setDisplayedCounter.bind(this), options);
         }
     }
 
@@ -166,7 +166,7 @@ class LikelyButton {
         const options = this.options;
 
         if (options.click.call(this)) {
-            const url = interpolateUrl(options.popupUrl, {
+            const url = interpolateUrl(options.service.popupUrl, {
                 url: options.url,
                 title: options.title,
                 content: options.content,
@@ -180,8 +180,8 @@ class LikelyButton {
             openPopup(
                 this.addAdditionalParamsToUrl(url),
                 config.prefix + this.serviceName,
-                options.popupWidth,
-                options.popupHeight
+                options.service.popupWidth,
+                options.service.popupHeight
             );
         }
 
@@ -195,9 +195,8 @@ class LikelyButton {
      * @returns {String}
      */
     addAdditionalParamsToUrl(url) {
-        const parameters = query(merge(this.widget.dataset, this.options.data), this.options.knownParams, this.options.name);
+        const parameters = query(mergeToNew(this.widget.dataset, this.options.data), this.options.service.knownParams, this.options.name);
         const delimeter = url.indexOf('?') === -1 ? '?' : '&';
-
         return parameters === ''
             ? url
             : url + delimeter + parameters;
