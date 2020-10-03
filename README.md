@@ -146,9 +146,7 @@ Custom params:
 2. **hashtag** - a single word with hash(#) symbol, which is included in the post.
 
 Supports [Open Graph Protocol](https://ogp.me/) meta tags: 
-*og:url*, *og:type*, *og:title*, &og:description*, *og:image*, *og:type*, *og:locale*
-
-More details: https://developers.facebook.com/docs/sharing/webmasters
+[og:url, og:type, og:title, og:description, og:image, og:type, og:locale](https://developers.facebook.com/docs/sharing/webmasters)
 
 ### Linkedin
 ```html
@@ -157,9 +155,7 @@ More details: https://developers.facebook.com/docs/sharing/webmasters
 Custom params: none.
 
 Supports [Open Graph Protocol](https://ogp.me/) meta tags: 
-*og:title*, *og:image*, *og:description*, *og:url*.
-
-More details: https://www.linkedin.com/help/linkedin/answer/46687/making-your-website-shareable-on-linkedin
+[og:title, og:image, og:description, og:url](https://www.linkedin.com/help/linkedin/answer/46687/making-your-website-shareable-on-linkedin).
 
 ### Twitter
 
