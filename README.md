@@ -123,11 +123,12 @@ You can configure Likely by specifying `data-*` attributes on a button group or 
 
 ### Common options
 
-These options can be specified on the `div` with the `likely` class (current page URL and title will be used as a fallback).
+These options can be specified on the `div` with the `likely` class. Please note that they matter to not all of the services, please refer the documentation below.
 
-* `data-url` – URL to share and load counters for (⚠ specify the full URL with the protocol – like in `https://ilyabirman.com` – because some social networks don’t recognize the partial one)
 
-* `data-title` – used document title by default
+* `data-url` – URL to share and load counters for, defaults to the current page URL. ⚠ Specify the full URL with the protocol – like in `https://ilyabirman.com` – because some social networks don’t recognize the partial one.
+
+* `data-title` – defaults to the page title.
 
 * `data-counters` – pass "no" to disable counters (enabled by default)
 
@@ -139,8 +140,10 @@ These options can be specified on the `div` with the `likely` class (current pag
 
 ### Facebook
 ```html
-<div class="facebook" data-quote="Best website ever!" data-hashtag="#puppies">Post</div>
+<div class="facebook" data-quote="Best website ever!" data-hashtag="#puppies">Share</div>
 ```
+Common params: **url**, **counters**.
+
 Custom params: 
 1. **quote** - adds non-editable(but removable) text to the shared link.
 2. **hashtag** - a single word with hash(#) symbol, which is included in the post.
@@ -151,12 +154,24 @@ Supports [Open Graph Protocol](https://ogp.me/) meta tags:
 ### Linkedin
 ```html
 <div class="linkedin">Post</div>
-```
+``` 
+Common params: **url**
+
 Custom params: none.
 
 Supports [Open Graph Protocol](https://ogp.me/) meta tags: 
 [og:title, og:image, og:description, og:url](https://www.linkedin.com/help/linkedin/answer/46687/making-your-website-shareable-on-linkedin).
 
+### OK (Odnoklassniki)
+```html
+<div class="odnoklassniki">Like</div>
+```
+Common params: **url**, **title**
+
+Custom params: none.
+
+Supports [Open Graph Protocol](https://ogp.me/) meta tags:
+[og:title, og:description, og:image, og:video](https://apiok.ru/en/ext/like).
 ### Twitter
 
 You can set `data-via` attribute to mention a specific user in the tweet:

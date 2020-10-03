@@ -2,8 +2,6 @@
  * Odnoklassniki service provider
  * Docs: https://apiok.ru/en/ext/like
  * https://connect.ok.ru/connect.js
- *
- * Supports OGP meta tags: og:title, og:description, og:image and og:video
  */
 
 const odnoklassniki = {
