@@ -138,12 +138,14 @@ These options can be specified on the `div` with the `likely` class (current pag
 ```
 
 ### Facebook
-
-Allows to add a not editable(but removable) text to the shared link:
+1. "quote" field adds not editable(but removable) text to the shared link.
+2. Can have single "hashtag" value with hash(#) symbol, like here: #puppies
+ 
 ```html
-    <div class="facebook" data-quote="Best website ever!">Post</div>
+    <div class="facebook" data-quote="Best website ever!" data-hashtag="#puppies">Post</div>
 ```
-Supports Open Graph Markup: https://developers.facebook.com/docs/sharing/webmasters
+Supports Open Graph fields: og:url, og:type, og:title, og:description, og:image, og:type, og:locale
+More details: https://developers.facebook.com/docs/sharing/webmasters
 
 ### Twitter
 
