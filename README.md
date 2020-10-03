@@ -124,12 +124,10 @@ You can configure Likely by specifying `data-*` attributes on a button group or 
 ### Common options
 
 These options can be specified on the `div` with the `likely` class. Please note that they matter to not all of the services, please refer the documentation below.
-
+**url** and **title** can be overridden for each service.
 
 * `data-url` – URL to share and load counters for, defaults to the current page URL. ⚠ Specify the full URL with the protocol – like in `https://ilyabirman.com` – because some social networks don’t recognize the partial one.
-
 * `data-title` – defaults to the page title.
-
 * `data-counters` – pass "no" to disable counters (enabled by default)
 
 ```html
@@ -142,36 +140,47 @@ These options can be specified on the `div` with the `likely` class. Please note
 ```html
 <div class="facebook" data-quote="Best website ever!" data-hashtag="#puppies">Share</div>
 ```
-Common params: **url**, **counters**.
+* **url** - common param
+* **quote** - adds non-editable(but removable) text to the shared link.
+* **hashtag** - a single word with hash(#) symbol, which is included in the post.
 
-Custom params: 
-1. **quote** - adds non-editable(but removable) text to the shared link.
-2. **hashtag** - a single word with hash(#) symbol, which is included in the post.
-
-Supports [Open Graph Protocol](https://ogp.me/) meta tags: 
-[og:url, og:type, og:title, og:description, og:image, og:type, og:locale](https://developers.facebook.com/docs/sharing/webmasters)
+Supports [Open Graph](https://ogp.me/) meta tags: 
+[Facebook documentation](https://developers.facebook.com/docs/sharing/webmasters)
 
 ### Linkedin
 ```html
 <div class="linkedin">Post</div>
 ``` 
-Common params: **url**
+* **url** - common param
 
-Custom params: none.
+Supports [Open Graph](https://ogp.me/) meta tags: 
+[Linkedin documentation](https://www.linkedin.com/help/linkedin/answer/46687/making-your-website-shareable-on-linkedin).
 
-Supports [Open Graph Protocol](https://ogp.me/) meta tags: 
-[og:title, og:image, og:description, og:url](https://www.linkedin.com/help/linkedin/answer/46687/making-your-website-shareable-on-linkedin).
+⚠ og:description is ignored if og:image is given
 
 ### OK (Odnoklassniki)
 ```html
 <div class="odnoklassniki">Like</div>
 ```
-Common params: **url**, **title**
+* **url** - common param
+* **title** - common param
 
-Custom params: none.
+Supports [Open Graph](https://ogp.me/) meta tags:
+[OK documentation](https://apiok.ru/en/ext/like).
 
-Supports [Open Graph Protocol](https://ogp.me/) meta tags:
-[og:title, og:description, og:image, og:video](https://apiok.ru/en/ext/like).
+### Pinterest
+```html
+<div class="pinterest" data-media="https://placekitten.com/200/400">Pin</div>
+```
+* **url** - common param
+* **title** - common param
+* **media** - URL of an image that overrides the image in the Pin Create form. 
+If not provided, Pinterest will try to find image at the given webpage. 
+Use the this attribute to provide a better-quality version of the image if you have one. 
+
+Supports [Open Graph](https://ogp.me/) meta tags:
+[Pinterest documentation](https://developers.pinterest.com/docs/rich-pins/overview/).
+
 ### Twitter
 
 You can set `data-via` attribute to mention a specific user in the tweet:
@@ -191,16 +200,6 @@ Doesn't use `data-title`.
 <div class="telegram" data-text="Check this out">Send</div>
 ```
 
-### Pinterest
-
-You can set `data-media` attribute to override a default image and substitute a different one in the Pin Create form.
-The attribute should be an image URL:
-
-```html
-<div class="pinterest" data-media="https://placekitten.com/200/400">Pin</div>
-```
-
-Read more about the `media` parameter [in Pinterest documentation](https://developers.pinterest.com/docs/widgets/pin-it/#source-settings).
 
 ### VK
 
