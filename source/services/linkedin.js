@@ -2,8 +2,6 @@
  * LinkedIn service provider
  * Doc: https://stackoverflow.com/questions/33426752/linkedin-share-post-url
  * https://www.linkedin.com/help/linkedin/answer/46687/making-your-website-shareable-on-linkedin
- *
- * Supports OpenGraph, please refer https://ogp.me/ to customise shared page data.
  */
 
 export default {

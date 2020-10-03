@@ -127,25 +127,39 @@ These options can be specified on the `div` with the `likely` class (current pag
 
 * `data-url` – URL to share and load counters for (⚠ specify the full URL with the protocol – like in `https://ilyabirman.com` – because some social networks don’t recognize the partial one)
 
-* `data-title` – Page title
+* `data-title` – used document title by default
 
 * `data-counters` – pass "no" to disable counters (enabled by default)
 
 ```html
 <div class="likely" data-url="https://github.com/ilyabirman/Likely">
-    <!-- ... -->
+    <!-- list of serivces -->
 </div>
 ```
 
 ### Facebook
-1. "quote" field adds not editable(but removable) text to the shared link.
-2. Can have single "hashtag" value with hash(#) symbol, like here: #puppies
- 
 ```html
-    <div class="facebook" data-quote="Best website ever!" data-hashtag="#puppies">Post</div>
+<div class="facebook" data-quote="Best website ever!" data-hashtag="#puppies">Post</div>
 ```
-Supports Open Graph fields: og:url, og:type, og:title, og:description, og:image, og:type, og:locale
+Custom params: 
+1. **quote** - adds non-editable(but removable) text to the shared link.
+2. **hashtag** - a single word with hash(#) symbol, which is included in the post.
+
+Supports [Open Graph Protocol](https://ogp.me/) meta tags: 
+*og:url*, *og:type*, *og:title*, &og:description*, *og:image*, *og:type*, *og:locale*
+
 More details: https://developers.facebook.com/docs/sharing/webmasters
+
+### Linkedin
+```html
+<div class="linkedin">Post</div>
+```
+Custom params: none.
+
+Supports [Open Graph Protocol](https://ogp.me/) meta tags: 
+*og:title*, *og:image*, *og:description*, *og:url*.
+
+More details: https://www.linkedin.com/help/linkedin/answer/46687/making-your-website-shareable-on-linkedin
 
 ### Twitter
 
@@ -184,10 +198,6 @@ You can set `data-image` and `data-description` attributes to set up an image an
 ```html
 <div class="vkontakte" data-image="https://placekitten.com/200/400" data-description="Check this out">Share</div>
 ```
-
-### Linkedin
-Support Open Graph Protocol, please refer the documentation to find out more: https://ogp.me/.
-Recognizes the following OGP <meta> tags: og:title, og:image, og:description, og:url which are used in the popup.
 
 ### Viber
 You can set `data-comment` attribute to specify some text that's going to be added to a shared link (on a separate line).
