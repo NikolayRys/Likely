@@ -1,5 +1,7 @@
 /**
  * Pinterest service provider
+ * Docs: https://developers.pinterest.com/docs/widgets/save/
+ * https://stackoverflow.com/questions/9951045/pinterest-api-documentation
  */
 
 export default {
