@@ -188,13 +188,9 @@ Supports [Open Graph](https://ogp.me/) meta tags:
 ```html
 <div class="reddit">Submit</div>
 ``` 
-* Allows counters
+* Allows counters, which are calculated as a sum of 5 most upvoted posts for a given link.
 * **url** - common param
 * **title** - common param
-* **resubmit** - can be "true" or "false", default to "false".
-If "false" you will be taken to the existed post it if the same link is already submitted to the selected subreddit. 
-If "true" you will be allowed to post the same link again. Not recommended due to how the counters are calculated.
-
 
 ### Twitter
 
