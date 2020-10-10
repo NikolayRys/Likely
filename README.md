@@ -140,6 +140,7 @@ These options can be specified on the `div` with the `likely` class. Please note
 ```html
 <div class="facebook" data-quote="Best website ever!" data-hashtag="#puppies">Share</div>
 ```
+* Allows counters
 * **url** - common param
 * **quote** - adds non-editable(but removable) text to the shared link.
 * **hashtag** - a single word with hash(#) symbol, which is included in the post.
@@ -161,7 +162,8 @@ Supports [Open Graph](https://ogp.me/) meta tags:
 ### OK (Odnoklassniki)
 ```html
 <div class="odnoklassniki">Like</div>
-```
+``` 
+* Allows counters
 * **url** - common param
 * **title** - common param
 
@@ -172,6 +174,7 @@ Supports [Open Graph](https://ogp.me/) meta tags:
 ```html
 <div class="pinterest" data-media="https://placekitten.com/200/400">Pin</div>
 ```
+* Allows counters
 * **url** - common param
 * **title** - common param
 * **media** - URL of an image that overrides the image in the Pin Create form. 
@@ -180,6 +183,18 @@ Use the this attribute to provide a better-quality version of the image if you h
 
 Supports [Open Graph](https://ogp.me/) meta tags:
 [Pinterest documentation](https://developers.pinterest.com/docs/rich-pins/overview/).
+
+### Reddit
+```html
+<div class="reddit">Submit</div>
+``` 
+* Allows counters
+* **url** - common param
+* **title** - common param
+* **resubmit** - can be "true" or "false", default to "false".
+If "false" you will be taken to the existed post it if the same link is already submitted to the selected subreddit. 
+If "true" you will be allowed to post the same link again. Not recommended due to how the counters are calculated.
+
 
 ### Twitter
 
@@ -202,12 +217,12 @@ Doesn't use `data-title`.
 
 
 ### VK
-
 You can set `data-image` and `data-description` attributes to set up an image and a description accordingly:
 
 ```html
 <div class="vkontakte" data-image="https://placekitten.com/200/400" data-description="Check this out">Share</div>
-```
+``` 
+* Allows counters
 
 ### Viber
 You can set `data-comment` attribute to specify some text that's going to be added to a shared link (on a separate line).
