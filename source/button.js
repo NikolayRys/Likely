@@ -168,19 +168,20 @@ class LikelyButton {
         const options = this.options;
 
         if (options.service.click.call(this)) {
-            const url = interpolateUrl(options.service.popupUrl, {
+            const urlWithBaseParams = interpolateUrl(options.service.popupUrl, {
                 url: options.url,
                 title: options.title,
                 content: options.content,
             });
+            const completeUrl = this.addAdditionalParamsToUrl(urlWithBaseParams);
 
-            if (options.openPopup === false) {
-                createTempLink(this.addAdditionalParamsToUrl(url));
+            if (options.service.openPopup === false) {
+                createTempLink(completeUrl);
                 return false;
             }
 
             openPopup(
-                this.addAdditionalParamsToUrl(url),
+                completeUrl,
                 config.prefix + this.serviceName,
                 options.service.popupWidth,
                 options.service.popupHeight
