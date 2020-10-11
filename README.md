@@ -156,16 +156,16 @@ Supports [Open Graph](https://ogp.me/) meta tags:
 
 Supports [Open Graph](https://ogp.me/) meta tags: 
 [Linkedin documentation](https://www.linkedin.com/help/linkedin/answer/46687/making-your-website-shareable-on-linkedin).
-
 ⚠ og:description is ignored if og:image is given
 
 ### OK (Odnoklassniki)
 ```html
-<div class="odnoklassniki">Like</div>
+<div class="odnoklassniki" data-imageurl="http://i.imgur.com/zunNbfY.jpg">Like</div>
 ``` 
 * Allows counters
 * **url** - common param
 * **title** - common param
+* **imageurl** - url to a picture which is going to be uses as a thumbnail for the post.
 
 Supports [Open Graph](https://ogp.me/) meta tags:
 [OK documentation](https://apiok.ru/en/ext/like).
