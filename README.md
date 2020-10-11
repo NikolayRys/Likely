@@ -120,32 +120,30 @@ likely.initiate();
 ```
 
 ## Options
+You can configure Likely by specifying `data-*` attributes on a button group with the `likely` class or on a button of specific service.
 
-You can configure Likely by specifying `data-*` attributes on a button group or on a button.
-
-### Common options
-
-These options can be specified on the `div` with the `likely` class. Please note that they matter to not all of the services, please refer the documentation below.
-**url** and **title** can be overridden for each service.
-
+Top-level option are passed down to all the services, which use us them. They can also be overridden on an individual service tag.
 * `data-url` – URL to share and load counters for, defaults to the current page URL. ⚠ Specify the full URL with the protocol – like in `https://ilyabirman.com` – because some social networks don’t recognize the partial one.
 * `data-title` – defaults to the page title.
-* `data-counters` – pass "no" to disable counters (enabled by default)
-
 ```html
-<div class="likely" data-url="https://github.com/ilyabirman/Likely">
+<div class="likely" data-url="https://github.com/ilyabirman/Likely" data-title="My page">
     <!-- list of serivces -->
 </div>
 ```
+### OGP
+In 2020 social networks rely on what is called [Open Graph Protocol](https://ogp.me/) to extract the information about shared links.
+Below there is more information regarding how individual services support it, 
+but it's highly recommended to set up the proper <meta> tags for your page, to work in conjunction with Likely.
 
+## Services
 ### Facebook
 ```html
 <div class="facebook" data-quote="Best website ever!" data-hashtag="#puppies">Share</div>
 ```
-* Allows counters
 * **url** - common param
 * **quote** - adds non-editable(but removable) text to the shared link.
 * **hashtag** - a single word with hash(#) symbol, which is included in the post.
+* **counter** - if provided, blocks the API call and simply shows given value instead.
 
 Supports [Open Graph](https://ogp.me/) meta tags: 
 [Facebook documentation](https://developers.facebook.com/docs/sharing/webmasters)
@@ -164,10 +162,10 @@ Supports [Open Graph](https://ogp.me/) meta tags:
 ```html
 <div class="odnoklassniki" data-imageurl="http://i.imgur.com/zunNbfY.jpg">Like</div>
 ``` 
-* Allows counters
 * **url** - common param
 * **title** - common param
 * **imageurl** - url to a picture which is going to be uses as a thumbnail for the post.
+* **counter** - if provided, blocks the API call and simply shows given value instead.
 
 Supports [Open Graph](https://ogp.me/) meta tags:
 [OK documentation](https://apiok.ru/en/ext/like).
@@ -176,12 +174,12 @@ Supports [Open Graph](https://ogp.me/) meta tags:
 ```html
 <div class="pinterest" data-media="https://placekitten.com/200/400">Pin</div>
 ```
-* Allows counters
 * **url** - common param
 * **title** - common param
 * **media** - URL of an image that overrides the image in the Pin Create form. 
 If not provided, Pinterest will try to find image at the given webpage. 
 Use the this attribute to provide a better-quality version of the image if you have one. 
+* **counter** - if provided, blocks the API call and simply shows given value instead.
 
 Supports [Open Graph](https://ogp.me/) meta tags:
 [Pinterest documentation](https://developers.pinterest.com/docs/rich-pins/overview/).
@@ -190,9 +188,10 @@ Supports [Open Graph](https://ogp.me/) meta tags:
 ```html
 <div class="reddit">Submit</div>
 ``` 
-* Allows counters, which are calculated as a sum of 5 most up-voted posts for a given link.
+Reddit counter is calculated as a sum score of the 5 most up-voted posts for a given link.
 * **url** - common param
 * **title** - title of the post, defaults to the page title.
+* **counter** - if provided, blocks the API call and simply shows given value instead.
 
 ### Telegram
 ```html
@@ -204,7 +203,7 @@ Supports [Open Graph](https://ogp.me/) meta tags:
 Supports [Open Graph](https://ogp.me/) meta tags:
 [Stackoverflow question](https://stackoverflow.com/questions/30160294).
 
-### Twitter
+### Twitter ???
 You can set `data-via` attribute to mention a specific user in the tweet:
 
 ```html
@@ -213,15 +212,14 @@ You can set `data-via` attribute to mention a specific user in the tweet:
 
 With `data-via="ilyabirman"`, the tweet text will include “via @ilyabirman”. Read more about the `via` parameter [in Twitter documentation](https://developer.twitter.com/en/docs/twitter-for-websites/tweet-button/overview#component-via).
 
-### VK
+### VK ???
 You can set `data-image` and `data-description` attributes to set up an image and a description accordingly:
-
 ```html
 <div class="vkontakte" data-image="https://placekitten.com/200/400" data-description="Check this out">Share</div>
 ``` 
-* Allows counters
+* **counter** - if provided, blocks the API call and simply shows given value instead.
 
-### Viber
+### Viber ???
 You can set `data-comment` attribute to specify some text that's going to be added to a shared link (on a separate line).
 Doesn't use `data-title`.
 
@@ -239,8 +237,9 @@ Doesn't use `data-title`.
 Supports [Open Graph](https://ogp.me/) meta tags:
 [Stackoverflow question](https://stackoverflow.com/questions/19778620).
 
-### Reinitialize configuration on change data attributes
 
+## Additional info
+### Reinitialize configuration on change data attributes
 If you need to dynamically change a widget's configuration, you can re-initialize the widget and invoke the configuration update logic on the *Likely* instance using the `init` method.
 
 ```javascript
@@ -251,9 +250,16 @@ likely.initiate();
 likely.initiate({forceUpdate:true});
 ```
 
+### How to disable the automatic counters
+Counters are enabled by default, but there are two ways to disable them:
+* To add `data-counters` attribute on the upper `likely` div with `"no"`value to disable all counters.
+* Another option is supply a custom value for `data-counter` attribute of the specific services. 
+Likely won't do an API request and just display the given value instead. 
+It can be used when you want to save user's traffic and obtain value through some other means, 
+for example through the backend in a centralized manner.
+
 ### Accessibility Settings
 To make buttons accessible for keyboard navigation and screen readers add `tabindex`, `role` and `aria-label` attributes:
-
 ```html
 <div class="likely">
     <div class="facebook" tabindex="0" role="link" aria-label="Share on Facebook">Share</div>
@@ -262,11 +268,10 @@ To make buttons accessible for keyboard navigation and screen readers add `tabin
 </div>
 ```
 
-## Supported browsers
-
+### Supported browsers
 We support IE 10+, Safari 9+ and the latest versions of Chrome, Firefox and Edge. Likely might work in the older versions too but we don’t maintain the compatibility on purpose.
 
-## Deprecations 
+### Deprecations 
 In version 3.0 the following is going to be changed:
 1. Classes `likely-visible` and `likely-ready` will be merged into just `likely-ready`, so please don't rely on `likely-visible` to test the presence.
 2. Unrecognized params passed to the services will be ignored.
