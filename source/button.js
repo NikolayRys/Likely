@@ -72,11 +72,7 @@ class LikelyButton {
 
         if (data.counter) {
             const counter = parseInt(data.counter, 10);
-
-            if (isNaN(counter)) {
-                options.service.counterUrl = data.counter;
-            }
-            else {
+            if (!Number.isNaN(counter)) {
                 options.counterNumber = counter;
             }
         }
