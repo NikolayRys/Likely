@@ -1,5 +1,7 @@
 /**
  * Telegram service provider
+ *
+ * Share doc: https://core.telegram.org/widgets/share
  */
 
 export default {
