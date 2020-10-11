@@ -227,7 +227,7 @@ export const isBrowserEnv = typeof window !== 'undefined' && typeof document !==
  */
 
 export const renameKey = (obj, oldKey, newKey) => {
-    if (oldKey in obj) {
+    if (Object.prototype.hasOwnProperty.call(obj, oldKey)) {
         delete Object.assign(obj, { [newKey]: obj[oldKey] })[oldKey];
     }
 };
