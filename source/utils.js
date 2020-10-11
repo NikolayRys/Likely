@@ -217,3 +217,15 @@ export const getDefaultUrl = () => {
  * Is code run in browser or on server.
  */
 export const isBrowserEnv = typeof window !== 'undefined' && typeof document !== 'undefined' && document.createElement;
+
+/**
+ * Renames a key in an object, using ES6 syntax
+ *
+ * @param {Object} object that is being modified
+ * @param {String} old key name
+ * @param {String} new key name
+ */
+
+export const renameKey = (obj, oldKey, newKey) => {
+    delete Object.assign(obj, { [newKey]: obj[oldKey] })[oldKey];
+};
