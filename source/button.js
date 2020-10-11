@@ -71,10 +71,7 @@ class LikelyButton {
         const data = getDataset(this.widget);
 
         if (data.counter) {
-            const counter = parseInt(data.counter, 10);
-            if (!Number.isNaN(counter)) {
-                options.counterNumber = counter;
-            }
+            options.staticCounter = data.counter;
         }
 
         options.title = data.title || options.title;
@@ -112,7 +109,12 @@ class LikelyButton {
     registerAsCounted() {
         const options = this.options;
         if (options.counters && options.service.counterUrl) {
-            connectButtonToService(this.setDisplayedCounter.bind(this), options);
+            if (options.staticCounter) {
+                this.setDisplayedCounter(options.staticCounter);
+            }
+            else {
+                connectButtonToService(this.setDisplayedCounter.bind(this), options);
+            }
         }
     }
 
