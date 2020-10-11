@@ -1,6 +1,8 @@
 ![Likely logo](logo.png)
 
-The social sharing buttons that aren’t shabby
+The social sharing buttons that aren’t shabby.
+
+Version 2.6 is out 🎉
 
 ## Take a look
 
@@ -188,29 +190,28 @@ Supports [Open Graph](https://ogp.me/) meta tags:
 ```html
 <div class="reddit">Submit</div>
 ``` 
-* Allows counters, which are calculated as a sum of 5 most upvoted posts for a given link.
+* Allows counters, which are calculated as a sum of 5 most up-voted posts for a given link.
 * **url** - common param
-* **title** - common param
+* **title** - title of the post, defaults to the page title.
+
+### Telegram
+```html
+<div class="telegram" data-title="Check this link above!">Send</div>
+```
+* **url** - common param
+* **title** - text that appears after the link in the shared message, defaults to the page title.
+
+Supports [Open Graph](https://ogp.me/) meta tags:
+[Stackoverflow question](https://stackoverflow.com/questions/30160294).
 
 ### Twitter
-
 You can set `data-via` attribute to mention a specific user in the tweet:
 
 ```html
 <div class="twitter" data-via="ilyabirman">Tweet</div>
 ```
 
-With `data-via="ilyabirman"`, the tweet text will include “via @ilyabirman”. Read more about the `via` parameter [in Twitter documentation](https://dev.twitter.com/web/tweet-button#component-via).
-
-### Telegram
-
-You can set `data-text` attribute to define a text of the message. 
-Doesn't use `data-title`.
-
-```html
-<div class="telegram" data-text="Check this out">Send</div>
-```
-
+With `data-via="ilyabirman"`, the tweet text will include “via @ilyabirman”. Read more about the `via` parameter [in Twitter documentation](https://developer.twitter.com/en/docs/twitter-for-websites/tweet-button/overview#component-via).
 
 ### VK
 You can set `data-image` and `data-description` attributes to set up an image and a description accordingly:
@@ -228,6 +229,16 @@ Doesn't use `data-title`.
 <div class="viber" data-comment="Check this out">Send</div>
 ```
 
+### Whatsapp
+```html
+<div class="whatsapp">Send</div>
+```
+* **url** - common param 
+* **title** - text that precedes the link in the shared message, defaults to the page title.
+
+Supports [Open Graph](https://ogp.me/) meta tags:
+[Stackoverflow question](https://stackoverflow.com/questions/19778620).
+
 ### Reinitialize configuration on change data attributes
 
 If you need to dynamically change a widget's configuration, you can re-initialize the widget and invoke the configuration update logic on the *Likely* instance using the `init` method.
@@ -241,21 +252,13 @@ likely.initiate({forceUpdate:true});
 ```
 
 ### Accessibility Settings
-
 To make buttons accessible for keyboard navigation and screen readers add `tabindex`, `role` and `aria-label` attributes:
 
 ```html
 <div class="likely">
     <div class="facebook" tabindex="0" role="link" aria-label="Share on Facebook">Share</div>
     <div class="twitter" tabindex="0" role="link" aria-label="Tweet on Twitter">Tweet</div>
-    <div class="vkontakte" tabindex="0" role="link" aria-label="Share on Vkontakte">Share</div>
-    <div class="pinterest" tabindex="0" role="link" aria-label="Pin on Pinterest">Pin</div>
-    <div class="odnoklassniki" tabindex="0" role="link" aria-label="Like on Odnoklassniki">Like</div>
-    <div class="telegram" tabindex="0" role="link" aria-label="Send on Telegram">Send</div>
-    <div class="linkedin" tabindex="0" role="link" aria-label="Share on LinkedIn">Share</div>
-    <div class="whatsapp" tabindex="0" role="link" aria-label="Send on WhatsApp">Send</div>
-    <div class="viber" tabindex="0" role="link" aria-label="Send on Viber">Send</div>
-    <div class="reddit" tabindex="0" role="link" aria-label="Share on Reddit">Share</div>
+    <!-- The same for each services -->
 </div>
 ```
 
@@ -270,7 +273,7 @@ In version 3.0 the following is going to be changed:
 3. Old initialization method will be removed.
 4. Likely buttons will be changed from <div> to <button> tag.
 
-There are deprecation warnings implemented in 2.5 for all the above.  
+As of now, there are deprecation warnings implemented for all the above.  
 
 # Development
 Please use the [Github commit style](https://gist.github.com/robertpainsi/b632364184e70900af4ab688decf6f53).
