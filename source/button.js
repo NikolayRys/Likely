@@ -67,6 +67,18 @@ class LikelyButton {
     detectParams() {
         const options = this.options;
         const data = getDataset(this.widget);
+        const unknownParams = [];
+
+        for (const key in data) {
+            if (!this.options.service.knownParams.includes(key)) {
+                unknownParams.push(key);
+            }
+        }
+        if (unknownParams.length > 0) {
+            const unknownParamsStr = unknownParams.join(', ');
+            console.warn('LIKELY DEPRECATION WARNING: unsupported parameters “%s” detected on “%s” button. It will be ignored in version 3.0.',
+                unknownParamsStr, this.options.service.name);
+        }
 
         if (data.counter) {
             options.staticCounter = data.counter;
@@ -194,7 +206,7 @@ class LikelyButton {
      * @returns {String}
      */
     addAdditionalParamsToUrl(url) {
-        const parameters = query(mergeToNew(this.widget.dataset, this.options.data), this.options.service.knownParams, this.options.service.name);
+        const parameters = query(mergeToNew(this.widget.dataset, this.options.data));
         const delimeter = url.indexOf('?') === -1 ? '?' : '&';
         return parameters === ''
             ? url
