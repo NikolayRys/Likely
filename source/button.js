@@ -19,7 +19,7 @@ class LikelyButton {
         this.widget = widget;
         this.likely = likely;
         this.options = mergeToNew(options);
-        this.serviceName = this.detectService();
+        this.detectService();
         if (this.isValid()) {
             this.detectParams();
         }
@@ -30,7 +30,7 @@ class LikelyButton {
     }
 
     prepare() {
-        if (this.serviceName) {
+        if (this.options.service.name) {
             this.initHtml();
             this.registerAsCounted();
         }
@@ -53,14 +53,12 @@ class LikelyButton {
 
     /**
      * Get the config.name of service and its options
-     * @returns {String}
      */
     detectService() {
         const widget = this.widget;
         const serviceName = getDataset(widget).service ||
             Object.keys(services).filter((service) => widget.classList.contains(service))[0];
         this.options.service = services[serviceName];
-        return serviceName;
     }
 
     /**
@@ -87,7 +85,7 @@ class LikelyButton {
         const text = widget.innerHTML;
 
         widget.addEventListener('click', this.click.bind(this));
-        widget.classList.remove(this.serviceName);
+        widget.classList.remove(this.options.service.name);
         widget.className += `${this.className('widget')}`;
 
         const button = interpolateStr(htmlSpan, {
@@ -125,7 +123,7 @@ class LikelyButton {
     className(className) {
         const fullClass = config.prefix + className;
 
-        return `${fullClass} ${fullClass}_${this.serviceName}`;
+        return `${fullClass} ${fullClass}_${this.options.service.name}`;
     }
 
     /**
@@ -180,7 +178,7 @@ class LikelyButton {
 
             openPopup(
                 completeUrl,
-                config.prefix + this.serviceName,
+                config.prefix + this.options.service.name,
                 options.service.popupWidth,
                 options.service.popupHeight
             );
@@ -196,7 +194,7 @@ class LikelyButton {
      * @returns {String}
      */
     addAdditionalParamsToUrl(url) {
-        const parameters = query(mergeToNew(this.widget.dataset, this.options.data), this.options.service.knownParams, this.options.name);
+        const parameters = query(mergeToNew(this.widget.dataset, this.options.data), this.options.service.knownParams, this.options.service.name);
         const delimeter = url.indexOf('?') === -1 ? '?' : '&';
         return parameters === ''
             ? url
