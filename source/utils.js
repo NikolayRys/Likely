@@ -152,7 +152,7 @@ export const interpolateUrl = (text, data) => {
  * @param {String} widgetName
  * @returns {String}
  */
-export const query = (data, accepted, widgetName) => {
+export const query = (data) => {
     const filter = encodeURIComponent;
     const query = [];
 
@@ -160,11 +160,6 @@ export const query = (data, accepted, widgetName) => {
         if (typeof data[key] === 'object') {
             continue;
         }
-
-        if (Array.isArray(accepted) && !accepted.includes(key)) {
-            console.warn('LIKELY DEPRECATION WARNING: unsupported parameter “%s” is provided for “%s” button. It will be ignored in version 3.0.', key, widgetName);
-        }
-
         query.push(`${filter(key)}=${filter(data[key])}`);
     }
 
