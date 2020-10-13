@@ -27,6 +27,7 @@ export default (options) => {
     // before running this method.
     options.fetch = global.__likelyFetchMock || options.fetch || fetchXHR;
     options.clickCallback = options.clickCallback || (() => true);
+    options.knownParams = options.knownParams || [];
     options.resetBroadcasters = resetBroadcasters;
     options.resetBroadcasters();
 };
