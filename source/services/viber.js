@@ -5,7 +5,7 @@
 
 export default {
     popupUrl: 'viber://forward?text={content}',
-    click() {
+    clickCallback() {
         if (Object.prototype.hasOwnProperty.call(this.widget.dataset, 'comment')) {
             this.options.content = this.options.url + '\n' + this.widget.dataset.comment;
         }

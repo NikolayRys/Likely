@@ -163,7 +163,7 @@ class LikelyButton {
     click() {
         const options = this.options;
 
-        if (options.service.click.call(this)) {
+        if (options.service.clickCallback.call(this)) {
             const urlWithBaseParams = interpolateUrl(options.service.popupUrl, {
                 url: options.url,
                 title: options.title,

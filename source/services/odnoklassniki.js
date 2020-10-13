@@ -8,7 +8,7 @@ import { renameKey } from '../utils';
 const odnoklassniki = {
     counterUrl: 'https://connect.ok.ru/dk?st.cmd=extLike&tp=json&ref={url}',
     convertNumber: (json) => JSON.parse(json).count,
-    click() {
+    clickCallback() {
         renameKey(this.widget.dataset, 'imageurl', 'imageUrl');
         return true;
     },

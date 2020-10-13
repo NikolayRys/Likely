@@ -7,7 +7,7 @@ export default {
     popupUrl: 'https://twitter.com/intent/tweet?url={url}&text={title}',
     popupWidth: 600,
     popupHeight: 450,
-    click() {
+    clickCallback() {
         if (!/[.?:\-–—]\s*$/.test(this.options.title)) {
             this.options.title += ':';
         }
