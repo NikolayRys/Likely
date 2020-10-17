@@ -271,6 +271,19 @@ To make buttons accessible for keyboard navigation and screen readers add `tabin
     <div class="twitter" tabindex="0" role="link" aria-label="Tweet on Twitter">Tweet</div>
     <!-- The same for each services -->
 </div>
+``` 
+
+### Custom button
+It's possible to add a custom button into Likely's row of buttons. 
+Let's assume that you have a 16x16 pixels image and a link to the service which you want to share to.
+```html
+<div class="likely__widget">
+    <!-- List of other services -->
+    <a class="likely__button" style="color:black" href="https://new.service.share.url">
+        <img class="likely__icon" alt="" border="0" src="https://url.of/the/image/16x16.png">
+        Post
+    </a>
+</div>
 ```
 
 ### Supported browsers
