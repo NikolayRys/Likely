@@ -185,6 +185,7 @@ class LikelyButton {
             const urlWithBaseParams = interpolateUrl(options.service.popupUrl, {
                 url: options.url,
                 title: options.title,
+                content: options.content,
             });
             const completeUrl = this.addAdditionalParamsToUrl(urlWithBaseParams);
 

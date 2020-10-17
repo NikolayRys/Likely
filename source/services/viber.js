@@ -4,9 +4,15 @@
  */
 
 export default {
-    popupUrl: 'viber://forward?text={title}',
+    popupUrl: 'viber://forward?text={content}',
     clickCallback() {
-        this.options.title = this.options.title + '\n' + this.options.url;
+        // Treat empty title string as absent title
+        if (this.options.title) {
+            this.options.content = this.options.title + '\n' + this.options.url;
+        }
+        else {
+            this.options.content = this.options.url;
+        }
         return true;
     },
     openPopup: false,
