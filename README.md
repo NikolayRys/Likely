@@ -2,7 +2,7 @@
 
 The social sharing buttons that aren’t shabby.
 
-Version 2.6 is out 🎉
+Version [2.6](https://github.com/NikolayRys/Likely/releases/tag/v2.6) is out 🎉
 
 ## Take a look
 
