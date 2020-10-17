@@ -1,5 +1,5 @@
 import { createNode, createTempLink, find, findAll, openPopup, wrapSVG } from './dom';
-import { extendWith, getDataset, interpolateStr, interpolateUrl, mergeToNew, query } from './utils';
+import { extendWith, getDataset, interpolateStr, interpolateUrl, mergeToNew, query, toArray } from './utils';
 
 import config from './config';
 import connectButtonToService from './connectButtonToService';
@@ -20,13 +20,9 @@ class LikelyButton {
         this.likely = likely;
         this.options = mergeToNew(options);
         this.detectService();
-        if (this.isValid()) {
+        if (this.options.service) {
             this.detectParams();
         }
-    }
-
-    isValid() {
-        return this.options.service !== undefined;
     }
 
     prepare() {
@@ -52,13 +48,14 @@ class LikelyButton {
     }
 
     /**
-     * Get the config.name of service and its options
+     * Attach a service based on given button classes
      */
     detectService() {
-        const widget = this.widget;
-        const serviceName = getDataset(widget).service ||
-            Object.keys(services).filter((service) => widget.classList.contains(service))[0];
-        this.options.service = services[serviceName];
+        const classes = toArray(this.widget.classList);
+        const serviceName = classes.find((className) => Object.prototype.hasOwnProperty.call(services, className));
+        if (serviceName) {
+            this.options.service = services[serviceName];
+        }
     }
 
     /**
@@ -76,7 +73,7 @@ class LikelyButton {
         }
         if (unknownParams.length > 0) {
             const unknownParamsStr = unknownParams.join(', ');
-            console.warn('LIKELY DEPRECATION WARNING: unsupported parameters “%s” detected on “%s” button. It will be ignored in version 3.0.',
+            console.warn('LIKELY DEPRECATION WARNING: unsupported parameters “%s” on “%s” button. They will be ignored in version 3.0.',
                 unknownParamsStr, this.options.service.name);
         }
 
@@ -205,7 +202,7 @@ class LikelyButton {
      * @returns {String}
      */
     addAdditionalParamsToUrl(url) {
-        const parameters = query(mergeToNew(this.widget.dataset, this.options.data));
+        const parameters = query(this.widget.dataset);
         const delimeter = url.indexOf('?') === -1 ? '?' : '&';
         return parameters === ''
             ? url
