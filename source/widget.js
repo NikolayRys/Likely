@@ -18,7 +18,7 @@ class Likely {
         this.buttons = [];
 
         if (!likely.deprecationShown) {
-            console.warn('LIKELY DEPRECATION FOR 3.0: Class "likely_visible" will be removed and joined with likely_ready. ' +
+            console.warn('LIKELY DEPRECATION: Class "likely_visible" will be removed and joined with likely_ready. ' +
                 'Button tags will be changed from <div> to <button>.');
             likely.deprecationShown = true;
         }

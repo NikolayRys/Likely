@@ -77,7 +77,7 @@ class LikelyButton {
         }
         if (unknownParams.length > 0) {
             const unknownParamsStr = unknownParams.join(', ');
-            console.warn('LIKELY DEPRECATION WARNING: unsupported parameters “%s” on “%s” button. They will be ignored in version 3.0.',
+            console.warn('LIKELY DEPRECATION: unsupported parameters “%s” on “%s” button. They will be ignored in version 3.0.',
                 unknownParamsStr, this.options.service.name);
         }
 
