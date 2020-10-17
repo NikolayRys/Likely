@@ -10,21 +10,20 @@ See Likely in action on its [homepage](http://ilyabirman.net/projects/likely/).
 
 [![Likely screenshot](http://i.imgur.com/ipqE5Tu.png)](http://ilyabirman.net/projects/likely/)
 
-Likely supports following social networks:
+Likely supports following social networks and messengers:
 
 * `facebook` – Facebook
-* `twitter` – Twitter
-* `vkontakte` – VK
-* `pinterest` – Pinterest
-* `odnoklassniki` – Odnoklassniki
-* `telegram` – Telegram
 * `linkedin` – LinkedIn
-* `whatsapp` – WhatsApp
-* `viber` – Viber
+* `odnoklassniki` – OK (Odnoklassniki)
+* `pinterest` – Pinterest
 * `reddit` – Reddit
+* `telegram` – Telegram
+* `twitter` – Twitter
+* `viber` – Viber
+* `vkontakte` – VK
+* `whatsapp` – WhatsApp
 
 ## Get
-
 [Download the repository code](https://github.com/ilyabirman/Likely/archive/master.zip) and move `release/likely.js` and
 `release/likely.css` to the desired directory (or `likely.min.js` & `likely.min.css` if you prefer them optimized).
 
