@@ -152,8 +152,6 @@ export const interpolateUrl = (text, data) => {
  * Create query string out of data
  *
  * @param {Object} data
- * @param {Array} accepted
- * @param {String} widgetName
  * @returns {String}
  */
 export const query = (data) => {
@@ -224,7 +222,6 @@ export const isBrowserEnv = typeof window !== 'undefined' && typeof document !==
  * @param {String} old key name
  * @param {String} new key name
  */
-
 export const renameKey = (obj, oldKey, newKey) => {
     if (Object.prototype.hasOwnProperty.call(obj, oldKey)) {
         delete Object.assign(obj, { [newKey]: obj[oldKey] })[oldKey];
