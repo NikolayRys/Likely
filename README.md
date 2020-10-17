@@ -131,7 +131,7 @@ Top-level option are passed down to all the services, which use us them. They ca
 </div>
 ```
 ### OGP
-In 2020 social networks rely on what is called [Open Graph Protocol](https://ogp.me/) to extract the information about shared links.
+In 2020 most social networks rely on what is called [Open Graph Protocol](https://ogp.me/) to extract the information about shared links.
 Below there is more information regarding how individual services support it, 
 but it's highly recommended to set up the proper <meta> tags for your page, to work in conjunction with Likely.
 
@@ -140,103 +140,108 @@ but it's highly recommended to set up the proper <meta> tags for your page, to w
 ```html
 <div class="facebook" data-quote="Best website ever!" data-hashtag="#puppies">Share</div>
 ```
-* **url** - common param
+* **url** - url to share.
 * **quote** - adds non-editable(but removable) text to the shared link.
 * **hashtag** - a single word with hash(#) symbol, which is included in the post.
-* **counter** - if provided, blocks the API call and simply shows given value instead.
+* **counter** - if provided, blocks the API call and instead shows the given value.
 
-Supports [Open Graph](https://ogp.me/) meta tags: 
-[Facebook documentation](https://developers.facebook.com/docs/sharing/webmasters)
+[Facebook Open Graph protocol documentation](https://developers.facebook.com/docs/sharing/webmasters)
 
 ### Linkedin
 ```html
 <div class="linkedin">Post</div>
 ``` 
-* **url** - common param
+* **url** - url to share.
 
-Supports [Open Graph](https://ogp.me/) meta tags: 
-[Linkedin documentation](https://www.linkedin.com/help/linkedin/answer/46687/making-your-website-shareable-on-linkedin).
-⚠ og:description is ignored if og:image is given
+[Linkedin Open Graph protocol documentation](https://www.linkedin.com/help/linkedin/answer/46687/making-your-website-shareable-on-linkedin).
 
 ### OK (Odnoklassniki)
 ```html
 <div class="odnoklassniki" data-imageurl="http://i.imgur.com/zunNbfY.jpg">Like</div>
 ``` 
-* **url** - common param
-* **title** - common param
-* **imageurl** - url to a picture which is going to be uses as a thumbnail for the post.
+* **url** - url to share.
+* **title** - text which is used as a title of created post.
+* **imageurl** - url to a picture which is used as a thumbnail for the post.
 * **counter** - if provided, blocks the API call and simply shows given value instead.
 
-Supports [Open Graph](https://ogp.me/) meta tags:
-[OK documentation](https://apiok.ru/en/ext/like).
+[OK Open Graph protocol documentation](https://apiok.ru/en/ext/like).
 
 ### Pinterest
 ```html
 <div class="pinterest" data-media="https://placekitten.com/200/400">Pin</div>
 ```
-* **url** - common param
-* **title** - common param
+* **url** - url to share.
+* **title** - text which is used as a comment to created pin.
 * **media** - URL of an image that overrides the image in the Pin Create form. 
 If not provided, Pinterest will try to find image at the given webpage. 
 Use the this attribute to provide a better-quality version of the image if you have one. 
 * **counter** - if provided, blocks the API call and simply shows given value instead.
 
-Supports [Open Graph](https://ogp.me/) meta tags:
-[Pinterest documentation](https://developers.pinterest.com/docs/rich-pins/overview/).
+[Pinterest Open Graph protocol documentation](https://developers.pinterest.com/docs/rich-pins/overview/).
 
 ### Reddit
 ```html
 <div class="reddit">Submit</div>
 ``` 
-Reddit counter is calculated as a sum score of the 5 most up-voted posts for a given link.
-* **url** - common param
+Reddit counter is calculated as a sum score of the 5 most up-voted posts for a given link, across all sub-reddits.
+* **url** - url to share.
 * **title** - title of the post, defaults to the page title.
 * **counter** - if provided, blocks the API call and simply shows given value instead.
+
+[Reddit Open Graph protocol documentation](https://github.com/reddit-archive/reddit/blob/master/r2/r2/lib/media.py#L725).
 
 ### Telegram
 ```html
 <div class="telegram" data-title="Check this link above!">Send</div>
 ```
-* **url** - common param
+* **url** - url to share.
 * **title** - text that appears after the link in the shared message, defaults to the page title.
 
-Supports [Open Graph](https://ogp.me/) meta tags:
-[Stackoverflow question](https://stackoverflow.com/questions/30160294).
+[Telegram Open Graph protocol documentation](https://stackoverflow.com/questions/30160294).
 
-### Twitter ???
-You can set `data-via` attribute to mention a specific user in the tweet:
-
+### Twitter
 ```html
-<div class="twitter" data-via="ilyabirman">Tweet</div>
+<div class="twitter" data-via="ilyabirman" data-hashtag="kittens,puppies" data-related="">Tweet</div>
 ```
+* **url** - url to share.
+* **title** - comment that appears before the shared url.
+* **via** - indicates a specific user a source of the information. 
+Adds a clickable username to the tweet, like so: `My page: https://google.com/ via @ilyabirman`
+* **hashtags** - a comma-separated list of hashtags added to the tweet. Omit a preceding “#” from each hashtag.
 
-With `data-via="ilyabirman"`, the tweet text will include “via @ilyabirman”. Read more about the `via` parameter [in Twitter documentation](https://developer.twitter.com/en/docs/twitter-for-websites/tweet-button/overview#component-via).
+[Twitter Open Graph protocol documentation](https://developer.twitter.com/en/docs/twitter-for-websites/cards/guides/getting-started).
 
-### VK ???
-You can set `data-image` and `data-description` attributes to set up an image and a description accordingly:
+### Viber
 ```html
-<div class="vkontakte" data-image="https://placekitten.com/200/400" data-description="Check this out">Share</div>
+<div class="viber">Send</div>
+```
+* **url** - url to share.
+* **title** - text that appears on a separate line after the shared url. 
+⚠ Viber share messages are not editable in the client application, 
+so if you don't wan't the title to appear, please set empty `data-title=""` attribute on the Viber button.
+
+[Viber Open Graph protocol documentation](https://stackoverflow.com/questions/34941283)
+
+### VK
+```html
+<div class="vkontakte" data-image="https://placekitten.com/200/400" data-comment="Check this out">Share</div>
 ``` 
+* **url** - url to share.
+* **title** - text used as the preview header
+* **image** - url for image used as the preview thumbnail
+* **comment** - default post text that the user can edit.
 * **counter** - if provided, blocks the API call and simply shows given value instead.
 
-### Viber ???
-You can set `data-comment` attribute to specify some text that's going to be added to a shared link (on a separate line).
-Doesn't use `data-title`.
-
-```html
-<div class="viber" data-comment="Check this out">Send</div>
-```
+[VK Open Graph protocol documentation](https://vk.com/dev/widget_share) (switch to Russian language, English docs are incomplete).
 
 ### Whatsapp
 ```html
 <div class="whatsapp">Send</div>
 ```
-* **url** - common param 
+* **url** - url to share 
 * **title** - text that precedes the link in the shared message, defaults to the page title.
 
-Supports [Open Graph](https://ogp.me/) meta tags:
-[Stackoverflow question](https://stackoverflow.com/questions/19778620).
-
+[Whatsapp Open Graph protocol documentation](https://stackoverflow.com/questions/19778620).
 
 ## Additional info
 ### Reinitialize configuration on change data attributes
@@ -253,8 +258,8 @@ likely.initiate({forceUpdate:true});
 ### How to disable the automatic counters
 Counters are enabled by default, but there are two ways to disable them:
 * To add `data-counters` attribute on the upper `likely` div with `"no"`value to disable all counters.
-* Another option is supply a custom value for `data-counter` attribute of the specific services. 
-Likely won't do an API request and just display the given value instead. 
+* Another option is to supply a custom value for `data-counter` attribute of the specific services. 
+Likely won't do an API request for those services and just display the given value instead. 
 It can be used when you want to save user's traffic and obtain value through some other means, 
 for example through the backend in a centralized manner.
 
