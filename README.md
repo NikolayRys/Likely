@@ -201,7 +201,7 @@ Reddit counter is calculated as a sum score of the 5 most up-voted posts for a g
 
 ### Twitter
 ```html
-<div class="twitter" data-via="ilyabirman" data-hashtags="kittens,puppies" data-related="">Tweet</div>
+<div class="twitter" data-via="ilyabirman" data-hashtags="kittens,puppies">Tweet</div>
 ```
 * **url** - url to share.
 * **title** - comment that appears before the shared url.
