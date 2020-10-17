@@ -42,7 +42,7 @@ class Likely {
      */
     addButton(node) {
         const button = new Button(node, this, this.options);
-        if (button.isValid()) {
+        if (button.isRecognized()) {
             this.buttons.push(button);
             if (button.options.service.counterUrl) {
                 this.countersLeft++;

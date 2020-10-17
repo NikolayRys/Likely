@@ -20,9 +20,13 @@ class LikelyButton {
         this.likely = likely;
         this.options = mergeToNew(options);
         this.detectService();
-        if (this.options.service) {
+        if (this.isRecognized()) {
             this.detectParams();
         }
+    }
+
+    isRecognized() {
+        return this.options.service !== undefined;
     }
 
     prepare() {
@@ -63,10 +67,10 @@ class LikelyButton {
      */
     detectParams() {
         const options = this.options;
-        const data = getDataset(this.widget);
+        this.data = getDataset(this.widget);
         const unknownParams = [];
 
-        for (const key in data) {
+        for (const key in this.data) {
             if (!this.options.service.knownParams.includes(key)) {
                 unknownParams.push(key);
             }
@@ -77,12 +81,17 @@ class LikelyButton {
                 unknownParamsStr, this.options.service.name);
         }
 
-        if (data.counter) {
-            options.staticCounter = data.counter;
+        if (this.data.counter) {
+            options.staticCounter = this.data.counter;
         }
+        options.url = this.data.url || options.url;
+        options.title = this.data.title || options.title;
 
-        options.title = data.title || options.title;
-        options.url = data.url || options.url;
+        // Removing params with special meaning.
+        // Temporary measure until 3.0: instead of deleting, don't do bulk param assignment with addAdditionalParamsToUrl
+        delete this.data.counter;
+        delete this.data.url;
+        delete this.data.title;
     }
 
     /**
@@ -202,7 +211,7 @@ class LikelyButton {
      * @returns {String}
      */
     addAdditionalParamsToUrl(url) {
-        const parameters = query(this.widget.dataset);
+        const parameters = query(this.data);
         const delimeter = url.indexOf('?') === -1 ? '?' : '&';
         return parameters === ''
             ? url
