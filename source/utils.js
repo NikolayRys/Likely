@@ -1,18 +1,22 @@
 const bool = { yes: true, no: false };
 
 /**
- * Simple $.each, only for objects
+ * Polyfill Object.entries() for IE support
  *
- * @param {Object} object
- * @param {Function} callback
+ * @param {Object} obj
+ * @returns {Array} Keys and values presented as array
  */
-export const each = (object, callback) => {
-    for (const key in object) {
-        if (Object.prototype.hasOwnProperty.call(object, key)) {
-            callback(object[key], key);
+if (!Object.entries) {
+    Object.entries = function (obj) {
+        const ownProps = Object.keys(obj);
+        let i = ownProps.length;
+        const resArray = new Array(i);
+        while (i--) {
+            resArray[i] = [ownProps[i], obj[ownProps[i]]];
         }
-    }
-};
+        return resArray;
+    };
+}
 
 /**
  * Convert array-like object to array
