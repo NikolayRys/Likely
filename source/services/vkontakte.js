@@ -2,7 +2,7 @@
  * VK service provider
  * Doc: https://vk.com/dev/widget_share
  * (Switch to Russian language, the English docs are incomplete)
- * https://vk.com/js/api/share.js
+ * VK own implementation: https://vk.com/js/api/share.js
  */
 
 import { interpolateUrl, registerGlobalCallback } from '../utils';
