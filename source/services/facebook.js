@@ -8,7 +8,10 @@
 
 export default {
     counterUrl: 'https://graph.facebook.com/?id={url}&access_token=1729830587180291|102e6d79cda2fa63b65c99c039eed12a&fields=og_object%7Bengagement%7Bcount%7D%7D',
-    convertNumber: (data) => JSON.parse(data).og_object.engagement.count,
+    convertNumber: (data) => {
+        const graphQlData = JSON.parse(data).og_object;
+        return (graphQlData ? graphQlData.engagement.count : 0);
+    },
     popupWidth: 555,
     popupHeight: 555,
     popupUrl: 'https://www.facebook.com/sharer.php?u={url}',
