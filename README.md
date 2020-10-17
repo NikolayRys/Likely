@@ -118,18 +118,18 @@ var likely = require('ilyabirman-likely');
 likely.initiate();
 ```
 
-## Options
-You can configure Likely by specifying `data-*` attributes on a button group with the `likely` class or on a button of specific service.
+## Service options
+You can configure Likely by specifying `data-*` attributes on a button group with the `likely` class or on the button of a specific service.
 
-Top-level option are passed down to all the services, which use us them. They can also be overridden on an individual service tag.
+Top-level options are passed down to all the services. They can also be overridden on an individual service tag.
 * `data-url` – URL to share and load counters for, defaults to the current page URL. ⚠ Specify the full URL with the protocol – like in `https://ilyabirman.com` – because some social networks don’t recognize the partial one.
-* `data-title` – defaults to the page title.
+* `data-title` – Text that will be added to the shared URL. Defaults to the page title.
 ```html
 <div class="likely" data-url="https://github.com/ilyabirman/Likely" data-title="My page">
     <!-- list of serivces -->
 </div>
 ```
-### OGP
+
 In 2020 most social networks rely on what is called [Open Graph Protocol](https://ogp.me/) to extract the information about shared links.
 Below there is more information regarding how individual services support it, 
 but it's highly recommended to set up the proper <meta> tags for your page, to work in conjunction with Likely.
@@ -244,7 +244,7 @@ so if you don't wan't the title to appear, please set empty `data-title=""` attr
 
 ## Additional info
 ### Reinitialize configuration on change data attributes
-If you need to dynamically change a widget's configuration, you can re-initialize the widget and invoke the configuration update logic on the *Likely* instance using the `init` method.
+If you need to dynamically change the widget's configuration, you can re-initialize it:
 
 ```javascript
 // Use global object, created by the library
