@@ -25,7 +25,7 @@ const initWidget = (node, options) => {
         url: getDefaultUrl(),
     };
 
-    const realOptions = mergeToNew({}, defaults, fullOptions, bools(node));
+    const realOptions = mergeToNew(defaults, fullOptions, bools(node));
     const widget = node[config.name];
     if (widget) {
         widget.update(realOptions);
@@ -84,6 +84,7 @@ const likely = {
      */
     maintainStoredData(realOptions) {
         if (realOptions && realOptions.forceUpdate) {
+            // Object.values() is not supported by IE
             Object.keys(services).forEach((serviceName) => {
                 services[serviceName].resetBroadcasters();
             });
