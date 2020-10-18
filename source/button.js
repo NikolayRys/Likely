@@ -56,7 +56,8 @@ class LikelyButton {
      */
     detectService() {
         const classes = toArray(this.widget.classList);
-        const serviceName = classes.find((className) => Object.prototype.hasOwnProperty.call(services, className));
+        // Array.prototype.filter()[0] instead of Array.prototype.find() for IE support
+        const serviceName = classes.filter((className) => Object.prototype.hasOwnProperty.call(services, className))[0];
         if (serviceName) {
             this.options.service = services[serviceName];
         }
@@ -71,7 +72,8 @@ class LikelyButton {
         const unknownParams = [];
 
         for (const key in this.data) {
-            if (!this.options.service.knownParams.includes(key)) {
+            // Array.prototype.indexOf() instead of Array.prototype.includes() for IE support
+            if (this.options.service.knownParams.indexOf(key) === -1) {
                 unknownParams.push(key);
             }
         }
