@@ -41,7 +41,7 @@
     "bestzip": "^2.1.7",
     "chai": "^3.5.0",
     "chai-as-promised": "^5.3.0",
-    "chromedriver": "^83.0.1",
+    "chromedriver": "^86.0.0",
     "cross-env": "^3.1.3",
     "css-loader": "^3.6.0",
     "cssnano": "^4.1.10",
