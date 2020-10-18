@@ -8,7 +8,6 @@ const div = isBrowserEnv ? document.createElement('div') : {};
 
 /**
  * Wrap SVG coords from data object into SVG tag
- *
  * @param {String} coords
  * @returns {String}
  */
@@ -20,7 +19,6 @@ export const wrapSVG = (coords) =>
 
 /**
  * Create node from HTML
- *
  * @param {String} html
  * @returns {Node}
  */
@@ -32,7 +30,6 @@ export const createNode = (html) => {
 
 /**
  * Load JSONP script. It gets executed after the main one is finished.
- *
  * @param {String} url
  */
 export const loadJSONP = (url) => {
@@ -48,7 +45,6 @@ export const loadJSONP = (url) => {
 
 /**
  * Find first node by selector
- *
  * @param {String} selector
  * @param {Node} [node]
  * @returns {Node}
@@ -57,7 +53,6 @@ export const find = (selector, node) => (node || document).querySelector(selecto
 
 /**
  * Find all nodes by selector
- *
  * @param {String} selector
  * @param {Node} [node]
  * @returns {Node[]}
@@ -65,7 +60,6 @@ export const find = (selector, node) => (node || document).querySelector(selecto
 export const findAll = (selector, node) => Array.prototype.slice.call((node || document).querySelectorAll(selector));
 /**
  * Open the popup
- *
  * @param {String} url
  * @param {String} winId
  * @param {Number} width,
@@ -100,7 +94,6 @@ export const openPopup = (url, winId, width, height) => {
 /**
  * Creates a temporary anchor element, click on it and destroys it.
  * Used for buttons that do not have sharing popups
- *
  * @param {String} url
  */
 export const createTempLink = (url) => {
