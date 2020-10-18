@@ -1,7 +1,7 @@
 // This module is an entry point for CommonJS modules.
 // It’s written with CommonJS imports and exports to make possible doing `module.exports = likely`.
 // This is required so that users work with `require('likely')`, not `require('likely').default`
-const { bools, getDefaultUrl, mergeToNew } = require('./utils');
+const { getBools, getDefaultUrl, mergeToNew } = require('./utils');
 const Likely = require('./widget').default;
 const config = require('./config').default;
 const { findAll } = require('./dom');
@@ -25,7 +25,7 @@ const initWidget = (node, options) => {
         url: getDefaultUrl(),
     };
 
-    const realOptions = mergeToNew(defaults, fullOptions, bools(node));
+    const realOptions = mergeToNew(defaults, fullOptions, getBools(node));
     const widget = node[config.name];
     if (widget) {
         widget.update(realOptions);

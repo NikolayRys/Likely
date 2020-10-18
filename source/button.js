@@ -1,5 +1,5 @@
 import { createNode, createTempLink, find, findAll, openPopup, wrapSVG } from './dom';
-import { extendWith, getDataset, interpolateStr, interpolateUrl, mergeToNew, query, toArray } from './utils';
+import { extendWith, getDataset, interpolateStr, interpolateUrl, mergeToNew, joinIntoParams, toArray } from './utils';
 
 import config from './config';
 import connectButtonToService from './connectButtonToService';
@@ -218,7 +218,7 @@ class LikelyButton {
      * @returns {String}
      */
     addAdditionalParamsToUrl(url) {
-        const parameters = query(this.data);
+        const parameters = joinIntoParams(this.data);
         const delimeter = url.indexOf('?') === -1 ? '?' : '&';
         return parameters === ''
             ? url
