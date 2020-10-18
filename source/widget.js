@@ -5,7 +5,6 @@ import { toArray } from './utils';
 
 /**
  * Main widget view
- *
  * @param {Node} container
  * @param {Object} options
  */
@@ -37,7 +36,6 @@ class Likely {
 
     /**
      * Add a button
-     *
      * @param {Node} node
      */
     addButton(node) {
@@ -53,13 +51,15 @@ class Likely {
         }
     }
 
+    /**
+     * Show all the buttons
+     */
     materializeButtons() {
         this.buttons.forEach((button) => button.prepare());
     }
 
     /**
-     * Update the timer with URL
-     *
+     * Refresh all the buttons
      * @param {Object} options
      */
     update(options) {
@@ -76,7 +76,7 @@ class Likely {
     }
 
     /**
-     * Mark the button as done
+     * Register the button as ready
      */
     finalize() {
         this.countersLeft--;
@@ -96,7 +96,7 @@ class Likely {
     }
 
     /**
-     * Get. Set. Ready.
+     * Display ready status
      */
     ready() {
         this.container.classList.add(`${config.name}_ready`);
