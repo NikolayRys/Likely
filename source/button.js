@@ -9,7 +9,6 @@ const htmlSpan = '<span class="{className}">{content}</span>';
 
 /**
  * Separate social link widget
- *
  * @param {Node} widget
  * @param {Likely} likely
  * @param {Object} options
@@ -25,12 +24,19 @@ class LikelyButton {
         }
     }
 
+    /**
+     * Whether the button was successfully connected to a service
+     * @returns {Boolean}
+     */
     isRecognized() {
         return this.options.service !== undefined;
     }
 
+    /**
+     * Make button ready for usage
+     */
     prepare() {
-        if (this.options.service.name) {
+        if (this.isRecognized()) {
             this.initHtml();
             this.registerAsCounted();
         }
@@ -38,7 +44,6 @@ class LikelyButton {
 
     /**
      * Update the counter
-     *
      * @param {Object} options
      */
     update(options) {
@@ -122,7 +127,7 @@ class LikelyButton {
     }
 
     /**
-     * Fetch or get cached counter value and update the counter
+     * Perform fetching and displaying counter
      */
     registerAsCounted() {
         const options = this.options;
@@ -137,6 +142,7 @@ class LikelyButton {
     }
 
     /**
+     * Combine a BEM-compliant classname
      * @param {String} className
      * @returns {String}
      */
@@ -147,8 +153,7 @@ class LikelyButton {
     }
 
     /**
-     * Update counter
-     *
+     * Set visible button counter to a value
      * @param {String} counterString
      */
     setDisplayedCounter(counterString) {
@@ -209,7 +214,6 @@ class LikelyButton {
 
     /**
      * Append service data to URL
-     *
      * @param {String} url
      * @returns {String}
      */
