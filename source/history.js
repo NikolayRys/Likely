@@ -25,6 +25,11 @@ const setupHistoryWatcher = () => {
 
 let isWatchingHistory = false;
 
+
+/**
+ * Monitoring tool for catching url changes for re-initiating widged with a new url
+ * @param {Function} callback
+ */
 const history = {
     onUrlChange(callback) {
         if (!isWatchingHistory) {
