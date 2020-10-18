@@ -1,5 +1,5 @@
 import { createNode, createTempLink, find, findAll, openPopup, wrapSVG } from './dom';
-import { extendWith, getDataset, interpolateStr, interpolateUrl, mergeToNew, joinIntoParams, toArray } from './utils';
+import { extendWith, getDataset, interpolateStr, interpolateUrl, joinIntoParams, mergeToNew, toArray } from './utils';
 
 import config from './config';
 import connectButtonToService from './connectButtonToService';

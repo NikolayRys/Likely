@@ -207,9 +207,9 @@ export const isBrowserEnv = typeof window !== 'undefined' && typeof document !==
 
 /**
  * Renames a key in an object, using ES6 syntax
- * @param {Object} object that is being modified
- * @param {String} old key name
- * @param {String} new key name
+ * @param {Object} obj
+ * @param {String} oldKey
+ * @param {String} newKey
  */
 export const renameKey = (obj, oldKey, newKey) => {
     if (Object.prototype.hasOwnProperty.call(obj, oldKey)) {

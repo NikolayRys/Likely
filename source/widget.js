@@ -16,10 +16,10 @@ class Likely {
         this.countersLeft = 0;
         this.buttons = [];
 
-        if (!likely.deprecationShown) {
+        if (!Likely.deprecationShown) { // eslint-disable-line no-undef
             console.warn('LIKELY DEPRECATION: Class "likely_visible" will be removed and joined with likely_ready. ' +
                 'Button tags will be changed from <div> to <button>.');
-            likely.deprecationShown = true;
+            Likely.deprecationShown = true; // eslint-disable-line no-undef
         }
 
         toArray(this.container.children).forEach(this.addButton.bind(this));
