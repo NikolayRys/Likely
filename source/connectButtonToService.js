@@ -3,7 +3,7 @@ import { interpolateUrl } from './utils';
 /**
  * Class for preventing duplicated requests from the similar buttons, which encapsulates:
  *  1. Callbacks for all buttons that share the same value.
- *  2. A populated instance of service URL.
+ *  2. Prepared service counter URL.
  *  3. Value, returned from this URL
  * @param {String} counterUrl
  * @param {String} pageUrl
