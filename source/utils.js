@@ -2,7 +2,6 @@ const bool = { yes: true, no: false };
 
 /**
  * Polyfill Object.entries() for IE support
- *
  * @param {Object} obj
  * @returns {Array} Keys and values presented as array
  */
@@ -19,8 +18,7 @@ if (!Object.entries) {
 }
 
 /**
- * Convert array-like object to array
- *
+ * Convert array-like object to array (for example DOMTokenList)
  * @param {Object} arrayLike
  * @returns {Array}
  */
@@ -29,7 +27,6 @@ export const toArray = (arrayLike) => Array.prototype.slice.call(arrayLike);
 /**
  * Merge given dictionaries (objects) into one object.
  * Iterates across the arguments, the last one gets priority.
- *
  * @returns {Object}
  */
 export const mergeToNew = function () {
@@ -53,7 +50,6 @@ export const mergeToNew = function () {
 
 /**
  * Extend one (target) object by other (subject)
- *
  * @param {Object} target
  * @param {Object} subject
  * @returns {Object} Extended target
@@ -100,11 +96,10 @@ export const getDataset = (node) => {
 
 /**
  * Convert "yes" and "no" to true and false.
- *
  * @param {Node} node
  * @returns {Object}
  */
-export const bools = (node) => {
+export const getBools = (node) => {
     const result = {};
     const data = getDataset(node);
 
@@ -121,7 +116,6 @@ export const bools = (node) => {
 
 /**
  * Map object keys in string to its values
- *
  * @param {String} text
  * @param {Object} data
  * @returns {String}
@@ -134,7 +128,6 @@ export const interpolateStr = (text, data) => {
 
 /**
  * Map object keys in URL to its values
- *
  * @param {String} text
  * @param {Object} data
  * @returns {String}
@@ -150,11 +143,10 @@ export const interpolateUrl = (text, data) => {
 
 /**
  * Create query string out of data
- *
  * @param {Object} data
  * @returns {String}
  */
-export const query = (data) => {
+export const joinIntoParams = (data) => {
     const filter = encodeURIComponent;
     const query = [];
 
@@ -170,7 +162,6 @@ export const query = (data) => {
 
 /**
  * Set value in object using dot-notation
- *
  * @param {String} key
  * @param {Object} value
  */
@@ -198,7 +189,6 @@ export const registerGlobalCallback = (key, value) => {
  * Returns default url for likely.
  * It could be href from <link rel='canonical'>
  * if presents in the document, or the current url of the page otherwise
- *
  * @returns {String}
  */
 export const getDefaultUrl = () => {
@@ -217,7 +207,6 @@ export const isBrowserEnv = typeof window !== 'undefined' && typeof document !==
 
 /**
  * Renames a key in an object, using ES6 syntax
- *
  * @param {Object} object that is being modified
  * @param {String} old key name
  * @param {String} new key name
