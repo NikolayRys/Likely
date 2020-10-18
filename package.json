@@ -30,7 +30,12 @@
     "prepublish": "in-publish && npm run test || not-in-publish"
   },
   "files": [
-    "release",
+    "release/likely.js",
+    "release/likely.css",
+    "release/likely.min.js",
+    "release/likely.min.css",
+    "release/likely-commonjs.js",
+    "release/likely-commonjs.min.js",
     "license.txt"
   ],
   "devDependencies": {
