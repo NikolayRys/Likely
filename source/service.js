@@ -17,7 +17,7 @@ function resetBroadcasters() {
 }
 
 /**
- * Expands option set for a service with default values
+ * Set default values on service option object
  * @param {Object} options
  */
 export default (options) => {
