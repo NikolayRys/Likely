@@ -102,8 +102,8 @@ class LikelyButton {
         if (this.data.counter) {
             options.staticCounter = this.data.counter;
         }
-        options.url = this.data.url || options.url;
-        options.title = this.data.title || options.title;
+        options.url = this.data.url === undefined ? options.url : this.data.url;
+        options.title = this.data.title === undefined ? options.title : this.data.title;
 
         // Removing params with special meaning.
         // Temporary measure until 3.0: instead of deleting, don't do bulk param assignment with addAdditionalParamsToUrl
