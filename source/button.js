@@ -19,7 +19,7 @@ class LikelyButton {
         this.likely = likely;
         this.options = mergeToNew(options);
         this.detectService();
-        if (this.isRecognized()) {
+        if (this.isConnected()) {
             this.detectParams();
         }
     }
@@ -28,15 +28,23 @@ class LikelyButton {
      * Whether the button was successfully connected to a service
      * @returns {Boolean}
      */
-    isRecognized() {
+    isConnected() {
         return this.options.service !== undefined;
+    }
+
+    /**
+     * If purpose of the buttond
+     * @returns {Boolean}
+     */
+    isUnrecognized() {
+        return !this.isConnected() && !this.options.foreign;
     }
 
     /**
      * Make button ready for usage
      */
     prepare() {
-        if (this.isRecognized()) {
+        if (this.isConnected()) {
             this.initHtml();
             this.registerAsCounted();
         }
@@ -65,6 +73,9 @@ class LikelyButton {
         const serviceName = classes.filter((className) => Object.prototype.hasOwnProperty.call(services, className))[0];
         if (serviceName) {
             this.options.service = services[serviceName];
+        }
+        else if (classes.includes('likely__widget')) {
+            this.options.foreign = true;
         }
     }
 

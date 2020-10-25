@@ -40,13 +40,13 @@ class Likely {
      */
     addButton(node) {
         const button = new Button(node, this, this.options);
-        if (button.isRecognized()) {
+        if (button.isConnected()) {
             this.buttons.push(button);
             if (button.options.service.counterUrl) {
                 this.countersLeft++;
             }
         }
-        else {
+        else if (button.isUnrecognized()) {
             console.warn('A button without a valid service detected, please check button classes.');
         }
     }
