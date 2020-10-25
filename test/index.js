@@ -5,7 +5,7 @@ const expect = require('chai').use(require('chai-as-promised')).expect;
 
 require('chromedriver');
 const selenium = require('selenium-webdriver');
-
+const fs = require('fs');
 const startServer = require('./utils/startServer');
 const { LikelyPage, getLikelyPage } = require('./utils/getLikelyPage');
 const waitUntilLikelyInitialized = require('./utils/waitUntilLikelyInitialized');
@@ -13,6 +13,23 @@ const expectToContainText = require('./utils/expectToContainText');
 const expectClickToOpen = require('./utils/expectClickToOpen');
 
 const commonTimeout = 20000;
+
+/**
+ * Save webdriver screenshot for debugging purposes in PNG format
+ * Example: driver.saveScreenshot(`${name}_${Date.now()}.png`);
+ * @param {String} filename
+ */
+selenium.WebDriver.prototype.saveScreenshot = function (filename) {
+    if (process.env.TRAVIS) {
+        // Do not save screenshot on CI
+        return;
+    }
+    this.takeScreenshot().then(function (data) {
+        fs.writeFile(`test/screenshots/${filename}`, data.replace(/^data:image\/png;base64,/, ''), 'base64', () => {
+            // No error handling, just carry on with testing
+        });
+    });
+};
 
 describe('Likely', function () {
     let driver;
@@ -192,8 +209,8 @@ describe('Likely', function () {
             { name: 'Facebook', likelyName: 'facebook' },
             { name: 'Odnoklassniki', likelyName: 'odnoklassniki' },
             { name: 'Pinterest', likelyName: 'pinterest' },
-            { name: 'VK', likelyName: 'vkontakte' },
             { name: 'Reddit', likelyName: 'reddit' },
+            { name: 'VK', likelyName: 'vkontakte' },
         ];
 
         testedServices.forEach(({ name, likelyName }) => {

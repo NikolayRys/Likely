@@ -5,7 +5,6 @@ import { toArray } from './utils';
 
 /**
  * Main widget view
- *
  * @param {Node} container
  * @param {Object} options
  */
@@ -17,14 +16,19 @@ class Likely {
         this.countersLeft = 0;
         this.buttons = [];
 
+        if (!Likely.deprecationShown) { // eslint-disable-line no-undef
+            console.warn('LIKELY DEPRECATION: Class "likely_visible" will be removed and joined with likely_ready. ' +
+                'Button tags will be changed from <div> to <button>.');
+            Likely.deprecationShown = true; // eslint-disable-line no-undef
+        }
+
         toArray(this.container.children).forEach(this.addButton.bind(this));
 
+        this.appear();
         if (this.options.counters) {
-            this.appearDelay = setTimeout(this.appear.bind(this), this.options.wait);
             this.readyDelay = setTimeout(this.ready.bind(this), this.options.timeout);
         }
         else {
-            this.appear();
             this.ready();
         }
         this.materializeButtons();
@@ -32,26 +36,30 @@ class Likely {
 
     /**
      * Add a button
-     *
      * @param {Node} node
      */
     addButton(node) {
         const button = new Button(node, this, this.options);
-
-        this.buttons.push(button);
-
-        if (button.options.counterUrl) {
-            this.countersLeft++;
+        if (button.isConnected()) {
+            this.buttons.push(button);
+            if (button.options.service.counterUrl) {
+                this.countersLeft++;
+            }
+        }
+        else if (button.isUnrecognized()) {
+            console.warn('A button without a valid service detected, please check button classes.');
         }
     }
 
+    /**
+     * Show all the buttons
+     */
     materializeButtons() {
         this.buttons.forEach((button) => button.prepare());
     }
 
     /**
-     * Update the timer with URL
-     *
+     * Refresh all the buttons
      * @param {Object} options
      */
     update(options) {
@@ -68,13 +76,13 @@ class Likely {
     }
 
     /**
-     * Mark the button as done
+     * Register the button as ready
      */
     finalize() {
         this.countersLeft--;
 
         if (this.countersLeft === 0) {
-            this.appear();
+            clearTimeout(this.readyDelay);
             this.ready();
         }
     }
@@ -84,16 +92,13 @@ class Likely {
      * Show the buttons with smooth animation
      */
     appear() {
-        clearTimeout(this.appearDelay);
         this.container.classList.add(`${config.name}_visible`);
-        console.warn('DEPRECATION: "likely_visible" class will be removed in 3.0 and joined with likely_ready');
     }
 
     /**
-     * Get. Set. Ready.
+     * Display ready status
      */
     ready() {
-        clearTimeout(this.readyDelay);
         this.container.classList.add(`${config.name}_ready`);
     }
 }

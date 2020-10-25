@@ -1,14 +1,23 @@
 import { interpolateUrl } from './utils';
-import services from './services';
 
-const broadcastersForServices = {};
-
+/**
+ * Class for preventing duplicated requests from the similar buttons, which encapsulates:
+ *  1. Callbacks for all buttons that share the same value.
+ *  2. Prepared service counter URL.
+ *  3. Value, returned from this URL
+ * @param {String} counterUrl
+ * @param {String} pageUrl
+ */
 function UpdateBroadcaster(counterUrl, pageUrl) {
     this.url = interpolateUrl(counterUrl, { url: pageUrl });
     this.setters = [];
     this.value = undefined;
 }
 
+/**
+ * Connects new related button with its callback.
+ * @param {Function} buttonSetter
+ */
 UpdateBroadcaster.prototype.register = function (buttonSetter) {
     this.setters.push(buttonSetter);
     if (this.value) {
@@ -16,6 +25,10 @@ UpdateBroadcaster.prototype.register = function (buttonSetter) {
     }
 };
 
+/**
+ * Distributes obtained value to all buttons that share it
+ * @param {Integer} value
+ */
 UpdateBroadcaster.prototype.trigger = function (value) {
     this.value = value;
     this.setters.forEach((buttonSetter) => {
@@ -25,23 +38,15 @@ UpdateBroadcaster.prototype.trigger = function (value) {
 
 /**
  * Find or create an appropriate instance of UpdateBroadcaster
- *
- * @param {String} serviceName
- * @param {Object} options
  * @param {Function} buttonSetter
+ * @param {Object} options
  */
-
-export default (serviceName, buttonSetter, options) => {
-    if (!broadcastersForServices[serviceName]) {
-        broadcastersForServices[serviceName] = {};
-    }
-    const broadcastersForUrls = broadcastersForServices[serviceName];
-    let broadcaster = broadcastersForUrls[options.url];
-
-    if (!broadcaster || options.forceUpdate) {
-        broadcaster = new UpdateBroadcaster(options.counterUrl, options.url);
-        services[serviceName].fetch(broadcaster);
-        broadcastersForUrls[options.url] = broadcaster;
+export default (buttonSetter, options) => {
+    let broadcaster = options.service.broadcastersByUrl[options.url];
+    if (!broadcaster) {
+        broadcaster = new UpdateBroadcaster(options.service.counterUrl, options.url);
+        options.service.broadcastersByUrl[options.url] = broadcaster;
+        options.service.fetch(broadcaster);
     }
     broadcaster.register(buttonSetter);
 };

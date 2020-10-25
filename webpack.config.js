@@ -7,11 +7,10 @@ const packageJson = require('./package.json');
 const { NODE_ENV } = process.env;
 const isProduction = NODE_ENV === 'production';
 
-const license = `Likely $version by Ilya Birman (ilyabirman.net)
-Rewritten sans jQuery by Evgeny Steblinsky (volter9.github.io)
-Supported by Ivan Akulov (iamakulov.com), Viktor Karpov (https://twitter.com/vitkarpov),
-Nikolay Rys (linkedin.com/in/nikolay-rys) and contributors
-Inspired by Social Likes by Artem Sapegin (sapegin.me)`;
+const license = `Likely $version by Ilya Birman (ilyabirman.net), Nikolay Rys (linkedin.com/in/nikolay-rys), 
+Viktor Karpov (https://twitter.com/vitkarpov), and contributors.
+Special thanks to Ivan Akulov (iamakulov.com) and Evgeny Steblinsky (volter9.github.io).
+Inspired by Social Likes by Artem Sapegin (sapegin.me).`;
 
 function getLicenseComment(version) {
     return license.replace(/\$version/g, version);

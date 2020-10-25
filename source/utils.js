@@ -1,22 +1,24 @@
 const bool = { yes: true, no: false };
 
 /**
- * Simple $.each, only for objects
- *
- * @param {Object} object
- * @param {Function} callback
+ * Polyfill Object.entries() for IE support
+ * @param {Object} obj
+ * @returns {Array} Keys and values presented as array
  */
-export const each = (object, callback) => {
-    for (const key in object) {
-        if (Object.prototype.hasOwnProperty.call(object, key)) {
-            callback(object[key], key);
+if (!Object.entries) {
+    Object.entries = function (obj) {
+        const ownProps = Object.keys(obj);
+        let i = ownProps.length;
+        const resArray = new Array(i);
+        while (i--) {
+            resArray[i] = [ownProps[i], obj[ownProps[i]]];
         }
-    }
-};
+        return resArray;
+    };
+}
 
 /**
- * Convert array-like object to array
- *
+ * Convert array-like object to array (for example DOMTokenList)
  * @param {Object} arrayLike
  * @returns {Array}
  */
@@ -24,12 +26,11 @@ export const toArray = (arrayLike) => Array.prototype.slice.call(arrayLike);
 
 /**
  * Merge given dictionaries (objects) into one object.
- * Iterates across the arguments.
- *
+ * Iterates across the arguments, the last one gets priority.
  * @returns {Object}
  */
-export const merge = function () {
-    const result = {};
+export const mergeToNew = function () {
+    const newObject = {};
     const args = Array.prototype.slice.call(arguments); // eslint-disable-line no-undef
 
     for (let i = 0; i < args.length; i++) {
@@ -38,23 +39,22 @@ export const merge = function () {
         if (arg) {
             for (const key in arg) {
                 if (Object.prototype.hasOwnProperty.call(arg, key)) {
-                    result[key] = arg[key];
+                    newObject[key] = arg[key];
                 }
             }
         }
     }
 
-    return result;
+    return newObject;
 };
 
 /**
  * Extend one (target) object by other (subject)
- *
  * @param {Object} target
  * @param {Object} subject
  * @returns {Object} Extended target
  */
-export const extend = (target, subject) => {
+export const extendWith = (target, subject) => {
     for (const key in subject) {
         if (Object.prototype.hasOwnProperty.call(subject, key)) {
             target[key] = subject[key];
@@ -64,7 +64,7 @@ export const extend = (target, subject) => {
 };
 
 /**
- * Return node.dataset or plain object for IE 10without setters
+ * Return node.dataset or plain object for IE10 without setters
  * based on https://gist.github.com/brettz9/4093766#file_html5_dataset.js
  *
  * @param {Node} node
@@ -96,11 +96,10 @@ export const getDataset = (node) => {
 
 /**
  * Convert "yes" and "no" to true and false.
- *
  * @param {Node} node
  * @returns {Object}
  */
-export const bools = (node) => {
+export const getBools = (node) => {
     const result = {};
     const data = getDataset(node);
 
@@ -117,7 +116,6 @@ export const bools = (node) => {
 
 /**
  * Map object keys in string to its values
- *
  * @param {String} text
  * @param {Object} data
  * @returns {String}
@@ -130,7 +128,6 @@ export const interpolateStr = (text, data) => {
 
 /**
  * Map object keys in URL to its values
- *
  * @param {String} text
  * @param {Object} data
  * @returns {String}
@@ -146,13 +143,10 @@ export const interpolateUrl = (text, data) => {
 
 /**
  * Create query string out of data
- *
  * @param {Object} data
- * @param {Array} accepted
- * @param {String} widgetName
  * @returns {String}
  */
-export const query = (data, accepted, widgetName) => {
+export const joinIntoParams = (data) => {
     const filter = encodeURIComponent;
     const query = [];
 
@@ -160,11 +154,6 @@ export const query = (data, accepted, widgetName) => {
         if (typeof data[key] === 'object') {
             continue;
         }
-
-        if (Array.isArray(accepted) && !accepted.includes(key)) {
-            console.warn('Likely – DEPRECATION WARNING: unsupported parameter “%s” is provided for “%s” button. It will be ignored in version 3.0.', key, widgetName);
-        }
-
         query.push(`${filter(key)}=${filter(data[key])}`);
     }
 
@@ -173,7 +162,6 @@ export const query = (data, accepted, widgetName) => {
 
 /**
  * Set value in object using dot-notation
- *
  * @param {String} key
  * @param {Object} value
  */
@@ -201,7 +189,6 @@ export const registerGlobalCallback = (key, value) => {
  * Returns default url for likely.
  * It could be href from <link rel='canonical'>
  * if presents in the document, or the current url of the page otherwise
- *
  * @returns {String}
  */
 export const getDefaultUrl = () => {
@@ -217,3 +204,15 @@ export const getDefaultUrl = () => {
  * Is code run in browser or on server.
  */
 export const isBrowserEnv = typeof window !== 'undefined' && typeof document !== 'undefined' && document.createElement;
+
+/**
+ * Renames a key in an object, using ES6 syntax
+ * @param {Object} obj
+ * @param {String} oldKey
+ * @param {String} newKey
+ */
+export const renameKey = (obj, oldKey, newKey) => {
+    if (Object.prototype.hasOwnProperty.call(obj, oldKey)) {
+        delete Object.assign(obj, { [newKey]: obj[oldKey] })[oldKey];
+    }
+};

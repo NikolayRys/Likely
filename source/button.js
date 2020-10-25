@@ -1,5 +1,5 @@
 import { createNode, createTempLink, find, findAll, openPopup, wrapSVG } from './dom';
-import { extend, getDataset, interpolateStr, interpolateUrl, merge, query } from './utils';
+import { extendWith, getDataset, interpolateStr, interpolateUrl, joinIntoParams, mergeToNew, toArray } from './utils';
 
 import config from './config';
 import connectButtonToService from './connectButtonToService';
@@ -9,7 +9,6 @@ const htmlSpan = '<span class="{className}">{content}</span>';
 
 /**
  * Separate social link widget
- *
  * @param {Node} widget
  * @param {Likely} likely
  * @param {Object} options
@@ -18,14 +17,34 @@ class LikelyButton {
     constructor(widget, likely, options) {
         this.widget = widget;
         this.likely = likely;
-        this.options = merge(options);
-        this.serviceName = this.detectService();
-
-        this.detectParams();
+        this.options = mergeToNew(options);
+        this.detectService();
+        if (this.isConnected()) {
+            this.detectParams();
+        }
     }
 
+    /**
+     * Whether the button was successfully connected to a service
+     * @returns {Boolean}
+     */
+    isConnected() {
+        return this.options.service !== undefined;
+    }
+
+    /**
+     * If purpose of the buttond
+     * @returns {Boolean}
+     */
+    isUnrecognized() {
+        return !this.isConnected() && !this.options.foreign;
+    }
+
+    /**
+     * Make button ready for usage
+     */
     prepare() {
-        if (this.serviceName) {
+        if (this.isConnected()) {
             this.initHtml();
             this.registerAsCounted();
         }
@@ -33,13 +52,12 @@ class LikelyButton {
 
     /**
      * Update the counter
-     *
      * @param {Object} options
      */
     update(options) {
         const className = `.${config.prefix}counter`;
         const counters = findAll(className, this.widget);
-        extend(this.options, merge({ forceUpdate: false }, options));
+        extendWith(this.options, mergeToNew({ forceUpdate: false }, options));
         counters.forEach((node) => {
             node.parentNode.removeChild(node);
         });
@@ -47,18 +65,18 @@ class LikelyButton {
     }
 
     /**
-     * Get the config.name of service and its options
-     * @returns {String}
+     * Attach a service based on given button classes
      */
     detectService() {
-        const widget = this.widget;
-        const serviceName = getDataset(widget).service ||
-            Object.keys(services).filter((service) => widget.classList.contains(service))[0];
-
+        const classes = toArray(this.widget.classList);
+        // Array.prototype.filter()[0] instead of Array.prototype.find() for IE support
+        const serviceName = classes.filter((className) => Object.prototype.hasOwnProperty.call(services, className))[0];
         if (serviceName) {
-            extend(this.options, services[serviceName]);
+            this.options.service = services[serviceName];
         }
-        return serviceName;
+        else if (classes.includes('likely__widget')) {
+            this.options.foreign = true;
+        }
     }
 
     /**
@@ -66,21 +84,32 @@ class LikelyButton {
      */
     detectParams() {
         const options = this.options;
-        const data = getDataset(this.widget);
+        this.data = getDataset(this.widget);
+        const unknownParams = [];
 
-        if (data.counter) {
-            const counter = parseInt(data.counter, 10);
-
-            if (isNaN(counter)) {
-                options.counterUrl = data.counter;
-            }
-            else {
-                options.counterNumber = counter;
+        for (const key in this.data) {
+            // Array.prototype.indexOf() instead of Array.prototype.includes() for IE support
+            if (this.options.service.knownParams.indexOf(key) === -1) {
+                unknownParams.push(key);
             }
         }
+        if (unknownParams.length > 0) {
+            const unknownParamsStr = unknownParams.join(', ');
+            console.warn('LIKELY DEPRECATION: unsupported parameters “%s” on “%s” button. They will be ignored in version 3.0.',
+                unknownParamsStr, this.options.service.name);
+        }
 
-        options.title = data.title || options.title;
-        options.url = data.url || options.url;
+        if (this.data.counter) {
+            options.staticCounter = this.data.counter;
+        }
+        options.url = this.data.url === undefined ? options.url : this.data.url;
+        options.title = this.data.title === undefined ? options.title : this.data.title;
+
+        // Removing params with special meaning.
+        // Temporary measure until 3.0: instead of deleting, don't do bulk param assignment with addAdditionalParamsToUrl
+        delete this.data.counter;
+        delete this.data.url;
+        delete this.data.title;
     }
 
     /**
@@ -92,8 +121,8 @@ class LikelyButton {
         const text = widget.innerHTML;
 
         widget.addEventListener('click', this.click.bind(this));
-        widget.classList.remove(this.serviceName);
-        widget.className += ` ${this.className('widget')}`;
+        widget.classList.remove(this.options.service.name);
+        widget.className += `${this.className('widget')}`;
 
         const button = interpolateStr(htmlSpan, {
             className: this.className('button'),
@@ -102,35 +131,40 @@ class LikelyButton {
 
         const icon = interpolateStr(htmlSpan, {
             className: this.className('icon'),
-            content: wrapSVG(options.svgIconPath),
+            content: wrapSVG(options.service.svgIconPath),
         });
 
         widget.innerHTML = icon + button;
     }
 
     /**
-     * Fetch or get cached counter value and update the counter
+     * Perform fetching and displaying counter
      */
     registerAsCounted() {
         const options = this.options;
-        if (options.counters && options.counterUrl) {
-            connectButtonToService(this.serviceName, this.setDisplayedCounter.bind(this), options);
+        if (options.counters && options.service.counterUrl) {
+            if (options.staticCounter) {
+                this.setDisplayedCounter(options.staticCounter);
+            }
+            else {
+                connectButtonToService(this.setDisplayedCounter.bind(this), options);
+            }
         }
     }
 
     /**
+     * Combine a BEM-compliant classname
      * @param {String} className
      * @returns {String}
      */
     className(className) {
         const fullClass = config.prefix + className;
 
-        return `${fullClass} ${fullClass}_${this.serviceName}`;
+        return `${fullClass} ${fullClass}_${this.options.service.name}`;
     }
 
     /**
-     * Update counter
-     *
+     * Set visible button counter to a value
      * @param {String} counterString
      */
     setDisplayedCounter(counterString) {
@@ -165,23 +199,24 @@ class LikelyButton {
     click() {
         const options = this.options;
 
-        if (options.click.call(this)) {
-            const url = interpolateUrl(options.popupUrl, {
+        if (options.service.clickCallback.call(this)) {
+            const urlWithBaseParams = interpolateUrl(options.service.popupUrl, {
                 url: options.url,
                 title: options.title,
                 content: options.content,
             });
+            const completeUrl = this.addAdditionalParamsToUrl(urlWithBaseParams);
 
-            if (options.openPopup === false) {
-                createTempLink(this.addAdditionalParamsToUrl(url));
+            if (options.service.openPopup === false) {
+                createTempLink(completeUrl);
                 return false;
             }
 
             openPopup(
-                this.addAdditionalParamsToUrl(url),
-                config.prefix + this.serviceName,
-                options.popupWidth,
-                options.popupHeight
+                completeUrl,
+                config.prefix + this.options.service.name,
+                options.service.popupWidth,
+                options.service.popupHeight
             );
         }
 
@@ -190,14 +225,12 @@ class LikelyButton {
 
     /**
      * Append service data to URL
-     *
      * @param {String} url
      * @returns {String}
      */
     addAdditionalParamsToUrl(url) {
-        const parameters = query(merge(this.widget.dataset, this.options.data), this.options.knownParams, this.options.name);
+        const parameters = joinIntoParams(this.data);
         const delimeter = url.indexOf('?') === -1 ? '?' : '&';
-
         return parameters === ''
             ? url
             : url + delimeter + parameters;

@@ -5,17 +5,9 @@ const fakeWindow = {};
 export const global = isBrowserEnv ? window : fakeWindow;
 
 const div = isBrowserEnv ? document.createElement('div') : {};
-let gid = 0;
-
-/**
- * Storage for callbacks which are needed
- * for JSONP API of social networks
- */
-global.__likelyCallbacks = {};
 
 /**
  * Wrap SVG coords from data object into SVG tag
- *
  * @param {String} coords
  * @returns {String}
  */
@@ -27,7 +19,6 @@ export const wrapSVG = (coords) =>
 
 /**
  * Create node from HTML
- *
  * @param {String} html
  * @returns {Node}
  */
@@ -38,11 +29,10 @@ export const createNode = (html) => {
 };
 
 /**
- * Load script. It gets executed after the main one is finished.
- *
+ * Load JSONP script. It gets executed after the main one is finished.
  * @param {String} url
  */
-export const loadScript = (url) => {
+export const loadJSONP = (url) => {
     const script = document.createElement('script');
     const head = document.head;
 
@@ -54,27 +44,7 @@ export const loadScript = (url) => {
 };
 
 /**
- * Get JSON
- *
- * @param {String} url
- * @param {Function} callback
- */
-export const getJSON = (url, callback) => {
-    const name = encodeURIComponent(`random_fun_${++gid}`);
-
-    const concreteUrl = url.replace(
-        /(callback|jsonp)=(\?)/,
-        `$1=__likelyCallbacks.${name}`
-    );
-
-    global.__likelyCallbacks[name] = callback;
-
-    loadScript(concreteUrl);
-};
-
-/**
  * Find first node by selector
- *
  * @param {String} selector
  * @param {Node} [node]
  * @returns {Node}
@@ -83,7 +53,6 @@ export const find = (selector, node) => (node || document).querySelector(selecto
 
 /**
  * Find all nodes by selector
- *
  * @param {String} selector
  * @param {Node} [node]
  * @returns {Node[]}
@@ -91,7 +60,6 @@ export const find = (selector, node) => (node || document).querySelector(selecto
 export const findAll = (selector, node) => Array.prototype.slice.call((node || document).querySelectorAll(selector));
 /**
  * Open the popup
- *
  * @param {String} url
  * @param {String} winId
  * @param {Number} width,
@@ -126,7 +94,6 @@ export const openPopup = (url, winId, width, height) => {
 /**
  * Creates a temporary anchor element, click on it and destroys it.
  * Used for buttons that do not have sharing popups
- *
  * @param {String} url
  */
 export const createTempLink = (url) => {
