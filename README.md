@@ -24,8 +24,8 @@ Likely supports following social networks and messengers:
 * `whatsapp` – WhatsApp
 
 ## Get
-[Download the repository code](https://github.com/ilyabirman/Likely/archive/master.zip) and move `release/likely.js` and
-`release/likely.css` to the desired directory (or `likely.min.js` & `likely.min.css` if you prefer them optimized).
+[Download the last release](https://github.com/NikolayRys/Likely/releases/download/v2.6/ilyabirman-likely-2.6.zip) and move `likely.js` and
+`likely.css` to the desired directory.
 
 Or use npm or Bower:
 
@@ -131,7 +131,7 @@ Top-level options are passed down to all the services. They can also be overridd
 ```
 
 In 2020 most social networks rely on what is called [Open Graph Protocol](https://ogp.me/) to extract the information about shared links.
-Below there is more information regarding how individual services support it, 
+Below there is more information regarding how individual services support it,
 but it's highly recommended to set up the proper <meta> tags for your page, to work in conjunction with Likely.
 
 ## Services
@@ -149,7 +149,7 @@ but it's highly recommended to set up the proper <meta> tags for your page, to w
 ### Linkedin
 ```html
 <div class="linkedin">Post</div>
-``` 
+```
 * **url** - url to share.
 
 [Linkedin Open Graph protocol documentation](https://www.linkedin.com/help/linkedin/answer/46687/making-your-website-shareable-on-linkedin).
@@ -157,7 +157,7 @@ but it's highly recommended to set up the proper <meta> tags for your page, to w
 ### OK (Odnoklassniki)
 ```html
 <div class="odnoklassniki" data-imageurl="http://i.imgur.com/zunNbfY.jpg">Like</div>
-``` 
+```
 * **url** - url to share.
 * **title** - text which is used as a title of created post.
 * **imageurl** - url to a picture which is used as a thumbnail for the post.
@@ -171,9 +171,9 @@ but it's highly recommended to set up the proper <meta> tags for your page, to w
 ```
 * **url** - url to share.
 * **title** - text which is used as a comment to created pin.
-* **media** - URL of an image that overrides the image in the Pin Create form. 
-If not provided, Pinterest will try to find image at the given webpage. 
-Use the this attribute to provide a better-quality version of the image if you have one. 
+* **media** - URL of an image that overrides the image in the Pin Create form.
+If not provided, Pinterest will try to find image at the given webpage.
+Use the this attribute to provide a better-quality version of the image if you have one.
 * **counter** - if provided, blocks the API call and simply shows given value instead.
 
 [Pinterest Open Graph protocol documentation](https://developers.pinterest.com/docs/rich-pins/overview/).
@@ -181,7 +181,7 @@ Use the this attribute to provide a better-quality version of the image if you h
 ### Reddit
 ```html
 <div class="reddit">Submit</div>
-``` 
+```
 Reddit counter is calculated as a sum score of the 5 most up-voted posts for a given link, across all sub-reddits.
 * **url** - url to share.
 * **title** - title of the post, defaults to the page title.
@@ -204,7 +204,7 @@ Reddit counter is calculated as a sum score of the 5 most up-voted posts for a g
 ```
 * **url** - url to share.
 * **title** - comment that appears before the shared url.
-* **via** - indicates a specific user a source of the information. 
+* **via** - indicates a specific user a source of the information.
 Adds a clickable username to the tweet, like so: `My page: https://google.com/ via @ilyabirman`
 * **hashtags** - a comma-separated list of hashtags added to the tweet. Omit a preceding “#” from each hashtag.
 
@@ -215,8 +215,8 @@ Adds a clickable username to the tweet, like so: `My page: https://google.com/ v
 <div class="viber">Send</div>
 ```
 * **url** - url to share.
-* **title** - text that appears on a separate line after the shared url. 
-⚠ Viber share messages are not editable in the client application, 
+* **title** - text that appears on a separate line after the shared url.
+⚠ Viber share messages are not editable in the client application,
 so if you don't wan't the title to appear, please set empty `data-title=""` attribute on the Viber button.
 
 [Viber Open Graph protocol documentation](https://stackoverflow.com/questions/34941283)
@@ -224,7 +224,7 @@ so if you don't wan't the title to appear, please set empty `data-title=""` attr
 ### VK
 ```html
 <div class="vkontakte" data-image="https://placekitten.com/200/400" data-comment="Check this out">Share</div>
-``` 
+```
 * **url** - url to share.
 * **title** - text used as the preview header
 * **image** - url for image used as the preview thumbnail
@@ -237,7 +237,7 @@ so if you don't wan't the title to appear, please set empty `data-title=""` attr
 ```html
 <div class="whatsapp">Send</div>
 ```
-* **url** - url to share 
+* **url** - url to share
 * **title** - text that precedes the link in the shared message, defaults to the page title.
 
 [Whatsapp Open Graph protocol documentation](https://stackoverflow.com/questions/19778620).
@@ -251,15 +251,15 @@ If you need to dynamically change the widget's configuration, you can re-initial
 likely.initiate();
 // If you need to refresh the counters, pass the corresponding param,
 // but be aware that it will issue xhr calls to all the relevant services.
-likely.initiate({forceUpdate:true});
+likely.initiate({forceUpdate: true});
 ```
 
 ### How to disable the automatic counters
 Counters are enabled by default, but there are two ways to disable them:
 * To add `data-counters` attribute on the upper `likely` div with `"no"`value to disable all counters.
-* Another option is to supply a custom value for `data-counter` attribute of the specific services. 
-Likely won't do an API request for those services and just display the given value instead. 
-It can be used when you want to save user's traffic and obtain value through some other means, 
+* Another option is to supply a custom value for `data-counter` attribute of the specific services.
+Likely won't do an API request for those services and just display the given value instead.
+It can be used when you want to save user's traffic and obtain value through some other means,
 for example through the backend in a centralized manner.
 
 ### Accessibility Settings
@@ -270,10 +270,10 @@ To make buttons accessible for keyboard navigation and screen readers add `tabin
     <div class="twitter" tabindex="0" role="link" aria-label="Tweet on Twitter">Tweet</div>
     <!-- The same for each services -->
 </div>
-``` 
+```
 
 ### Custom button
-It's possible to add a custom button into Likely's row of buttons. 
+It's possible to add a custom button into Likely's row of buttons.
 Let's assume that you have a 16x16 pixels image and a link to the service which you want to share to.
 ```html
 <div class="likely__widget">
@@ -288,27 +288,27 @@ Let's assume that you have a 16x16 pixels image and a link to the service which 
 ### Supported browsers
 We support IE 10+, Safari 9+ and the latest versions of Chrome, Firefox and Edge. Likely might work in the older versions too but we don’t maintain the compatibility on purpose.
 
-### Deprecations 
+### Deprecations
 In version 3.0 the following is going to be changed:
 1. Classes `likely-visible` and `likely-ready` will be merged into just `likely-ready`, so please don't rely on `likely-visible` to test the presence.
 2. Unrecognized params passed to the services will be ignored.
 3. Old initialization method will be removed.
 4. Likely buttons will be changed from <div> to <button> tag.
 
-As of now, there are deprecation warnings implemented for all the above.  
+As of now, there are deprecation warnings implemented for all the above.
 
 # Development
 Please use the [Github commit style](https://gist.github.com/robertpainsi/b632364184e70900af4ab688decf6f53).
-Before pushing make sure the tests are green and the linter does not complain. 
+Before pushing make sure the tests are green and the linter does not complain.
 ```bash
 npm test
 npm run-script check-codestyle
 ```
-Also, please, add your own tests if you are submitting a feature. 
+Also, please, add your own tests if you are submitting a feature.
 [![Build Status](https://travis-ci.org/NikolayRys/Likely.svg?branch=master)](https://travis-ci.org/NikolayRys/Likely)
 
 ## Release
-Release packaging before publishing: 
+Release packaging before publishing:
 ```
 $ npm run release
 ```
