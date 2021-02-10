@@ -90,8 +90,6 @@ const likely = {
             });
         }
     },
-
-    deprecationsShown: false,
 };
 
 module.exports = likely;
