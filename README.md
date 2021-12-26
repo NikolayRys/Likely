@@ -9,6 +9,7 @@ Version [2.6](https://github.com/NikolayRys/Likely/releases/tag/v2.6) is out �
 See Likely in action on its [homepage](http://ilyabirman.net/projects/likely/).
 
 [![Likely screenshot](http://i.imgur.com/ipqE5Tu.png)](http://ilyabirman.net/projects/likely/)
+[More on choosing a theme](#light--dark-theme)
 
 Likely supports following social networks and messengers:
 
@@ -126,7 +127,7 @@ Top-level options are passed down to all the services. They can also be overridd
 * `data-title` – Text that will be added to the shared URL. Defaults to the page title.
 ```html
 <div class="likely" data-url="https://github.com/ilyabirman/Likely" data-title="My page">
-    <!-- list of serivces -->
+    <!-- List of services -->
 </div>
 ```
 
@@ -284,6 +285,15 @@ Let's assume that you have a 16x16 pixels image and a link to the service which 
     </a>
 </div>
 ```
+
+### Light / dark theme
+It's possible to use alternative (dark-mode suitable) styling by adding `likely-light` class to the main `div.likely`
+```html
+<div class="likely likely-light">
+    <!-- List of services -->
+</div>
+```
+Additionally, if your website is responsive to users' color theme preferences, having `.likely-color-theme-based` instead of `.likely-light` will result in having regular styling for light-mode users and `.likely-light` styling for dark-mode users.
 
 ### Supported browsers
 We support IE 10+, Safari 9+ and the latest versions of Chrome, Firefox and Edge. Likely might work in the older versions too but we don’t maintain the compatibility on purpose.
