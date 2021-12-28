@@ -303,7 +303,7 @@ In version 3.0 the following is going to be changed:
 1. Classes `likely-visible` and `likely-ready` will be merged into just `likely-ready`, so please don't rely on `likely-visible` to test the presence.
 2. Unrecognized params passed to the services will be ignored.
 3. Old initialization method will be removed.
-4. Likely buttons will be changed from <div> to <button> tag.
+4. Likely buttons will be changed from `<div>` to `<button>` tag.
 
 As of now, there are deprecation warnings implemented for all the above.
 
