@@ -287,13 +287,13 @@ Let's assume that you have a 16x16 pixels image and a link to the service which 
 ```
 
 ### Light / dark theme
-It's possible to use alternative (dark-mode suitable) styling by adding `likely-light` class to the main `div.likely`
+It's possible to use alternative (dark-mode suitable) styling by adding `likely-dark-theme` (or its old alias `likely-light`) class to the main `div.likely`
 ```html
-<div class="likely likely-light">
+<div class="likely likely-dark-theme">
     <!-- List of services -->
 </div>
 ```
-Additionally, if your website is responsive to users' color theme preferences, having `.likely-color-theme-based` instead of `.likely-light` will result in having regular styling for light-mode users and `.likely-light` styling for dark-mode users.
+Additionally, if your website is responsive to users' color theme preferences, having `.likely-color-theme-based` will result in conditional switch between the themes.
 
 ### Supported browsers
 We support IE 10+, Safari 9+ and the latest versions of Chrome, Firefox and Edge. Likely might work in the older versions too but we don’t maintain the compatibility on purpose.

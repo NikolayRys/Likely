@@ -148,7 +148,7 @@ likely-light-button(button, color) {
     background-image: linear-gradient(to right, rgba(0,0,0,.2) 0, rgba(0,0,0,0) .5px, rgba(0,0,0,0) 100%)
   }
 }
-.likely-light {
+.likely-light, .likely-dark-theme {
   .likely__widget {
     likely-light-widget()
   }
@@ -179,7 +179,7 @@ colorize(button, color) {
       }
     }
   }
-  .likely-light {
+  .likely-light, .likely-dark-theme {
     likely-light-button(button, color)
   }
   @media (prefers-color-scheme: dark) {
