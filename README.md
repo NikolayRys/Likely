@@ -9,6 +9,7 @@ Version [2.6](https://github.com/NikolayRys/Likely/releases/tag/v2.6) is out �
 See Likely in action on its [homepage](http://ilyabirman.net/projects/likely/).
 
 [![Likely screenshot](http://i.imgur.com/ipqE5Tu.png)](http://ilyabirman.net/projects/likely/)
+[More on choosing a theme](#light--dark-theme)
 
 Likely supports following social networks and messengers:
 
@@ -126,7 +127,7 @@ Top-level options are passed down to all the services. They can also be overridd
 * `data-title` – Text that will be added to the shared URL. Defaults to the page title.
 ```html
 <div class="likely" data-url="https://github.com/ilyabirman/Likely" data-title="My page">
-    <!-- list of serivces -->
+    <!-- List of services -->
 </div>
 ```
 
@@ -285,6 +286,15 @@ Let's assume that you have a 16x16 pixels image and a link to the service which 
 </div>
 ```
 
+### Light / dark theme
+It's possible to use alternative (dark-mode suitable) styling by adding `likely-dark-theme` (or its old alias `likely-light`) class to the main `div.likely`
+```html
+<div class="likely likely-dark-theme">
+    <!-- List of services -->
+</div>
+```
+Additionally, if your website is responsive to users' color theme preferences, having `.likely-color-theme-based` will result in conditional switch between the themes.
+
 ### Supported browsers
 We support IE 10+, Safari 9+ and the latest versions of Chrome, Firefox and Edge. Likely might work in the older versions too but we don’t maintain the compatibility on purpose.
 
@@ -293,7 +303,7 @@ In version 3.0 the following is going to be changed:
 1. Classes `likely-visible` and `likely-ready` will be merged into just `likely-ready`, so please don't rely on `likely-visible` to test the presence.
 2. Unrecognized params passed to the services will be ignored.
 3. Old initialization method will be removed.
-4. Likely buttons will be changed from <div> to <button> tag.
+4. Likely buttons will be changed from `<div>` to `<button>` tag.
 
 As of now, there are deprecation warnings implemented for all the above.
 
