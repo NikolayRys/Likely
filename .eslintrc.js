@@ -96,7 +96,7 @@ module.exports = {
         'no-implicit-coercion': 'error',
         'no-implicit-globals': 'off',
         'no-implied-eval': 'error',
-        'no-inline-comments': 'error',
+        'no-inline-comments': 'off',
         'no-inner-declarations': [
             'error',
             'functions',
