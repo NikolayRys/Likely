@@ -1,32 +1,37 @@
 {
   "name": "ilyabirman-likely",
   "description": "The social sharing buttons that aren’t shabby",
-  "version": "2.6.0",
+  "version": "2.7.0-dev",
   "repository": {
     "type": "git",
     "url": "https://github.com/ilyabirman/Likely.git"
   },
-  "author": "Ilya Birman",
+  "author": {
+    "name" : "Ilya Birman",
+    "url" : "http://ilyabirman.net/"
+  },
   "contributors": [
-    "Nikolay Rys",
+    {
+      "name" : "Nikolay Rys",
+      "email" : "nikolay@rys.me",
+      "url" : "https://www.linkedin.com/in/nikolay-rys/"
+    },
     "Viktor Karpov",
     "Ivan Akulov"
   ],
   "license": "MIT",
   "main": "release/likely-commonjs.js",
   "scripts": {
-    "dev": "cross-env NODE_ENV=development webpack",
-    "build": "cross-env NODE_ENV=production webpack && cross-env NODE_ENV=production webpack -p --config webpack.config.min.js",
-    "prepare-release": "mkdir release/archive && cp release/likely.min.js release/archive/likely.js && cp release/likely.min.css release/archive/likely.css",
-    "zip": "cross-env-shell bestzip release/$npm_package_name-$npm_package_version.zip release/archive/*",
-    "clean-release": "rm -rf release/archive",
-    "release": "npm run prepare-release && npm run zip && npm run clean-release",
-    "test": "npm run integration-tests && npm run check-codestyle",
+    "build:dev": "webpack --progress --profile --colors --env mode=development min=false",
+    "build:prod": "webpack --progress --profile --colors --env mode=production min=false && webpack --progress --profile --colors --env mode=production min=true",
     "check-codestyle": "eslint ./",
     "fix-codestyle": "eslint ./ --fix",
-    "preintegration-tests": "npm run build",
     "integration-tests": "mocha --exit test/index.js",
-    "//": "`in-publish` is used so that the CI doesn’t run tests during the installation. If it does and the tests fail, the build gets errored instead of failed.",
+    "test": "npm run integration-tests && npm run check-codestyle",
+    "prepare-release": "mkdir release/archive && cp release/likely.min.js release/archive/likely.js && cp release/likely.min.css release/archive/likely.css",
+    "zip": "bestzip release/$npm_package_name-$npm_package_version.zip release/archive/*",
+    "clean-up-release": "rm -rf release/archive",
+    "release": "npm run prepare-release && npm run zip && npm run clean-up-release",
     "prepublish": "in-publish && npm run test || not-in-publish"
   },
   "files": [
@@ -39,27 +44,25 @@
     "license.txt"
   ],
   "devDependencies": {
-    "babel-core": "^6.18.2",
-    "babel-loader": "^6.2.7",
-    "babel-plugin-add-module-exports": "^0.2.1",
-    "babel-preset-latest": "^6.16.0",
-    "bestzip": "^2.1.7",
-    "chai": "^3.5.0",
-    "chai-as-promised": "^5.3.0",
-    "chromedriver": "^92.0.1",
-    "cross-env": "^3.1.3",
-    "css-loader": "^0.28.11",
-    "cssnano": "^4.1.10",
-    "eslint": "^6.6.0",
-    "extract-text-webpack-plugin": "2.0.0-beta.4",
+    "@babel/core": "^7.17.9",
+    "@babel/preset-env": "^7.16.11",
+    "babel-loader": "^8.2.5",
+    "babel-plugin-add-module-exports": "^1.0.4",
+    "bestzip": "^2.2.1",
+    "chai": "^4.3.6",
+    "chai-as-promised": "^7.1.1",
+    "chromedriver": "^100.0.0",
+    "css-loader": "^6.7.1",
+    "cssnano": "^5.1.7",
+    "eslint": "^8.14.0",
     "in-publish": "^2.0.1",
-    "mocha": "^7.2.0",
-    "optimize-css-assets-webpack-plugin": "^2.0.0",
-    "selenium-webdriver": "^3.0.0-beta-2",
-    "static-server": "^2.0.3",
-    "style-loader": "^0.13.1",
-    "stylus": "^0.54.8",
-    "stylus-loader": "^2.4.0",
-    "webpack": "2.7.0"
+    "mocha": "^9.1.4",
+    "selenium-webdriver": "^4.1.1",
+    "static-server": "^2.2.1",
+    "style-loader": "^3.3.1",
+    "stylus": "^0.57.0",
+    "stylus-loader": "^6.2.0",
+    "webpack": "^5.72.0",
+    "webpack-cli": "^4.9.2"
   }
 }
