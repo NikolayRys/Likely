@@ -65,7 +65,7 @@ module.exports = (env) => {
 
             ],
         },
-        devtool: 'cheap-source-map',
+        devtool: 'source-map',
         optimization,
         plugins,
     };
