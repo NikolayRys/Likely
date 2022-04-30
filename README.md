@@ -279,7 +279,7 @@ Let's assume that you have a 16x16 pixels image and a link to the service which 
 ```html
 <div class="likely__widget">
     <!-- List of other services -->
-    <a class="likely__button" style="color:black" href="https://new.service.share.url">
+    <a class="likely__button" href="https://new.service.share.url">
         <img class="likely__icon" alt="" src="https://url.of/the/image/16x16.png">
         Post
     </a>
