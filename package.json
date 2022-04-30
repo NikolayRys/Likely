@@ -38,12 +38,10 @@
   },
   "files": [
     "release/likely.js",
-    "release/likely.css",
-    "release/likely.min.js",
-    "release/likely.min.css",
-    "release/likely-commonjs.js",
-    "release/likely-commonjs.min.js",
-    "license.txt"
+    "release/*.css",
+    "release/*.js",
+    "release/*.map",
+    "LICENCE.txt"
   ],
   "devDependencies": {
     "@babel/core": "^7.17.10",
