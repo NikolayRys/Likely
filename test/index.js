@@ -77,11 +77,11 @@ describe('Likely', function () {
                         (widget) => expectClickToOpen(
                             driver,
                             widget.findElement({ css: '.likely__widget_twitter' }),
-                            /twitter\.com\/.*google\.com/
-                        )
+                            /twitter\.com\/.*google\.com/,
+                        ),
                     ).concat(
                         expect(driver.findElements({ css: '.likely_ready' }))
-                            .to.eventually.have.lengthOf(allLikelyWidgets.length)
+                            .to.eventually.have.lengthOf(allLikelyWidgets.length),
                     );
 
                     return Promise.all(expectations);
@@ -332,7 +332,7 @@ describe('Likely', function () {
                     return expectClickToOpen(
                         driver,
                         '.likely__widget_twitter',
-                        new RegExp(`twitter\\.com\\/.*${encodeURIComponent(targetUrl)}`)
+                        new RegExp(`twitter\\.com\\/.*${encodeURIComponent(targetUrl)}`),
                     );
                 });
         };
