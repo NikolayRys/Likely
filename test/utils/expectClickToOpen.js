@@ -41,7 +41,7 @@ function expectClickToOpen(driver, clickTarget, windowUrlRegex) {
         // but we actually ignore this exception and do the proper URL comparison later
         .then(
             () => driver.getCurrentUrl(),
-            () => driver.getCurrentUrl()
+            () => driver.getCurrentUrl(),
         )
         .then((url) => {
             openedUrl = url;
