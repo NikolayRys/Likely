@@ -140,26 +140,6 @@ export const interpolateUrl = (text, data) => {
     }
     return interpolateStr(text, data);
 };
-
-/**
- * Create query string out of data
- * @param {Object} data
- * @returns {String}
- */
-export const joinIntoParams = (data) => {
-    const filter = encodeURIComponent;
-    const query = [];
-
-    for (const key in data) {
-        if (typeof data[key] === 'object') {
-            continue;
-        }
-        query.push(`${filter(key)}=${filter(data[key])}`);
-    }
-
-    return query.join('&');
-};
-
 /**
  * Set value in object using dot-notation
  * @param {String} key
