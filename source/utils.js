@@ -121,7 +121,7 @@ export const getBools = (node) => {
  * @returns {String}
  */
 export const interpolateStr = (text, data) => {
-    return text ? text.replace(/\{([^}]+)\}/g, function (value, key) {
+    return text ? text.replace(/\{([^}]+)}/g, function (value, key) {
         return key in data ? data[key] : value;
     }) : '';
 };
