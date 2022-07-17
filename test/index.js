@@ -69,23 +69,31 @@ describe('Likely', function () {
         });
 
         it('should initialize when only options are passed', function () {
-            return driver.executeScript('likely.initiate({ url: "//google.com" });')
+            // await driver.executeScript('likely.initiate({ url: "//google.com" });');
+
+            const totalExpectation = driver.executeScript('likely.initiate({ url: "//google.com" });')
                 .then(() => waitUntilLikelyInitialized(driver))
                 .then(() => driver.findElements({ css: '.likely' }))
-                .then((allLikelyWidgets) => {
-                    const expectations = allLikelyWidgets.map(
-                        (widget) => expectClickToOpen(
+                .then(async (allLikelyWidgets) => {
+                    const expectations = [];
+
+                    // TODO make into  allLikelyWidgets.forEach((widget) => {
+                    for (let id = 0; id < allLikelyWidgets.length; id++) {
+                        expectations.push(await expectClickToOpen(
                             driver,
-                            widget.findElement({ css: '.likely__widget_twitter' }),
+                            allLikelyWidgets[id].findElement({ css: '.likely__widget_twitter' }),
                             /twitter\.com\/.*google\.com/,
-                        ),
-                    ).concat(
+                        ));
+                    }
+
+                    expectations.concat(
                         expect(driver.findElements({ css: '.likely_ready' }))
                             .to.eventually.have.lengthOf(allLikelyWidgets.length),
                     );
 
                     return Promise.all(expectations);
                 });
+            return totalExpectation;
         });
 
         it('should initialize a single node passed', function () {
