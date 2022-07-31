@@ -1,7 +1,7 @@
 /**
  * Twitter service provider
  * Doc: https://developer.twitter.com/en/docs/twitter-for-websites/tweet-button/guides/parameter-reference1
- * Also mentions "related" param, but it doesn't seem to any anything in 2020.
+ * Also mentions "related" param, but it doesn't seem to do any anything in 2020.
  */
 
 export default {
