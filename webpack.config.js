@@ -49,6 +49,7 @@ module.exports = (env) => {
                 type: 'umd', // https://webpack.js.org/configuration/output/#librarytarget-umd
             },
             path: path.join(__dirname, '/release'),
+            globalObject: 'typeof self !== \'undefined\' ? self : this', // https://github.com/webpack/webpack/issues/6784#issuecomment-375941431
         },
         module: {
             rules: [
