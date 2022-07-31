@@ -209,14 +209,14 @@ class LikelyButton {
     addAdditionalParamsToUrl(url) {
         const paramsArray = [];
 
-        for (const key in this.options.service.knownParams) {
-            if (key in this.data) {
-                paramsArray.push(`${encodeURIComponent(key)}=${encodeURIComponent(this.data[key])}`);
+        this.options.service.knownParams.forEach((item) => {
+            if (item in this.data) {
+                paramsArray.push(`${encodeURIComponent(item)}=${encodeURIComponent(this.data[item])}`);
             }
-        }
+        });
         const parameters = paramsArray.join('&');
-        const delimeter = url.indexOf('?') === -1 ? '?' : '&';
-        return parameters === '' ? url : url + delimeter + parameters;
+        const delimiter = url.indexOf('?') === -1 ? '?' : '&';
+        return parameters === '' ? url : url + delimiter + parameters;
     }
 }
 
