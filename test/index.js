@@ -5,41 +5,24 @@ const expect = require('chai').use(require('chai-as-promised')).expect;
 
 require('chromedriver');
 const selenium = require('selenium-webdriver');
-const fs = require('fs');
 const startServer = require('./utils/startServer');
 const { LikelyPage, getLikelyPage } = require('./utils/getLikelyPage');
 const waitUntilLikelyInitialized = require('./utils/waitUntilLikelyInitialized');
 const expectToContainText = require('./utils/expectToContainText');
 const expectClickToOpen = require('./utils/expectClickToOpen');
+// const takeSnapshot = require("./utils/takeSnapshot");
 
 const commonTimeout = 20000;
 
-/**
- * Save webdriver screenshot for debugging purposes in PNG format
- * Example: driver.saveScreenshot(`${name}_${Date.now()}.png`);
- * @param {String} filename
- */
-selenium.WebDriver.prototype.saveScreenshot = function (filename) {
-    if (process.env.TRAVIS) {
-        // Do not save screenshot on CI
-        return;
-    }
-    this.takeScreenshot().then(function (data) {
-        fs.writeFile(`test/screenshots/${filename}`, data.replace(/^data:image\/png;base64,/, ''), 'base64', () => {
-            // No error handling, just carry on with testing
-        });
-    });
-};
-
-describe('Likely', function () {
+describe('Likely', function () { // Mocha doesn't allow to pass arrowed function
     let driver;
 
     // The timeout is used to handle the browser starting long for the first time
     // and sharing dialogs taking too long to load on a slow network
     this.timeout(commonTimeout);
 
-    before(function () {
-        // Required for travis
+    before(() => {
+        // Required for Travis
         var chromeOptions = { args: ['--no-sandbox'] };
         const chromeCapabilities = selenium.Capabilities.chrome();
         chromeCapabilities.set('chromeOptions', chromeOptions);
@@ -50,167 +33,146 @@ describe('Likely', function () {
         startServer();
     });
 
-    after(function () {
+    after(() => {
         return driver.quit();
     });
 
-    describe('initialization', function () {
-        beforeEach(function () {
+    describe('initialization', () => {
+        beforeEach(() => {
             return getLikelyPage(driver, LikelyPage.NO_AUTOINIT_MULTIPLE);
         });
 
-        it('should initialize without arguments', function () {
-            return driver.executeScript('likely.initiate();')
-                .then(() => waitUntilLikelyInitialized(driver))
-                .then(() => driver.findElements({ css: '.likely' }))
-                .then((allLikelyWidgets) => {
-                    return expect(driver.findElements({ css: '.likely_ready' })).to.eventually.have.lengthOf(allLikelyWidgets.length);
-                });
+        it('initializes without arguments', async () => {
+            await driver.executeScript('likely.initiate();');
+            await waitUntilLikelyInitialized(driver);
+            const allLikelyWidgets = await driver.findElements({ css: '.likely' });
+            expect(driver.findElements({ css: '.likely_ready' })).to.eventually.have.lengthOf(allLikelyWidgets.length);
         });
 
-        it('should initialize when only options are passed', function () {
-            // await driver.executeScript('likely.initiate({ url: "//google.com" });');
+        it('initializes when only options are passed', async () => {
+            await driver.executeScript('likely.initiate({ url: "//google.com" });');
+            await waitUntilLikelyInitialized(driver);
+            const allLikelyWidgets = await driver.findElements({ css: '.likely' });
 
-            const totalExpectation = driver.executeScript('likely.initiate({ url: "//google.com" });')
-                .then(() => waitUntilLikelyInitialized(driver))
-                .then(() => driver.findElements({ css: '.likely' }))
-                .then(async (allLikelyWidgets) => {
-                    const expectations = [];
+            const expectations = [];
 
-                    // TODO make into  allLikelyWidgets.forEach((widget) => {
-                    for (let id = 0; id < allLikelyWidgets.length; id++) {
-                        expectations.push(await expectClickToOpen(
-                            driver,
-                            allLikelyWidgets[id].findElement({ css: '.likely__widget_twitter' }),
-                            /twitter\.com\/.*google\.com/,
-                        ));
-                    }
+            for (let id = 0; id < allLikelyWidgets.length; id++) {
+                expectations.push(await expectClickToOpen(
+                    driver,
+                    allLikelyWidgets[id].findElement({ css: '.likely__widget_twitter' }),
+                    /twitter\.com\/.*google\.com/,
+                ));
+            }
 
-                    expectations.concat(
-                        expect(driver.findElements({ css: '.likely_ready' }))
-                            .to.eventually.have.lengthOf(allLikelyWidgets.length),
-                    );
+            expectations.concat(
+                expect(driver.findElements({ css: '.likely_ready' }))
+                    .to.eventually.have.lengthOf(allLikelyWidgets.length),
+            );
 
-                    return Promise.all(expectations);
-                });
-            return totalExpectation;
+            return Promise.all(expectations);
         });
 
-        it('should initialize a single node passed', function () {
-            return driver.executeScript('likely.initiate(document.querySelector("#widget1"));')
-                .then(() => waitUntilLikelyInitialized(driver))
-                .then(() => {
-                    return Promise.all([
-                        expect(driver.findElement({ css: '#widget1' }).getAttribute('class'))
-                            .to.eventually.include('likely_ready'),
-                        expect(driver.findElements({ css: '.likely_ready' }))
-                            .to.eventually.have.lengthOf(1),
-                    ]);
-                });
+        it('initializes a single node passed', async () => {
+            await driver.executeScript('likely.initiate(document.querySelector("#widget1"));');
+            await waitUntilLikelyInitialized(driver);
+            return Promise.all([
+                expect(driver.findElement({ css: '#widget1' }).getAttribute('class'))
+                    .to.eventually.include('likely_ready'),
+                expect(driver.findElements({ css: '.likely_ready' }))
+                    .to.eventually.have.lengthOf(1),
+            ]);
         });
 
-        it('should initialize a single node passed with options', function () {
-            return driver.executeScript(`
-                likely.initiate(document.querySelector("#widget1"), { url: '//google.com' });
-            `)
-                .then(() => waitUntilLikelyInitialized(driver))
-                .then(() => {
-                    return Promise.all([
-                        expect(driver.findElement({ css: '#widget1' }).getAttribute('class'))
-                            .to.eventually.include('likely_ready'),
-                        expect(driver.findElements({ css: '.likely_ready' }))
-                            .to.eventually.have.lengthOf(1),
-                        expectClickToOpen(driver, '#widget1 .likely__widget_twitter', /twitter\.com\/.*google\.com/),
-                    ]);
-                });
+        it('initializes a single node passed with options', async () => {
+            await driver.executeScript('likely.initiate(document.querySelector("#widget1"), { url: \'//google.com\' });');
+            await waitUntilLikelyInitialized(driver);
+            return Promise.all([
+                expect(driver.findElement({ css: '#widget1' }).getAttribute('class'))
+                    .to.eventually.include('likely_ready'),
+                expect(driver.findElements({ css: '.likely_ready' }))
+                    .to.eventually.have.lengthOf(1),
+                expectClickToOpen(driver, '#widget1 .likely__widget_twitter', /twitter\.com\/.*google\.com/),
+            ]);
         });
 
-        it('should initialize multiple nodes passed', function () {
-            return driver.executeScript(`
+        it('initializes multiple nodes passed', async () => {
+            await driver.executeScript(`
                 likely.initiate([document.querySelector("#widget1"), document.querySelector("#widget3")]);
-            `)
-                .then(() => waitUntilLikelyInitialized(driver))
-                .then(() => {
-                    return Promise.all([
-                        expect(driver.findElement({ css: '#widget1' }).getAttribute('class'))
-                            .to.eventually.include('likely_ready'),
-                        expect(driver.findElement({ css: '#widget3' }).getAttribute('class'))
-                            .to.eventually.include('likely_ready'),
-                        expect(driver.findElements({ css: '.likely_ready' }))
-                            .to.eventually.have.lengthOf(2),
-                    ]);
-                });
+            `);
+
+            await waitUntilLikelyInitialized(driver);
+            return Promise.all([
+                expect(driver.findElement({ css: '#widget1' }).getAttribute('class'))
+                    .to.eventually.include('likely_ready'),
+                expect(driver.findElement({ css: '#widget3' }).getAttribute('class'))
+                    .to.eventually.include('likely_ready'),
+                expect(driver.findElements({ css: '.likely_ready' }))
+                    .to.eventually.have.lengthOf(2),
+            ]);
         });
 
-        it('should initialize multiple nodes passed with options', function () {
-            return driver.executeScript(`
+        it('initializes multiple nodes passed with options', async () => {
+            await driver.executeScript(`
                 likely.initiate(
                     [document.querySelector("#widget1"), document.querySelector("#widget3")],
                     { url: '//google.com' }
                 );
-            `)
-                .then(() => waitUntilLikelyInitialized(driver))
-                .then(() => {
-                    return Promise.all([
-                        expect(driver.findElement({ css: '#widget1' }).getAttribute('class'))
-                            .to.eventually.include('likely_ready'),
-                        expect(driver.findElement({ css: '#widget3' }).getAttribute('class'))
-                            .to.eventually.include('likely_ready'),
-                        expect(driver.findElements({ css: '.likely_ready' }))
-                            .to.eventually.have.lengthOf(2),
-                        expectClickToOpen(driver, '#widget1 .likely__widget_twitter', /twitter\.com\/.*google\.com/),
-                        expectClickToOpen(driver, '#widget3 .likely__widget_twitter', /twitter\.com\/.*google\.com/),
-                    ]);
-                });
+            `);
+
+            await waitUntilLikelyInitialized(driver);
+            return Promise.all([
+                expect(driver.findElement({ css: '#widget1' }).getAttribute('class'))
+                    .to.eventually.include('likely_ready'),
+                expect(driver.findElement({ css: '#widget3' }).getAttribute('class'))
+                    .to.eventually.include('likely_ready'),
+                expect(driver.findElements({ css: '.likely_ready' }))
+                    .to.eventually.have.lengthOf(2),
+                await expectClickToOpen(driver, '#widget1 .likely__widget_twitter', /twitter\.com\/.*google\.com/),
+                await expectClickToOpen(driver, '#widget3 .likely__widget_twitter', /twitter\.com\/.*google\.com/),
+            ]);
         });
     });
 
-    describe('changing configuration after being initialized', function () {
-        beforeEach(function () {
-            return getLikelyPage(driver, LikelyPage.AUTOINIT)
-                .then(() => waitUntilLikelyInitialized(driver));
+    describe('changing configuration after being initialized', () => {
+        beforeEach(async () => {
+            await getLikelyPage(driver, LikelyPage.AUTOINIT);
+            await waitUntilLikelyInitialized(driver);
         });
 
-        it('should change the shared URL when the new options are passed as a JS object', function () {
-            return driver.executeScript(`
+        it('changes the shared URL when the new options are passed as a JS object', async () => {
+            await driver.executeScript(`
                 likely.initiate({
                     url: 'http://google.com'
                 });
-            `)
-                .then(function () {
-                    return expectClickToOpen(driver, '.likely__widget_twitter', /twitter\.com\/.*google\.com/);
-                });
+            `);
+            return await expectClickToOpen(driver, '.likely__widget_twitter', /twitter\.com\/.*google\.com/);
         });
 
-        it('should change the shared URL when the new URL is specified on the node', function () {
-            return driver.executeScript(`
+        it('changes the shared URL when the new URL is specified on the node', async () => {
+            await driver.executeScript(`
                 document.querySelector('.likely').setAttribute('data-url', 'http://google.com');
                 likely.initiate();
-            `)
-                .then(function () {
-                    return expectClickToOpen(driver, '.likely__widget_twitter', /twitter\.com\/.*google\.com/);
-                });
+            `);
+            return await expectClickToOpen(driver, '.likely__widget_twitter', /twitter\.com\/.*google\.com/);
         });
 
-        it('should change the shared URL when the new URL is specified as <link rel="canonical">', function () {
-            return driver.executeScript(`
+        it('changes the shared URL when the new URL is specified as <link rel="canonical">', async () => {
+            await driver.executeScript(`
                 const link = document.createElement('link');
                 link.setAttribute('rel', 'canonical');
                 link.setAttribute('href', 'http://google.com');
                 document.head.appendChild(link);
 
                 likely.initiate();
-            `)
-                .then(function () {
-                    return expectClickToOpen(driver, '.likely__widget_twitter', /twitter\.com\/.*google\.com/);
-                });
+            `);
+            return await expectClickToOpen(driver, '.likely__widget_twitter', /twitter\.com\/.*google\.com/);
         });
     });
 
-    describe('fetching counters', function () {
-        before(function () {
-            return getLikelyPage(driver, LikelyPage.AUTOINIT)
-                .then(() => waitUntilLikelyInitialized(driver));
+    describe('fetching counters', () => {
+        before(async () => {
+            await getLikelyPage(driver, LikelyPage.AUTOINIT);
+            await waitUntilLikelyInitialized(driver);
         });
 
         const testedServices = [
@@ -222,27 +184,28 @@ describe('Likely', function () {
         ];
 
         testedServices.forEach(({ name, likelyName }) => {
-            it(`should fetch the counters for ${name}`, function () {
-                const mockedCounterValue = '10';
-                return expectToContainText(driver, `.likely__counter_${likelyName}`, mockedCounterValue);
+            it(`fetches the counters for ${name}`, async () => {
+                const expectedCounterValue = '10';
+                return await expectToContainText(driver, `.likely__counter_${likelyName}`, expectedCounterValue);
             });
         });
 
-        it('should provide the number of __likelyFetchMock function calls', function () {
-            driver.executeScript(`
+        it('provide the number of __likelyFetchMock function calls', async () => {
+            await driver.executeScript(`
                 var el = document.createElement('span');
                 el.setAttribute('id', '__likelyFetchMock');
                 el.innerHTML = window.__likelyFetchMock.calls;
                 document.body.appendChild(el);
             `);
+
             return expectToContainText(driver, '#__likelyFetchMock', '5');
         });
     });
 
-    describe('opening sharing dialogs', function () {
-        before(function () {
-            return getLikelyPage(driver, LikelyPage.AUTOINIT)
-                .then(() => waitUntilLikelyInitialized(driver));
+    describe('opening sharing dialogs', () => {
+        before(async () => {
+            await getLikelyPage(driver, LikelyPage.AUTOINIT);
+            await waitUntilLikelyInitialized(driver);
         });
 
         const testedServices = [
@@ -257,144 +220,123 @@ describe('Likely', function () {
         ];
 
         testedServices.forEach(({ name, likelyName, urlRegex }) => {
-            it(`should open the sharing dialog for ${name}`, function () {
+            it(`opens the sharing dialog for ${name}`, async () => {
                 return expectClickToOpen(driver, `.likely__widget_${likelyName}`, urlRegex);
             });
         });
     });
 
-    describe('configuration', function () {
-        beforeEach(function () {
+    describe('configuration', () => {
+        beforeEach(() => {
             return getLikelyPage(driver, LikelyPage.NO_AUTOINIT);
         });
 
-        it('should change the shared URL when `<link rel="canonical">` is specified', function () {
-            return driver.executeScript(`
+        it('changes the shared URL when `<link rel="canonical">` is specified', async () => {
+            await driver.executeScript(`
                 document.head.innerHTML += '<link rel="canonical" href="https://google.com">';
                 likely.initiate();
-            `).then(() => {
-                return expectClickToOpen(driver, '.likely__widget_twitter', /twitter\.com\/.*google\.com/);
-            });
+            `);
+            return expectClickToOpen(driver, '.likely__widget_twitter', /twitter\.com\/.*google\.com/);
         });
 
-        it('should change the shared URL when `data-url` is specified', function () {
-            return driver.executeScript(`
+        it('changes the shared URL when `data-url` is specified', async () => {
+            await driver.executeScript(`
                 document.querySelector('.likely').setAttribute('data-url', 'https://google.com');
                 likely.initiate();
-            `).then(() => {
-                return expectClickToOpen(driver, '.likely__widget_twitter', /twitter\.com\/.*google\.com/);
-            });
+            `);
+            return expectClickToOpen(driver, '.likely__widget_twitter', /twitter\.com\/.*google\.com/);
         });
 
-        it('should change the shared title when `data-title` is specified', function () {
-            return driver.executeScript(`
+        it('changes the shared title when `data-title` is specified', async () => {
+            await driver.executeScript(`
                 document.querySelector('.likely').setAttribute('data-title', 'Fake Title');
                 likely.initiate();
-            `).then(() => {
-                return expectClickToOpen(driver, '.likely__widget_twitter', /twitter\.com\/.*Fake%20Title/);
-            });
+            `);
+            return expectClickToOpen(driver, '.likely__widget_twitter', /twitter\.com\/.*Fake%20Title/);
         });
 
-        it('should set the `via` when `data-via` on the Twitter button is specified', function () {
-            return driver.executeScript(`
+        it('sets the `via` when `data-via` on the Twitter button is specified', async () => {
+            await driver.executeScript(`
                 document.querySelector('.twitter').setAttribute('data-via', 'horse_js');
                 likely.initiate();
-            `).then(() => {
-                return expectClickToOpen(driver, '.likely__widget_twitter', /twitter\.com\/.*horse_js/);
-            });
+            `);
+            return expectClickToOpen(driver, '.likely__widget_twitter', /twitter\.com\/.*horse_js/);
         });
 
-        it('should set the shared text when `data-text` on the Telegram button is specified', function () {
-            return driver.executeScript(`
-                document.querySelector('.telegram').setAttribute('data-text', 'Fake Text');
+        it('sets the shared text when `data-title` on the Telegram button is specified', async () => {
+            await driver.executeScript(`
+                document.querySelector('.telegram').setAttribute('data-title', 'Fake Text');
                 likely.initiate();
-            `).then(() => {
-                return expectClickToOpen(driver, '.likely__widget_telegram', /telegram\.me\/.*Fake%20Text/);
-            });
+            `);
+            return expectClickToOpen(driver, '.likely__widget_telegram', /telegram\.me\/.*Fake%20Text/);
         });
 
-        // Temporary disabled because pinterest requires being logged in to show relevant popup, otherwise it redirects
-        // Actually expected regex: /pinterest\.com\/.*zunNbfY\.jpg/
-        it('should open popup for Pinterest', function () {
-            return driver.executeScript(`
+        it('opens popup for Pinterest', async () => {
+            await driver.executeScript(`
                 document.querySelector('.pinterest').setAttribute('data-media', 'http://i.imgur.com/zunNbfY.jpg');
                 likely.initiate();
-            `).then(() => {
-                return expectClickToOpen(driver, '.likely__widget_pinterest', /pinterest/);
-            });
+            `);
+            return expectClickToOpen(driver, '.likely__widget_pinterest', /pinterest/);
         });
     });
 
-    describe('history', function () {
-        const testHistoryMethod = (driver, methodName) => {
+    describe('history', () => {
+        const testHistoryMethod = async (driver, methodName) => {
             // `methodName` is either "pushState" or "replaceState"
 
             const targetUrl = '/?history';
 
-            return getLikelyPage(driver, LikelyPage.AUTOINIT)
-                .then(() => waitUntilLikelyInitialized(driver))
-                .then(() => {
-                    return driver.executeScript(`window.history.${methodName}(null, null, '${targetUrl}');`);
-                })
-                .then(() => {
-                    return expectClickToOpen(
-                        driver,
-                        '.likely__widget_twitter',
-                        new RegExp(`twitter\\.com\\/.*${encodeURIComponent(targetUrl)}`),
-                    );
-                });
+            await getLikelyPage(driver, LikelyPage.AUTOINIT);
+            await waitUntilLikelyInitialized(driver);
+            await driver.executeScript(`window.history.${methodName}(null, null, '${targetUrl}');`);
+            return expectClickToOpen(
+                driver,
+                '.likely__widget_twitter',
+                new RegExp(`twitter\\.com\\/.*${encodeURIComponent(targetUrl)}`),
+            );
         };
 
-        it('should change the shared URL when history.pushState() is called', function () {
+        it('changes the shared URL when history.pushState() is called', async () => {
             return testHistoryMethod(driver, 'pushState');
         });
 
-        it('should change the shared URL when history.replaceState() is called', function () {
+        it('changes the shared URL when history.replaceState() is called', async () => {
             return testHistoryMethod(driver, 'replaceState');
         });
 
-        it('should change the shared URL when the browser’s back button is clicked', function () {
-            return getLikelyPage(driver, LikelyPage.NO_AUTOINIT)
-                .then(() => {
-                    return driver.executeScript(`
-                        window.history.pushState(null, null, '/?history');
-                        likely.initiate();
-                    `);
-                })
-                .then(() => {
-                    return driver.navigate().back();
-                })
-                .then(() => {
-                    return expectClickToOpen(driver, '.likely__widget_twitter', /twitter\.com\/.*no-autoinit\.html/);
-                });
+        it('changes the shared URL when the browser’s back button is clicked', async () => {
+            await getLikelyPage(driver, LikelyPage.NO_AUTOINIT);
+
+            await driver.executeScript(`
+                window.history.pushState(null, null, '/?history');
+                likely.initiate();
+            `);
+            await driver.navigate().back();
+            return expectClickToOpen(driver, '.likely__widget_twitter', /twitter\.com\/.*no-autoinit\.html/);
         });
     });
 
-    describe('bugs', function () {
-        it('should get a correct title when the script is placed before the title element [#67]', function () {
-            return getLikelyPage(driver, LikelyPage.ISSUE_67)
-                .then(() => waitUntilLikelyInitialized(driver))
-                .then(() => {
-                    return expectClickToOpen(driver, '.likely__widget_twitter', /twitter\.com\/.*Likely%20test%20page/);
-                });
+    describe('bugs', () => {
+        it('gets a correct title when the script is placed before the title element [#67]', async () => {
+            await getLikelyPage(driver, LikelyPage.ISSUE_67);
+            await waitUntilLikelyInitialized(driver);
+            return expectClickToOpen(driver, '.likely__widget_twitter', /twitter\.com\/.*Likely%20test%20page/);
         });
-        it('should not make requests when counters are disabled [#145]', function () {
-            return getLikelyPage(driver, LikelyPage.ISSUE_145)
-                .then(() => waitUntilLikelyInitialized(driver))
-                .then(() => {
-                    driver.executeScript(`
-                        var el = document.createElement('span');
-                        el.setAttribute('id', '__likelyFetchMock');
-                        el.innerHTML = window.__likelyFetchMock.calls;
-                        document.body.appendChild(el);
-                    `);
-                    return expectToContainText(driver, '#__likelyFetchMock', '0');
-                });
+        it('does not make requests when counters are disabled [#145]', async () => {
+            await getLikelyPage(driver, LikelyPage.ISSUE_145);
+            await waitUntilLikelyInitialized(driver);
+            await driver.executeScript(`
+                var el = document.createElement('span');
+                el.setAttribute('id', '__likelyFetchMock');
+                el.innerHTML = window.__likelyFetchMock.calls;
+                document.body.appendChild(el);
+            `);
+            return expectToContainText(driver, '#__likelyFetchMock', '0');
         });
     });
 
-    describe('execute outside browser environment', function () {
-        it('should require without errors', function () {
+    describe('execute outside browser environment', () => {
+        it('require without errors', () => {
             const likely = require('../release/likely-commonjs').initiate; // eslint-disable-line global-require
             expect(likely).to.be.an('function');
         });
