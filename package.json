@@ -42,7 +42,6 @@
     "prepublish": "in-publish && npm run test || not-in-publish"
   },
   "files": [
-    "release/likely.js",
     "release/*.css",
     "release/*.js",
     "release/*.map",
