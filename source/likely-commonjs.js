@@ -7,7 +7,6 @@ const config = require('./config').default;
 const { findAll } = require('./dom');
 const history = require('./history').default;
 const services = require('./services').default;
-require('./index.styl');
 
 /**
  * @param {Node} node

@@ -1,5 +1,5 @@
 import { createNode, createTempLink, find, findAll, openPopup, wrapSVG } from './dom';
-import { extendWith, getDataset, interpolateStr, interpolateUrl, joinIntoParams, mergeToNew, toArray } from './utils';
+import { extendWith, getDataset, interpolateStr, interpolateUrl, mergeToNew, toArray } from './utils';
 
 import config from './config';
 import connectButtonToService from './connectButtonToService';
@@ -85,31 +85,11 @@ class LikelyButton {
     detectParams() {
         const options = this.options;
         this.data = getDataset(this.widget);
-        const unknownParams = [];
-
-        for (const key in this.data) {
-            // Array.prototype.indexOf() instead of Array.prototype.includes() for IE support
-            if (this.options.service.knownParams.indexOf(key) === -1) {
-                unknownParams.push(key);
-            }
-        }
-        if (unknownParams.length > 0) {
-            const unknownParamsStr = unknownParams.join(', ');
-            console.warn('LIKELY DEPRECATION: unsupported parameters “%s” on “%s” button. They will be ignored in version 3.0.',
-                unknownParamsStr, this.options.service.name);
-        }
-
         if (this.data.counter) {
             options.staticCounter = this.data.counter;
         }
         options.url = this.data.url === undefined ? options.url : this.data.url;
         options.title = this.data.title === undefined ? options.title : this.data.title;
-
-        // Removing params with special meaning.
-        // Temporary measure until 3.0: instead of deleting, don't do bulk param assignment with addAdditionalParamsToUrl
-        delete this.data.counter;
-        delete this.data.url;
-        delete this.data.title;
     }
 
     /**
@@ -185,9 +165,7 @@ class LikelyButton {
             options.content = '';
         }
 
-        this.widget.appendChild(
-            createNode(interpolateStr(htmlSpan, options))
-        );
+        this.widget.appendChild(createNode(interpolateStr(htmlSpan, options)));
 
         this.likely.finalize();
     }
@@ -216,7 +194,7 @@ class LikelyButton {
                 completeUrl,
                 config.prefix + this.options.service.name,
                 options.service.popupWidth,
-                options.service.popupHeight
+                options.service.popupHeight,
             );
         }
 
@@ -229,11 +207,16 @@ class LikelyButton {
      * @returns {String}
      */
     addAdditionalParamsToUrl(url) {
-        const parameters = joinIntoParams(this.data);
-        const delimeter = url.indexOf('?') === -1 ? '?' : '&';
-        return parameters === ''
-            ? url
-            : url + delimeter + parameters;
+        const paramsArray = [];
+
+        this.options.service.knownParams.forEach((item) => {
+            if (item in this.data) {
+                paramsArray.push(`${encodeURIComponent(item)}=${encodeURIComponent(this.data[item])}`);
+            }
+        });
+        const parameters = paramsArray.join('&');
+        const delimiter = url.indexOf('?') === -1 ? '?' : '&';
+        return parameters === '' ? url : url + delimiter + parameters;
     }
 }
 

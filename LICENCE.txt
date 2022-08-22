@@ -1,4 +1,4 @@
-Copyright 2020 Nikolay Rys (nikolay@rys.me)
+Copyright 2022 Nikolay Rys (nikolay@rys.me)
 Copyright 2015 Ilya Birman (http://ilyabirman.net/)
 Copyright 2015 Evgeny Steblinsky (http://volter9.github.io)
 Copyright 2012 Artem Sapegin (http://sapegin.me), contributors
