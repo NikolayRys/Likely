@@ -7,7 +7,7 @@ const pkg = require('./package.json');
 const path = require('path');
 
 const license = `Likely $version by Nikolay Rys (linkedin.com/in/nikolay-rys), Ilya Birman (ilyabirman.net), and contributors.
-Special thanks to Viktor Karpov (https://twitter.com/vitkarpov), Ivan Akulov (iamakulov.com) and Evgeny Steblinsky (volter9.github.io) and Artem Sapegin (sapegin.me).`;
+Special thanks to Viktor Karpov (twitter.com/vitkarpov), Ivan Akulov (iamakulov.com), Evgeny Steblinsky (volter9.github.io), and Artem Sapegin (sapegin.me).`;
 
 function getLicenseComment(version) {
     return license.replace(/\$version/g, version);
