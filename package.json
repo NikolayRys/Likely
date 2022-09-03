@@ -1,7 +1,7 @@
 {
   "name": "ilyabirman-likely",
   "description": "The social sharing buttons that aren’t shabby",
-  "version": "2.7.0",
+  "version": "2.7.1",
   "repository": {
     "type": "git",
     "url": "https://github.com/ilyabirman/Likely.git"
@@ -55,11 +55,11 @@
     "bestzip": "^2.2.1",
     "chai": "^4.3.6",
     "chai-as-promised": "^7.1.1",
-    "chromedriver": "^104",
+    "chromedriver": "^105",
     "css-loader": "^6.7.1",
     "css-minimizer-webpack-plugin": "^4.0.0",
     "cssnano": "^5.1.13",
-    "eslint": "^8.22.0",
+    "eslint": "^8.23.0",
     "in-publish": "^2.0.1",
     "mini-css-extract-plugin": "^2.6.1",
     "mocha": "^10.0.0",
@@ -68,7 +68,7 @@
     "style-loader": "^3.3.1",
     "stylus": "^0.59.0",
     "stylus-loader": "^7.0.0",
-    "terser-webpack-plugin": "^5.3.5",
+    "terser-webpack-plugin": "^5.3.6",
     "webpack": "^5.74.0",
     "webpack-cli": "^4.10.0"
   }
