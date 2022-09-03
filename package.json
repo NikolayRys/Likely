@@ -1,7 +1,7 @@
 {
   "name": "ilyabirman-likely",
   "description": "The social sharing buttons that aren’t shabby",
-  "version": "2.7.1",
+  "version": "2.8.0-dev",
   "repository": {
     "type": "git",
     "url": "https://github.com/ilyabirman/Likely.git"
@@ -36,7 +36,7 @@
     "focus": "mocha --exit test/index.js -g 'focus'",
     "test": "npm run integration-tests && npm run check-codestyle",
     "prepare-release": "mkdir release/archive && cp release/likely.min.js release/archive/likely.js && cp release/likely.min.css release/archive/likely.css",
-    "zip": "bestzip release/$npm_package_name-$npm_package_version.zip release/archive/*",
+    "zip": "cd release/archive && bestzip ../$npm_package_name-$npm_package_version.zip *",
     "clean-up-release": "rm -rf release/archive",
     "release": "npm run prepare-release && npm run zip && npm run clean-up-release",
     "prepublish": "in-publish && npm run test || not-in-publish"
