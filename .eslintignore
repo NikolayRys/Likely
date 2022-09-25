@@ -1,1 +1,3 @@
-release
+release/*
+node-modules/*
+*.html
