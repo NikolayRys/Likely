@@ -129,11 +129,15 @@ likely-light-button(button, color) {
     &:hover, &:active, &:focus {
       text-shadow: color 0 0 .25em;
       background: alpha(color, 0.7);
+    }
+  }
+}
 
-      @media (hover: none) {
-        text-shadow: likely-light-box-shadow;
-        background: likely-light-background;
-      }
+likely-light-media-none-button(button, color) {
+  .likely__widget_{button} {
+    &:hover, &:active, &:focus {
+      text-shadow: likely-light-box-shadow;
+      background: likely-light-background;
     }
   }
 }
@@ -182,10 +186,19 @@ colorize(button, color) {
   }
   .likely-light, .likely-dark-theme {
     likely-light-button(button, color)
+
+    @media (hover: none) {
+      likely-light-media-none-button(button, color)
+    }
   }
   @media (prefers-color-scheme: dark) {
     .likely-color-theme-based {
       likely-light-button(button, color)
+    }
+  }
+  @media (prefers-color-scheme: dark) and (hover: none) {
+    .likely-color-theme-based {
+      likely-light-media-none-button(button, color)
     }
   }
 }
