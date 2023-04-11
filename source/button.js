@@ -88,8 +88,12 @@ class LikelyButton {
         if (this.data.counter) {
             options.staticCounter = this.data.counter;
         }
-        options.url = this.data.url === undefined ? options.url : this.data.url;
-        options.title = this.data.title === undefined ? options.title : this.data.title;
+        if (this.data.url) {
+            options.url = this.data.url;
+        }
+        if (this.data.title) {
+            options.title = this.data.title;
+        }
     }
 
     /**
@@ -174,18 +178,21 @@ class LikelyButton {
      * Click event listener
      * @returns {Boolean}
      */
-    click() {
+    click(event) {
+        event.preventDefault();
+
         const options = this.options;
 
         if (options.service.clickCallback.call(this)) {
             const urlWithBaseParams = interpolateUrl(options.service.popupUrl, {
                 url: options.url,
                 title: options.title,
-                content: options.content,
+                content: options.content, // Only for Viber, move to Viber service
             });
-            const completeUrl = this.addAdditionalParamsToUrl(urlWithBaseParams);
+            const completeUrl = this.addOptionalParamsToUrl(urlWithBaseParams);
 
             if (options.service.openPopup === false) {
+                // Only Viber
                 createTempLink(completeUrl);
                 return false;
             }
@@ -206,10 +213,12 @@ class LikelyButton {
      * @param {String} url
      * @returns {String}
      */
-    addAdditionalParamsToUrl(url) {
+    addOptionalParamsToUrl(url) {
         const paramsArray = [];
-
         this.options.service.knownParams.forEach((item) => {
+            if (item === 'url' || item === 'title' || item === 'counter') {
+                return; // Ignore base params
+            }
             if (item in this.data) {
                 paramsArray.push(`${encodeURIComponent(item)}=${encodeURIComponent(this.data[item])}`);
             }
