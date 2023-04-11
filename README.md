@@ -141,9 +141,8 @@ but it's highly recommended to set up the proper <meta> tags for your page, to w
 <div class="facebook" data-quote="Best website ever!" data-hashtag="#puppies">Share</div>
 ```
 * **url** - url to share.
-* **quote** - adds non-editable(but removable) text to the shared link.
 * **hashtag** - a single word with hash(#) symbol, which is included in the post.
-* **counter** - if provided, blocks the API call and instead shows the given value.
+* **counter** - if provided, blocks the API call and instead shows the given value in the like counter
 
 [Facebook Open Graph protocol documentation](https://developers.facebook.com/docs/sharing/webmasters)
 
