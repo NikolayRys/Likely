@@ -26,8 +26,9 @@ export default (options) => {
     // There’s currently no way to do `likely.__likelyFetchMock = ...`
     // before running this method.
     options.fetch = global.__likelyFetchMock || options.fetch || fetchXHR;
-    options.clickCallback = options.clickCallback || (() => true);
+    options.urlCallback = options.urlCallback || (()=>{ /* no-op */ });
     options.knownParams = options.knownParams || [];
+    options.openPopup = options.openPopup === undefined ? true : options.openPopup;
     options.resetBroadcasters = resetBroadcasters;
     options.resetBroadcasters();
 };

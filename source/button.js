@@ -101,12 +101,24 @@ class LikelyButton {
      */
     initHtml() {
         const options = this.options;
-        const widget = this.widget;
-        const text = widget.innerHTML;
+        const oldWidget = this.widget;
+        const text = oldWidget.innerHTML;
+        const completeUrl = this.buildUrl(options);
 
-        widget.addEventListener('click', this.click.bind(this));
+        // Change widget tag from div to <a>
+        const newWidget = document.createElement('a');
+        newWidget.innerHTML = oldWidget.innerHTML;
+        newWidget.className = oldWidget.className;
+        oldWidget.parentNode.replaceChild(newWidget, oldWidget);
+        this.widget = newWidget;
+        const widget = this.widget;
+
+        widget.addEventListener('click', this.shareClick(completeUrl).bind(this));
+
         widget.classList.remove(this.options.service.name);
         widget.className += `${this.className('widget')}`;
+
+        widget.setAttribute('href', completeUrl);
 
         const button = interpolateStr(htmlSpan, {
             className: this.className('button'),
@@ -175,45 +187,17 @@ class LikelyButton {
     }
 
     /**
-     * Click event listener
-     * @returns {Boolean}
-     */
-    click(event) {
-        event.preventDefault();
-
-        const options = this.options;
-
-        if (options.service.clickCallback.call(this)) {
-            const urlWithBaseParams = interpolateUrl(options.service.popupUrl, {
-                url: options.url,
-                title: options.title,
-                content: options.content, // Only for Viber, move to Viber service
-            });
-            const completeUrl = this.addOptionalParamsToUrl(urlWithBaseParams);
-
-            if (options.service.openPopup === false) {
-                // Only Viber
-                createTempLink(completeUrl);
-                return false;
-            }
-
-            openPopup(
-                completeUrl,
-                config.prefix + this.options.service.name,
-                options.service.popupWidth,
-                options.service.popupHeight,
-            );
-        }
-
-        return false;
-    }
-
-    /**
-     * Append service data to URL
-     * @param {String} url
+     * Construct URL for sharing
+     * @param {Object} options
      * @returns {String}
      */
-    addOptionalParamsToUrl(url) {
+    buildUrl(options) {
+        options.service.urlCallback.call(this);
+        const url = interpolateUrl(options.service.popupUrl, {
+            url: options.url,
+            title: options.title,
+        });
+
         const paramsArray = [];
         this.options.service.knownParams.forEach((item) => {
             if (item === 'url' || item === 'title' || item === 'counter') {
@@ -223,10 +207,32 @@ class LikelyButton {
                 paramsArray.push(`${encodeURIComponent(item)}=${encodeURIComponent(this.data[item])}`);
             }
         });
-        const parameters = paramsArray.join('&');
+        const paramsString = paramsArray.join('&');
         const delimiter = url.indexOf('?') === -1 ? '?' : '&';
-        return parameters === '' ? url : url + delimiter + parameters;
+        return paramsString === '' ? url : url + delimiter + paramsString;
+    }
+
+
+    /**
+     * Click event listener
+     * @param {String} completeUrl
+     * @returns {Function}
+     */
+    shareClick(completeUrl) {
+        return function (event) {
+            const options = this.options;
+            if (options.service.openPopup === true) {
+                event.preventDefault();
+                openPopup(
+                    completeUrl,
+                    config.prefix + this.options.service.name,
+                    options.service.popupWidth,
+                    options.service.popupHeight,
+                );
+                return false;
+            }
+            return true;
+        };
     }
 }
-
 export default LikelyButton;

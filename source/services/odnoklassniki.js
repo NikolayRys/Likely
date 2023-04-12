@@ -8,9 +8,8 @@ import { renameKey } from '../utils';
 export default {
     counterUrl: 'https://connect.ok.ru/dk?st.cmd=extLike&tp=json&ref={url}',
     convertNumber: (json) => JSON.parse(json).count,
-    clickCallback() {
+    urlCallback() {
         renameKey(this.widget.dataset, 'imageurl', 'imageUrl');
-        return true;
     },
     popupWidth: 588,
     popupHeight: 296,
