@@ -18,6 +18,8 @@ class Likely {
 
         toArray(this.container.children).forEach(this.addButton.bind(this));
 
+        // Temporary visibility hidden to prevent delays in rendering
+        this.container.classList.add(`${config.name}_visible`);
         if (this.options.counters) {
             this.readyDelay = setTimeout(this.ready.bind(this), this.options.timeout);
         }
@@ -84,6 +86,8 @@ class Likely {
      * Display ready status
      */
     ready() {
+        // Remove class_visible to prevent flickering
+        this.container.classList.remove(`${config.name}_visible`);
         this.container.classList.add(`${config.name}_ready`);
     }
 }
