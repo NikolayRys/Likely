@@ -47,6 +47,11 @@ async function expectClickToOpen(driver, clickTarget, windowUrlRegex) {
     // This will make all the following tests fail
     await driver.switchTo().window(originalWindow);
 
+    if (!windowUrlRegex.test(openedUrl)) {
+        console.log(`Opened URL: ${openedUrl}`);
+        console.log(`Expected URL: ${windowUrlRegex}`);
+    }
+
     return expect(openedUrl).to.match(windowUrlRegex);
 }
 
