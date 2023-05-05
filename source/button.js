@@ -61,6 +61,7 @@ class LikelyButton {
         counters.forEach((node) => {
             node.parentNode.removeChild(node);
         });
+        this.wireClick();
         this.registerAsCounted();
     }
 
@@ -100,12 +101,10 @@ class LikelyButton {
      * Initiate button's HTML
      */
     initHtml() {
-        const options = this.options;
         const oldWidget = this.widget;
         const text = oldWidget.innerHTML;
-        const completeUrl = this.buildUrl(options);
 
-        // Change widget tag from div to <a>
+        // Rebuilding widget tag from div to <a>
         const newWidget = document.createElement('a');
         newWidget.innerHTML = oldWidget.innerHTML;
         newWidget.className = oldWidget.className;
@@ -113,12 +112,10 @@ class LikelyButton {
         this.widget = newWidget;
         const widget = this.widget;
 
-        widget.addEventListener('click', this.shareClick(completeUrl).bind(this));
-
         widget.classList.remove(this.options.service.name);
         widget.className += `${this.className('widget')}`;
 
-        widget.setAttribute('href', completeUrl);
+        this.wireClick();
 
         const button = interpolateStr(htmlSpan, {
             className: this.className('button'),
@@ -127,10 +124,16 @@ class LikelyButton {
 
         const icon = interpolateStr(htmlSpan, {
             className: this.className('icon'),
-            content: wrapSVG(options.service.svgIconPath),
+            content: wrapSVG(this.options.service.svgIconPath),
         });
 
         widget.innerHTML = icon + button;
+    }
+
+    wireClick() {
+        const completeUrl = this.buildUrl(this.options);
+        this.widget.setAttribute('href', completeUrl);
+        this.widget.addEventListener('click', this.shareClick(completeUrl).bind(this));
     }
 
     /**
