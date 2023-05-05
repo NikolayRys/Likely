@@ -2,7 +2,7 @@
 
 The social sharing buttons that aren’t shabby.
 
-Version [2.8](https://github.com/NikolayRys/Likely/releases/tag/v2.8.0) is out 🎉
+Version [3.0](https://github.com/NikolayRys/Likely/releases/tag/v3.0.0) is out 🎉
 
 ## Take a look
 
@@ -25,7 +25,7 @@ Likely supports following social networks and messengers:
 * `whatsapp` – WhatsApp
 
 ## Get
-[Download the last release](https://github.com/NikolayRys/Likely/releases/download/v2.6/ilyabirman-likely-2.6.zip) and move `likely.js` and
+[Download the last release](https://github.com/NikolayRys/Likely/releases/download/v3.0.0/ilyabirman-likely-3.0.0.zip) and move `likely.js` and
 `likely.css` to the desired directory.
 
 Or use npm or Bower:
@@ -218,6 +218,7 @@ Adds a clickable username to the tweet, like so: `My page: https://google.com/ v
 * **title** - text that appears on a separate line after the shared url.
 ⚠ Viber share messages are not editable in the client application,
 so if you don't wan't the title to appear, please set empty `data-title=""` attribute on the Viber button.
+⚠ Viber button works only if the user has Viber installed on their device.
 
 [Viber Open Graph protocol documentation](https://stackoverflow.com/questions/34941283)
 
@@ -259,15 +260,15 @@ Counters are enabled by default, but there are two ways to disable them:
 * To add `data-counters` attribute on the upper `likely` div with `"no"`value to disable all counters.
 * Another option is to supply a custom value for `data-counter` attribute of the specific services.
 Likely won't do an API request for those services and just display the given value instead.
-It can be used when you want to save user's traffic and obtain value through some other means,
-for example through the backend in a centralized manner.
+It can be used when you want to save user's traffic and obtain value through some other means, for example through the backend in a centralized manner.
 
-### Accessibility Settings
-To make buttons accessible for keyboard navigation and screen readers add `tabindex`, `role` and `aria-label` attributes:
+### Accessibility
+Since version 3.0 likely uses <a> tags instead of <divs> for buttons, so you do not need `tabindex`, as buttons are natively focusable by default. However, attributes `role` and `aria-label` on <divs> are respected and added to the buttons. 
+
 ```html
 <div class="likely">
-    <div class="facebook" tabindex="0" role="link" aria-label="Share on Facebook">Share</div>
-    <div class="twitter" tabindex="0" role="link" aria-label="Tweet on Twitter">Tweet</div>
+    <div class="facebook" role="link" aria-label="Share on Facebook">Share</div>
+    <div class="twitter" role="link" aria-label="Tweet on Twitter">Tweet</div>
     <!-- The same for each services -->
 </div>
 ```
@@ -297,15 +298,6 @@ Additionally, if your website is responsive to users' color theme preferences, h
 ### Supported browsers
 We support IE 10+, Safari 9+ and the latest versions of Chrome, Firefox and Edge. Likely might work in the older versions too but we don’t maintain the compatibility on purpose.
 
-### Deprecations
-In version 3.0 the following is going to be changed:
-1. Classes `likely-visible` and `likely-ready` will be merged into just `likely-ready`, so please don't rely on `likely-visible` to test the presence.
-2. Unrecognized params passed to the services will be ignored.
-3. Old initialization method will be removed.
-4. Likely buttons will be changed from `<div>` to `<button>` tag.
-
-As of now, there are deprecation warnings implemented for all the above.
-
 # Development
 Please use the [Github commit style](https://gist.github.com/robertpainsi/b632364184e70900af4ab688decf6f53).
 Before pushing make sure the tests are green and the linter does not complain.
@@ -314,10 +306,3 @@ npm test
 npm run-script check-codestyle
 ```
 Also, please, add your own tests if you are submitting a feature.
-[![Build Status](https://travis-ci.org/NikolayRys/Likely.svg?branch=master)](https://travis-ci.org/NikolayRys/Likely)
-
-## Release
-Release packaging before publishing:
-```
-$ npm run release
-```
