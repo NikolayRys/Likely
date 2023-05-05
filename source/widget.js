@@ -18,7 +18,6 @@ class Likely {
 
         toArray(this.container.children).forEach(this.addButton.bind(this));
 
-        this.appear();
         if (this.options.counters) {
             this.readyDelay = setTimeout(this.ready.bind(this), this.options.timeout);
         }
@@ -79,14 +78,6 @@ class Likely {
             clearTimeout(this.readyDelay);
             this.ready();
         }
-    }
-
-    /**
-     * @deprecated Will be deleted in version 3.0, and joined with likely_ready
-     * Show the buttons with smooth animation
-     */
-    appear() {
-        this.container.classList.add(`${config.name}_visible`);
     }
 
     /**
