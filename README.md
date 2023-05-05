@@ -216,8 +216,10 @@ Adds a clickable username to the tweet, like so: `My page: https://google.com/ v
 ```
 * **url** - url to share.
 * **title** - text that appears on a separate line after the shared url.
+
 ⚠ Viber share messages are not editable in the client application,
-so if you don't wan't the title to appear, please set empty `data-title=""` attribute on the Viber button.
+so if you don't want the title to appear, please set empty `data-title=""` attribute on the Viber button.
+
 ⚠ Viber button works only if the user has Viber installed on their device.
 
 [Viber Open Graph protocol documentation](https://stackoverflow.com/questions/34941283)
