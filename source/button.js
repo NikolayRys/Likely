@@ -108,6 +108,15 @@ class LikelyButton {
         const newWidget = document.createElement('a');
         newWidget.innerHTML = oldWidget.innerHTML;
         newWidget.className = oldWidget.className;
+
+        // Preserve accessibility attributes
+        if (oldWidget.getAttribute('role') !== undefined) {
+            newWidget.setAttribute('role', oldWidget.getAttribute('role'));
+        }
+        if (oldWidget.getAttribute('aria-label') !== undefined) {
+            newWidget.setAttribute('aria-label', oldWidget.getAttribute('aria-label'));
+        }
+
         oldWidget.parentNode.replaceChild(newWidget, oldWidget);
         this.widget = newWidget;
         const widget = this.widget;
