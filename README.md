@@ -8,7 +8,7 @@ Version [3.0](https://github.com/NikolayRys/Likely/releases/tag/v3.0.0) is out ð
 
 See Likely in action on its [homepage](http://ilyabirman.net/projects/likely/).
 
-[![Likely screenshot](http://i.imgur.com/ipqE5Tu.png)](http://ilyabirman.net/projects/likely/)
+[![Likely screenshot](example.jpeg)](http://ilyabirman.net/projects/likely/)
 [More on choosing a theme](#light--dark-theme)
 
 Likely supports following social networks and messengers:
