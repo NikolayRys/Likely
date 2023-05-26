@@ -1,10 +1,21 @@
-// Hide buttons until they are loaded
+/* Style options */
+likely-background = rgba(231,231,231,.8);
+likely-light-background = rgba(236,236,236,.16);
+likely-light-box-shadow = rgba(0,0,0,.2) 0 0 .33em;
+
 .likely {
+  // Hide buttons until they are loaded
   opacity: 0;
   transition: opacity .1s ease-in;
+  display: inline-flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  font-size: 0 !important;
+  text-indent: 0 !important;
 
   * {
     visibility: hidden;
+    display: inline-block;
   }
 
   &_visible, &_ready {
@@ -13,35 +24,6 @@
     * {
       visibility: inherit;
     }
-  }
-}
-
-.likely {
-  display: inline-flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  font-size: 0 !important;
-  font-weight: normal;
-  font-family: Helvetica Neue, Arial, sans-serif;
-  text-indent: 0 !important;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-
-  * {
-    display: inline-block;
-  }
-
-  &__widget {
-    position: relative;
-    white-space: nowrap;
-  }
-
-  &__button,
-  &__counter {
-    text-decoration: none;
-    text-rendering: optimizeLegibility;
-    margin: 0;
-    outline: 0;
   }
 
   &__button {
@@ -54,24 +36,20 @@
   &__counter {
     display: none;
     position: relative;
-  }
-
-  &_ready &__counter {
-    display: inline-block;
-  }
-
-  &_ready &__counter_empty {
-    display: none;
-  }
-
-  &__widget,
-  &__icon,
-  &__button,
-  &__counter {
-    vertical-align: top;
+    text-align: center;
+    background-size: 1px 1px;
+    background-repeat: repeat-y;
+    background-image: linear-gradient(to right, rgba(0,0,0,.2) 0, rgba(0,0,0,0) .5px, rgba(0,0,0,0) 100%)
   }
 
   &__widget {
+    all: initial; // reset all styles
+    display: inline-block;
+
+    position: relative;
+    white-space: nowrap;
+    color: #000;
+    background: likely-background;
     transition: widget-transition = background .33s ease-out, color .33s ease-out, fill .33s ease-out;
 
     &:hover, &:active, &:focus {
@@ -99,6 +77,14 @@
 
   &__button,
   &__counter {
+    font-weight: normal;
+    font-family: Helvetica Neue, Arial, sans-serif;
+    text-decoration: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    margin: 0;
+    outline: 0;
     line-height: inherit;
     cursor: inherit;
   }
@@ -107,15 +93,21 @@
     display: none;
   }
 
+    &_ready &__counter {
+    display: inline-block;
+  }
+
+  &_ready &__counter_empty {
+    display: none;
+  }
+
+  &__widget,
+  &__icon,
+  &__button,
   &__counter {
-    text-align: center;
+    vertical-align: top;
   }
 }
-
-/* Style options */
-likely-background = rgba(231,231,231,.8);
-likely-light-background = rgba(236,236,236,.16);
-likely-light-box-shadow = rgba(0,0,0,.2) 0 0 .33em;
 
 /* Mixins */
 likely-light-widget() {
@@ -147,17 +139,7 @@ likely-light-media-none-button(button, color) {
   }
 }
 
-.likely {
-  .likely__widget {
-    color: #000;
-    background: likely-background;
-  }
-  .likely__counter {
-    background-size: 1px 1px;
-    background-repeat: repeat-y;
-    background-image: linear-gradient(to right, rgba(0,0,0,.2) 0, rgba(0,0,0,0) .5px, rgba(0,0,0,0) 100%)
-  }
-}
+
 .likely-light, .likely-dark-theme {
   .likely__widget {
     likely-light-widget()
