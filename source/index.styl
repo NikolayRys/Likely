@@ -43,14 +43,15 @@ likely-light-box-shadow = rgba(0,0,0,.2) 0 0 .33em;
   }
 
   &__widget {
-    all: initial; // reset all styles
+    all: initial; // Reset all external styles
+    /* Restore styles after reset */
     display: inline-block;
-
     position: relative;
     white-space: nowrap;
     color: #000;
     background: likely-background;
     transition: widget-transition = background .33s ease-out, color .33s ease-out, fill .33s ease-out;
+    /*** End of restore styles ***/
 
     &:hover, &:active, &:focus {
       transition: none;
@@ -164,9 +165,18 @@ colorize(button, color) {
   .likely__widget_{button} {
     fill: color;
     &:hover, &:active, &:focus {
+      all: initial; // Reset all external styles on hover
+      /* Restore styles after reset */
+      fill: color;
+      transition: none;
+      cursor: pointer;
+      /*** End of restore styles ***/
+
       background: alpha(mix(#fff,color,75%),.8);
 
       @media (hover: none) {
+        transition: widget-transition;
+        cursor: unset;
         background: likely-background;
       }
     }
