@@ -5,7 +5,15 @@
     <title>Likely test page</title>
     <link rel="stylesheet" href="../../release/likely.css"/>
     <script src="../../release/likely.js"></script>
+
+    <!-- Test styles isolation -->
     <style>
+        a:hover, a:focus, a:active {
+            color: #a03000
+            border-color: rgba(160, 48, 0, 0.2);
+            transition: none;
+        }
+
         body {
             text-align: center;
             padding: 0;
