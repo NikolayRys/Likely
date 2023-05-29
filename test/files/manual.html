@@ -8,8 +8,16 @@
 
     <!-- Test styles isolation -->
     <style>
+        a:visited {
+            color: #0060a0;
+            border-bottom-color: rgba(0, 96, 160, 0.15);
+            transition-property: border-bottom,border-color,background,color,fill;
+            transition-duration: .2s;
+            transition-timing-function: ease-out;
+        }
+
         a:hover, a:focus, a:active {
-            color: #a03000
+            color: #a03000;
             border-color: rgba(160, 48, 0, 0.2);
             transition: none;
         }
