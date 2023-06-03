@@ -42,7 +42,7 @@ likely-light-box-shadow = rgba(0,0,0,.2) 0 0 .33em;
     background-image: linear-gradient(to right, rgba(0,0,0,.2) 0, rgba(0,0,0,0) .5px, rgba(0,0,0,0) 100%)
   }
 
-  &__widget {
+  &__widget, &__widget:visited {
     all: initial; // Reset all external styles
     /* Restore styles after reset */
     display: inline-block;
@@ -103,6 +103,7 @@ likely-light-box-shadow = rgba(0,0,0,.2) 0 0 .33em;
   }
 
   &__widget,
+  &__widget:visited,
   &__icon,
   &__button,
   &__counter {
@@ -123,7 +124,7 @@ likely-light-counter() {
 }
 
 likely-light-button(button, color) {
-  .likely__widget_{button} {
+  .likely__widget_{button}, .likely__widget_{button}:visited {
     &:hover, &:active, &:focus {
       text-shadow: color 0 0 .25em;
       background: alpha(color, 0.7);
@@ -132,7 +133,7 @@ likely-light-button(button, color) {
 }
 
 likely-light-media-none-button(button, color) {
-  .likely__widget_{button} {
+  .likely__widget_{button}, .likely__widget_{button}:visited {
     &:hover, &:active, &:focus {
       text-shadow: likely-light-box-shadow;
       background: likely-light-background;
@@ -142,7 +143,7 @@ likely-light-media-none-button(button, color) {
 
 
 .likely-light, .likely-dark-theme {
-  .likely__widget {
+  .likely__widget, .likely__widget:visited {
     likely-light-widget()
   }
   .likely__counter {
@@ -152,7 +153,7 @@ likely-light-media-none-button(button, color) {
 
 @media (prefers-color-scheme: dark) {
   .likely-color-theme-based {
-    .likely__widget {
+    .likely__widget, .likely__widget:visited {
       likely-light-widget()
     }
     .likely__counter {
@@ -162,7 +163,7 @@ likely-light-media-none-button(button, color) {
 }
 
 colorize(button, color) {
-  .likely__widget_{button} {
+  .likely__widget_{button}, .likely__widget_{button}:visited {
     fill: color;
     &:hover, &:active, &:focus {
       all: initial; // Reset all external styles on hover
@@ -217,7 +218,7 @@ colorize('whatsapp', #25D366);
 
 .likely {
   gap: 10px;
-  .likely__widget {
+  .likely__widget, .likely__widget:visited {
     line-height: 20px;
     font-size: 14px;
     border-radius: 3px;
@@ -240,7 +241,7 @@ colorize('whatsapp', #25D366);
 
 .likely-big {
   gap: 12px;
-  .likely__widget {
+  .likely__widget, .likely__widget:visited {
     line-height: 28px;
     font-size: 18px;
     border-radius: 4px;
@@ -263,7 +264,7 @@ colorize('whatsapp', #25D366);
 
 .likely-small {
   gap: 8px;
-  .likely__widget {
+  .likely__widget, .likely__widget:visited {
     line-height: 14px;
     font-size: 12px;
     border-radius: 2px;
