@@ -1,7 +1,7 @@
 {
   "name": "ilyabirman-likely",
   "description": "The social sharing buttons that aren’t shabby",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/ilyabirman/Likely.git"
@@ -48,28 +48,28 @@
     "LICENCE.txt"
   ],
   "devDependencies": {
-    "@babel/core": "^7.21.8",
-    "@babel/preset-env": "^7.21.5",
+    "@babel/core": "^7.22.1",
+    "@babel/preset-env": "^7.22.4",
     "babel-loader": "^9.1.2",
     "babel-plugin-add-module-exports": "^1.0.4",
     "bestzip": "^2.2.1",
     "chai": "^4.3.7",
     "chai-as-promised": "^7.1.1",
-    "chromedriver": "^112.0.1",
-    "css-loader": "^6.7.3",
+    "chromedriver": "^114.0.1",
+    "css-loader": "^6.8.1",
     "css-minimizer-webpack-plugin": "^5.0.0",
     "cssnano": "^6.0.1",
-    "eslint": "^8.39.0",
+    "eslint": "^8.42.0",
     "in-publish": "^2.0.1",
-    "mini-css-extract-plugin": "^2.7.5",
+    "mini-css-extract-plugin": "^2.7.6",
     "mocha": "^10.2.0",
-    "selenium-webdriver": "^4.9.0",
+    "selenium-webdriver": "^4.9.2",
     "static-server": "^2.2.1",
-    "style-loader": "^3.3.2",
+    "style-loader": "^3.3.3",
     "stylus": "^0.59.0",
-    "stylus-loader": "^7.1.0",
-    "terser-webpack-plugin": "^5.3.7",
-    "webpack": "^5.82.0",
-    "webpack-cli": "^5.0.2"
+    "stylus-loader": "^7.1.2",
+    "terser-webpack-plugin": "^5.3.9",
+    "webpack": "^5.85.0",
+    "webpack-cli": "^5.1.1"
   }
 }
