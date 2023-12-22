@@ -36,16 +36,16 @@ module.exports = (env) => {
         if (isProduction) {
             cssName = 'likely.min.css';
             plugins.push(new CssMinimizerPlugin({
-                            minimizerOptions: {
-                              preset: [
-                                'default',
-                                {
-                                  // Needed to disable it because we use CSS where order matters – "all: initial"
-                                  cssDeclarationSorter: false,
-                                },
-                              ],
-                            },
-                          }));
+                minimizerOptions: {
+                    preset: [
+                        'default',
+                        {
+                            // Needed to disable it because we use CSS where order matters – "all: initial"
+                            cssDeclarationSorter: false,
+                        },
+                    ],
+                },
+            }));
         }
         plugins.push(new MiniCssExtractPlugin({ filename: cssName }));
     }
