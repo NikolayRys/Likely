@@ -13,6 +13,7 @@ import twitter from './twitter';
 import viber from './viber';
 import vkontakte from './vkontakte';
 import whatsapp from './whatsapp';
+import xcom from './xcom';
 
 const services = {
     facebook,
@@ -25,6 +26,7 @@ const services = {
     viber,
     vkontakte,
     whatsapp,
+    xcom,
 };
 
 Object.entries(services).forEach((entry) => {

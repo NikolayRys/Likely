@@ -198,8 +198,9 @@ Reddit counter is calculated as a sum score of the 5 most up-voted posts for a g
 
 [Telegram Open Graph protocol documentation](https://stackoverflow.com/questions/30160294).
 
-### Twitter
+### X and Twitter
 ```html
+<div class="xcom" data-via="ilyabirman" data-hashtags="kittens,puppies">Xeet</div>
 <div class="twitter" data-via="ilyabirman" data-hashtags="kittens,puppies">Tweet</div>
 ```
 * **url** - url to share.
