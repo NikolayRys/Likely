@@ -32,7 +32,6 @@ Or use npm or Bower:
 
 ```sh
 $ npm install ilyabirman-likely --save
-$ bower install ilyabirman-likely --save
 ```
 
 Also you can use Likely from CDN:
@@ -67,17 +66,6 @@ If installed with npm:
       rel="stylesheet">
 <!-- End of body -->
 <script src="node_modules/ilyabirman-likely/release/likely.js"
-        type="text/javascript"></script>
-```
-
-If installed with Bower:
-
-```html
-<!-- Head -->
-<link href="bower_components/Likely/release/likely.css"
-      rel="stylesheet">
-<!-- End of body -->
-<script src="bower_components/Likely/release/likely.js"
         type="text/javascript"></script>
 ```
 
@@ -263,29 +251,15 @@ Counters are enabled by default, but there are two ways to disable them:
 * To add `data-counters` attribute on the upper `likely` div with `"no"`value to disable all counters.
 * Another option is to supply a custom value for `data-counter` attribute of the specific services.
 Likely won't do an API request for those services and just display the given value instead.
-It can be used when you want to save user's traffic and obtain value through some other means, for example through the backend in a centralized manner.
 
 ### Accessibility
-Since version 3.0 likely uses <a> tags instead of <divs> for buttons, so you do not need `tabindex`, as buttons are natively focusable by default. However, attributes `role` and `aria-label` on <divs> are respected and added to the buttons. 
+From version 4 Likely uses Shadow Dom, but attributes `role` and `aria-label` on top-level <divs> are respected and added to the generated links. 
 
 ```html
 <div class="likely">
     <div class="facebook" role="link" aria-label="Share on Facebook">Share</div>
     <div class="twitter" role="link" aria-label="Tweet on Twitter">Tweet</div>
     <!-- The same for each services -->
-</div>
-```
-
-### Custom button
-It's possible to add a custom button into Likely's row of buttons.
-Let's assume that you have a 16x16 pixels image and a link to the service which you want to share to.
-```html
-<div class="likely__widget">
-    <!-- List of other services -->
-    <a class="likely__button" href="https://new.service.share.url">
-        <img class="likely__icon" alt="" src="https://url.of/the/image/16x16.png">
-        Post
-    </a>
 </div>
 ```
 
