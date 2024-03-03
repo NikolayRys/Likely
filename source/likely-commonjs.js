@@ -2,21 +2,21 @@
 // It’s written with CommonJS imports and exports to make possible doing `module.exports = likely`.
 // This is required so that users work with `require('likely')`, not `require('likely').default`
 const { getBools, getDefaultUrl, mergeToNew } = require('./utils');
-const Likely = require('./widget').default;
+const likelyWidget = require('./widget').default;
 const config = require('./config').default;
 const { findAll } = require('./dom');
 const history = require('./history').default;
 const services = require('./services').default;
 
 /**
- * @param {Node} node
+ * @param {Node} likelyRoot
  * @param {Object} options
  * @private
- * @returns {Likely}
+ * @returns {likelyWidget}
  */
-const initWidget = (node, options) => {
-    const fullOptions = options || {};
-    const defaults = {
+const placeWidget = (likelyRoot, options) => {
+    const providedOptions = options || {};
+    const defaultOptions = {
         counters: true,
         timeout: 1e3,
         zeroes: false,
@@ -24,14 +24,13 @@ const initWidget = (node, options) => {
         url: getDefaultUrl(),
     };
 
-    const realOptions = mergeToNew(defaults, fullOptions, getBools(node));
-    const widget = node[config.name];
+    const completeOptions = mergeToNew(defaultOptions, providedOptions, getBools(likelyRoot));
+    const widget = likelyRoot[config.name];
     if (widget) {
-        widget.update(realOptions);
+        widget.update(completeOptions);
     }
     else {
-        // Attaching widget to the node object for future re-initializations
-        node[config.name] = new Likely(node, realOptions);
+        likelyRoot[config.name] = new likelyWidget(likelyRoot, completeOptions);
     }
 
     return widget;
@@ -71,9 +70,7 @@ const likely = {
         history.onUrlChange(initWidgets);
 
         function initWidgets() {
-            realNodes.forEach((node) => {
-                initWidget(node, realOptions);
-            });
+            realNodes.forEach((node) => placeWidget(node, realOptions));
         }
     },
 
@@ -83,9 +80,8 @@ const likely = {
      */
     maintainStoredData(realOptions) {
         if (realOptions && realOptions.forceUpdate) {
-            // Object.values() is not supported by IE
-            Object.keys(services).forEach((serviceName) => {
-                services[serviceName].resetBroadcasters();
+            Object.values(services).forEach((service) => {
+                service.resetBroadcasters();
             });
         }
     },
