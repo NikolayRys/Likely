@@ -9,7 +9,8 @@ export default {
     counterUrl: 'https://connect.ok.ru/dk?st.cmd=extLike&tp=json&ref={url}',
     convertNumber: (json) => JSON.parse(json).count,
     urlCallback() {
-        renameKey(this.widget.dataset, 'imageurl', 'imageUrl');
+        // "this" here is an object of the LikelyButton class
+        renameKey(this.serviceDomElement.dataset, 'imageurl', 'imageUrl');
     },
     popupWidth: 588,
     popupHeight: 296,
