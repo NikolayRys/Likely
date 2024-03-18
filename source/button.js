@@ -8,15 +8,15 @@ import services from './services';
 const htmlSpan = '<span class="{className}">{content}</span>';
 
 /**
- * Separate social link widget
- * @param {Node} widget
- * @param {Likely} likely
+ * Individual social link button with counter
+ * @param {Node} serviceDiv
+ * @param {Likely} likelyWidget
  * @param {Object} options
  */
 class LikelyButton {
-    constructor(widget, likely, options) {
-        this.widget = widget;
-        this.likely = likely;
+    constructor(serviceDiv, likelyWidget, options) {
+        this.serviceDomElement = serviceDiv;
+        this.likelyWidget = likelyWidget;
         this.options = mergeToNew(options);
         this.detectService();
         if (this.isConnected()) {
@@ -51,27 +51,21 @@ class LikelyButton {
     }
 
     /**
-     * Update the counter
+     * Refresh the counter
      * @param {Object} options
      */
-    update(options) {
+    refresh(options) {
         const className = `.${config.prefix}counter`;
-        const counters = findAll(className, this.widget);
+        const counters = findAll(className, this.serviceDomElement); // HERE
         extendWith(this.options, mergeToNew({ forceUpdate: false }, options));
-        counters.forEach((node) => {
-            node.parentNode.removeChild(node);
-        });
-        this.wireClick();
+        counters.forEach((node) => node.parentNode.removeChild(node));
+        this.listenClick();
         this.registerAsCounted();
     }
 
-    /**
-     * Attach a service based on given button classes
-     */
     detectService() {
-        const classes = toArray(this.widget.classList);
-        // Array.prototype.filter()[0] instead of Array.prototype.find() for IE support
-        const serviceName = classes.filter((className) => Object.prototype.hasOwnProperty.call(services, className))[0];
+        const classes = toArray(this.serviceDomElement.classList);
+        const serviceName = classes.find((className) => Object.prototype.hasOwnProperty.call(services, className));
         if (serviceName) {
             this.options.service = services[serviceName];
         }
@@ -85,7 +79,7 @@ class LikelyButton {
      */
     detectParams() {
         const options = this.options;
-        this.data = getDataset(this.widget);
+        this.data = getDataset(this.serviceDomElement);
         if (this.data.counter) {
             options.staticCounter = this.data.counter;
         }
@@ -101,30 +95,32 @@ class LikelyButton {
      * Initiate button's HTML
      */
     initHtml() {
-        const oldWidget = this.widget;
-        const text = oldWidget.innerHTML;
 
-        // Rebuilding widget tag from div to <a>
-        const newWidget = document.createElement('a');
-        newWidget.innerHTML = oldWidget.innerHTML;
-        newWidget.className = oldWidget.className;
+        const oldServiceDomElement = this.serviceDomElement;
+        const text = oldServiceDomElement.innerHTML;
 
-        // Preserve accessibility attributes
-        if (oldWidget.getAttribute('role') !== undefined) {
-            newWidget.setAttribute('role', oldWidget.getAttribute('role'));
+        // Rebuilding element tag from <div> to <a>
+        const newElement = document.createElement('a');
+        newElement.innerHTML = oldServiceDomElement.innerHTML;
+        newElement.className = oldServiceDomElement.className;
+
+        // Copy accessibility attributes
+        if (oldServiceDomElement.getAttribute('role') !== undefined) {
+            newElement.setAttribute('role', oldServiceDomElement.getAttribute('role'));
         }
-        if (oldWidget.getAttribute('aria-label') !== undefined) {
-            newWidget.setAttribute('aria-label', oldWidget.getAttribute('aria-label'));
+        if (oldServiceDomElement.getAttribute('aria-label') !== undefined) {
+            newElement.setAttribute('aria-label', oldServiceDomElement.getAttribute('aria-label'));
         }
 
-        oldWidget.parentNode.replaceChild(newWidget, oldWidget);
-        this.widget = newWidget;
-        const widget = this.widget;
+        oldServiceDomElement.parentNode.replaceChild(newElement, oldServiceDomElement);
+        // TODO: build shadow root here
+        this.serviceDomElement = newElement;
+        const sde = this.serviceDomElement;
 
-        widget.classList.remove(this.options.service.name);
-        widget.className += `${this.className('widget')}`;
+        sde.classList.remove(this.options.service.name);
+        sde.className += `${this.className('widget')}`;
 
-        this.wireClick();
+        this.listenClick();
 
         const button = interpolateStr(htmlSpan, {
             className: this.className('button'),
@@ -136,26 +132,26 @@ class LikelyButton {
             content: wrapSVG(this.options.service.svgIconPath),
         });
 
-        widget.innerHTML = icon + button;
+        sde.innerHTML = icon + button;
     }
 
-    wireClick() {
+    listenClick() {
         const completeUrl = this.buildUrl(this.options);
-        this.widget.setAttribute('href', completeUrl);
-        this.widget.addEventListener('click', this.shareClick(completeUrl).bind(this));
+        this.serviceDomElement.setAttribute('href', completeUrl);
+        this.serviceDomElement.addEventListener('click', this.shareClick(completeUrl).bind(this));
     }
 
     /**
      * Perform fetching and displaying counter
      */
     registerAsCounted() {
-        const options = this.options;
-        if (options.counters && options.service.counterUrl) {
-            if (options.staticCounter) {
-                this.setDisplayedCounter(options.staticCounter);
+        const opts = this.options;
+        if (opts.counters && opts.service.counterUrl) {
+            if (opts.staticCounter) {
+                this.setDisplayedCounter(opts.staticCounter);
             }
             else {
-                connectButtonToService(this.setDisplayedCounter.bind(this), options);
+                connectButtonToService(this.setDisplayedCounter.bind(this), opts);
             }
         }
     }
@@ -177,7 +173,7 @@ class LikelyButton {
      */
     setDisplayedCounter(counterString) {
         const counterInt = parseInt(counterString, 10) || 0;
-        const counterElement = find(`.${config.name}__counter`, this.widget);
+        const counterElement = find(`.${config.name}__counter`, this.serviceDomElement);
 
         if (counterElement) {
             counterElement.parentNode.removeChild(counterElement);
@@ -192,10 +188,10 @@ class LikelyButton {
             options.className += ` ${config.prefix}counter_empty`;
             options.content = '';
         }
+        // TODO: Shadow DOM here
+        this.serviceDomElement.appendChild(createNode(interpolateStr(htmlSpan, options)));
 
-        this.widget.appendChild(createNode(interpolateStr(htmlSpan, options)));
-
-        this.likely.finalize();
+        this.likelyWidget.finalize();
     }
 
     /**
