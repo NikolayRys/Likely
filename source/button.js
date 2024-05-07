@@ -11,7 +11,7 @@ const htmlSpan = '<span class="{className}">{content}</span>';
  * Individual social link button with counter
  * @param {Node} serviceDiv
  * @param {Likely} likelyWidget
- * @param {Object} options
+ * @param {object} options
  */
 class LikelyButton {
     constructor(serviceDiv, likelyWidget, options) {
@@ -26,18 +26,10 @@ class LikelyButton {
 
     /**
      * Whether the button was successfully connected to a service
-     * @returns {Boolean}
+     * @returns {boolean}
      */
     isConnected() {
         return this.options.service !== undefined;
-    }
-
-    /**
-     * If purpose of the buttond
-     * @returns {Boolean}
-     */
-    isUnrecognized() {
-        return !this.isConnected() && !this.options.foreign;
     }
 
     /**
@@ -52,7 +44,7 @@ class LikelyButton {
 
     /**
      * Refresh the counter
-     * @param {Object} options
+     * @param {object} options
      */
     refresh(options) {
         const className = `.${config.prefix}counter`;
@@ -68,9 +60,6 @@ class LikelyButton {
         const serviceName = classes.find((className) => Object.prototype.hasOwnProperty.call(services, className));
         if (serviceName) {
             this.options.service = services[serviceName];
-        }
-        else if (classes.includes('likely__widget')) {
-            this.options.foreign = true;
         }
     }
 
@@ -95,7 +84,6 @@ class LikelyButton {
      * Initiate button's HTML
      */
     initHtml() {
-
         const oldServiceDomElement = this.serviceDomElement;
         const text = oldServiceDomElement.innerHTML;
 
@@ -158,8 +146,8 @@ class LikelyButton {
 
     /**
      * Combine a BEM-compliant classname
-     * @param {String} className
-     * @returns {String}
+     * @param {string} className
+     * @returns {string}
      */
     className(className) {
         const fullClass = config.prefix + className;
@@ -169,7 +157,7 @@ class LikelyButton {
 
     /**
      * Set visible button counter to a value
-     * @param {String} counterString
+     * @param {string} counterString
      */
     setDisplayedCounter(counterString) {
         const counterInt = parseInt(counterString, 10) || 0;
@@ -196,8 +184,8 @@ class LikelyButton {
 
     /**
      * Construct URL for sharing
-     * @param {Object} options
-     * @returns {String}
+     * @param {object} options
+     * @returns {string}
      */
     buildUrl(options) {
         options.service.urlCallback.call(this);
@@ -223,7 +211,7 @@ class LikelyButton {
 
     /**
      * Click event listener
-     * @param {String} completeUrl
+     * @param {string} completeUrl
      * @returns {Function}
      */
     shareClick(completeUrl) {
