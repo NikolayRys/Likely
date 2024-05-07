@@ -6,6 +6,7 @@
  * Displayed counter is calculated as sum of counts for the 5 most upvoted posts for this url.
  */
 export default {
+    name: 'reddit',
     counterUrl: 'https://www.reddit.com/search.json?q=url:{url}&sort=top&type=link&limit=5',
     convertNumber: (response) => {
         const parsedResponse = JSON.parse(response);

@@ -6,6 +6,7 @@ import { renameKey } from '../utils';
  */
 
 export default {
+    name: 'odnoklassniki',
     counterUrl: 'https://connect.ok.ru/dk?st.cmd=extLike&tp=json&ref={url}',
     convertNumber: (json) => JSON.parse(json).count,
     urlCallback() {

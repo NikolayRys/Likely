@@ -5,6 +5,7 @@
  */
 
 export default {
+    name: 'xcom',
     popupUrl: 'https://x.com/intent/tweet?url={url}&text={title}',
     popupWidth: 600,
     popupHeight: 450,

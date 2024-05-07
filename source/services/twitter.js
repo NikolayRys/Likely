@@ -5,6 +5,7 @@
  */
 
 export default {
+    name: 'twitter',
     popupUrl: 'https://twitter.com/intent/tweet?url={url}&text={title}',
     popupWidth: 600,
     popupHeight: 450,

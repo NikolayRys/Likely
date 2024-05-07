@@ -9,6 +9,7 @@ import { interpolateUrl, registerGlobalCallback } from '../utils';
 import { loadJSONP } from '../dom';
 
 const vkontakte = {
+    name: 'vkontakte',
     popupWidth: 650,
     popupHeight: 570,
     counterUrl: 'https://vk.com/share.php?act=count&url={url}&index={index}',

@@ -5,6 +5,7 @@
  */
 
 export default {
+    name: 'pinterest',
     counterUrl: 'https://api.pinterest.com/v1/urls/count.json?url={url}&callback=jsonp',
     convertNumber: (jsonpStr) => {
         const json = jsonpStr.slice(6, jsonpStr.length - 1);

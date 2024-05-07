@@ -7,6 +7,7 @@
  */
 
 export default {
+    name: 'facebook',
     counterUrl: 'https://graph.facebook.com/?id={url}&access_token=1729830587180291|102e6d79cda2fa63b65c99c039eed12a&fields=og_object%7Bengagement%7Bcount%7D%7D',
     convertNumber: (data) => {
         const graphQlData = JSON.parse(data).og_object;

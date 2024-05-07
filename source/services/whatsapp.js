@@ -4,6 +4,7 @@
  */
 
 export default {
+    name: 'whatsapp',
     // %0D%0A% is the encoding for enter key
     popupUrl: 'https://api.whatsapp.com/send?text={title}%0D%0A%0D%0A{url}',
 

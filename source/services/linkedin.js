@@ -4,6 +4,7 @@
  */
 
 export default {
+    name: 'linkedin',
     popupUrl: 'https://www.linkedin.com/sharing/share-offsite/?url={url}',
     knownParams: ['url'],
     popupWidth: 600,

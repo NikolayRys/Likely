@@ -4,6 +4,7 @@
  */
 
 export default {
+    name: 'viber',
     popupUrl: 'viber://forward?text={url}',
     urlCallback() {
         // Treat empty title string as absent title

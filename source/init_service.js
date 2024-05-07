@@ -18,17 +18,17 @@ function resetBroadcasters() {
 
 /**
  * Set default values on service option object
- * @param {Object} options
+ * @param {object} serviceOptions
  */
-export default (options) => {
+export default (serviceOptions) => {
     // __likelyFetchMock is used for UI testing and is set on window
     // because this function is executed right when Likely is loaded.
     // There’s currently no way to do `likely.__likelyFetchMock = ...`
     // before running this method.
-    options.fetch = global.__likelyFetchMock || options.fetch || fetchXHR;
-    options.urlCallback = options.urlCallback || (()=>{ /* no-op */ });
-    options.knownParams = options.knownParams || [];
-    options.openPopup = options.openPopup === undefined ? true : options.openPopup;
-    options.resetBroadcasters = resetBroadcasters;
-    options.resetBroadcasters();
+    serviceOptions.fetch = global.__likelyFetchMock || serviceOptions.fetch || fetchXHR;
+    serviceOptions.urlCallback = serviceOptions.urlCallback || (()=>{ /* no-op */ });
+    serviceOptions.knownParams = serviceOptions.knownParams || [];
+    serviceOptions.openPopup = serviceOptions.openPopup === undefined ? true : serviceOptions.openPopup;
+    serviceOptions.resetBroadcasters = resetBroadcasters;
+    serviceOptions.resetBroadcasters();
 };

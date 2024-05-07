@@ -4,6 +4,7 @@
  */
 
 export default {
+    name: 'telegram',
     popupUrl: 'https://telegram.me/share/url?url={url}&text={title}',
     popupWidth: 485,
     popupHeight: 355,

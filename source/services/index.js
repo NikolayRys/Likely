@@ -1,9 +1,5 @@
-/**
- * Social network services aggregated together
- */
-import Service from '../service';
-
 import facebook from './facebook';
+import initService from '../init_service';
 import linkedin from './linkedin';
 import odnoklassniki from './odnoklassniki';
 import pinterest from './pinterest';
@@ -27,12 +23,11 @@ const services = {
     vkontakte,
     whatsapp,
     xcom,
+    ok: odnoklassniki,
+    vk: vkontakte,
+    x: xcom,
 };
 
-Object.entries(services).forEach((entry) => {
-    const [serviceName, serviceObj] = entry;
-    Service(serviceObj);
-    serviceObj.name = serviceName;
-});
+Object.values(services).forEach((serviceObj) => initService(serviceObj));
 
 export default services;
