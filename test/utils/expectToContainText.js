@@ -1,5 +1,3 @@
-'use strict';
-
 const expect = require('chai').use(require('chai-as-promised')).expect;
 
 function expectToContainText(driver, selector, value) {

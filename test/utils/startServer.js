@@ -1,5 +1,3 @@
-'use strict';
-
 const StaticServer = require('static-server');
 
 function startServer() {

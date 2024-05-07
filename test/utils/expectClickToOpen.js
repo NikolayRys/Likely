@@ -1,13 +1,12 @@
 /* eslint-env node, mocha, es6 */
 
-'use strict';
 
 const expect = require('chai').use(require('chai-as-promised')).expect;
 const until = require('selenium-webdriver/lib/until');
 
 /**
  * @param {WebDriver} driver
- * @param {WebElement|String} clickTarget Either a Selenium WebElement that should be clicked,
+ * @param {WebElement | string} clickTarget Either a Selenium WebElement that should be clicked,
  *  or a selector for this element
  * @param {RegExp} windowUrlRegex A regular expression that will be matched with opened window url.
  *  If it matches, the expectation is considered confirmed, otherwise it’s considered refuted.

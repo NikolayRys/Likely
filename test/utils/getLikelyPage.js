@@ -1,5 +1,3 @@
-'use strict';
-
 const LikelyPage = {
     AUTOINIT: 'autoinit.html',
     NO_AUTOINIT: 'no-autoinit.html',

@@ -1,5 +1,3 @@
-'use strict';
-
 const until = require('selenium-webdriver/lib/until');
 
 async function waitUntilLikelyInitialized(driver) {
