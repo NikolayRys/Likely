@@ -5,8 +5,8 @@ import { interpolateUrl } from './utils';
  *  1. Callbacks for all buttons that share the same value.
  *  2. Prepared service counter URL.
  *  3. Value, returned from this URL
- * @param {String} counterUrl
- * @param {String} pageUrl
+ * @param {string} counterUrl
+ * @param {string} pageUrl
  */
 function UpdateBroadcaster(counterUrl, pageUrl) {
     this.url = interpolateUrl(counterUrl, { url: pageUrl });
@@ -39,7 +39,7 @@ UpdateBroadcaster.prototype.trigger = function (value) {
 /**
  * Find or create an appropriate instance of UpdateBroadcaster
  * @param {Function} buttonSetter
- * @param {Object} options
+ * @param {object} options
  */
 export default (buttonSetter, options) => {
     let broadcaster = options.service.broadcastersByUrl[options.url];
