@@ -1,5 +1,3 @@
-'use strict';
-
 const { before, after, beforeEach, describe, it } = require('mocha');
 const expect = require('chai').use(require('chai-as-promised')).expect;
 
@@ -252,7 +250,7 @@ describe('Likely', function () { // Mocha doesn't allow to pass arrowed function
                 document.querySelector('.likely').setAttribute('data-title', 'Fake Title');
                 likely.initiate();
             `);
-            return expectClickToOpen(driver, '.likely__widget_twitter', /twitter\.com\/.*Fake%20Title/);
+            return expectClickToOpen(driver, '.likely__widget_twitter', /twitter\.com\/.*Fake\+Title/);
         });
 
         it('sets the `via` when `data-via` on the Twitter button is specified', async () => {
@@ -320,7 +318,7 @@ describe('Likely', function () { // Mocha doesn't allow to pass arrowed function
         it('gets a correct title when the script is placed before the title element [#67]', async () => {
             await getLikelyPage(driver, LikelyPage.ISSUE_67);
             await waitUntilLikelyInitialized(driver);
-            return expectClickToOpen(driver, '.likely__widget_twitter', /twitter\.com\/.*Likely%20test%20page/);
+            return expectClickToOpen(driver, '.likely__widget_twitter', /twitter\.com\/.*Likely\+test\+page/);
         });
         it('does not make requests when counters are disabled [#145]', async () => {
             await getLikelyPage(driver, LikelyPage.ISSUE_145);
