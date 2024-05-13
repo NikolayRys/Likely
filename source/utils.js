@@ -1,25 +1,7 @@
 const bool = { yes: true, no: false };
-
-/**
- * Polyfill Object.entries() for IE support
- * @param {Object} obj
- * @returns {Array} Keys and values presented as array
- */
-if (!Object.entries) {
-    Object.entries = function (obj) {
-        const ownProps = Object.keys(obj);
-        let i = ownProps.length;
-        const resArray = new Array(i);
-        while (i--) {
-            resArray[i] = [ownProps[i], obj[ownProps[i]]];
-        }
-        return resArray;
-    };
-}
-
 /**
  * Convert array-like object to array (for example DOMTokenList)
- * @param {Object} arrayLike
+ * @param {object} arrayLike
  * @returns {Array}
  */
 export const toArray = (arrayLike) => Array.prototype.slice.call(arrayLike);
@@ -27,11 +9,11 @@ export const toArray = (arrayLike) => Array.prototype.slice.call(arrayLike);
 /**
  * Merge given dictionaries (objects) into one object.
  * Iterates across the arguments, the last one gets priority.
- * @returns {Object}
+ * @returns {object}
  */
 export const mergeToNew = function () {
     const newObject = {};
-    const args = Array.prototype.slice.call(arguments); // eslint-disable-line no-undef
+    const args = Array.prototype.slice.call(arguments);
 
     for (let i = 0; i < args.length; i++) {
         const arg = args[i];
@@ -50,9 +32,9 @@ export const mergeToNew = function () {
 
 /**
  * Extend one (target) object by other (subject)
- * @param {Object} target
- * @param {Object} subject
- * @returns {Object} Extended target
+ * @param {object} target
+ * @param {object} subject
+ * @returns {object} Extended target
  */
 export const extendWith = (target, subject) => {
     for (const key in subject) {
@@ -66,9 +48,8 @@ export const extendWith = (target, subject) => {
 /**
  * Return node.dataset or plain object for IE10 without setters
  * based on https://gist.github.com/brettz9/4093766#file_html5_dataset.js
- *
  * @param {Node} node
- * @returns {Object}
+ * @returns {object}
  */
 export const getDataset = (node) => {
     if (typeof node.dataset === 'object') {
@@ -97,7 +78,7 @@ export const getDataset = (node) => {
 /**
  * Convert "yes" and "no" to true and false.
  * @param {Node} node
- * @returns {Object}
+ * @returns {object}
  */
 export const getBools = (node) => {
     const result = {};
@@ -116,9 +97,9 @@ export const getBools = (node) => {
 
 /**
  * Map object keys in string to its values
- * @param {String} text
- * @param {Object} data
- * @returns {String}
+ * @param {string} text
+ * @param {object} data
+ * @returns {string}
  */
 export const interpolateStr = (text, data) => {
     return text ? text.replace(/\{([^}]+)}/g, function (value, key) {
@@ -128,9 +109,9 @@ export const interpolateStr = (text, data) => {
 
 /**
  * Map object keys in URL to its values
- * @param {String} text
- * @param {Object} data
- * @returns {String}
+ * @param {string} text
+ * @param {object} data
+ * @returns {string}
  */
 export const interpolateUrl = (text, data) => {
     for (const key in data) {
@@ -142,8 +123,8 @@ export const interpolateUrl = (text, data) => {
 };
 /**
  * Set value in object using dot-notation
- * @param {String} key
- * @param {Object} value
+ * @param {string} key
+ * @param {object} value
  */
 export const registerGlobalCallback = (key, value) => {
     const frags = key.split('.');
@@ -156,7 +137,7 @@ export const registerGlobalCallback = (key, value) => {
         }
 
         if (index !== frags.length - 1) {
-            object = object[key]; // eslint-disable-line no-param-reassign
+            object = object[key];
         }
 
         last = key;
@@ -169,7 +150,7 @@ export const registerGlobalCallback = (key, value) => {
  * Returns default url for likely.
  * It could be href from <link rel='canonical'>
  * if presents in the document, or the current url of the page otherwise
- * @returns {String}
+ * @returns {string}
  */
 export const getDefaultUrl = () => {
     const link = document.querySelector('link[rel="canonical"]');
@@ -187,12 +168,24 @@ export const isBrowserEnv = typeof window !== 'undefined' && typeof document !==
 
 /**
  * Renames a key in an object, using ES6 syntax
- * @param {Object} obj
- * @param {String} oldKey
- * @param {String} newKey
+ * @param {object} obj
+ * @param {string} oldKey
+ * @param {string} newKey
  */
 export const renameKey = (obj, oldKey, newKey) => {
     if (Object.prototype.hasOwnProperty.call(obj, oldKey)) {
         delete Object.assign(obj, { [newKey]: obj[oldKey] })[oldKey];
     }
+};
+
+/**
+ * Check if the browser is Internet Explorer
+ * @returns {boolean}
+ */
+export const isInternetExplorer = () => {
+    const ua = window.navigator.userAgent;
+    const msie = ua.indexOf('MSIE '); // For IE 10 or older
+    const trident = ua.indexOf('Trident/'); // For IE 11
+
+    return (msie > 0 || trident > 0);
 };
