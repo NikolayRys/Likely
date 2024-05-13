@@ -10,7 +10,7 @@ const services = require('./services').default;
 
 /**
  * @param {Node} likelyRoot
- * @param {Object} options
+ * @param {object} options
  * @private
  * @returns {likelyWidget}
  */
@@ -25,12 +25,14 @@ const placeWidget = (likelyRoot, options) => {
     };
 
     const completeOptions = mergeToNew(defaultOptions, providedOptions, getBools(likelyRoot));
-    const widget = likelyRoot[config.name];
+    let widget = likelyRoot[config.name];
     if (widget) {
         widget.update(completeOptions);
     }
     else {
-        likelyRoot[config.name] = new likelyWidget(likelyRoot, completeOptions);
+        widget = new likelyWidget(likelyRoot, completeOptions);
+        widget.renderButtons();
+        likelyRoot[config.name] = widget;
     }
 
     return widget;
@@ -39,10 +41,10 @@ const placeWidget = (likelyRoot, options) => {
 const likely = {
     /**
      * Initiate Likely buttons on load
-     * @param {Node|Array<Node>|Object} [nodes] a particular node or an array of widgets,
+     * @param {Node | Array<Node> | object} [nodes] a particular node or an array of widgets,
      *                                     if not specified,
      *                                     tries to init all the widgets
-     * @param {Object} [options] additional options for each widget
+     * @param {object} [options] additional options for each widget
      */
     initiate(nodes, options) {
         let realNodes;
@@ -76,7 +78,7 @@ const likely = {
 
     /**
      * Reset stored broadcasters if forceUpdate is requested
-     * @param {Object} realOptions
+     * @param {object} realOptions
      */
     maintainStoredData(realOptions) {
         if (realOptions && realOptions.forceUpdate) {
