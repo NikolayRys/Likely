@@ -42,16 +42,10 @@ likely-light-box-shadow = rgba(0,0,0,.2) 0 0 .33em;
     background-image: linear-gradient(to right, rgba(0,0,0,.2) 0, rgba(0,0,0,0) .5px, rgba(0,0,0,0) 100%)
   }
 
-  &__widget, &__widget:visited {
-    all: initial; // Reset all external styles
-    /* Restore styles after reset */
-    display: inline-block;
-    position: relative;
-    white-space: nowrap;
+  &__widget, &__widget:link, &__widget:visited {
     color: #000;
     background: likely-background;
     transition: widget-transition = background .33s ease-out, color .33s ease-out, fill .33s ease-out;
-    /*** End of restore styles ***/
 
     &:hover, &:active, &:focus {
       transition: none;
@@ -103,6 +97,7 @@ likely-light-box-shadow = rgba(0,0,0,.2) 0 0 .33em;
   }
 
   &__widget,
+  &__widget:link,
   &__widget:visited,
   &__icon,
   &__button,
@@ -111,7 +106,7 @@ likely-light-box-shadow = rgba(0,0,0,.2) 0 0 .33em;
   }
 }
 
-/* Mixins */
+/* Light widget is used for dark theme */
 likely-light-widget() {
   color: #fff;
   fill: #fff;
@@ -124,7 +119,7 @@ likely-light-counter() {
 }
 
 likely-light-button(button, color) {
-  .likely__widget_{button}, .likely__widget_{button}:visited {
+  .likely__widget_{button}, .likely__widget_{button}:link, .likely__widget_{button}:visited {
     &:hover, &:active, &:focus {
       text-shadow: color 0 0 .25em;
       background: alpha(color, 0.7);
@@ -133,7 +128,7 @@ likely-light-button(button, color) {
 }
 
 likely-light-media-none-button(button, color) {
-  .likely__widget_{button}, .likely__widget_{button}:visited {
+  .likely__widget_{button}, .likely__widget_{button}:link, .likely__widget_{button}:visited {
     &:hover, &:active, &:focus {
       text-shadow: likely-light-box-shadow;
       background: likely-light-background;
@@ -141,9 +136,8 @@ likely-light-media-none-button(button, color) {
   }
 }
 
-
 .likely-light, .likely-dark-theme {
-  .likely__widget, .likely__widget:visited {
+  .likely__widget, .likely__widget:link, .likely__widget:visited {
     likely-light-widget()
   }
   .likely__counter {
@@ -153,7 +147,7 @@ likely-light-media-none-button(button, color) {
 
 @media (prefers-color-scheme: dark) {
   .likely-color-theme-based {
-    .likely__widget, .likely__widget:visited {
+    .likely__widget, .likely__widget:link, .likely__widget:visited {
       likely-light-widget()
     }
     .likely__counter {
@@ -163,16 +157,9 @@ likely-light-media-none-button(button, color) {
 }
 
 colorize(button, color) {
-  .likely__widget_{button}, .likely__widget_{button}:visited {
+  .likely__widget_{button}, .likely__widget_{button}:link, .likely__widget_{button}:visited {
     fill: color;
     &:hover, &:active, &:focus {
-      all: initial; // Reset all external styles on hover
-      /* Restore styles after reset */
-      fill: color;
-      transition: none;
-      cursor: pointer;
-      /*** End of restore styles ***/
-
       background: alpha(mix(#fff,color,75%),.8);
 
       @media (hover: none) {
@@ -201,24 +188,23 @@ colorize(button, color) {
   }
 }
 
-colorize('facebook', #1877F2);
+colorize('facebook', #0866ff);
 colorize('linkedin', #0a66c2);
-colorize('odnoklassniki', #EE8208);
+colorize('odnoklassniki', #Ff7700);
 colorize('pinterest', #E60019);
-colorize('reddit', #ff4501);
+colorize('reddit', #ff4500);
 colorize('telegram', #35a3dc);
 colorize('twitter', #1da1f2);
 colorize('viber', #7360f2);
 colorize('vkontakte', #0077FF);
 colorize('whatsapp', #25D366);
-
-
+colorize('xcom', #333333);
 
 /* Size options */
 
 .likely {
   gap: 10px;
-  .likely__widget, .likely__widget:visited {
+  .likely__widget, .likely__widget:link, .likely__widget:visited {
     line-height: 20px;
     font-size: 14px;
     border-radius: 3px;
@@ -241,7 +227,7 @@ colorize('whatsapp', #25D366);
 
 .likely-big {
   gap: 12px;
-  .likely__widget, .likely__widget:visited {
+  .likely__widget, .likely__widget:link, .likely__widget:visited {
     line-height: 28px;
     font-size: 18px;
     border-radius: 4px;
@@ -264,7 +250,7 @@ colorize('whatsapp', #25D366);
 
 .likely-small {
   gap: 8px;
-  .likely__widget, .likely__widget:visited {
+  .likely__widget, .likely__widget:link, .likely__widget:visited {
     line-height: 14px;
     font-size: 12px;
     border-radius: 2px;
