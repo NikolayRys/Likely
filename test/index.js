@@ -58,7 +58,7 @@ describe('Likely', function () { // Mocha doesn't allow to pass arrowed function
                 expectations.push(await expectClickToOpen(
                     driver,
                     allLikelyWidgets[id].findElement({ css: '.likely__widget_twitter' }),
-                    /twitter\.com\/.*google\.com/,
+                    /x\.com\/.*google\.com/,
                 ));
             }
 
@@ -89,7 +89,7 @@ describe('Likely', function () { // Mocha doesn't allow to pass arrowed function
                     .to.eventually.include('likely_ready'),
                 expect(driver.findElements({ css: '.likely_ready' }))
                     .to.eventually.have.lengthOf(1),
-                expectClickToOpen(driver, '#widget1 .likely__widget_twitter', /twitter\.com\/.*google\.com/),
+                expectClickToOpen(driver, '#widget1 .likely__widget_twitter', /x\.com\/.*google\.com/),
             ]);
         });
 
@@ -125,8 +125,8 @@ describe('Likely', function () { // Mocha doesn't allow to pass arrowed function
                     .to.eventually.include('likely_ready'),
                 expect(driver.findElements({ css: '.likely_ready' }))
                     .to.eventually.have.lengthOf(2),
-                await expectClickToOpen(driver, '#widget1 .likely__widget_twitter', /twitter\.com\/.*google\.com/),
-                await expectClickToOpen(driver, '#widget3 .likely__widget_twitter', /twitter\.com\/.*google\.com/),
+                await expectClickToOpen(driver, '#widget1 .likely__widget_twitter', /x\.com\/.*google\.com/),
+                await expectClickToOpen(driver, '#widget3 .likely__widget_twitter', /x\.com\/.*google\.com/),
             ]);
         });
     });
@@ -143,7 +143,7 @@ describe('Likely', function () { // Mocha doesn't allow to pass arrowed function
                     url: 'http://google.com'
                 });
             `);
-            return await expectClickToOpen(driver, '.likely__widget_twitter', /twitter\.com\/.*google\.com/);
+            return await expectClickToOpen(driver, '.likely__widget_twitter', /x\.com\/.*google\.com/);
         });
 
         it('changes the shared URL when the new URL is specified on the node', async () => {
@@ -151,7 +151,7 @@ describe('Likely', function () { // Mocha doesn't allow to pass arrowed function
                 document.querySelector('.likely').setAttribute('data-url', 'http://google.com');
                 likely.initiate();
             `);
-            return await expectClickToOpen(driver, '.likely__widget_twitter', /twitter\.com\/.*google\.com/);
+            return await expectClickToOpen(driver, '.likely__widget_twitter', /x\.com\/.*google\.com/);
         });
 
         it('changes the shared URL when the new URL is specified as <link rel="canonical">', async () => {
@@ -163,7 +163,7 @@ describe('Likely', function () { // Mocha doesn't allow to pass arrowed function
 
                 likely.initiate();
             `);
-            return await expectClickToOpen(driver, '.likely__widget_twitter', /twitter\.com\/.*google\.com/);
+            return await expectClickToOpen(driver, '.likely__widget_twitter', /x\.com\/.*google\.com/);
         });
     });
 
@@ -211,7 +211,7 @@ describe('Likely', function () { // Mocha doesn't allow to pass arrowed function
             { name: 'Odnoklassniki', likelyName: 'odnoklassniki', urlRegex: /ok\.ru/ },
             { name: 'Pinterest', likelyName: 'pinterest', urlRegex: /pinterest\.com/ },
             { name: 'Telegram', likelyName: 'telegram', urlRegex: /telegram\.me/ },
-            { name: 'Twitter', likelyName: 'twitter', urlRegex: /twitter\.com/ },
+            { name: 'Twitter', likelyName: 'twitter', urlRegex: /x\.com/ },
             { name: 'VK', likelyName: 'vkontakte', urlRegex: /vk\.com/ },
             { name: 'LinkedIn', likelyName: 'linkedin', urlRegex: /linkedin\.com/ },
             { name: 'Reddit', likelyName: 'reddit', urlRegex: /reddit\.com/ },
@@ -234,7 +234,7 @@ describe('Likely', function () { // Mocha doesn't allow to pass arrowed function
                 document.head.innerHTML += '<link rel="canonical" href="https://google.com">';
                 likely.initiate();
             `);
-            return expectClickToOpen(driver, '.likely__widget_twitter', /twitter\.com\/.*google\.com/);
+            return expectClickToOpen(driver, '.likely__widget_twitter', /x\.com\/.*google\.com/);
         });
 
         it('changes the shared URL when `data-url` is specified', async () => {
@@ -242,7 +242,7 @@ describe('Likely', function () { // Mocha doesn't allow to pass arrowed function
                 document.querySelector('.likely').setAttribute('data-url', 'https://google.com');
                 likely.initiate();
             `);
-            return expectClickToOpen(driver, '.likely__widget_twitter', /twitter\.com\/.*google\.com/);
+            return expectClickToOpen(driver, '.likely__widget_twitter', /x\.com\/.*google\.com/);
         });
 
         it('changes the shared title when `data-title` is specified', async () => {
@@ -250,7 +250,7 @@ describe('Likely', function () { // Mocha doesn't allow to pass arrowed function
                 document.querySelector('.likely').setAttribute('data-title', 'Fake Title');
                 likely.initiate();
             `);
-            return expectClickToOpen(driver, '.likely__widget_twitter', /twitter\.com\/.*Fake\+Title/);
+            return expectClickToOpen(driver, '.likely__widget_twitter', /x\.com\/.*Fake\+Title/);
         });
 
         it('sets the `via` when `data-via` on the Twitter button is specified', async () => {
@@ -258,7 +258,7 @@ describe('Likely', function () { // Mocha doesn't allow to pass arrowed function
                 document.querySelector('.twitter').setAttribute('data-via', 'horse_js');
                 likely.initiate();
             `);
-            return expectClickToOpen(driver, '.likely__widget_twitter', /twitter\.com\/.*horse_js/);
+            return expectClickToOpen(driver, '.likely__widget_twitter', /x\.com\/.*horse_js/);
         });
 
         it('sets the shared text when `data-title` on the Telegram button is specified', async () => {
@@ -290,7 +290,7 @@ describe('Likely', function () { // Mocha doesn't allow to pass arrowed function
             return expectClickToOpen(
                 driver,
                 '.likely__widget_twitter',
-                new RegExp(`twitter\\.com\\/.*${encodeURIComponent(targetUrl)}`),
+                new RegExp(`x\\.com\\/.*${encodeURIComponent(targetUrl)}`),
             );
         };
 
@@ -310,7 +310,7 @@ describe('Likely', function () { // Mocha doesn't allow to pass arrowed function
                 likely.initiate();
             `);
             await driver.navigate().back();
-            return expectClickToOpen(driver, '.likely__widget_twitter', /twitter\.com\/.*no-autoinit\.html/);
+            return expectClickToOpen(driver, '.likely__widget_twitter', /x\.com\/.*no-autoinit\.html/);
         });
     });
 
@@ -318,7 +318,7 @@ describe('Likely', function () { // Mocha doesn't allow to pass arrowed function
         it('gets a correct title when the script is placed before the title element [#67]', async () => {
             await getLikelyPage(driver, LikelyPage.ISSUE_67);
             await waitUntilLikelyInitialized(driver);
-            return expectClickToOpen(driver, '.likely__widget_twitter', /twitter\.com\/.*Likely\+test\+page/);
+            return expectClickToOpen(driver, '.likely__widget_twitter', /x\.com\/.*Likely\+test\+page/);
         });
         it('does not make requests when counters are disabled [#145]', async () => {
             await getLikelyPage(driver, LikelyPage.ISSUE_145);
