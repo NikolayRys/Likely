@@ -14,7 +14,7 @@ const htmlSpan = '<span class="{className}">{content}</span>';
  * @param {object} options
  */
 class LikelyButton {
-    constructor(serviceDiv, likelyWidget) {
+    constructor(likelyWidget, serviceDiv) {
         this.serviceDomElement = serviceDiv;
         this.likelyWidget = likelyWidget;
         this.options = mergeToNew(likelyWidget.options);
