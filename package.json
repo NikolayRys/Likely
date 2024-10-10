@@ -58,7 +58,7 @@
     "chai-as-promised": "^7.1.1",
     "chromedriver": "^129.0.3",
     "css-loader": "^7.1.1",
-    "css-minimizer-webpack-plugin": "^6.0.0",
+    "css-minimizer-webpack-plugin": "^7.0.0",
     "cssnano": "^7.0.1",
     "eslint": "^9.2.0",
     "eslint-plugin-jsdoc": "^50.3.1",
