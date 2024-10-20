@@ -197,7 +197,7 @@ class LikelyButton {
         // TODO: Shadow DOM here
         this.serviceDomElement.appendChild(createNode(interpolateStr(htmlSpan, options)));
 
-        this.likelyWidget.finalize();
+        this.likelyWidget.reportReadiness();
     }
 
     /**
