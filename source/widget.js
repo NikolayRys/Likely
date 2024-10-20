@@ -10,15 +10,18 @@ import { toArray } from './utils';
 export default class Likely {
     constructor(container, options) {
         this.lightLikelyDiv = container;
-        this.shadowContainer = null; // ToDO: container for shadow DOM
+        this.shadowRoot = null;
+        this.shadowLikelyDiv = null;
         this.options = options;
         this.unprocessedCounters = 0;
         this.buttons = [];
     }
 
     renderButtons() {
-        // ToDO: init shadow DOM
-        // this.shadowContainer = this.lightLikelyDiv.attachShadow({ mode: 'open' });
+        // this.shadowRoot = this.lightLikelyDiv.attachShadow({ mode: 'open' });
+        this.shadowLikelyDiv = document.createElement('div');
+        //this.shadowRoot.appendChild(this.shadowLikelyDiv);
+
         toArray(this.lightLikelyDiv.children).forEach(this.#addButton.bind(this));
 
         // Temporary partial visibility to prevent delays in rendering while we're waiting for counters
@@ -74,6 +77,7 @@ export default class Likely {
      */
     #addButton(serviceDiv) {
         const button = new Button(this, serviceDiv);
+        button.build();
         if (button.isConnected()) {
             this.buttons.push(button);
             if (button.options.service.counterUrl) {
