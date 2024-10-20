@@ -8,7 +8,7 @@ import services from './services';
 const htmlSpan = '<span class="{className}">{content}</span>';
 
 /**
- * Individual social link button with counter
+ * Individual social link button with a counter
  * @param {Node} serviceDiv
  * @param {Likely} likelyWidget
  * @param {object} options
@@ -18,11 +18,15 @@ class LikelyButton {
         this.serviceDomElement = serviceDiv;
         this.likelyWidget = likelyWidget;
         this.options = mergeToNew(likelyWidget.options);
+    }
+
+    build() {
         this.detectService();
         if (this.isConnected()) {
             this.detectParams();
         }
     }
+
 
     /**
      * Whether the button was successfully connected to a service
@@ -79,24 +83,6 @@ class LikelyButton {
             options.title = this.data.title;
         }
     }
-
-    // TODO: shadow content example
-    // document.addEventListener("DOMContentLoaded", () => {
-    //     // Select the specific div by its class
-    //     const myDiv = document.querySelector('.bla-bla');
-    //
-    //     // Attach a shadow root to this div
-    //     const shadowRoot = myDiv.attachShadow({mode: 'open'});
-    //
-    //     // Create and add content to the shadow DOM
-    //     shadowRoot.innerHTML = `
-    //         <style>
-    //           /* Styles inside here are scoped to the shadow DOM */
-    //           a { color: blue; text-decoration: none; }
-    //         </style>
-    //         <a href="#" class="link">Shadow Link</a>
-    //     `;
-    // });
 
     /**
      * Initiate button's HTML
