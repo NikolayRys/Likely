@@ -2,24 +2,28 @@ import Button from './button';
 
 import config from './config';
 import { toArray } from './utils';
-
 /**
- * Main widget view
+ * Main widget view.
+ * It serves as a container for all buttons and manages their rendering.
  * @param {Node} container
- * @param {Object} options
+ * @param {object} options
  */
 class Likely {
     constructor(container, options) {
-        this.container = container;
+        this.lightLikelyDiv = container;
+        this.shadowContainer = null;  // ToDO: container for shadow DOM
         this.options = options;
-
-        this.countersLeft = 0;
+        this.unprocessedCounters = 0;
         this.buttons = [];
+    }
 
-        toArray(this.container.children).forEach(this.addButton.bind(this));
+    renderButtons() {
+        // ToDO: init shadow DOM
+        // this.shadowContainer = this.lightLikelyDiv.attachShadow({ mode: 'open' });
+        toArray(this.lightLikelyDiv.children).forEach(this.addButton.bind(this));
 
-        // Temporary visibility hidden to prevent delays in rendering
-        this.container.classList.add(`${config.name}_visible`);
+        // Temporary partial visibility to prevent delays in rendering while we're waiting for counters
+        this.lightLikelyDiv.classList.add(`${config.name}_visible`);
         if (this.options.counters) {
             this.readyDelay = setTimeout(this.ready.bind(this), this.options.timeout);
         }
@@ -31,18 +35,15 @@ class Likely {
 
     /**
      * Add a button
-     * @param {Node} node
+     * @param {Node} serviceDiv
      */
-    addButton(node) {
-        const button = new Button(node, this, this.options);
+    addButton(serviceDiv) {
+        const button = new Button(this, serviceDiv);
         if (button.isConnected()) {
             this.buttons.push(button);
             if (button.options.service.counterUrl) {
-                this.countersLeft++;
+                this.unprocessedCounters++;
             }
-        }
-        else if (button.isUnrecognized()) {
-            console.warn('A button without a valid service detected, please check button classes.');
         }
     }
 
@@ -54,19 +55,17 @@ class Likely {
     }
 
     /**
-     * Refresh all the buttons
-     * @param {Object} options
+     * Refresh all the counters
+     * @param {object} options
      */
     update(options) {
         if (
             options.forceUpdate ||
             options.url && options.url !== this.options.url
         ) {
-            this.countersLeft = this.buttons.length;
+            this.unprocessedCounters = this.buttons.length;
 
-            this.buttons.forEach((button) => {
-                button.update(options);
-            });
+            this.buttons.forEach((button) => button.refresh(options));
         }
     }
 
@@ -74,9 +73,9 @@ class Likely {
      * Register the button as ready
      */
     finalize() {
-        this.countersLeft--;
+        this.unprocessedCounters--;
 
-        if (this.countersLeft === 0) {
+        if (this.unprocessedCounters === 0) {
             clearTimeout(this.readyDelay);
             this.ready();
         }
@@ -87,8 +86,8 @@ class Likely {
      */
     ready() {
         // Remove class_visible to prevent flickering
-        this.container.classList.remove(`${config.name}_visible`);
-        this.container.classList.add(`${config.name}_ready`);
+        this.lightLikelyDiv.classList.remove(`${config.name}_visible`);
+        this.lightLikelyDiv.classList.add(`${config.name}_ready`);
     }
 }
 
