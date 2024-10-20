@@ -20,7 +20,7 @@ class Likely {
     renderButtons() {
         // ToDO: init shadow DOM
         // this.shadowContainer = this.lightLikelyDiv.attachShadow({ mode: 'open' });
-        toArray(this.lightLikelyDiv.children).forEach(this.addButton.bind(this));
+        toArray(this.lightLikelyDiv.children).forEach(this.#addButton.bind(this));
 
         // Temporary partial visibility to prevent delays in rendering while we're waiting for counters
         this.lightLikelyDiv.classList.add(`${config.name}_visible`);
@@ -34,10 +34,10 @@ class Likely {
     }
 
     /**
-     * Add a button
+     * Add a button, private method
      * @param {Node} serviceDiv
      */
-    addButton(serviceDiv) {
+    #addButton(serviceDiv) {
         const button = new Button(this, serviceDiv);
         if (button.isConnected()) {
             this.buttons.push(button);
