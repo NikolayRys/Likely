@@ -11,7 +11,7 @@ export default {
     convertNumber: (json) => JSON.parse(json).count,
     urlCallback() {
         // "this" here is an object of the LikelyButton class
-        renameKey(this.serviceDomElement.dataset, 'imageurl', 'imageUrl');
+        renameKey(this.sourceElement.dataset, 'imageurl', 'imageUrl');
     },
     popupWidth: 588,
     popupHeight: 296,

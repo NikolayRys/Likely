@@ -14,22 +14,38 @@ const htmlSpan = '<span class="{className}">{content}</span>';
  * @param {object} options
  */
 class LikelyButton {
-    constructor(likelyWidget, serviceDiv) {
-        this.serviceDomElement = serviceDiv;
-        this.likelyWidget = likelyWidget;
+    #likelyWidget;
+
+    constructor(likelyWidget, sourceDiv) {
         this.options = mergeToNew(likelyWidget.options);
+        this.sourceElement = sourceDiv;
+        this.#likelyWidget = likelyWidget;
+        this.renderedElement = null; // ToDo: Park result here
     }
 
-    build() {
-        this.detectService();
-        if (this.isConnected()) {
-            this.detectParams();
+    connectService() {
+        const classes = toArray(this.sourceElement.classList);
+        const serviceName = classes.find((className) => Object.prototype.hasOwnProperty.call(services, className));
+        if (serviceName) {
+            this.options.service = services[serviceName];
+
+            // Import params from data-* attributes into options hash map
+            this.data = getDataset(this.sourceElement);
+            if (this.data.counter) {
+                this.options.staticCounter = this.data.counter;
+            }
+            if (this.data.url) {
+                this.options.url = this.data.url;
+            }
+            if (this.data.title) {
+                this.options.title = this.data.title;
+            }
         }
     }
 
-
     /**
      * Whether the button was successfully connected to a service
+     * If it wasn't, then it doesn't relate to Likely
      * @returns {boolean}
      */
     isConnected() {
@@ -41,8 +57,8 @@ class LikelyButton {
      */
     prepare() {
         if (this.isConnected()) {
-            this.initHtml();
-            this.registerAsCounted();
+            this.#renderHtml();
+            this.#registerAsCounted();
         }
     }
 
@@ -52,43 +68,18 @@ class LikelyButton {
      */
     refresh(options) {
         const className = `.${config.prefix}counter`;
-        const counters = findAll(className, this.serviceDomElement); // HERE
+        const counters = findAll(className, this.sourceElement); // ToDo: HERE
         extendWith(this.options, mergeToNew({ forceUpdate: false }, options));
         counters.forEach((node) => node.parentNode.removeChild(node));
-        this.listenClick();
-        this.registerAsCounted();
-    }
-
-    detectService() {
-        const classes = toArray(this.serviceDomElement.classList);
-        const serviceName = classes.find((className) => Object.prototype.hasOwnProperty.call(services, className));
-        if (serviceName) {
-            this.options.service = services[serviceName];
-        }
-    }
-
-    /**
-     * Merge params from data-* attributes into options hash map
-     */
-    detectParams() {
-        const options = this.options;
-        this.data = getDataset(this.serviceDomElement);
-        if (this.data.counter) {
-            options.staticCounter = this.data.counter;
-        }
-        if (this.data.url) {
-            options.url = this.data.url;
-        }
-        if (this.data.title) {
-            options.title = this.data.title;
-        }
+        this.#listenClick();
+        this.#registerAsCounted();
     }
 
     /**
      * Initiate button's HTML
      */
-    initHtml() {
-        const oldServiceDomElement = this.serviceDomElement;
+    #renderHtml() {
+        const oldServiceDomElement = this.sourceElement;
         const text = oldServiceDomElement.innerHTML;
 
         // Rebuilding element tag from <div> to <a>
@@ -106,44 +97,43 @@ class LikelyButton {
 
         oldServiceDomElement.parentNode.replaceChild(newElement, oldServiceDomElement);
         // TODO: build shadow root here
-        this.serviceDomElement = newElement;
-        const sde = this.serviceDomElement;
+        this.sourceElement = newElement;
 
-        sde.classList.remove(this.options.service.name);
-        sde.className += `${this.className('widget')}`;
+        this.sourceElement.classList.remove(this.options.service.name);
+        this.sourceElement.className += `${this.#className('widget')}`;
 
-        this.listenClick();
+        this.#listenClick();
 
         const button = interpolateStr(htmlSpan, {
-            className: this.className('button'),
+            className: this.#className('button'),
             content: text,
         });
 
         const icon = interpolateStr(htmlSpan, {
-            className: this.className('icon'),
+            className: this.#className('icon'),
             content: wrapSVG(this.options.service.svgIconPath),
         });
 
-        sde.innerHTML = icon + button;
+        this.sourceElement.innerHTML = icon + button;
     }
 
-    listenClick() {
-        const completeUrl = this.buildUrl(this.options);
-        this.serviceDomElement.setAttribute('href', completeUrl);
-        this.serviceDomElement.addEventListener('click', this.shareClick(completeUrl).bind(this));
+    #listenClick() {
+        const completeUrl = this.#buildUrl(this.options);
+        this.sourceElement.setAttribute('href', completeUrl);
+        this.sourceElement.addEventListener('click', this.#shareClick(completeUrl).bind(this));
     }
 
     /**
      * Perform fetching and displaying counter
      */
-    registerAsCounted() {
+    #registerAsCounted() {
         const opts = this.options;
         if (opts.counters && opts.service.counterUrl) {
             if (opts.staticCounter) {
-                this.setDisplayedCounter(opts.staticCounter);
+                this.#setDisplayedCounter(opts.staticCounter);
             }
             else {
-                connectButtonToService(this.setDisplayedCounter.bind(this), opts);
+                connectButtonToService(this.#setDisplayedCounter.bind(this), opts);
             }
         }
     }
@@ -153,7 +143,7 @@ class LikelyButton {
      * @param {string} className
      * @returns {string}
      */
-    className(className) {
+    #className(className) {
         const fullClass = config.prefix + className;
 
         return `${fullClass} ${fullClass}_${this.options.service.name}`;
@@ -163,16 +153,16 @@ class LikelyButton {
      * Set visible button counter to a value
      * @param {string} counterString
      */
-    setDisplayedCounter(counterString) {
+    #setDisplayedCounter(counterString) {
         const counterInt = parseInt(counterString, 10) || 0;
-        const counterElement = find(`.${config.name}__counter`, this.serviceDomElement);
+        const counterElement = find(`.${config.name}__counter`, this.sourceElement);
 
         if (counterElement) {
             counterElement.parentNode.removeChild(counterElement);
         }
 
         const options = {
-            className: this.className('counter'),
+            className: this.#className('counter'),
             content: counterInt,
         };
 
@@ -181,9 +171,9 @@ class LikelyButton {
             options.content = '';
         }
         // TODO: Shadow DOM here
-        this.serviceDomElement.appendChild(createNode(interpolateStr(htmlSpan, options)));
+        this.sourceElement.appendChild(createNode(interpolateStr(htmlSpan, options)));
 
-        this.likelyWidget.reportReadiness();
+        this.#likelyWidget.reportReadiness();
     }
 
     /**
@@ -191,7 +181,7 @@ class LikelyButton {
      * @param {object} options
      * @returns {string}
      */
-    buildUrl(options) {
+    #buildUrl(options) {
         options.service.urlCallback.call(this);
         const url = interpolateUrl(options.service.popupUrl, {
             url: options.url,
@@ -218,7 +208,7 @@ class LikelyButton {
      * @param {string} completeUrl
      * @returns {Function}
      */
-    shareClick(completeUrl) {
+    #shareClick(completeUrl) {
         return function (event) {
             const options = this.options;
             if (options.service.openPopup === true) {

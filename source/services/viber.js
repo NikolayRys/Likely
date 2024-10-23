@@ -9,6 +9,7 @@ export default {
     urlCallback() {
         // Treat empty title string as absent title
         if (this.options.title) {
+            // "this" here is an object of the LikelyButton class
             this.options.url = this.options.title + '\n' + this.options.url;
             delete this.options.title;
         }

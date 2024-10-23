@@ -8,6 +8,10 @@ import { toArray } from './utils';
  * @param {object} options
  */
 export default class Likely {
+
+    // ToDo: introduce private fields
+    // ToDo: introduce private methods
+
     constructor(container, options) {
         this.lightLikelyDiv = container;
         this.shadowRoot = null;
@@ -17,6 +21,7 @@ export default class Likely {
         this.buttons = [];
     }
 
+    // Main method that initializes the widget
     renderButtons() {
         // this.shadowRoot = this.lightLikelyDiv.attachShadow({ mode: 'open' });
         this.shadowLikelyDiv = document.createElement('div');
@@ -27,16 +32,17 @@ export default class Likely {
         // Temporary partial visibility to prevent delays in rendering while we're waiting for counters
         this.lightLikelyDiv.classList.add(`${config.name}_visible`);
         if (this.options.counters) {
-            this.readyDelay = setTimeout(this.ready.bind(this), this.options.timeout);
+            this.readyDelay = setTimeout(this.#ready.bind(this), this.options.timeout);
         }
         else {
-            this.ready();
+            this.#ready();
         }
         this.#materializeButtons();
     }
 
     /**
      * Refresh all the counters
+     * Can be used repeatedly after the widget was initialized with renderButtons
      * @param {object} options
      */
     update(options) {
@@ -51,21 +57,22 @@ export default class Likely {
     }
 
     /**
-     * Report that one of the buttons is ready and was successfully connected to the service for counters
+     * Buttons use it to report that they were successfully connected to the service for counters,
+     * and now they ready to be displayed
      */
     reportReadiness() {
         this.unprocessedCounters--;
 
         if (this.unprocessedCounters === 0) {
             clearTimeout(this.readyDelay);
-            this.ready();
+            this.#ready();
         }
     }
 
     /**
      * Display ready status
      */
-    ready() {
+    #ready() {
         // Remove class_visible to prevent flickering
         this.lightLikelyDiv.classList.remove(`${config.name}_visible`);
         this.lightLikelyDiv.classList.add(`${config.name}_ready`);
@@ -77,7 +84,7 @@ export default class Likely {
      */
     #addButton(serviceDiv) {
         const button = new Button(this, serviceDiv);
-        button.build();
+        button.connectService();
         if (button.isConnected()) {
             this.buttons.push(button);
             if (button.options.service.counterUrl) {

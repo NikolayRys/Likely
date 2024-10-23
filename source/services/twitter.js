@@ -11,6 +11,7 @@ export default {
     popupHeight: 450,
     urlCallback() {
         if (!/[.?:\-–—]\s*$/.test(this.options.title)) {
+            // "this" here is an object of the LikelyButton class
             this.options.title += ':';
         }
     },
