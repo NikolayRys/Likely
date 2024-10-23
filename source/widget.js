@@ -8,29 +8,36 @@ import { toArray } from './utils';
  * @param {object} options
  */
 export default class Likely {
-    // ToDo: introduce private fields
+    #options;
+    #sourceLikelyDiv;
+    #shadowRoot;
+    #shadowLikelyDiv;
+    #unprocessedCounters;
+    #readyDelay;
+    #buttons;
 
     constructor(container, options) {
-        this.lightLikelyDiv = container;
-        this.shadowRoot = null;
-        this.shadowLikelyDiv = null;
-        this.options = options;
-        this.unprocessedCounters = 0;
-        this.buttons = [];
+        this.#options = options;
+        this.#sourceLikelyDiv = container;
+        this.#shadowRoot = null;
+        this.#shadowLikelyDiv = null;
+        this.#unprocessedCounters = 0;
+        this.#readyDelay = null;
+        this.#buttons = [];
     }
 
     // Main method that initializes the widget
     renderButtons() {
-        // this.shadowRoot = this.lightLikelyDiv.attachShadow({ mode: 'open' });
+        // this.shadowRoot = this.#sourceLikelyDiv.attachShadow({ mode: 'open' });
         this.shadowLikelyDiv = document.createElement('div');
         //this.shadowRoot.appendChild(this.shadowLikelyDiv);
 
-        toArray(this.lightLikelyDiv.children).forEach(this.#addButton.bind(this));
+        toArray(this.#sourceLikelyDiv.children).forEach(this.#addButton.bind(this));
 
         // Temporary partial visibility to prevent delays in rendering while we're waiting for counters
-        this.lightLikelyDiv.classList.add(`${config.name}_visible`);
-        if (this.options.counters) {
-            this.readyDelay = setTimeout(this.#ready.bind(this), this.options.timeout);
+        this.#sourceLikelyDiv.classList.add(`${config.name}_visible`);
+        if (this.#options.counters) {
+            this.#readyDelay = setTimeout(this.#ready.bind(this), this.#options.timeout);
         }
         else {
             this.#ready();
@@ -46,11 +53,11 @@ export default class Likely {
     update(options) {
         if (
             options.forceUpdate ||
-            options.url && options.url !== this.options.url
+            options.url && options.url !== this.#options.url
         ) {
-            this.unprocessedCounters = this.buttons.length;
+            this.#unprocessedCounters = this.#buttons.length;
 
-            this.buttons.forEach((button) => button.refresh(options));
+            this.#buttons.forEach((button) => button.refresh(options));
         }
     }
 
@@ -59,10 +66,10 @@ export default class Likely {
      * and now they ready to be displayed
      */
     reportReadiness() {
-        this.unprocessedCounters--;
+        this.#unprocessedCounters--;
 
-        if (this.unprocessedCounters === 0) {
-            clearTimeout(this.readyDelay);
+        if (this.#unprocessedCounters === 0) {
+            clearTimeout(this.#readyDelay);
             this.#ready();
         }
     }
@@ -72,8 +79,8 @@ export default class Likely {
      */
     #ready() {
         // Remove class_visible to prevent flickering
-        this.lightLikelyDiv.classList.remove(`${config.name}_visible`);
-        this.lightLikelyDiv.classList.add(`${config.name}_ready`);
+        this.#sourceLikelyDiv.classList.remove(`${config.name}_visible`);
+        this.#sourceLikelyDiv.classList.add(`${config.name}_ready`);
     }
 
     /**
@@ -81,12 +88,12 @@ export default class Likely {
      * @param {Node} serviceDiv
      */
     #addButton(serviceDiv) {
-        const button = new Button(this, serviceDiv);
+        const button = new Button(this, serviceDiv, this.#options);
         button.connectService();
         if (button.isConnected()) {
-            this.buttons.push(button);
+            this.#buttons.push(button);
             if (button.options.service.counterUrl) {
-                this.unprocessedCounters++;
+                this.#unprocessedCounters++;
             }
         }
     }
@@ -95,6 +102,6 @@ export default class Likely {
      * Show all the buttons
      */
     #materializeButtons() {
-        this.buttons.forEach((button) => button.prepare());
+        this.#buttons.forEach((button) => button.prepare());
     }
 }

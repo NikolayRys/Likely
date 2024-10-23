@@ -16,8 +16,8 @@ const htmlSpan = '<span class="{className}">{content}</span>';
 class LikelyButton {
     #likelyWidget;
 
-    constructor(likelyWidget, sourceDiv) {
-        this.options = mergeToNew(likelyWidget.options);
+    constructor(likelyWidget, sourceDiv, options) {
+        this.options = mergeToNew(options);
         this.sourceElement = sourceDiv;
         this.#likelyWidget = likelyWidget;
         this.renderedElement = null; // ToDo: Park result here
