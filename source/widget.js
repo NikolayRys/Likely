@@ -8,9 +8,7 @@ import { toArray } from './utils';
  * @param {object} options
  */
 export default class Likely {
-
     // ToDo: introduce private fields
-    // ToDo: introduce private methods
 
     constructor(container, options) {
         this.lightLikelyDiv = container;
