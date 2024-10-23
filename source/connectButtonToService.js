@@ -16,12 +16,12 @@ function UpdateBroadcaster(counterUrl, pageUrl) {
 
 /**
  * Connects new related button with its callback.
- * @param {Function} buttonSetter
+ * @param {Function} buttonSetterFn
  */
-UpdateBroadcaster.prototype.register = function (buttonSetter) {
-    this.setters.push(buttonSetter);
+UpdateBroadcaster.prototype.register = function (buttonSetterFn) {
+    this.setters.push(buttonSetterFn);
     if (this.value) {
-        buttonSetter(this.value);
+        buttonSetterFn(this.value);
     }
 };
 
@@ -38,15 +38,15 @@ UpdateBroadcaster.prototype.trigger = function (value) {
 
 /**
  * Find or create an appropriate instance of UpdateBroadcaster
- * @param {Function} buttonSetter
+ * @param {Function} buttonSetterFn
  * @param {object} options
  */
-export default (buttonSetter, options) => {
+export default (buttonSetterFn, options) => {
     let broadcaster = options.service.broadcastersByUrl[options.url];
     if (!broadcaster) {
         broadcaster = new UpdateBroadcaster(options.service.counterUrl, options.url);
         options.service.broadcastersByUrl[options.url] = broadcaster;
         options.service.fetch(broadcaster);
     }
-    broadcaster.register(buttonSetter);
+    broadcaster.register(buttonSetterFn);
 };
