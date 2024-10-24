@@ -56,7 +56,7 @@ export default class Likely {
             options.url && options.url !== this.#options.url
         ) {
             this.#awaitedButtons = this.#buttons.length;
-            this.#buttons.forEach((button) => button.refreshCounter(options));
+            this.#buttons.forEach((button) => button.update(options));
         }
     }
 

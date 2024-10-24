@@ -59,14 +59,14 @@ class LikelyButton {
     }
 
     /**
-     * Refresh the counter
-     * @param {object} options
+     * Update the button with new options and refresh its counter
+     * @param {object} newOptions
      */
-    refreshCounter(options) {
+    update(newOptions) {
         if (this.#notServiceable()) {
             return;
         }
-        this.#removeCounter(options);
+        extendWith(this.options, mergeToNew({ forceUpdate: false }, newOptions));
         this.#animate();
     }
 
@@ -90,7 +90,7 @@ class LikelyButton {
             renderedElement.setAttribute('aria-label', originalDomElement.getAttribute('aria-label'));
         }
 
-        // Todo: extract SWAP
+        // Todo: extract SWAP to the widget class
         originalDomElement.parentNode.replaceChild(renderedElement, originalDomElement);
         this.sourceElement = renderedElement;
         // END SWAP
@@ -109,12 +109,6 @@ class LikelyButton {
         });
 
         this.sourceElement.innerHTML = icon + button;
-    }
-
-    #removeCounter(newOptions) {
-        extendWith(this.options, mergeToNew({ forceUpdate: false }, newOptions));
-        const className = `.${config.prefix}counter`;
-        find(className, this.sourceElement)?.remove();
     }
 
     #animate() {
@@ -158,13 +152,8 @@ class LikelyButton {
     #showCounter(counterString) {
         const counterInt = parseInt(counterString, 10) || 0;
 
-        // ToDo: an independent deletion of the counter, unify with #removeCounter
-        // const counterElement = find(`.${config.name}__counter`, this.sourceElement);
-        // console.log('counterElement', counterElement);
-        // if (counterElement) {
-        //     counterElement.parentNode.removeChild(counterElement);
-        // }
-        // ===============================================
+        const className = `.${config.prefix}counter`;
+        find(className, this.sourceElement)?.remove();
 
         const options = {
             className: this.#className('counter'),
