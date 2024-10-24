@@ -14,13 +14,13 @@ const htmlSpan = '<span class="{className}">{content}</span>';
  * @param {Function} reportReadinessFn
  */
 class LikelyButton {
+    #data;
     #reportReadiness;
 
     constructor(sourceDiv, options, reportReadinessFn) {
         this.options = mergeToNew(options);
         this.sourceElement = sourceDiv;
         this.#reportReadiness = reportReadinessFn;
-        this.renderedElement = null;
     }
 
     setService() {
@@ -63,15 +63,15 @@ class LikelyButton {
      */
     #renderHtml() {
         // Import params from data-* attributes into options hash map
-        this.data = getDataset(this.sourceElement);
-        if (this.data.counter) {
-            this.options.staticCounter = this.data.counter;
+        this.#data = getDataset(this.sourceElement);
+        if (this.#data.counter) {
+            this.options.staticCounter = this.#data.counter;
         }
-        if (this.data.url) {
-            this.options.url = this.data.url;
+        if (this.#data.url) {
+            this.options.url = this.#data.url;
         }
-        if (this.data.title) {
-            this.options.title = this.data.title;
+        if (this.#data.title) {
+            this.options.title = this.#data.title;
         }
 
         // Building new link element <a>
@@ -181,8 +181,8 @@ class LikelyButton {
             if (item === 'url' || item === 'title' || item === 'counter') {
                 return; // Ignore base params
             }
-            if (item in this.data) {
-                paramsArray.push(`${encodeURIComponent(item)}=${encodeURIComponent(this.data[item])}`);
+            if (item in this.#data) {
+                paramsArray.push(`${encodeURIComponent(item)}=${encodeURIComponent(this.#data[item])}`);
             }
         });
         const paramsString = paramsArray.join('&');
