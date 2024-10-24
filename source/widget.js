@@ -12,7 +12,7 @@ export default class Likely {
     #sourceLikelyDiv;
     #shadowRoot;
     #shadowLikelyDiv;
-    #awaitedCounters;
+    #awaitedButtons;
     #readyDelay;
     #buttons;
 
@@ -21,7 +21,7 @@ export default class Likely {
         this.#sourceLikelyDiv = container;
         this.#shadowRoot = null;
         this.#shadowLikelyDiv = null;
-        this.#awaitedCounters = 0;
+        this.#awaitedButtons = 0;
         this.#readyDelay = null;
         this.#buttons = [];
     }
@@ -55,9 +55,8 @@ export default class Likely {
             options.forceUpdate ||
             options.url && options.url !== this.#options.url
         ) {
-            this.#awaitedCounters = this.#buttons.length;
-
-            this.#buttons.forEach((button) => button.refresh(options));
+            this.#awaitedButtons = this.#buttons.length;
+            this.#buttons.forEach((button) => button.refreshCounter(options));
         }
     }
 
@@ -66,8 +65,8 @@ export default class Likely {
      * and now they ready to be displayed
      */
     #reportReadiness() {
-        this.#awaitedCounters--;
-        if (this.#awaitedCounters === 0) {
+        this.#awaitedButtons--;
+        if (this.#awaitedButtons === 0) {
             clearTimeout(this.#readyDelay);
             this.#ready();
         }
@@ -90,15 +89,13 @@ export default class Likely {
         const button = new Button(serviceDiv, this.#options, this.#reportReadiness.bind(this));
         if (button.readParams()) {
             this.#buttons.push(button);
-            if (button.isCountable()) {
-                this.#awaitedCounters++;
-            }
+            this.#awaitedButtons++;
         }
     }
     /**
      * Show all the buttons
      */
     #materializeButtons() {
-        this.#buttons.forEach((button) => button.prepare());
+        this.#buttons.forEach((button) => button.materialize());
     }
 }

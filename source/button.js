@@ -47,80 +47,79 @@ class LikelyButton {
         }
     }
 
-    isCountable() {
-        return this.options.counters && this.options.service.counterUrl;
-    }
-
     /**
      * Make button ready for usage if it's connected
      */
-    prepare() {
-        if (this.#isServiceable()) {
-            this.#renderHtml();
-            this.#animate();
+    materialize() {
+        if (this.#notServiceable()) {
+            return;
         }
+        this.#renderHtml();
+        this.#animate();
     }
 
     /**
      * Refresh the counter
      * @param {object} options
      */
-    refresh(options) {
-        if (this.#isServiceable()) {
-            this.#resetCountersOnSameService(options);
-            this.#animate();
+    refreshCounter(options) {
+        if (this.#notServiceable()) {
+            return;
         }
+        this.#removeCounter(options);
+        this.#animate();
     }
 
-    #isServiceable() {
-        return this.options.service !== undefined;
+    #notServiceable() {
+        return this.options.service === undefined;
     }
 
     /**
      * Initiate button's HTML
      */
     #renderHtml() {
-        const oldServiceDomElement = this.sourceElement;
-        const text = oldServiceDomElement.innerHTML;
+        const originalDomElement = this.sourceElement;
+        const originalText = originalDomElement.innerHTML;
 
         // Rebuilding element tag from <div> to <a>
-        const newElement = document.createElement('a');
-        newElement.innerHTML = oldServiceDomElement.innerHTML;
-        newElement.className = oldServiceDomElement.className;
+        const renderedElement = document.createElement('a');
+        renderedElement.innerHTML = originalDomElement.innerHTML;
+        renderedElement.className = originalDomElement.className;
 
         // Copy accessibility attributes
-        if (oldServiceDomElement.getAttribute('role') !== undefined) {
-            newElement.setAttribute('role', oldServiceDomElement.getAttribute('role'));
+        if (originalDomElement.getAttribute('role') !== undefined) {
+            renderedElement.setAttribute('role', originalDomElement.getAttribute('role'));
         }
-        if (oldServiceDomElement.getAttribute('aria-label') !== undefined) {
-            newElement.setAttribute('aria-label', oldServiceDomElement.getAttribute('aria-label'));
+        if (originalDomElement.getAttribute('aria-label') !== undefined) {
+            renderedElement.setAttribute('aria-label', originalDomElement.getAttribute('aria-label'));
         }
 
-        oldServiceDomElement.parentNode.replaceChild(newElement, oldServiceDomElement);
-        this.sourceElement = newElement;
+        // Todo: extract SWAP
+        originalDomElement.parentNode.replaceChild(renderedElement, originalDomElement);
+        this.sourceElement = renderedElement;
+        // END SWAP
 
         this.sourceElement.classList.remove(this.options.service.name);
         this.sourceElement.className += `${this.#className('widget')}`;
-
-        const button = interpolateStr(htmlSpan, {
-            className: this.#className('button'),
-            content: text,
-        });
 
         const icon = interpolateStr(htmlSpan, {
             className: this.#className('icon'),
             content: wrapSVG(this.options.service.svgIconPath),
         });
 
+        const button = interpolateStr(htmlSpan, {
+            className: this.#className('button'),
+            content: originalText,
+        });
+
         this.sourceElement.innerHTML = icon + button;
     }
 
-    #resetCountersOnSameService(options) {
-        // ToDo: needs rely on the rendered element
+    #removeCounter(newOptions) {
+        extendWith(this.options, mergeToNew({ forceUpdate: false }, newOptions));
         const className = `.${config.prefix}counter`;
-        const counters = findAll(className, this.sourceElement);
-        extendWith(this.options, mergeToNew({ forceUpdate: false }, options));
-        counters.forEach((node) => node.parentNode.removeChild(node));
+        const elementInArray = this.sourceElement.querySelectorAll(className);
+        elementInArray.forEach((element) => element.remove());
     }
 
     #animate() {
@@ -129,7 +128,7 @@ class LikelyButton {
         this.sourceElement.setAttribute('href', completeUrl);
         this.sourceElement.addEventListener('click', this.#shareClick(completeUrl).bind(this));
 
-        if (this.isCountable()) {
+        if (this.options.counters && this.options.service.counterUrl) {
             // Set up counter
             if (this.options.staticCounter) {
                 // Show static counter right away
@@ -139,6 +138,10 @@ class LikelyButton {
                 // Otherwise, connect to the service
                 connectButtonToService(this.#showCounter.bind(this), this.options);
             }
+        }
+        else {
+            // Report readiness immediately if there's no counter
+            this.#reportReadiness();
         }
     }
 
@@ -159,11 +162,13 @@ class LikelyButton {
      */
     #showCounter(counterString) {
         const counterInt = parseInt(counterString, 10) || 0;
-        const counterElement = find(`.${config.name}__counter`, this.sourceElement);
 
+        // ToDo: an independent deletion of the counter, unify with #removeCounter
+        const counterElement = find(`.${config.name}__counter`, this.sourceElement);
         if (counterElement) {
             counterElement.parentNode.removeChild(counterElement);
         }
+        // ===============================================
 
         const options = {
             className: this.#className('counter'),
