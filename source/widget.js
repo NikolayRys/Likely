@@ -12,7 +12,7 @@ export default class Likely {
     #sourceLikelyDiv;
     #shadowRoot;
     #shadowLikelyDiv;
-    #unprocessedCounters;
+    #awaitedCounters;
     #readyDelay;
     #buttons;
 
@@ -21,16 +21,16 @@ export default class Likely {
         this.#sourceLikelyDiv = container;
         this.#shadowRoot = null;
         this.#shadowLikelyDiv = null;
-        this.#unprocessedCounters = 0;
+        this.#awaitedCounters = 0;
         this.#readyDelay = null;
         this.#buttons = [];
     }
 
     // Main method that initializes the widget
     renderButtons() {
-        // this.shadowRoot = this.#sourceLikelyDiv.attachShadow({ mode: 'open' });
-        this.shadowLikelyDiv = document.createElement('div');
-        //this.shadowRoot.appendChild(this.shadowLikelyDiv);
+        // this.#shadowRoot = this.#sourceLikelyDiv.attachShadow({ mode: 'open' });
+        this.#shadowLikelyDiv = document.createElement('div');
+        //this.#shadowRoot.appendChild(this.shadowLikelyDiv);
 
         toArray(this.#sourceLikelyDiv.children).forEach(this.#addButton.bind(this));
 
@@ -55,7 +55,7 @@ export default class Likely {
             options.forceUpdate ||
             options.url && options.url !== this.#options.url
         ) {
-            this.#unprocessedCounters = this.#buttons.length;
+            this.#awaitedCounters = this.#buttons.length;
 
             this.#buttons.forEach((button) => button.refresh(options));
         }
@@ -65,10 +65,9 @@ export default class Likely {
      * Buttons use it to report that they were successfully connected to the service for counters,
      * and now they ready to be displayed
      */
-    reportReadiness() {
-        this.#unprocessedCounters--;
-
-        if (this.#unprocessedCounters === 0) {
+    #reportReadiness() {
+        this.#awaitedCounters--;
+        if (this.#awaitedCounters === 0) {
             clearTimeout(this.#readyDelay);
             this.#ready();
         }
@@ -88,16 +87,14 @@ export default class Likely {
      * @param {Node} serviceDiv
      */
     #addButton(serviceDiv) {
-        const button = new Button(this, serviceDiv, this.#options);
-        button.connectService();
-        if (button.isConnected()) {
+        const button = new Button(serviceDiv, this.#options, this.#reportReadiness.bind(this));
+        if (button.readParams()) {
             this.#buttons.push(button);
-            if (button.options.service.counterUrl) {
-                this.#unprocessedCounters++;
+            if (button.isCountable()) {
+                this.#awaitedCounters++;
             }
         }
     }
-
     /**
      * Show all the buttons
      */

@@ -10,20 +10,20 @@ const htmlSpan = '<span class="{className}">{content}</span>';
 /**
  * Individual social link button with a counter
  * @param {Node} serviceDiv
- * @param {Likely} likelyWidget
  * @param {object} options
+ * @param {Function} reportReadinessFn
  */
 class LikelyButton {
-    #likelyWidget;
+    #reportReadiness;
 
-    constructor(likelyWidget, sourceDiv, options) {
+    constructor(sourceDiv, options, reportReadinessFn) {
         this.options = mergeToNew(options);
         this.sourceElement = sourceDiv;
-        this.#likelyWidget = likelyWidget;
+        this.#reportReadiness = reportReadinessFn;
         this.renderedElement = null; // ToDo: Park result here
     }
 
-    connectService() {
+    readParams() {
         const classes = toArray(this.sourceElement.classList);
         const serviceName = classes.find((className) => Object.prototype.hasOwnProperty.call(services, className));
         if (serviceName) {
@@ -40,25 +40,24 @@ class LikelyButton {
             if (this.data.title) {
                 this.options.title = this.data.title;
             }
+            return true;
+        }
+        else {
+            return false;
         }
     }
 
-    /**
-     * Whether the button was successfully connected to a service
-     * If it wasn't, then it doesn't relate to Likely
-     * @returns {boolean}
-     */
-    isConnected() {
-        return this.options.service !== undefined;
+    isCountable() {
+        return this.options.counters && this.options.service.counterUrl;
     }
 
     /**
-     * Make button ready for usage
+     * Make button ready for usage if it's connected
      */
     prepare() {
-        if (this.isConnected()) {
+        if (this.#isServiceable()) {
             this.#renderHtml();
-            this.#registerAsCounted();
+            this.#animate();
         }
     }
 
@@ -67,12 +66,14 @@ class LikelyButton {
      * @param {object} options
      */
     refresh(options) {
-        const className = `.${config.prefix}counter`;
-        const counters = findAll(className, this.sourceElement); // ToDo: HERE
-        extendWith(this.options, mergeToNew({ forceUpdate: false }, options));
-        counters.forEach((node) => node.parentNode.removeChild(node));
-        this.#listenClick();
-        this.#registerAsCounted();
+        if (this.#isServiceable()) {
+            this.#resetCountersOnSameService(options);
+            this.#animate();
+        }
+    }
+
+    #isServiceable() {
+        return this.options.service !== undefined;
     }
 
     /**
@@ -96,13 +97,10 @@ class LikelyButton {
         }
 
         oldServiceDomElement.parentNode.replaceChild(newElement, oldServiceDomElement);
-        // TODO: build shadow root here
         this.sourceElement = newElement;
 
         this.sourceElement.classList.remove(this.options.service.name);
         this.sourceElement.className += `${this.#className('widget')}`;
-
-        this.#listenClick();
 
         const button = interpolateStr(htmlSpan, {
             className: this.#className('button'),
@@ -117,23 +115,29 @@ class LikelyButton {
         this.sourceElement.innerHTML = icon + button;
     }
 
-    #listenClick() {
+    #resetCountersOnSameService(options) {
+        // ToDo: needs rely on the rendered element
+        const className = `.${config.prefix}counter`;
+        const counters = findAll(className, this.sourceElement);
+        extendWith(this.options, mergeToNew({ forceUpdate: false }, options));
+        counters.forEach((node) => node.parentNode.removeChild(node));
+    }
+
+    #animate() {
+        // Set up click event listener
         const completeUrl = this.#buildUrl(this.options);
         this.sourceElement.setAttribute('href', completeUrl);
         this.sourceElement.addEventListener('click', this.#shareClick(completeUrl).bind(this));
-    }
 
-    /**
-     * Perform fetching and displaying counter
-     */
-    #registerAsCounted() {
-        const opts = this.options;
-        if (opts.counters && opts.service.counterUrl) {
-            if (opts.staticCounter) {
-                this.#setDisplayedCounter(opts.staticCounter);
+        if (this.isCountable()) {
+            // Set up counter
+            if (this.options.staticCounter) {
+                // Show static counter right away
+                this.#showCounter(this.options.staticCounter);
             }
             else {
-                connectButtonToService(this.#setDisplayedCounter.bind(this), opts);
+                // Otherwise, connect to the service
+                connectButtonToService(this.#showCounter.bind(this), this.options);
             }
         }
     }
@@ -153,7 +157,7 @@ class LikelyButton {
      * Set visible button counter to a value
      * @param {string} counterString
      */
-    #setDisplayedCounter(counterString) {
+    #showCounter(counterString) {
         const counterInt = parseInt(counterString, 10) || 0;
         const counterElement = find(`.${config.name}__counter`, this.sourceElement);
 
@@ -173,7 +177,7 @@ class LikelyButton {
         // TODO: Shadow DOM here
         this.sourceElement.appendChild(createNode(interpolateStr(htmlSpan, options)));
 
-        this.#likelyWidget.reportReadiness();
+        this.#reportReadiness();
     }
 
     /**
