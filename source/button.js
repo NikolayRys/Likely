@@ -70,10 +70,6 @@ class LikelyButton {
         this.#animate();
     }
 
-    #notServiceable() {
-        return this.options.service === undefined;
-    }
-
     /**
      * Initiate button's HTML
      */
@@ -118,15 +114,14 @@ class LikelyButton {
     #removeCounter(newOptions) {
         extendWith(this.options, mergeToNew({ forceUpdate: false }, newOptions));
         const className = `.${config.prefix}counter`;
-        const elementInArray = this.sourceElement.querySelectorAll(className);
-        elementInArray.forEach((element) => element.remove());
+        find(className, this.sourceElement)?.remove();
     }
 
     #animate() {
         // Set up click event listener
-        const completeUrl = this.#buildUrl(this.options);
-        this.sourceElement.setAttribute('href', completeUrl);
-        this.sourceElement.addEventListener('click', this.#shareClick(completeUrl).bind(this));
+        const shareUrl = this.#buildUrl(this.options);
+        this.sourceElement.setAttribute('href', shareUrl);
+        this.sourceElement.addEventListener('click', this.#shareClick(shareUrl).bind(this));
 
         if (this.options.counters && this.options.service.counterUrl) {
             // Set up counter
@@ -164,10 +159,11 @@ class LikelyButton {
         const counterInt = parseInt(counterString, 10) || 0;
 
         // ToDo: an independent deletion of the counter, unify with #removeCounter
-        const counterElement = find(`.${config.name}__counter`, this.sourceElement);
-        if (counterElement) {
-            counterElement.parentNode.removeChild(counterElement);
-        }
+        // const counterElement = find(`.${config.name}__counter`, this.sourceElement);
+        // console.log('counterElement', counterElement);
+        // if (counterElement) {
+        //     counterElement.parentNode.removeChild(counterElement);
+        // }
         // ===============================================
 
         const options = {
@@ -179,7 +175,7 @@ class LikelyButton {
             options.className += ` ${config.prefix}counter_empty`;
             options.content = '';
         }
-        // TODO: Shadow DOM here
+
         this.sourceElement.appendChild(createNode(interpolateStr(htmlSpan, options)));
 
         this.#reportReadiness();
@@ -213,7 +209,7 @@ class LikelyButton {
 
 
     /**
-     * Click event listener
+     * Factory for click event handlers
      * @param {string} completeUrl
      * @returns {Function}
      */
@@ -232,6 +228,10 @@ class LikelyButton {
             }
             return true;
         };
+    }
+
+    #notServiceable() {
+        return this.options.service === undefined;
     }
 }
 export default LikelyButton;
