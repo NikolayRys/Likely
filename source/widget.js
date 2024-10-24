@@ -96,6 +96,9 @@ export default class Likely {
      * Show all the buttons
      */
     #materializeButtons() {
-        this.#buttons.forEach((button) => button.materialize());
+        this.#buttons.forEach((button) => {
+            button.build();
+            button.sourceElement.replaceWith(button.renderedElement);
+        });
     }
 }

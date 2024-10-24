@@ -20,7 +20,7 @@ class LikelyButton {
         this.options = mergeToNew(options);
         this.sourceElement = sourceDiv;
         this.#reportReadiness = reportReadinessFn;
-        this.renderedElement = null; // ToDo: Park result here
+        this.renderedElement = null;
     }
 
     readParams() {
@@ -50,7 +50,7 @@ class LikelyButton {
     /**
      * Make button ready for usage if it's connected
      */
-    materialize() {
+    build() {
         if (this.#notServiceable()) {
             return;
         }
@@ -71,32 +71,20 @@ class LikelyButton {
     }
 
     /**
-     * Initiate button's HTML
+     * Build button's HTML
      */
     #renderHtml() {
-        const originalDomElement = this.sourceElement;
-        const originalText = originalDomElement.innerHTML;
+        // Building new link element <a>
+        this.renderedElement = document.createElement('a');
 
-        // Rebuilding element tag from <div> to <a>
-        const renderedElement = document.createElement('a');
-        renderedElement.innerHTML = originalDomElement.innerHTML;
-        renderedElement.className = originalDomElement.className;
+        // Arrange classes
+        this.renderedElement.className = this.sourceElement.className;
+        this.renderedElement.classList.remove(this.options.service.name);
+        this.renderedElement.className += `${this.#className('widget')}`;
 
         // Copy accessibility attributes
-        if (originalDomElement.getAttribute('role') !== undefined) {
-            renderedElement.setAttribute('role', originalDomElement.getAttribute('role'));
-        }
-        if (originalDomElement.getAttribute('aria-label') !== undefined) {
-            renderedElement.setAttribute('aria-label', originalDomElement.getAttribute('aria-label'));
-        }
-
-        // Todo: extract SWAP to the widget class
-        originalDomElement.parentNode.replaceChild(renderedElement, originalDomElement);
-        this.sourceElement = renderedElement;
-        // END SWAP
-
-        this.sourceElement.classList.remove(this.options.service.name);
-        this.sourceElement.className += `${this.#className('widget')}`;
+        this.#transferAttribute('role');
+        this.#transferAttribute('aria-label');
 
         const icon = interpolateStr(htmlSpan, {
             className: this.#className('icon'),
@@ -105,17 +93,23 @@ class LikelyButton {
 
         const button = interpolateStr(htmlSpan, {
             className: this.#className('button'),
-            content: originalText,
+            content: this.sourceElement.innerHTML,
         });
 
-        this.sourceElement.innerHTML = icon + button;
+        this.renderedElement.innerHTML = icon + button;
+    }
+
+    #transferAttribute(attribute) {
+        if (this.sourceElement.getAttribute(attribute) !== undefined) {
+            this.renderedElement.setAttribute(attribute, this.sourceElement.getAttribute(attribute));
+        }
     }
 
     #animate() {
         // Set up click event listener
         const shareUrl = this.#buildUrl(this.options);
-        this.sourceElement.setAttribute('href', shareUrl);
-        this.sourceElement.addEventListener('click', this.#shareClick(shareUrl).bind(this));
+        this.renderedElement.setAttribute('href', shareUrl);
+        this.renderedElement.addEventListener('click', this.#shareClick(shareUrl).bind(this));
 
         if (this.options.counters && this.options.service.counterUrl) {
             // Set up counter
@@ -153,7 +147,7 @@ class LikelyButton {
         const counterInt = parseInt(counterString, 10) || 0;
 
         const className = `.${config.prefix}counter`;
-        find(className, this.sourceElement)?.remove();
+        find(className, this.renderedElement)?.remove();
 
         const options = {
             className: this.#className('counter'),
@@ -165,7 +159,7 @@ class LikelyButton {
             options.content = '';
         }
 
-        this.sourceElement.appendChild(createNode(interpolateStr(htmlSpan, options)));
+        this.renderedElement.appendChild(createNode(interpolateStr(htmlSpan, options)));
 
         this.#reportReadiness();
     }
@@ -195,7 +189,6 @@ class LikelyButton {
         const delimiter = url.indexOf('?') === -1 ? '?' : '&';
         return paramsString === '' ? url : url + delimiter + paramsString;
     }
-
 
     /**
      * Factory for click event handlers
