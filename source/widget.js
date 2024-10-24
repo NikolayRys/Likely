@@ -30,7 +30,7 @@ export default class Likely {
     renderButtons() {
         // this.#shadowRoot = this.#sourceLikelyDiv.attachShadow({ mode: 'open' });
         this.#shadowLikelyDiv = document.createElement('div');
-        //this.#shadowRoot.appendChild(this.shadowLikelyDiv);
+        //  this.#shadowRoot.appendChild(this.shadowLikelyDiv);
 
         toArray(this.#sourceLikelyDiv.children).forEach(this.#addButton.bind(this));
 
@@ -42,7 +42,7 @@ export default class Likely {
         else {
             this.#ready();
         }
-        this.#materializeButtons();
+        this.#showButtons();
     }
 
     /**
@@ -83,22 +83,21 @@ export default class Likely {
 
     /**
      * Add a button, private method
-     * @param {Node} serviceDiv
+     * @param {Node} sourceElement
      */
-    #addButton(serviceDiv) {
-        const button = new Button(serviceDiv, this.#options, this.#reportReadiness.bind(this));
-        if (button.readParams()) {
-            this.#buttons.push(button);
+    #addButton(sourceElement) {
+        const button = new Button(sourceElement, this.#options, this.#reportReadiness.bind(this));
+        if (button.setService()) {
             this.#awaitedButtons++;
+            this.#buttons.push(button);
+            button.build();
         }
     }
     /**
      * Show all the buttons
      */
-    #materializeButtons() {
-        this.#buttons.forEach((button) => {
-            button.build();
-            button.sourceElement.replaceWith(button.renderedElement);
-        });
+    #showButtons() {
+        // ToDo: place shadowRoot here
+        this.#buttons.forEach((button) => button.sourceElement.replaceWith(button.renderedElement));
     }
 }
