@@ -23,23 +23,11 @@ class LikelyButton {
         this.renderedElement = null;
     }
 
-    readParams() {
+    setService() {
         const classes = toArray(this.sourceElement.classList);
         const serviceName = classes.find((className) => Object.prototype.hasOwnProperty.call(services, className));
         if (serviceName) {
             this.options.service = services[serviceName];
-
-            // Import params from data-* attributes into options hash map
-            this.data = getDataset(this.sourceElement);
-            if (this.data.counter) {
-                this.options.staticCounter = this.data.counter;
-            }
-            if (this.data.url) {
-                this.options.url = this.data.url;
-            }
-            if (this.data.title) {
-                this.options.title = this.data.title;
-            }
             return true;
         }
         else {
@@ -74,6 +62,18 @@ class LikelyButton {
      * Build button's HTML
      */
     #renderHtml() {
+        // Import params from data-* attributes into options hash map
+        this.data = getDataset(this.sourceElement);
+        if (this.data.counter) {
+            this.options.staticCounter = this.data.counter;
+        }
+        if (this.data.url) {
+            this.options.url = this.data.url;
+        }
+        if (this.data.title) {
+            this.options.title = this.data.title;
+        }
+
         // Building new link element <a>
         this.renderedElement = document.createElement('a');
 
