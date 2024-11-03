@@ -1,6 +1,8 @@
 import Button from './button';
 import config from './config';
 import { toArray } from './utils';
+import cssText from './shadow.styl';
+
 /**
  * Main widget view.
  * It serves as a container for all buttons and manages their rendering.
@@ -28,14 +30,17 @@ export default class Likely {
 
     // Main method that initializes the widget
     renderButtons() {
-        // this.#shadowRoot = this.#sourceLikelyDiv.attachShadow({ mode: 'open' });
+        this.#shadowRoot = this.#sourceLikelyDiv.attachShadow({ mode: 'open' });
+        const styleElement = document.createElement('style');
+        styleElement.textContent = cssText;
+        this.#shadowRoot.appendChild(styleElement);
         this.#shadowLikelyDiv = document.createElement('div');
-        //  this.#shadowRoot.appendChild(this.shadowLikelyDiv);
+        this.#shadowLikelyDiv.classList.add(...this.#sourceLikelyDiv.classList);
+        this.#shadowRoot.appendChild(this.#shadowLikelyDiv);
 
         toArray(this.#sourceLikelyDiv.children).forEach(this.#addButton.bind(this));
-
         // Temporary partial visibility to prevent delays in rendering while we're waiting for counters
-        this.#sourceLikelyDiv.classList.add(`${config.name}_visible`);
+        this.#shadowLikelyDiv.classList.add(`${config.name}_visible`);
         if (this.#options.counters) {
             this.#readyDelay = setTimeout(this.#ready.bind(this), this.#options.timeout);
         }
@@ -60,6 +65,17 @@ export default class Likely {
         }
     }
 
+    #setupShadowDom() {
+        this.#shadowRoot = this.#sourceLikelyDiv.attachShadow({ mode: 'open' });
+        const styleElement = document.createElement('style');
+        styleElement.textContent = cssText;
+        this.#shadowRoot.appendChild(styleElement);
+        this.#shadowLikelyDiv = document.createElement('div');
+        this.#shadowLikelyDiv.classList.add(...this.#sourceLikelyDiv.classList);
+        this.#shadowRoot.appendChild(this.#shadowLikelyDiv);
+    }
+
+
     /**
      * Buttons use it to report that they were successfully connected to the service for counters,
      * and now they ready to be displayed
@@ -77,8 +93,8 @@ export default class Likely {
      */
     #ready() {
         // Remove class_visible to prevent flickering
-        this.#sourceLikelyDiv.classList.remove(`${config.name}_visible`);
-        this.#sourceLikelyDiv.classList.add(`${config.name}_ready`);
+        this.#shadowLikelyDiv.classList.remove(`${config.name}_visible`);
+        this.#shadowLikelyDiv.classList.add(`${config.name}_ready`);
     }
 
     /**
@@ -97,7 +113,6 @@ export default class Likely {
      * Show all the buttons
      */
     #showButtons() {
-        // ToDo: place shadowRoot here
-        this.#buttons.forEach((button) => button.sourceElement.replaceWith(button.renderedElement));
+        this.#buttons.forEach((button) => this.#shadowLikelyDiv.appendChild(button.renderedElement));
     }
 }

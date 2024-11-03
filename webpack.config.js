@@ -1,7 +1,5 @@
 /* eslint-env node */
 const webpack = require('webpack');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const pkg = require('./package.json');
 const path = require('path');
@@ -20,7 +18,6 @@ module.exports = (env) => {
     let entry;
     let optimization;
 
-    const connectingLoader = isDom ? MiniCssExtractPlugin.loader : 'style-loader';
     const plugins = [new webpack.BannerPlugin({ banner: getLicenseComment(pkg.version), entryOnly: true })];
 
     if (isProduction) {
@@ -29,25 +26,6 @@ module.exports = (env) => {
     }
     else {
         entry = isDom ? { likely: './source/likely.js' } : { 'likely-commonjs': './source/likely-commonjs.js' };
-    }
-
-    if (isDom) {
-        let cssName = 'likely.css';
-        if (isProduction) {
-            cssName = 'likely.min.css';
-            plugins.push(new CssMinimizerPlugin({
-                minimizerOptions: {
-                    preset: [
-                        'default',
-                        {
-                            // Needed to disable it because we use CSS where order matters – "all: initial"
-                            cssDeclarationSorter: false,
-                        },
-                    ],
-                },
-            }));
-        }
-        plugins.push(new MiniCssExtractPlugin({ filename: cssName }));
     }
 
     return {
@@ -66,14 +44,25 @@ module.exports = (env) => {
                 {
                     test: /\.js$/,
                     exclude: /node_modules/,
-                    use: { loader: 'babel-loader', options: { presets: ['@babel/preset-env'] } },
+                    use: {
+                        loader: 'babel-loader',
+                        options: { presets: ['@babel/preset-env'] },
+                    },
                 },
                 {
                     test: /\.styl$/,
                     exclude: /node_modules/,
-                    use: [connectingLoader, 'css-loader', 'stylus-loader'],
+                    use: [
+                        {
+                            loader: 'css-loader',
+                            options: {
+                                exportType: 'string',
+                                esModule: true,
+                            },
+                        },
+                        'stylus-loader',
+                    ],
                 },
-
             ],
         },
         devtool: 'source-map',

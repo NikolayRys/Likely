@@ -2,7 +2,6 @@
 // It’s written with CommonJS imports and exports to make possible doing `module.exports = likely`.
 // This is required so that users work with `window.likely`, not `window.likely.default`
 
-require('./light.styl');
 const likely = require('./likely-commonjs.js');
 
 window.addEventListener('load', () => {
