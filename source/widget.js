@@ -1,7 +1,7 @@
 import Button from './button';
 import config from './config';
-import { toArray } from './utils';
 import cssText from './shadow.styl';
+import { toArray } from './utils';
 
 /**
  * Main widget view.
@@ -30,14 +30,7 @@ export default class Likely {
 
     // Main method that initializes the widget
     renderButtons() {
-        this.#shadowRoot = this.#sourceLikelyDiv.attachShadow({ mode: 'open' });
-        const styleElement = document.createElement('style');
-        styleElement.textContent = cssText;
-        this.#shadowRoot.appendChild(styleElement);
-        this.#shadowLikelyDiv = document.createElement('div');
-        this.#shadowLikelyDiv.classList.add(...this.#sourceLikelyDiv.classList);
-        this.#shadowRoot.appendChild(this.#shadowLikelyDiv);
-
+        this.#setupShadowDom();
         toArray(this.#sourceLikelyDiv.children).forEach(this.#addButton.bind(this));
         // Temporary partial visibility to prevent delays in rendering while we're waiting for counters
         this.#shadowLikelyDiv.classList.add(`${config.name}_visible`);
