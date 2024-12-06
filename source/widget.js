@@ -68,7 +68,6 @@ export default class Likely {
         this.#shadowRoot.appendChild(this.#shadowLikelyDiv);
     }
 
-
     /**
      * Buttons use it to report that they were successfully connected to the service for counters,
      * and now they ready to be displayed
