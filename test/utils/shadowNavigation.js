@@ -6,11 +6,11 @@ const { NoSuchElementError } = error;
  * Finds all elements matching `shadowLocator` within the shadow roots of elements matching `lightLocator`.
  * Matches the behavior of `driver.findElements` in Selenium.
  * @param {WebDriver} driver - The Selenium WebDriver instance.
- * @param {string} shadowLocator - CSS selector for elements inside the shadow root.
+ * @param {By} shadowLocator - CSS selector for elements inside the shadow root.
+ * @param {By} lightLocator - Selenium locator for elements that have shadow roots.
  * @returns {Promise<WebElement[]>} A promise that resolves to an array of found elements.
  */
-async function findShadowElements(driver, shadowLocator) {
-    const lightLocator = By.className('likely'); // We have only one element with this class, no need to make it configurable
+async function findShadowElements(driver, shadowLocator, lightLocator = By.className('likely')) {
     const lightElements = await driver.findElements(lightLocator);
     const arraysOfElements = await Promise.all(
         lightElements.map(async (lightElement) => {
@@ -25,11 +25,12 @@ async function findShadowElements(driver, shadowLocator) {
  * Throws a NoSuchElementError if no element is found, which is default behavior for Selenium.
  * Matches the behavior of `driver.findElement` in Selenium.
  * @param {WebDriver} driver - The Selenium WebDriver instance.
- * @param {string} shadowLocator - CSS selector for elements inside the shadow root.
+ * @param {By} shadowLocator - CSS selector for elements inside the shadow root.
+ * @param {By} lightLocator - Selenium locator for elements that have shadow roots.
  * @returns {Promise<WebElement>} A promise that resolves to the found element.
  */
-async function findShadowElement(driver, shadowLocator) {
-    const elements = await findShadowElements(driver, shadowLocator);
+async function findShadowElement(driver, shadowLocator, lightLocator = By.className('likely')) {
+    const elements = await findShadowElements(driver, shadowLocator, lightLocator);
     if (elements.length === 0) {
         throw new NoSuchElementError(`No element found using shadow selector '${shadowLocator}' within light elements '${lightLocator}'.`);
     }
