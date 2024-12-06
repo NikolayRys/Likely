@@ -14,7 +14,13 @@ async function findShadowElements(driver, shadowLocator, lightLocator = By.class
     const lightElements = await driver.findElements(lightLocator);
     const arraysOfElements = await Promise.all(
         lightElements.map(async (lightElement) => {
-            return await lightElement.getShadowRoot().then((root) => root?.findElements(shadowLocator) ?? []);
+            try {
+                const root = await lightElement.getShadowRoot();
+                return root ? await root.findElements(shadowLocator) : [];
+            }
+            catch (error) {
+                return [];
+            }
         }),
     );
     return arraysOfElements.flat();
@@ -39,23 +45,24 @@ async function findShadowElement(driver, shadowLocator, lightLocator = By.classN
 
 function atLeastOneShadowElementThatExists() {
     return async function (driver) {
-        try {
-            const elements = await findShadowElements(driver, By.className('likely_ready'));
-            return elements.length > 0 ? elements[0] : false;
-        }
-        catch {
-            return false;
-        }
+        const elements = await findShadowElements(driver, By.className('likely'));
+        return elements.length > 0 ? elements[0] : false;
     };
 }
 
-async function shadowNavigation(driver) {
+async function waitUntilLikelyInitialized(driver) {
     const shadowLikely = await driver.wait(atLeastOneShadowElementThatExists(), 2000);
     await driver.wait(until.elementIsVisible(shadowLikely), 2000);
+}
+
+async function getShadowElementClass(driver, shadowLocator, lightLocator) {
+    const element = await findShadowElement(driver, shadowLocator, lightLocator);
+    return element.getAttribute('class');
 }
 
 module.exports = {
     findShadowElements,
     findShadowElement,
-    waitUntilLikelyInitialized: shadowNavigation,
+    waitUntilLikelyInitialized,
+    getShadowElementClass,
 };
