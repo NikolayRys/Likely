@@ -16,9 +16,7 @@ async function expectClickToOpen(driver, clickTarget, windowUrlRegex) {
     let currentHandles;
     const originalWindow = await driver.getWindowHandle();
 
-    // clickTarget can be either a selector or a node
-    const clickElement = typeof clickTarget === 'string' ? driver.findElement({ css: clickTarget }) : clickTarget;
-    await clickElement.click();
+    await clickTarget.click();
     // Set a timeout to wait until the new window opens. This lowers the amount of random crashes in Travis
     await driver.wait(async () => {
         currentHandles = await driver.getAllWindowHandles();
