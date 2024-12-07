@@ -1,14 +1,10 @@
 const { before, after, beforeEach, describe, it } = require('mocha');
 const expect = require('chai').use(require('chai-as-promised')).expect;
-
+const { Builder, Capabilities, By } = require('selenium-webdriver');
+const { startServer, LikelyPage, getLikelyPage } = require('./utils/webpageNavigation');
+const { findShadowElements, findShadowElement, waitUntilLikelyInitialized, getShadowElementClass, getShadowElementText } = require('./utils/shadowSelectors');
+const { expectToContainText, expectClickToOpen } = require('./utils/lightSelectors');
 require('chromedriver');
-const selenium = require('selenium-webdriver');
-const startServer = require('./utils/startServer');
-const { LikelyPage, getLikelyPage } = require('./utils/getLikelyPage');
-const waitUntilLikelyInitialized = require('./utils/waitUntilLikelyInitialized');
-const expectToContainText = require('./utils/expectToContainText');
-const expectClickToOpen = require('./utils/expectClickToOpen');
-// const takeSnapshot = require("./utils/takeSnapshot");
 
 const commonTimeout = 20000;
 
@@ -21,10 +17,10 @@ describe('Likely', function () { // Mocha doesn't allow to pass arrowed function
 
     before(() => {
         // Required for Travis
-        var chromeOptions = { args: ['--no-sandbox'] };
-        const chromeCapabilities = selenium.Capabilities.chrome();
+        const chromeOptions = { args: ['--no-sandbox'] };
+        const chromeCapabilities = Capabilities.chrome();
         chromeCapabilities.set('chromeOptions', chromeOptions);
-        driver = new selenium.Builder()
+        driver = new Builder()
             .withCapabilities(chromeCapabilities)
             .build();
 
@@ -43,41 +39,34 @@ describe('Likely', function () { // Mocha doesn't allow to pass arrowed function
         it('initializes without arguments', async () => {
             await driver.executeScript('likely.initiate();');
             await waitUntilLikelyInitialized(driver);
-            const allLikelyWidgets = await driver.findElements({ css: '.likely' });
-            expect(driver.findElements({ css: '.likely_ready' })).to.eventually.have.lengthOf(allLikelyWidgets.length);
+            const allLikelyWidgets = await driver.findElements(By.css('.likely'));
+            return expect(findShadowElements(driver, By.className('likely_ready'))).to.eventually.have.lengthOf(allLikelyWidgets.length);
         });
 
         it('initializes when only options are passed', async () => {
             await driver.executeScript('likely.initiate({ url: "//google.com" });');
             await waitUntilLikelyInitialized(driver);
-            const allLikelyWidgets = await driver.findElements({ css: '.likely' });
-
+            const allLikelyWidgets = await driver.findElements(By.css('.likely'));
             const expectations = [];
-
             for (let id = 0; id < allLikelyWidgets.length; id++) {
                 expectations.push(await expectClickToOpen(
                     driver,
-                    allLikelyWidgets[id].findElement({ css: '.likely__widget_twitter' }),
+                    await findShadowElement(driver, By.css('.likely__widget_twitter')),
                     /x\.com\/.*google\.com/,
                 ));
             }
-
             expectations.concat(
-                expect(driver.findElements({ css: '.likely_ready' }))
-                    .to.eventually.have.lengthOf(allLikelyWidgets.length),
+                expect(findShadowElements(driver, By.className('likely_ready'))).to.eventually.have.lengthOf(allLikelyWidgets.length),
             );
-
             return Promise.all(expectations);
         });
 
-        it('initializes a single node passed', async () => {
+        it('initializes a single node passed indepently', async () => {
             await driver.executeScript('likely.initiate(document.querySelector("#widget1"));');
             await waitUntilLikelyInitialized(driver);
             return Promise.all([
-                expect(driver.findElement({ css: '#widget1' }).getAttribute('class'))
-                    .to.eventually.include('likely_ready'),
-                expect(driver.findElements({ css: '.likely_ready' }))
-                    .to.eventually.have.lengthOf(1),
+                expect(getShadowElementClass(driver, By.className('likely'), By.id('widget1'))).to.eventually.include('likely_ready'),
+                expect(findShadowElements(driver, By.className('likely_ready'), By.id('widget1'))).to.eventually.have.lengthOf(1),
             ]);
         });
 
@@ -85,11 +74,11 @@ describe('Likely', function () { // Mocha doesn't allow to pass arrowed function
             await driver.executeScript('likely.initiate(document.querySelector("#widget1"), { url: \'//google.com\' });');
             await waitUntilLikelyInitialized(driver);
             return Promise.all([
-                expect(driver.findElement({ css: '#widget1' }).getAttribute('class'))
-                    .to.eventually.include('likely_ready'),
-                expect(driver.findElements({ css: '.likely_ready' }))
-                    .to.eventually.have.lengthOf(1),
-                expectClickToOpen(driver, '#widget1 .likely__widget_twitter', /x\.com\/.*google\.com/),
+                expect(getShadowElementClass(driver, By.className('likely'), By.id('widget1'))).to.eventually.include('likely_ready'),
+                expect(findShadowElements(driver, By.className('likely_ready'), By.id('widget1'))).to.eventually.have.lengthOf(1),
+                await expectClickToOpen(driver,
+                    await findShadowElement(driver, By.className('likely__widget_twitter'), By.id('widget1')),
+                    /x\.com\/.*google\.com/),
             ]);
         });
 
@@ -100,12 +89,9 @@ describe('Likely', function () { // Mocha doesn't allow to pass arrowed function
 
             await waitUntilLikelyInitialized(driver);
             return Promise.all([
-                expect(driver.findElement({ css: '#widget1' }).getAttribute('class'))
-                    .to.eventually.include('likely_ready'),
-                expect(driver.findElement({ css: '#widget3' }).getAttribute('class'))
-                    .to.eventually.include('likely_ready'),
-                expect(driver.findElements({ css: '.likely_ready' }))
-                    .to.eventually.have.lengthOf(2),
+                expect(getShadowElementClass(driver, By.className('likely'), By.id('widget1'))).to.eventually.include('likely_ready'),
+                expect(getShadowElementClass(driver, By.className('likely'), By.id('widget3'))).to.eventually.include('likely_ready'),
+                expect(findShadowElements(driver, By.className('likely_ready'))).to.eventually.have.lengthOf(2),
             ]);
         });
 
@@ -119,14 +105,15 @@ describe('Likely', function () { // Mocha doesn't allow to pass arrowed function
 
             await waitUntilLikelyInitialized(driver);
             return Promise.all([
-                expect(driver.findElement({ css: '#widget1' }).getAttribute('class'))
-                    .to.eventually.include('likely_ready'),
-                expect(driver.findElement({ css: '#widget3' }).getAttribute('class'))
-                    .to.eventually.include('likely_ready'),
-                expect(driver.findElements({ css: '.likely_ready' }))
-                    .to.eventually.have.lengthOf(2),
-                await expectClickToOpen(driver, '#widget1 .likely__widget_twitter', /x\.com\/.*google\.com/),
-                await expectClickToOpen(driver, '#widget3 .likely__widget_twitter', /x\.com\/.*google\.com/),
+                expect(getShadowElementClass(driver, By.className('likely'), By.id('widget1'))).to.eventually.include('likely_ready'),
+                expect(getShadowElementClass(driver, By.className('likely'), By.id('widget3'))).to.eventually.include('likely_ready'),
+                expect(findShadowElements(driver, By.className('likely_ready'))).to.eventually.have.lengthOf(2),
+                await expectClickToOpen(driver,
+                    await findShadowElement(driver, By.className('likely__widget_twitter'), By.id('widget1')),
+                    /x\.com\/.*google\.com/),
+                await expectClickToOpen(driver,
+                    await findShadowElement(driver, By.className('likely__widget_twitter'), By.id('widget3')),
+                    /x\.com\/.*google\.com/),
             ]);
         });
     });
@@ -143,7 +130,10 @@ describe('Likely', function () { // Mocha doesn't allow to pass arrowed function
                     url: 'http://google.com'
                 });
             `);
-            return await expectClickToOpen(driver, '.likely__widget_twitter', /x\.com\/.*google\.com/);
+            return await expectClickToOpen(
+                driver,
+                await findShadowElement(driver, By.className('likely__widget_twitter')),
+                /x\.com\/.*google\.com/);
         });
 
         it('changes the shared URL when the new URL is specified on the node', async () => {
@@ -151,7 +141,11 @@ describe('Likely', function () { // Mocha doesn't allow to pass arrowed function
                 document.querySelector('.likely').setAttribute('data-url', 'http://google.com');
                 likely.initiate();
             `);
-            return await expectClickToOpen(driver, '.likely__widget_twitter', /x\.com\/.*google\.com/);
+
+            return await expectClickToOpen(
+                driver,
+                await findShadowElement(driver, By.className('likely__widget_twitter')),
+                /x\.com\/.*google\.com/);
         });
 
         it('changes the shared URL when the new URL is specified as <link rel="canonical">', async () => {
@@ -163,7 +157,11 @@ describe('Likely', function () { // Mocha doesn't allow to pass arrowed function
 
                 likely.initiate();
             `);
-            return await expectClickToOpen(driver, '.likely__widget_twitter', /x\.com\/.*google\.com/);
+
+            return await expectClickToOpen(
+                driver,
+                await findShadowElement(driver, By.className('likely__widget_twitter')),
+                /x\.com\/.*google\.com/);
         });
     });
 
@@ -184,7 +182,7 @@ describe('Likely', function () { // Mocha doesn't allow to pass arrowed function
         testedServices.forEach(({ name, likelyName }) => {
             it(`fetches the counters for ${name}`, async () => {
                 const expectedCounterValue = '10';
-                return await expectToContainText(driver, `.likely__counter_${likelyName}`, expectedCounterValue);
+                return await expect(getShadowElementText(driver, By.className(`likely__counter_${likelyName}`))).to.eventually.equal(expectedCounterValue);
             });
         });
 
@@ -219,7 +217,10 @@ describe('Likely', function () { // Mocha doesn't allow to pass arrowed function
 
         testedServices.forEach(({ name, likelyName, urlRegex }) => {
             it(`opens the sharing dialog for ${name}`, async () => {
-                return expectClickToOpen(driver, `.likely__widget_${likelyName}`, urlRegex);
+                return expectClickToOpen(
+                    driver,
+                    await findShadowElement(driver, By.className(`likely__widget_${likelyName}`)),
+                    urlRegex);
             });
         });
     });
@@ -234,7 +235,11 @@ describe('Likely', function () { // Mocha doesn't allow to pass arrowed function
                 document.head.innerHTML += '<link rel="canonical" href="https://google.com">';
                 likely.initiate();
             `);
-            return expectClickToOpen(driver, '.likely__widget_twitter', /x\.com\/.*google\.com/);
+
+            return expectClickToOpen(
+                driver,
+                await findShadowElement(driver, By.className('likely__widget_twitter')),
+                /x\.com\/.*google\.com/);
         });
 
         it('changes the shared URL when `data-url` is specified', async () => {
@@ -242,7 +247,11 @@ describe('Likely', function () { // Mocha doesn't allow to pass arrowed function
                 document.querySelector('.likely').setAttribute('data-url', 'https://google.com');
                 likely.initiate();
             `);
-            return expectClickToOpen(driver, '.likely__widget_twitter', /x\.com\/.*google\.com/);
+
+            return expectClickToOpen(
+                driver,
+                await findShadowElement(driver, By.className('likely__widget_twitter')),
+                /x\.com\/.*google\.com/);
         });
 
         it('changes the shared title when `data-title` is specified', async () => {
@@ -250,7 +259,11 @@ describe('Likely', function () { // Mocha doesn't allow to pass arrowed function
                 document.querySelector('.likely').setAttribute('data-title', 'Fake Title');
                 likely.initiate();
             `);
-            return expectClickToOpen(driver, '.likely__widget_twitter', /x\.com\/.*Fake\+Title/);
+
+            return expectClickToOpen(
+                driver,
+                await findShadowElement(driver, By.className('likely__widget_twitter')),
+                /x\.com\/.*Fake\+Title/);
         });
 
         it('sets the `via` when `data-via` on the Twitter button is specified', async () => {
@@ -258,7 +271,11 @@ describe('Likely', function () { // Mocha doesn't allow to pass arrowed function
                 document.querySelector('.twitter').setAttribute('data-via', 'horse_js');
                 likely.initiate();
             `);
-            return expectClickToOpen(driver, '.likely__widget_twitter', /x\.com\/.*horse_js/);
+
+            return expectClickToOpen(
+                driver,
+                await findShadowElement(driver, By.className('likely__widget_twitter')),
+                /x\.com\/.*horse_js/);
         });
 
         it('sets the shared text when `data-title` on the Telegram button is specified', async () => {
@@ -266,7 +283,11 @@ describe('Likely', function () { // Mocha doesn't allow to pass arrowed function
                 document.querySelector('.telegram').setAttribute('data-title', 'Fake Text');
                 likely.initiate();
             `);
-            return expectClickToOpen(driver, '.likely__widget_telegram', /telegram\.me\/.*Fake%20Text/);
+
+            return expectClickToOpen(
+                driver,
+                await findShadowElement(driver, By.className('likely__widget_telegram')),
+                /telegram\.me\/.*Fake%20Text/);
         });
 
         it('opens popup for Pinterest', async () => {
@@ -274,7 +295,11 @@ describe('Likely', function () { // Mocha doesn't allow to pass arrowed function
                 document.querySelector('.pinterest').setAttribute('data-media', 'http://i.imgur.com/zunNbfY.jpg');
                 likely.initiate();
             `);
-            return expectClickToOpen(driver, '.likely__widget_pinterest', /pinterest/);
+
+            return expectClickToOpen(
+                driver,
+                await findShadowElement(driver, By.className('likely__widget_pinterest')),
+                /pinterest/);
         });
     });
 
@@ -289,9 +314,8 @@ describe('Likely', function () { // Mocha doesn't allow to pass arrowed function
             await driver.executeScript(`window.history.${methodName}(null, null, '${targetUrl}');`);
             return expectClickToOpen(
                 driver,
-                '.likely__widget_twitter',
-                new RegExp(`x\\.com\\/.*${encodeURIComponent(targetUrl)}`),
-            );
+                await findShadowElement(driver, By.className('likely__widget_twitter')),
+                new RegExp(`x\\.com\\/.*${encodeURIComponent(targetUrl)}`));
         };
 
         it('changes the shared URL when history.pushState() is called', async () => {
@@ -310,7 +334,12 @@ describe('Likely', function () { // Mocha doesn't allow to pass arrowed function
                 likely.initiate();
             `);
             await driver.navigate().back();
-            return expectClickToOpen(driver, '.likely__widget_twitter', /x\.com\/.*no-autoinit\.html/);
+
+            return expectClickToOpen(
+                driver,
+                await findShadowElement(driver, By.className('likely__widget_twitter')),
+                /x\.com\/.*no-autoinit\.html/,
+            );
         });
     });
 
@@ -318,7 +347,11 @@ describe('Likely', function () { // Mocha doesn't allow to pass arrowed function
         it('gets a correct title when the script is placed before the title element [#67]', async () => {
             await getLikelyPage(driver, LikelyPage.ISSUE_67);
             await waitUntilLikelyInitialized(driver);
-            return expectClickToOpen(driver, '.likely__widget_twitter', /x\.com\/.*Likely\+test\+page/);
+            return expectClickToOpen(
+                driver,
+                await findShadowElement(driver, By.className('likely__widget_twitter')),
+                /x\.com\/.*Likely\+test\+page/,
+            );
         });
         it('does not make requests when counters are disabled [#145]', async () => {
             await getLikelyPage(driver, LikelyPage.ISSUE_145);

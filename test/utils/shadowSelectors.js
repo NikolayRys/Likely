@@ -60,9 +60,15 @@ async function getShadowElementClass(driver, shadowLocator, lightLocator) {
     return element.getAttribute('class');
 }
 
+async function getShadowElementText(driver, shadowLocator, lightLocator) {
+    const element = await findShadowElement(driver, shadowLocator, lightLocator);
+    return element.getText();
+}
+
 module.exports = {
     findShadowElements,
     findShadowElement,
     waitUntilLikelyInitialized,
     getShadowElementClass,
+    getShadowElementText,
 };

@@ -1,8 +1,9 @@
-/* eslint-env node, mocha, es6 */
-
-
 const expect = require('chai').use(require('chai-as-promised')).expect;
 const until = require('selenium-webdriver/lib/until');
+
+function expectToContainText(driver, selector, value) {
+    return expect(driver.findElement({ css: selector }).getText()).to.eventually.equal(value);
+}
 
 /**
  * @param {WebDriver} driver
@@ -52,4 +53,19 @@ async function expectClickToOpen(driver, clickTarget, windowUrlRegex) {
     return expect(openedUrl).to.match(windowUrlRegex);
 }
 
-module.exports = expectClickToOpen;
+const LikelyPage = {
+    AUTOINIT: 'autoinit.html',
+    NO_AUTOINIT: 'no-autoinit.html',
+    NO_AUTOINIT_MULTIPLE: 'no-autoinit-multiple.html',
+    ISSUE_67: 'issues/67.html',
+    ISSUE_145: 'issues/disable-counters-issue-145.html',
+};
+
+function getLikelyPage(driver, pageName) {
+    return driver.get('http://127.0.0.1:1337/test/files/' + pageName);
+}
+
+exports.LikelyPage = LikelyPage;
+exports.getLikelyPage = getLikelyPage;
+exports.expectClickToOpen = expectClickToOpen;
+exports.expectToContainText = expectToContainText;
