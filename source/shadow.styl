@@ -1,7 +1,7 @@
 /* Style options */
-likely-background = rgba(231,231,231,.8);
-likely-light-background = rgba(236,236,236,.16);
-likely-light-box-shadow = rgba(0,0,0,.2) 0 0 .33em;
+likely-background = rgba(231, 231, 231, .8);
+likely-light-background = rgba(236, 236, 236, .16);
+likely-light-box-shadow = rgba(0, 0, 0, .2) 0 0 .33em;
 
 .likely {
   // Hide buttons until they are loaded
@@ -39,7 +39,7 @@ likely-light-box-shadow = rgba(0,0,0,.2) 0 0 .33em;
     text-align: center;
     background-size: 1px 1px;
     background-repeat: repeat-y;
-    background-image: linear-gradient(to right, rgba(0,0,0,.2) 0, rgba(0,0,0,0) .5px, rgba(0,0,0,0) 100%)
+    background-image: linear-gradient(to right, rgba(0, 0, 0, .2) 0, rgba(0, 0, 0, 0) .5px, rgba(0, 0, 0, 0) 100%)
   }
 
   &__widget, &__widget:link, &__widget:visited {
@@ -88,7 +88,7 @@ likely-light-box-shadow = rgba(0,0,0,.2) 0 0 .33em;
     display: none;
   }
 
-    &_ready &__counter {
+  &_ready &__counter {
     display: inline-block;
   }
 
@@ -115,7 +115,7 @@ likely-light-widget() {
 }
 
 likely-light-counter() {
-  background-image: linear-gradient(to right, rgba(255,255,255,.4) 0, rgba(255,255,255,0) .5px, rgba(255,255,255,0) 100%)
+  background-image: linear-gradient(to right, rgba(255, 255, 255, .4) 0, rgba(255, 255, 255, 0) .5px, rgba(255, 255, 255, 0) 100%)
 }
 
 likely-light-button(button, color) {
@@ -140,6 +140,7 @@ likely-light-media-none-button(button, color) {
   .likely__widget, .likely__widget:link, .likely__widget:visited {
     likely-light-widget()
   }
+
   .likely__counter {
     likely-light-counter()
   }
@@ -150,6 +151,7 @@ likely-light-media-none-button(button, color) {
     .likely__widget, .likely__widget:link, .likely__widget:visited {
       likely-light-widget()
     }
+
     .likely__counter {
       likely-light-counter()
     }
@@ -159,8 +161,9 @@ likely-light-media-none-button(button, color) {
 colorize(button, color) {
   .likely__widget_{button}, .likely__widget_{button}:link, .likely__widget_{button}:visited {
     fill: color;
+
     &:hover, &:active, &:focus {
-      background: alpha(mix(#fff,color,75%),.8);
+      background: alpha(mix(#fff, color, 75%), .8);
 
       @media (hover: none) {
         transition: widget-transition;
@@ -204,21 +207,27 @@ colorize('xcom', #333333);
 
 .likely {
   gap: 10px;
+
   .likely__widget, .likely__widget:link, .likely__widget:visited {
     line-height: 20px;
     font-size: 14px;
     border-radius: 3px;
     height: 22px;
   }
+
   .likely__icon {
-    width: 22px; height: 22px;
+    width: 22px;
+    height: 22px;
   }
+
   .likely__button {
     padding: 1px 4px 1px 0;
   }
+
   .likely__counter {
     padding: 1px 4px;
   }
+
   svg {
     width: 16px;
     height: 16px;
@@ -227,21 +236,27 @@ colorize('xcom', #333333);
 
 .likely-big {
   gap: 12px;
+
   .likely__widget, .likely__widget:link, .likely__widget:visited {
     line-height: 28px;
     font-size: 18px;
     border-radius: 4px;
     height: 32px;
   }
+
   .likely__icon {
-    width: 32px; height: 32px;
+    width: 32px;
+    height: 32px;
   }
+
   .likely__button {
     padding: 2px 6px 2px 0;
   }
+
   .likely__counter {
     padding: 2px 6px;
   }
+
   svg {
     width: 24px;
     height: 24px;
@@ -250,21 +265,27 @@ colorize('xcom', #333333);
 
 .likely-small {
   gap: 8px;
+
   .likely__widget, .likely__widget:link, .likely__widget:visited {
     line-height: 14px;
     font-size: 12px;
     border-radius: 2px;
     height: 18px;
   }
+
   .likely__icon {
-    width: 18px; height: 18px;
+    width: 18px;
+    height: 18px;
   }
+
   .likely__button {
     padding: 2px 3px 2px 0;
   }
+
   .likely__counter {
     padding: 2px 3px;
   }
+
   svg {
     width: 12px;
     height: 12px;
