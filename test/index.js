@@ -256,14 +256,14 @@ describe('Likely', function () { // Mocha doesn't allow to pass arrowed function
 
         it('changes the shared title when `data-title` is specified', async () => {
             await driver.executeScript(`
-                document.querySelector('.likely').setAttribute('data-title', 'Fake Title');
+                document.querySelector('.likely').setAttribute('data-title', 'FakeTitle');
                 likely.initiate();
             `);
 
             return expectClickToOpen(
                 driver,
                 await findShadowElement(driver, By.className('likely__widget_twitter')),
-                /x\.com\/.*Fake\+Title/);
+                /x\.com\/.*FakeTitle/);
         });
 
         it('sets the `via` when `data-via` on the Twitter button is specified', async () => {
@@ -350,7 +350,7 @@ describe('Likely', function () { // Mocha doesn't allow to pass arrowed function
             return expectClickToOpen(
                 driver,
                 await findShadowElement(driver, By.className('likely__widget_twitter')),
-                /x\.com\/.*Likely\+test\+page/,
+                /x\.com\/.*LikelyTestPage/,
             );
         });
         it('does not make requests when counters are disabled [#145]', async () => {
