@@ -23,6 +23,7 @@ Likely supports following social networks and messengers:
 * `viber` – Viber
 * `vkontakte` – VK
 * `whatsapp` – WhatsApp
+* `maxmessenger` – Max Messenger
 
 ## Get
 [Download the last release](https://github.com/NikolayRys/Likely/releases/download/v3.0.0/ilyabirman-likely-3.0.0.zip) and move `likely.js` and
