@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Лайкли - социокнопки для сайта</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .container {
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            color: #2c3e50;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+        }
+
+        h2 {
+            color: #3498db;
+            margin-top: 30px;
+        }
+
+        .demo-section {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 30px 0;
+        }
+
+        .dark-bg {
+            background: #2c3e50;
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        code {
+            background: #f4f4f4;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+        }
+
+        pre {
+            background: #f4f4f4;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+
+        .download-btn {
+            display: inline-block;
+            background: #3498db;
+            color: white;
+            padding: 12px 25px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            margin: 15px 0;
+            transition: background 0.3s;
+        }
+
+        .download-btn:hover {
+            background: #2980b9;
+        }
+
+        .github-link {
+            color: #3498db;
+            text-decoration: none;
+        }
+
+        .github-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Лайкли: социокнопки, которые не стыдно поставить</h1>
+
+    <p>Лайкли — это красивые и удобные кнопки для расшаривания контента в социальных сетях. Две расцветки, три размера, поддержка ретины и адаптивного дизайна.</p>
+
+    <div class="demo-section">
+        <h2>Обычные кнопки на светлом фоне</h2>
+        <p>Попробуйте нажать на любую кнопку:</p>
+        <div class="likely">
+            <div class="telegram">Отправить</div>
+            <div class="vkontakte">Поделиться</div>
+            <div class="twitter" data-via="ilyabirman">Твитнуть</div>
+            <div class="xcom">X</div>
+            <div class="facebook">Поделиться</div>
+            <div class="odnoklassniki">Класснуть</div>
+            <div class="whatsapp">Вотсапнуть</div>
+            <div class="viber">Вайбер</div>
+            <div class="maxmessenger">Макснуть</div>
+        </div>
+    </div>
+
+    <div class="demo-section">
+        <h2>Три размера кнопок</h2>
+        <p>Маленькие:</p>
+        <div class="likely likely-small">
+            <div class="twitter">Твитнуть</div>
+            <div class="facebook">Поделиться</div>
+            <div class="vkontakte">Поделиться</div>
+        </div>
+
+        <p>Обычные:</p>
+        <div class="likely">
+            <div class="twitter">Твитнуть</div>
+            <div class="facebook">Поделиться</div>
+            <div class="vkontakte">Поделиться</div>
+        </div>
+
+        <p>Большие:</p>
+        <div class="likely likely-big">
+            <div class="twitter">Твитнуть</div>
+            <div class="facebook">Поделиться</div>
+            <div class="vkontakte">Поделиться</div>
+        </div>
+    </div>
+
+    <div class="dark-bg">
+        <h2>Светлые кнопки на тёмном фоне</h2>
+        <p>Используйте класс <code>likely-light</code> для тёмных фонов:</p>
+        <div class="likely likely-light">
+            <div class="telegram">Отправить</div>
+            <div class="vkontakte">Поделиться</div>
+            <div class="twitter" data-via="ilyabirman">Твитнуть</div>
+            <div class="facebook">Поделиться</div>
+            <div class="whatsapp">Вотсапнуть</div>
+        </div>
+    </div>
+
+    <h2>Как установить</h2>
+    <p>Добавьте в элемент <code>&lt;head&gt;</code> на вашей странице:</p>
+    <pre><code>&lt;script src="https://ilyabirman.ru/likely/likely.js"&gt;&lt;/script&gt;
+&lt;link rel="stylesheet" href="https://ilyabirman.ru/likely/likely.css"&gt;</code></pre>
+
+    <p>Вставьте кнопки в нужное место на странице:</p>
+    <pre><code>&lt;div class="likely"&gt;
+    &lt;div class="twitter"&gt;Твитнуть&lt;/div&gt;
+    &lt;div class="facebook"&gt;Поделиться&lt;/div&gt;
+    &lt;div class="vkontakte"&gt;Поделиться&lt;/div&gt;
+    &lt;div class="telegram"&gt;Отправить&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+
+    <h2>Настройка</h2>
+    <p>Используйте дополнительные классы для изменения внешнего вида:</p>
+    <ul>
+        <li><code>class="likely likely-light"</code> — светлые кнопки для тёмного фона</li>
+        <li><code>class="likely likely-small"</code> — маленькие кнопки</li>
+        <li><code>class="likely likely-big"</code> — большие кнопки</li>
+    </ul>
+
+    <p>Параметры для настройки:</p>
+    <ul>
+        <li><code>data-url="..."</code> — ссылка для расшаривания (по умолчанию — текущая страница)</li>
+        <li><code>data-title="..."</code> — заголовок для расшаривания (по умолчанию — title страницы)</li>
+        <li><code>data-via="username"</code> — для Twitter, упоминание пользователя</li>
+        <li><code>data-media="..."</code> — для Pinterest, ссылка на изображение</li>
+    </ul>
+
+    <h2>Скачать</h2>
+    <a class="download-btn" href="https://ilyabirman.ru/likely/download/ilya-birman-likely-3.2.0.zip">Скачать архив (3.2.0)</a>
+    <p>или <a class="github-link" href="https://github.com/ilyabirman/Likely">забрать с Гитхаба</a></p>
+
+    <h2>Поддерживаемые социальные сети</h2>
+    <p>Telegram, ВКонтакте, Twitter/X, Facebook, Одноклассники, LinkedIn, Reddit, WhatsApp, Viber, Pinterest</p>
+</div>
+
+<script src="release/likely.min.js"></script>
+</body>
+</html>

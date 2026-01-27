@@ -1,4 +1,4 @@
-import { createNode, find, findAll, openPopup, wrapSVG } from './dom';
+import {createNode, find, findAll, openPopup, rawSVG, wrapSVG} from './dom';
 import { extendWith, getDataset, interpolateStr, interpolateUrl, mergeToNew, toArray } from './utils';
 
 import config from './config';
@@ -88,7 +88,10 @@ class LikelyButton {
 
         const icon = interpolateStr(htmlSpan, {
             className: this.#className('icon'),
-            content: wrapSVG(this.options.service.svgIconPath),
+            content:
+                this.options.service.svgIconPath
+                    ? wrapSVG(this.options.service.svgIconPath)
+                    : rawSVG(this.options.service.svgIconRaw)
         });
 
         const button = interpolateStr(htmlSpan, {

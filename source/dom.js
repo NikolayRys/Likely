@@ -16,6 +16,14 @@ export const wrapSVG = (coords) =>
     'viewBox="0 0 16 16"><path d="' + coords + '"/></svg>';
 
 /**
+ * Return RAW SVG as SVG tag
+ *
+ * @param raw_content
+ * @returns {string}
+ */
+export const rawSVG = (raw_content) => raw_content || '';
+
+/**
  * Create node from HTML
  * @param {string} html
  * @returns {Node}

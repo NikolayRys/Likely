@@ -10,6 +10,7 @@ import viber from './viber';
 import vkontakte from './vkontakte';
 import whatsapp from './whatsapp';
 import xcom from './xcom';
+import maxmessenger from "./maxmessenger";
 
 const services = {
     facebook,
@@ -26,6 +27,8 @@ const services = {
     ok: odnoklassniki,
     vk: vkontakte,
     x: xcom,
+    maxmessenger,
+    max: maxmessenger
 };
 
 Object.values(services).forEach((serviceObj) => initService(serviceObj));
